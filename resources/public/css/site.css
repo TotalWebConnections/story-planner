@@ -1,0 +1,98 @@
+.Sidebar {
+  background: red; }
+
+.body-container {
+  font-family: "Helvetica Neue", Verdana, Helvetica, Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 72px;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1.125em;
+  color: #333;
+  line-height: 1.5em; }
+
+h1, h2, h3 {
+  color: #000; }
+
+h1 {
+  font-size: 2.5em; }
+
+h2 {
+  font-size: 2em; }
+
+h3 {
+  font-size: 1.25em; }
+
+a {
+  text-decoration: none;
+  color: #09f; }
+  a:hover {
+    text-decoration: underline; }
+
+/* some style */
+/* TODO Need to make this SASS */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-size: 16px; }
+
+body.hide-scroll {
+  overflow: hidden;
+  position: fixed; }
+
+body.hide-scroll .Main {
+  /* opacity: 0; WE need to move this to the warpper on the home page content itself not hte overall wrap */ }
+
+.Page {
+  position: fixed;
+  top: calc(-105% - 100px);
+  left: 0;
+  transition: all .25s;
+  background: white;
+  /* TODO Work this into a theme config option - would be fun */
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  padding-bottom: 100px;
+  /* needed for ads to not cover content TODO work this into a config option*/
+  opacity: 0; }
+
+.Page.active {
+  top: 0;
+  opacity: 1; }
+
+.Main {
+  height: 100vh; }
+
+.CanvasParent {
+  width: 75%;
+  height: 75%;
+  overflow: hidden; }
+
+#Canvas {
+  width: 5000px;
+  height: 5000px;
+  background: #1e2121;
+  position: relative; }
+
+#Canvas:after {
+  content: "";
+  background-image: url("../grid.png");
+  opacity: 1;
+  background-position: -10px -10px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  background-size: 200px 200px;
+  background-repeat: repeat; }
+
+.card {
+  width: 500px;
+  height: 200px;
+  background-color: white;
+  position: absolute;
+  top: 500px;
+  left: 200px; }
