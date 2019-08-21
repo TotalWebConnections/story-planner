@@ -1,27 +1,22 @@
 (ns story-planner.services.state.global
-    (:require [reagent.core :as reagent :refer [atom]]))
+    (:require [reagent.core :as reagent :refer [atom]]
+              [story-planner.services.scripts.api.websocket :refer [init-websocket-connection]]))
 
-(defonce app-state (atom {:text "Hello world!"
-                          :active-page {:example-page false}}))
+; Define the state we need to hold here
+; probably send our WS here too
+(defonce app-state (atom {:canvasLoaded false ; prevents the canvas from reloading
+                          :userToken "" ; string user login token for auth
+                          :navType "app" ; Either app or view - display or not dispaly nav
+                          :currentProject nil ; id of the current project opened
+                          :board nil ; {:id :name} of the current board
+                          :boardFolders nil ; [{}] vector of folder maps
+                          :entityFolders nil
+                          :entities nil ; [{}] vector of maps representing different entities of the board
+                          }))
 
-; TODO move these two scrolling functions into a state helper file
-; Don't want them cluttering up this namespace
-(defn update-scroll-position [val scroll]
-  "Updates the store with our current scroll position to re-position back on home view"
-  (if scroll
-      (.scrollTo js/window 0 (:scrollOffset @app-state)))
-  (swap! app-state conj {:scrollOffset val}))
+(init-websocket-connection)
 
-(defn handle-scroll-func [payload]
-  "adds class to body preventing weird scroll on fixed position over scrolling main window"
-  (if (= payload "")
-    (do
-      (.remove (.-classList (.-body js/document)) "hide-scroll")
-      (update-scroll-position 0 true)) ; this should be instant
-    (do
-      (update-scroll-position (.-pageYOffset js/window) false)
-      (js/setTimeout #(.add (.-classList (.-body js/document)) "hide-scroll") 100))))
+(defn get-from-state [key]
+  "returns the value for a specified key from state"
+  ((keyword key) app-state))
 
-(defn update-active-view [app-state payload]
-  (swap! app-state conj {:active-page {(keyword payload) "active"}})
-  (handle-scroll-func payload))

@@ -1,0 +1,10 @@
+.App {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__canvasWrapper {
+    width: calc(100% - 150px); // current the width of the sidebar - might just abs it so 100% then
+    height: 100vh;
+    overflow: hidden;
+  }
+}

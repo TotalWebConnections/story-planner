@@ -45,6 +45,7 @@
 (def websocket-callbacks
   "WebSocket callback functions"
   {:on-open   (fn [channel]
+    (print "Connection opened")
     (swap! channel-store conj channel) ; store channels for later
     (async/send! channel "Ready to reverse your messages!"))
   :on-close   (fn [channel {:keys [code reason]}]

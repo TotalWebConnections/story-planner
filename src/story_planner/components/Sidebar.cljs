@@ -3,4 +3,6 @@
 
 (defn Sidebar []
   [:div.Sidebar
-    [:p "sidebar content"]])
+    [:p "sidebar content"]
+    [:p "Folders"]
+    [:p "Boards"]])

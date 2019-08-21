@@ -2,7 +2,9 @@
 // Partials (files starting with _) can be inclued using @import:
 // (import path can include _ but it is not needed)
 
+@import 'views/_app';
 @import 'components/_sidebar';
+@import 'components/_header';
 
 // You can use any sass features, like variables, for instance:
 $font-stack: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
@@ -87,8 +89,8 @@ body.hide-scroll .Main {
 }
 
 .CanvasParent {
-  width: 75%;
-  height: 75%;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 

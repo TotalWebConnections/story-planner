@@ -19,6 +19,7 @@
                  [environ "1.0.0"]
                  [metosin/reitit "0.3.7"]
                  [pez/clerk "1.0.0"]
+                 [nilenso/wscljs "0.2.0"]
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
                  [reagent "0.8.1"]]
