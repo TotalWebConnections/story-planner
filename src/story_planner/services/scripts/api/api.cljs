@@ -1,4 +1,5 @@
-(ns story-planner.services.scripts.api.api)
+(ns story-planner.services.scripts.api.api
+  (:require [story-planner.services.scripts.api.websocket :refer [send-message]]))
 
 ; CLIENT SIDE API REQUESTS
 ; This file only handles the actual requsts to the server that the application makes
@@ -15,7 +16,8 @@
 (defn edit-board [])
 
 ;These can be used for both board and entity folders
-(defn create-folder [])
+(defn create-folder []
+  (send-message {:type "create-folder" :folder "entity" :value "people"}))
 (defn delete-folder [])
 (defn edit-folder [])
 

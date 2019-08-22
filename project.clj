@@ -14,6 +14,7 @@
                  [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async  "0.4.500"]
                  [org.immutant/immutant "2.1.10"]
+                 [cheshire "5.9.0"]
                  [compojure "1.6.1"]
                  [ring/ring-core "1.7.1"]
                  [environ "1.0.0"]

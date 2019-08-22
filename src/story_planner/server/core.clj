@@ -6,7 +6,8 @@
     [compojure.route          :as route]
     [environ.core             :refer (env)]
     [compojure.core           :refer (ANY GET defroutes)]
-    [ring.util.response       :refer (response redirect content-type)])
+    [ring.util.response       :refer (response redirect content-type)]
+    [cheshire.core            :refer :all])
   (:gen-class))
 
 (defn test-html
@@ -32,6 +33,14 @@
 ;   -:update-map
 ;   -:update-entities
 
+; TODO move this out of hte core here - separation
+(defmulti handle-websocket-message (fn [data] (:type data)))
+  (defmethod handle-websocket-message "create-folder"
+    [data]
+    (async/send! (:channel data) (apply str (reverse (:value data)))))
+  (defmethod handle-websocket-message :default [data]
+    (async/send! (:channel data) "No method signiture found"))
+
 
 (def channel-store (atom []))
 
@@ -45,15 +54,13 @@
 (def websocket-callbacks
   "WebSocket callback functions"
   {:on-open   (fn [channel]
-    (print "Connection opened")
     (swap! channel-store conj channel) ; store channels for later
     (async/send! channel "Ready to reverse your messages!"))
   :on-close   (fn [channel {:keys [code reason]}]
     ; (swap! channel-store filter (fn [chan] (if (= chan channel) true false)) channel-store) close enough
     (println "close code:" code "reason:" reason))
   :on-message (fn [ch m]
-    (send-message-to-all)
-    (async/send! ch (apply str (reverse m))))})
+    (handle-websocket-message (conj (parse-string m true) {:channel ch})))})
 
 
 (defroutes routes

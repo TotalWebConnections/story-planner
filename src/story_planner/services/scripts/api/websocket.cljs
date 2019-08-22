@@ -3,9 +3,13 @@
             [wscljs.format :as fmt]))
 
 (defn handle-onOpen []
-  (js/alert "Connection Opened"))
-(defn handle-onClose [])
+  (print "Connection Opened"))
+
+(defn handle-onClose []
+  (print "Connection Closes"))
+
 (defn handle-onMessage [e]
+  ; TODO multi method implementation here
   (js/console.log e))
 
 (def handlers {:on-message (fn [e] (handle-onMessage e))
@@ -18,8 +22,8 @@
   (def socket (ws/create "ws://localhost:8080" handlers)))
 
 
-(defn send-message []
-  (ws/send socket "value" fmt/json))
+(defn send-message [value]
+  (ws/send socket value fmt/json))
 
 (defn close-connection []
   (ws/close socket)
