@@ -6,9 +6,10 @@
 (defn add-entity []
   "adds a new entity")
 
-(defn add-folder []
+(defn add-folder [state value]
   "Adds a new folder"
-  (api/create-folder))
+  (reset! state false)
+  (api/create-folder {:type "entity" :value value}))
 
 (defn handleShowFolderOverlay [state]
   (reset! state "active"))
@@ -17,7 +18,7 @@
   (let [showFolderOverlay (atom false)]
     (fn []
       [:div.Sidebar
-        [Overlay @showFolderOverlay "Folder Name" add-folder]
+        [Overlay @showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay)]
         [:div.Sidebar__header
           [:h4 "Entities"]
           [:div.Sidebar__header__controls

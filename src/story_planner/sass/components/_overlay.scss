@@ -21,7 +21,8 @@
   }
 
   &__inner {
-    background: #555;
+    background: $lightBlack;
+    color: white;
     width: 400px;
     height: 200px;
     position: absolute;

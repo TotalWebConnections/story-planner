@@ -21,3 +21,8 @@
 (defn get-all-documents-for-user [])
 
 ; Need to add our CRUD stuff here
+
+; TODO probably best to keep this all under the project as one big entity
+(defn create-folder [folderData]
+  "Inserts a new folder"
+  (mc/insert-and-return db "folders" folderData))

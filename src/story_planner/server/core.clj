@@ -41,8 +41,9 @@
 (defmulti handle-websocket-message (fn [data] (:type data)))
   (defmethod handle-websocket-message "create-folder"
     [data]
-    (DB/test-insert)
-    (async/send! (:channel data) (apply str (reverse (:value data)))))
+    (async/send! (:channel data)
+                 (generate-string
+                  (dissoc (DB/create-folder {:name (:value data) :type (:folder data)}) :_id))))
   (defmethod handle-websocket-message :default [data]
     (async/send! (:channel data) "No method signiture found"))
 
