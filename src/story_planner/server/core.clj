@@ -7,8 +7,12 @@
     [environ.core             :refer (env)]
     [compojure.core           :refer (ANY GET defroutes)]
     [ring.util.response       :refer (response redirect content-type)]
-    [cheshire.core            :refer :all])
+    [cheshire.core            :refer :all]
+    [mount.core :refer :all]
+    [story-planner.server.services.database :as DB])
   (:gen-class))
+
+(mount.core/start) ; Starts our DB
 
 (defn test-html
   "Comment"
@@ -37,6 +41,7 @@
 (defmulti handle-websocket-message (fn [data] (:type data)))
   (defmethod handle-websocket-message "create-folder"
     [data]
+    (DB/test-insert)
     (async/send! (:channel data) (apply str (reverse (:value data)))))
   (defmethod handle-websocket-message :default [data]
     (async/send! (:channel data) "No method signiture found"))

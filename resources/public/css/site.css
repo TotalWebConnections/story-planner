@@ -10,9 +10,47 @@
   background: #333;
   color: white;
   width: 150px; }
+  .Sidebar__header {
+    display: flex;
+    background: #222;
+    display: flex;
+    justify-content: space-between; }
+    .Sidebar__header__controls {
+      display: flex; }
+      .Sidebar__header__controls .addEntity, .Sidebar__header__controls .addFolder {
+        padding: 5px; }
 
 .Header {
   width: 100%; }
+
+@keyframes fadeIn {
+  0% {
+    display: block;
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.Overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  display: none; }
+  .Overlay--active {
+    display: block;
+    opacity: 1;
+    animation: fadeIn .25s linear; }
+  .Overlay__inner {
+    background: #555;
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: calc(50% - 100px); }
 
 .body-container {
   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, sans-serif;

@@ -1,5 +1,20 @@
 .Sidebar {
   background: #333;
   color: white;
-  width: 150px;;
+  width: 150px;
+
+  &__header {
+    display: flex;
+    background: #222;
+    display: flex;
+    justify-content: space-between;
+
+    &__controls {
+      display: flex;
+
+      .addEntity, .addFolder {
+        padding: 5px;
+      }
+    }
+  }
 }

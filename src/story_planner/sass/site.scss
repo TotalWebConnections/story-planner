@@ -5,6 +5,7 @@
 @import 'views/_app';
 @import 'components/_sidebar';
 @import 'components/_header';
+@import 'components/_overlay';
 
 // You can use any sass features, like variables, for instance:
 $font-stack: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
@@ -24,7 +25,6 @@ $base-font-size: 1.125em;
 h1, h2, h3 {
   color: #000;
 }
-
 
 h1 {
   font-size: $base-font-size + 1.375;

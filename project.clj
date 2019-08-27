@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :main story-planner.server.core
-
+  :jvm-opts ["-Dconfig=dev-config.edn"]
 
 
   :min-lein-version "2.9.1"
@@ -14,16 +14,20 @@
                  [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async  "0.4.500"]
                  [org.immutant/immutant "2.1.10"]
+                 [com.novemberain/monger "3.1.0"]
+                 [org.mongodb/mongodb-driver "3.4.2"]
                  [cheshire "5.9.0"]
                  [compojure "1.6.1"]
                  [ring/ring-core "1.7.1"]
                  [environ "1.0.0"]
                  [metosin/reitit "0.3.7"]
                  [pez/clerk "1.0.0"]
+                 [mount "0.1.16"]
                  [nilenso/wscljs "0.2.0"]
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
-                 [reagent "0.8.1"]]
+                 [reagent "0.8.1"]
+                 [yogthos/config "1.1.5"]]
 
   :plugins [[lein-figwheel "0.5.19"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
@@ -107,7 +111,6 @@
              ;; to pipe all the output to the repl
              ;; :server-logfile false
              }
-
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [figwheel-sidecar "0.5.19"]]
                    ;; need to add dev source path here to get user.clj loaded
