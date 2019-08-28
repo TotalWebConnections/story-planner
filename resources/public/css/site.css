@@ -6,6 +6,10 @@
     height: 100vh;
     overflow: hidden; }
 
+.Projects {
+  background: #1e1d18;
+  height: 100vh; }
+
 .Sidebar {
   background: #333;
   color: white;

@@ -14,7 +14,6 @@
                           :entities nil ; [{}] vector of maps representing different entities of the board
                           }))
 
-(init-websocket-connection)
 
 (defn get-from-state [key]
   "returns the value for a specified key from state"

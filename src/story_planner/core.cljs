@@ -7,9 +7,12 @@
               [reitit.coercion.spec :as rss]
               [clerk.core :as clerk]
               [accountant.core :as accountant]
+              [story-planner.services.scripts.api.websocket :refer [init-websocket-connection]]
+              [story-planner.services.scripts.api.api :as api]
               [story-planner.services.state.global :refer [app-state]]
               [story-planner.views.Home_page :refer [Home-page]]
               [story-planner.views.App_page :refer [App-page]]
+              [story-planner.views.Project_page :refer [Project-page]]
               [story-planner.services.state.global :refer [app-state]]
               [story-planner.services.state.dispatcher :refer [handle-state-change]]))
 
@@ -17,6 +20,17 @@
 
 (defonce match (r/atom nil)) ; this is our current page - we define it here outside our normal data flow
 
+;Base for our authenticated pages
+(defn Auth-base [app-state]
+  (init-websocket-connection)
+  ; TODO this works for testing but needs to be moved for prod
+  (js/setTimeout #(api/get-projects) 2000)
+  [:div.Main
+    (if @match
+      (let [view (:view (:data @match))]
+        [view app-state]))])
+
+;Base for our pulbic facing pages
 (defn Base-page [app-state] ; Our base to hold the shell of our application - probably move this once it gets bigger
   [:div
    (if (not= "app" (:navType @app-state))
@@ -32,6 +46,10 @@
     {:name ::frontpage
      :view App-page}]
 
+  ["/projects"
+    {:name ::projects
+     :view Project-page}]
+
    ["/home"
     {:name ::home
      :view Home-page}]])
@@ -42,7 +60,7 @@
     (fn [m] (reset! match m))
     ;; set to false to enable HistoryAPI
     {:use-fragment true})
-  (r/render [Base-page app-state] (.getElementById js/document "app")))
+  (r/render [Auth-base app-state] (.getElementById js/document "app")))
 
 (init!)
 

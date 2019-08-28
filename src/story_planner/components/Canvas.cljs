@@ -23,6 +23,9 @@
 ; TODO this does break on a reload - probably need a flag to only do this once or some sort of cleanup?
 (reagent/after-render (fn []
   (def zoomElem (.querySelector js/document "#Canvas"))
+
+  (if zoomElem
+    (do
   (def panHandler (panzoom zoomElem (clj->js {:maxZoom 4 :minZoom 0.1
                                               :minScale 1
                                               :boundsPadding 1 ; it multiplies by this is in the code for panzoom
@@ -45,7 +48,7 @@
     (.resume panHandler))
 
   (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler})))
-)
+)))
 
 (defn render []
   [:div.CanvasParent

@@ -7,9 +7,12 @@
 
 
 
-(defn create-project [])
+(defn create-project [constructor]
+  (send-message {:type "create-project" :value constructor}))
 (defn delete-project [])
 (defn edit-project [])
+(defn get-projects []
+  (send-message {:type "get-projects" :value "123"})) ; value here represents our userID!
 
 (defn create-board [])
 (defn delete-board [])
