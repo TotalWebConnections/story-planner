@@ -1,12 +1,12 @@
 (ns story-planner.services.state.global
-    (:require [reagent.core :as reagent :refer [atom]]
-              [story-planner.services.scripts.api.websocket :refer [init-websocket-connection]]))
+    (:require [reagent.core :as reagent :refer [atom]]))
 
 ; Define the state we need to hold here
 ; probably send our WS here too
 (defonce app-state (atom {:canvasLoaded false ; prevents the canvas from reloading
                           :userToken "" ; string user login token for auth
                           :navType "app" ; Either app or view - display or not dispaly nav
+                          :projects nil
                           :currentProject nil ; id of the current project opened
                           :board nil ; {:id :name} of the current board
                           :boardFolders nil ; [{}] vector of folder maps

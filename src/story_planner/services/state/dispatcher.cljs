@@ -1,6 +1,7 @@
 (ns story-planner.services.state.dispatcher
   (:require [story-planner.services.state.global :refer [app-state]]
             [story-planner.services.state.textstate :refer [update-state-text]]
+            [story-planner.services.state.actions.projects :as projects]
             [story-planner.services.state.actions.canvas :refer [set-canvas-render]]))
 
 ; As we need more mutations for state we can add them here - Handle state change
@@ -9,6 +10,9 @@
   (defmethod handle-state-change "set-canvas-render"
     [action]
     (set-canvas-render app-state (:value action)))
+  (defmethod handle-state-change "get-projects"
+    [action]
+    (projects/update-projects app-state (:value action)))
   (defmethod handle-state-change "update-state-text"
     [action]
     (update-state-text app-state (:value action)))

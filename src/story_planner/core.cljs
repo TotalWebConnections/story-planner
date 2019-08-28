@@ -19,12 +19,13 @@
 (enable-console-print!)
 
 (defonce match (r/atom nil)) ; this is our current page - we define it here outside our normal data flow
+; TODO this works for testing but needs to be moved for prod
+(js/setTimeout #(api/get-projects) 1000)
 
 ;Base for our authenticated pages
 (defn Auth-base [app-state]
+  (print @app-state)
   (init-websocket-connection)
-  ; TODO this works for testing but needs to be moved for prod
-  (js/setTimeout #(api/get-projects) 2000)
   [:div.Main
     (if @match
       (let [view (:view (:data @match))]

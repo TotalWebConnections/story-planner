@@ -47,7 +47,9 @@
                   (dissoc (DB/create-project {:name (:value data) :userId "123"}) :_id))))
   (defmethod handle-websocket-message "get-projects"
     [data]
-    (async/send! (:channel data) (generate-string (DB/get-projects (:value data)))))
+    (async/send! (:channel data)
+      (generate-string
+        {:type "projects" :data (DB/get-projects (:value data))})))
   (defmethod handle-websocket-message :default [data]
     (async/send! (:channel data) "No method signiture found"))
 
@@ -65,7 +67,7 @@
   "WebSocket callback functions"
   {:on-open   (fn [channel]
     (swap! channel-store conj channel) ; store channels for later
-    (async/send! channel "Ready to reverse your messages!"))
+    (async/send! channel (generate-string {:type "onReady" :data "Ready to reverse your messages!"})))
   :on-close   (fn [channel {:keys [code reason]}]
     ; (swap! channel-store filter (fn [chan] (if (= chan channel) true false)) channel-store) close enough
     (println "close code:" code "reason:" reason))
