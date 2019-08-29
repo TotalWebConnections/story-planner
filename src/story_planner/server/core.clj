@@ -47,6 +47,7 @@
                   (dissoc (DB/create-project {:name (:value data) :userId "123"}) :_id))))
   (defmethod handle-websocket-message "get-projects"
     [data]
+    ; TODO this should only return our ID and name - no need to pull everyhting about every project
     (async/send! (:channel data)
       (generate-string
         {:type "projects" :data (DB/get-projects (:value data))})))

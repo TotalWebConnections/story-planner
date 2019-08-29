@@ -1,5 +1,9 @@
 (ns story-planner.views.Project_page
   (:require [reagent.core :as reagent :refer [atom]]
+            [reagent.core :as r]
+            [reitit.frontend :as rf]
+            [reitit.frontend.easy :as rfe]
+            [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.api :as api]
             [story-planner.components.Overlay :refer [Overlay]]
             [story-planner.components.app.header :refer [Header]]
@@ -15,7 +19,16 @@
   (reset! state false)
   (api/create-project value))
 
-(defn Project-page []
+(defn open-project [id]
+  "Sets the active project by id - calls query to pull information"
+  ; First we set teh current project as the ID that is being queries
+  ; dispatch api call but not care about it
+  ; (rfe/href ::frontpage)
+  (navigate "")
+  ; (.-href (.-location js/window) "/#/")
+)
+
+(defn Project-page [app-state]
   (let [showProjectOverlay (atom false)]
     (fn []
       [:div.Projects
@@ -23,4 +36,8 @@
         [Header]
         [:div.Projects__body
           [:h2 "Project Page"]
-          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]]])))
+          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]
+        (for [project (:projects @app-state)]
+          [:div.Projects__projectBlock {:key (:_id project)}
+            [:h2  (:name project)]
+            [:button {:on-click #(open-project (:_id project))} "Build"]])]])))

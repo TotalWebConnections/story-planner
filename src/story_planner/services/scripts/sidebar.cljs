@@ -1,4 +1,4 @@
-(ns stoy-planner.services.scripts.sidebar)
+(ns story-planner.services.scripts.sidebar)
 
 
 (defn generate-folder-structure []
