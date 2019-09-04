@@ -33,12 +33,17 @@
 ;   -:update-entities
 
 ; TODO move this out of hte core here - separation
+(defn construct-all-project-return [query]
+  (map (fn [project]
+    {:_id (:_id project) :name (:name project)} ) query))
+
+
 (defmulti handle-websocket-message (fn [data] (:type data)))
   (defmethod handle-websocket-message "create-folder"
     [data]
     (async/send! (:channel data)
                  (generate-string
-                  (dissoc (DB/create-folder {:name (:value data) :type (:folder data)}) :_id))))
+                  (dissoc (DB/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)}) :_id))))
   (defmethod handle-websocket-message "create-project"
     [data]
     (println (:value data))
@@ -46,11 +51,15 @@
                  (generate-string
                   (dissoc (DB/create-project {:name (:value data) :userId "123"}) :_id))))
   (defmethod handle-websocket-message "get-projects"
-    [data]
-    ; TODO this should only return our ID and name - no need to pull everyhting about every project
+    [data] ; Returns the name and ID of all projects
     (async/send! (:channel data)
       (generate-string
-        {:type "projects" :data (DB/get-projects (:value data))})))
+        {:type "projects" :data (construct-all-project-return (DB/get-projects (:value data)))})))
+  (defmethod handle-websocket-message "get-project"
+    [data] ; Returns the name and ID of all projects
+    (async/send! (:channel data)
+      (generate-string
+        {:type "project" :data (DB/get-project (:value data))})))
   (defmethod handle-websocket-message :default [data]
     (async/send! (:channel data) "No method signiture found"))
 

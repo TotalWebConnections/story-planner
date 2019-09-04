@@ -7,6 +7,7 @@
               [reitit.coercion.spec :as rss]
               [clerk.core :as clerk]
               [accountant.core :as accountant]
+              [cljs.test :refer-macros [deftest is testing run-tests]]
               [story-planner.services.scripts.api.websocket :refer [init-websocket-connection]]
               [story-planner.services.scripts.api.api :as api]
               [story-planner.services.state.global :refer [app-state]]

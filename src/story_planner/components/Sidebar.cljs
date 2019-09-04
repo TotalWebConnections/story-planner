@@ -6,22 +6,26 @@
 (defn add-entity []
   "adds a new entity")
 
-(defn add-folder [state value]
+(defn add-folder [state projectId value]
   "Adds a new folder"
   (reset! state false)
-  (api/create-folder {:type "entity" :value value}))
+  (api/create-folder {:type "entity" :projectId projectId :value value}))
 
 (defn handleShowFolderOverlay [state]
   (reset! state "active"))
 
-(defn Sidebar []
+(defn Sidebar [currentProject]
   (let [showFolderOverlay (atom false)]
     (fn []
       [:div.Sidebar
-        [Overlay @showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay)]
+        [Overlay showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay (:_id currentProject))]
         [:div.Sidebar__header
           [:h4 "Entities"]
           [:div.Sidebar__header__controls
             [:div.addEntity  [:p "+"]]
             [:div.addFolder [:p {:on-click #(handleShowFolderOverlay showFolderOverlay)} "+"]]]]
-        [:p "Boards"]])))
+        [:div.Sidebar__header
+          [:p "Boards"]
+          [:div.Sidebar__header__controls
+            [:div.addEntity  [:p "+"]]
+            [:div.addFolder [:p {:on-click #(handleShowFolderOverlay showFolderOverlay)} "+"]]]]])))

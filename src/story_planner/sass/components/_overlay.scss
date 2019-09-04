@@ -28,5 +28,11 @@
     position: absolute;
     left: calc(50% - 200px); // TODO we probaby want to make this more dynmaic
     top: calc(50% - 100px);
+
+    &__close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
   }
 }

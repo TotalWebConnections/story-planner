@@ -5,9 +5,9 @@
             [story-planner.services.state.dispatcher :refer [handle-state-change]]))
 
 
-(defn App-page []
+(defn App-page [app-state]
   [:div.App
     [Header]
-    [Sidebar]
+    [Sidebar (:currentProject @app-state)]
     [:div.App__canvasWrapper
       [Canvas/render]]])

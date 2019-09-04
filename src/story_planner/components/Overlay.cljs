@@ -7,8 +7,9 @@
   (.-value (.getElementById js/document "Overlay__input")))
 
 (defn Overlay [active headerText onSubmit]
-  [:div.Overlay {:class (str "Overlay--" active)}
+  [:div.Overlay {:class (str "Overlay--" @active)}
     [:div.Overlay__inner
+      [:p.Overlay__inner__close {:on-click #(reset! active false)} "x"]
       [:h3 headerText]
       [:input#Overlay__input {:type "text"}]
       [:button {:on-click #(onSubmit (get-input-value))} "Add"]]])

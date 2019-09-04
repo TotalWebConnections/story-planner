@@ -11,6 +11,8 @@
   (send-message {:type "create-project" :value constructor}))
 (defn delete-project [])
 (defn edit-project [])
+(defn get-project [id]
+  (send-message {:type "get-project" :value id}))
 (defn get-projects []
   (send-message {:type "get-projects" :value "123"})) ; value here represents our userID!
 
@@ -20,7 +22,7 @@
 
 ;These can be used for both board and entity folders
 (defn create-folder [constructor]
-  (send-message {:type "create-folder" :folder (:type constructor) :value (:value constructor)}))
+  (send-message {:type "create-folder" :folder (:type constructor) :projectId (:projectId constructor) :value (:value constructor)}))
 (defn delete-folder [])
 (defn edit-folder [])
 

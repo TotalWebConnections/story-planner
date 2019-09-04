@@ -23,9 +23,10 @@
   "Sets the active project by id - calls query to pull information"
   ; First we set teh current project as the ID that is being queries
   ; dispatch api call but not care about it
-  ; (rfe/href ::frontpage)
+  (api/get-project id)
+  ; (rfe/push-state ::frontpage) ; THid doesnt work but I wish it would...
   (navigate "")
-  ; (.-href (.-location js/window) "/#/")
+
 )
 
 (defn Project-page [app-state]
