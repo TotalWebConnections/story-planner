@@ -30,7 +30,7 @@
 
 
 (defn init-websocket-connection []
-  (if (not socket)
+  (if (not (exists? socket)) ; TODO test should prevent multiple socket connections
     (def socket (ws/create "ws://localhost:8080" handlers))))
 
 

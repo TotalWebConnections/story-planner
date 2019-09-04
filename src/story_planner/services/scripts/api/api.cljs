@@ -26,6 +26,10 @@
 (defn delete-folder [])
 (defn edit-folder [])
 
-(defn create-entity [])
+(defn create-entity [constructor]
+  (send-message {:type "create-entity"
+                 :folder (:folder constructor)
+                 :projectId (:projectId constructor)
+                 :value (:value constructor)}))
 (defn delete-entity [])
 (defn edit-entiy [])

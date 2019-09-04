@@ -98,6 +98,40 @@ table {
       top: 5px;
       right: 5px; }
 
+@keyframes fadeIn {
+  0% {
+    display: block;
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.OverlayEntity {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  display: none; }
+  .OverlayEntity--active {
+    display: block;
+    opacity: 1;
+    animation: fadeIn .25s linear; }
+  .OverlayEntity__inner {
+    background: #282828;
+    color: white;
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    left: calc(50% - 200px);
+    top: calc(50% - 100px); }
+    .OverlayEntity__inner__close {
+      position: absolute;
+      top: 5px;
+      right: 5px; }
+
 .body-container {
   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, sans-serif;
   max-width: 600px;

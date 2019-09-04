@@ -38,7 +38,10 @@
   "insers a new project for current user"
   (mc/insert-and-return db "projects" projectData))
 
-
+; TODO finish crete entity when we're done setting up values array for fields
+(defn create-entity [entityData]
+  "Inserts an enttiy into the given folder or a root entities object"
+  (println entityData))
 
 
 ; READ METHODS

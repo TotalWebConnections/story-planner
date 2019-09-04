@@ -33,7 +33,7 @@
   (let [showProjectOverlay (atom false)]
     (fn []
       [:div.Projects
-        [Overlay @showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
+        [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
         [Header]
         [:div.Projects__body
           [:h2 "Project Page"]
