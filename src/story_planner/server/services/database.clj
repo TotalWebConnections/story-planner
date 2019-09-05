@@ -13,9 +13,6 @@
 (defstate db
   :start (:db db*))
 
-(defn test-insert []
-  (mc/insert-and-return db "Stuff" {:test "hello"}))
-
 ; (let [conn (mg/connect {:host "db.megacorp.internal" :port 7878})])
 
 (defn get-document-by-type [])
@@ -41,7 +38,15 @@
 ; TODO finish crete entity when we're done setting up values array for fields
 (defn create-entity [entityData]
   "Inserts an enttiy into the given folder or a root entities object"
-  (println entityData))
+  (if (= "n/a" (:folder entityData)) ; account for the base case first with no folder
+    (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
+      {$push {:entites (dissoc entityData :projectId :folder :type)}} {:upsert true})
+    (println entityData))) ; TODO handle save to specific folder path
+
+(defn edit-entity [entityData]
+  "We'll use a separate function here
+  cause it would just be easier to separate them"
+)
 
 
 ; READ METHODS
