@@ -36,12 +36,15 @@
   (mc/insert-and-return db "projects" projectData))
 
 ; TODO finish crete entity when we're done setting up values array for fields
+; (mc/count db coll {$and [{:language "Clojure"}
+;                              {:users {$gt 10}}]})
 (defn create-entity [entityData]
   "Inserts an enttiy into the given folder or a root entities object"
   (if (= "n/a" (:folder entityData)) ; account for the base case first with no folder
     (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
-      {$push {:entites (dissoc entityData :projectId :folder :type)}} {:upsert true})
-    (println entityData))) ; TODO handle save to specific folder path
+      {$push {:entities (:value entityData)}} {:upsert true})
+    (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))} {:folders {$elemMatch {:name (:folder entityData)}}} ]}
+      {$push {"folders.$.entities" (:value entityData)}}))) ; TODO handle save to specific folder path
 
 (defn edit-entity [entityData]
   "We'll use a separate function here
