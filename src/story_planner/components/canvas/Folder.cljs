@@ -11,4 +11,5 @@
       (:name folderInfo)]
     [:div.Folder__entityWrapper
       (for [entity (:entities folderInfo)]
-        [:p (:value (first entity))])]]) ; we take the first for now but will probably add back in a name attribute
+        [:p {:key (str (:value (first entity)) "-" (rand-int 10000))}
+          (:value (first entity))])]]) ; we take the first for now but will probably add back in a name attribute

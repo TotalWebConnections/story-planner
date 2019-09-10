@@ -25,7 +25,7 @@
 
 ;Base for our authenticated pages
 (defn Auth-base [app-state]
-  (print (:folders (:currentProject @app-state)))
+  ; (print (:folders (:currentProject @app-state)))
   (init-websocket-connection)
   [:div.Main
     (if @match
