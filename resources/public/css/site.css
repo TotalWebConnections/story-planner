@@ -132,6 +132,11 @@ table {
       top: 5px;
       right: 5px; }
 
+.Folder__entityWrapper {
+  background: #444; }
+  .Folder__entityWrapper p {
+    padding-left: 10px; }
+
 .body-container {
   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, sans-serif;
   max-width: 600px;

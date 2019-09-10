@@ -6,6 +6,8 @@
            [config.core :refer [env]])
            (:import org.bson.types.ObjectId))
 
+(declare get-project)
+
 (defstate db*
   :start (-> env :database-url mg/connect-via-uri)
   :stop (-> db* :conn mg/disconnect))
@@ -29,7 +31,8 @@
 (defn create-folder [folderData]
   "Inserts a new folder"
   (mc/update db "projects" {:_id (ObjectId. (:id folderData))}
-    {$push {:folders (dissoc folderData :id)}} {:upsert true}))
+    {$push {:folders (dissoc folderData :id)}} {:upsert true})
+  (get-project (:id folderData)))
 
 (defn create-project [projectData]
   "insers a new project for current user"
@@ -44,7 +47,8 @@
     (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
       {$push {:entities (:value entityData)}} {:upsert true})
     (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))} {:folders {$elemMatch {:name (:folder entityData)}}} ]}
-      {$push {"folders.$.entities" (:value entityData)}}))) ; TODO handle save to specific folder path
+      {$push {"folders.$.entities" (:value entityData)}}))
+   (get-project (:projectId entityData))) ; TODO handle save to specific folder path
 
 (defn edit-entity [entityData]
   "We'll use a separate function here
@@ -56,7 +60,6 @@
 ; TODO remove let - can simplify a bit
 (defn get-project [id]
   (let [projects (mc/find-maps db "projects" {:_id (ObjectId. id)})]
-    (println projects)
     (map ; Turn characters into a modified list
       #(update % :_id str) ; By updating each map :id by casting to a string
       projects)))

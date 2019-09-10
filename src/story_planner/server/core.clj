@@ -33,6 +33,12 @@
 ;   -:update-entities
 
 ; TODO move this out of hte core here - separation
+; TODO we also need to look at the performance of just sending back
+; The whole project on each request - front end is probably smart enough to
+; take the override and update teh DOM the accordingly which is what I'd expect
+; teh react/reagent wrapper to do, but we need to test this for a larger project with
+; multiple users working at the same time - performance might suffer and then we may need
+; to break things apart a bit more to facilitate udpates of individual pieces of state
 (defn construct-all-project-return [query]
   (map (fn [project]
     {:_id (:_id project) :name (:name project)} ) query))
@@ -48,10 +54,12 @@
     [data]
     (async/send! (:channel data)
                  (generate-string
-                  (dissoc (DB/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)}) :_id))))
+                   {:type "project" :data (DB/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)})})))
   (defmethod handle-websocket-message "create-entity"
     [data]
-    (DB/create-entity (dissoc data :channel)))
+    (async/send! (:channel data) ; TODO this can be moved to a heler since we'll probably re-use it a on most API calls for the time being
+      (generate-string
+        {:type "project" :data (DB/create-entity (dissoc data :channel))})))
   (defmethod handle-websocket-message "get-projects"
     [data] ; Returns the name and ID of all projects
     (async/send! (:channel data)
