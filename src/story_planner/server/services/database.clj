@@ -38,7 +38,6 @@
   "insers a new project for current user"
   (mc/insert-and-return db "projects" projectData))
 
-; TODO finish crete entity when we're done setting up values array for fields
 ; (mc/count db coll {$and [{:language "Clojure"}
 ;                              {:users {$gt 10}}]})
 (defn create-entity [entityData]
@@ -54,6 +53,16 @@
   "We'll use a separate function here
   cause it would just be easier to separate them"
 )
+
+; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
+(defn create-board [boardData]
+  "Inserts an enttiy into the given folder or a root entities object"
+  (if (= "n/a" (:folder boardData)) ; account for the base case first with no folder
+    (mc/update db "projects" {:_id (ObjectId. (:projectId boardData))}
+      {$push {:boards (:value boardData)}} {:upsert true})
+    (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))} {:folders {$elemMatch {:name (:folder boardData)}}} ]}
+      {$push {"folders.$.boards" (:value boardData)}}))
+   (get-project (:projectId boardData)))
 
 
 ; READ METHODS

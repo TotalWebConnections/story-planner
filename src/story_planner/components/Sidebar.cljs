@@ -19,21 +19,30 @@
   (reset! state false)
   (api/create-entity {:folder @folder :projectId projectId :value value}))
 
+; nearly the same as add-entity but give us some separation if need it l8er
+(defn add-board [state projectId folder value]
+  "adds a new board to the project"
+  (reset! state false)
+  (api/create-board {:folder @folder :projectId projectId :value value}))
+
 (defn handleShowOverlay [state]
   (reset! state "active"))
 
 (defn setCurrentFolderType [currentFolderType type]
   (reset! currentFolderType type))
 
+; TODO this is gettin a bit large - probably break this out by boards and entity into new components
 (defn Sidebar [currentProject]
   (let [showFolderOverlay (atom false)
+        showBoardOverlay (atom false)
         showEntityOverlay (atom false)
         currentFolderPath (atom "n/a")
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
     (fn [currentProject]
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
         [:div.Sidebar
-          [Overlay showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType)]
+          [Overlay showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
+          [Overlay showBoardOverlay "Board Name" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
             (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath)]
           [:div.Sidebar__header
@@ -45,14 +54,14 @@
             (for [folder (get sortedFolders "entity")]
               (Folder folder #(comp
                              (generate-folder-path currentFolderPath (:name folder))
-                             (handleShowOverlay showEntityOverlay))))]
+                             (handleShowOverlay showEntityOverlay)) false))]
           [:div.Sidebar__header
             [:p "Boards"]
             [:div.Sidebar__header__controls
-              [:div.addEntity  [:p "+"]]
+              [:div.addEntity  [:p {:on-click #(handleShowOverlay showBoardOverlay)}  "+"]]
               [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))} "+"]]]]
           [:div.Sidebar__contentWrapper
             (for [folder (get sortedFolders "board")]
               (Folder folder #(comp
                              (generate-folder-path currentFolderPath (:name folder))
-                             (handleShowOverlay showEntityOverlay))))]]))))
+                             (handleShowOverlay showBoardOverlay)) true))]]))))

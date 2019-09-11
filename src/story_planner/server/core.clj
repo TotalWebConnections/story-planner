@@ -60,6 +60,11 @@
     (async/send! (:channel data) ; TODO this can be moved to a heler since we'll probably re-use it a on most API calls for the time being
       (generate-string
         {:type "project" :data (DB/create-entity (dissoc data :channel))})))
+  (defmethod handle-websocket-message "create-board"
+    [data]
+    (async/send! (:channel data) ; TODO this can be moved to a heler since we'll probably re-use it a on most API calls for the time being
+      (generate-string
+        {:type "project" :data (DB/create-board (dissoc data :channel))})))
   (defmethod handle-websocket-message "get-projects"
     [data] ; Returns the name and ID of all projects
     (async/send! (:channel data)

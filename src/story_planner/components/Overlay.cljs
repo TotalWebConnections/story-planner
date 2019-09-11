@@ -1,15 +1,15 @@
 (ns story-planner.components.Overlay
   (:require [reagent.core :as reagent :refer [atom]]))
 
-(defn get-input-value []
+(defn get-input-value [id]
   "Grabs the input from the value - probably better to use an atom but this
    Should be fine for this simple case"
-  (.-value (.getElementById js/document "Overlay__input")))
+  (.-value (.getElementById js/document (str "Overlay__input-" id))))
 
-(defn Overlay [active headerText onSubmit]
+(defn Overlay [active headerText onSubmit id] ; Takes an ID to make it unique to reuse
   [:div.Overlay {:class (str "Overlay--" @active)}
     [:div.Overlay__inner
       [:p.Overlay__inner__close {:on-click #(reset! active false)} "x"]
       [:h3 headerText]
-      [:input#Overlay__input {:type "text"}]
-      [:button {:on-click #(onSubmit (get-input-value))} "Add"]]])
+      [:input {:type "text" :id (str "Overlay__input-" id)}]
+      [:button {:on-click #(onSubmit (get-input-value id))} "Add"]]])
