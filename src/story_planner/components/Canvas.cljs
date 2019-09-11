@@ -21,9 +21,10 @@
 ; We need to setup all our handlers after the componeent has rendered
 ; TODO test with state - think a rerender will break everything - maybe set a global `handlersSet` ?
 ; TODO this does break on a reload - probably need a flag to only do this once or some sort of cleanup?
-(reagent/after-render (fn []
+(defn render-canvas []
+  (print "tests")
   (def zoomElem (.querySelector js/document "#Canvas"))
-
+  (print zoomElem)
   (if zoomElem
     (do
   (def panHandler (panzoom zoomElem (clj->js {:maxZoom 4 :minZoom 0.1
@@ -48,9 +49,31 @@
     (.resume panHandler))
 
   (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler})))
-)))
+))
 
+(defn Canvas []
+  (reagent/create-class                 ;; <-- expects a map of functions
+    {:display-name  "canvas"      ;; for more helpful warnings & errors
+
+      :component-did-mount               ;; the name of a lifecycle function
+        (fn [this]
+          (render-canvas)
+          (println "component-did-mount")) ;; your implementation
+
+       :component-did-update              ;; the name of a lifecycle function
+        (fn [this old-argv]                ;; reagent provides you the entire "argv", not just the "props"
+          (js/console.log "did update"))
+
+        ;; other lifecycle funcs can go in here
+
+
+        :reagent-render        ;; Note:  is not :render
+         (fn []           ;; remember to repeat parameters
+            [:div.CanvasParent
+              [:div#Canvas
+                [:div.card.draggable [:p "im some content in the canvas"]]]])}))
+
+; TODO we can probably just work with the abpve canvas
 (defn render []
-  [:div.CanvasParent
-    [:div#Canvas
-      [:div.card.draggable [:p "im some content in the canvas"]]]])
+   [Canvas])
+
