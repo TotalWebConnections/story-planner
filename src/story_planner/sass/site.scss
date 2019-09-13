@@ -11,6 +11,7 @@
 @import 'components/_overlay';
 @import 'components/_overlayEntity';
 @import 'components/_folder';
+@import 'components/canvas/_controls';
 
 // You can use any sass features, like variables, for instance:
 $font-stack: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
@@ -62,10 +63,12 @@ body, html {
   height: 100vh;
 }
 
+// TODO Move this stuff out to it's own file
 .CanvasParent {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  position: relative;
 }
 
 #Canvas {

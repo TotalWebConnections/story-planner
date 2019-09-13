@@ -17,7 +17,7 @@
   (send-message {:type "get-projects" :value "123"})) ; value here represents our userID!
 
 (defn create-board [constructor]
-  (send-message {:type "create-board" :folder (:folder constructor) :projectId (:projectId constructor) :value {:name (:value constructor)}}))
+  (send-message {:type "create-board" :projectId (:projectId constructor) :value {:name (:value constructor) :folder (:folder constructor)}}))
 (defn delete-board [])
 (defn edit-board [])
 
@@ -34,3 +34,9 @@
                  :value (:value constructor)}))
 (defn delete-entity [])
 (defn edit-entiy [])
+
+
+
+(defn create-storypoint [constructor]
+  "creates a brand new storpy point associated with the board/projectID combo"
+  (send-message {:type "create-storypoint" :projectId (:projectId constructor) :board (:board constructor)}))

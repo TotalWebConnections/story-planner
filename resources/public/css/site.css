@@ -137,6 +137,22 @@ table {
   .Folder__entityWrapper p {
     padding-left: 10px; }
 
+.Controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  z-index: 2;
+  border: 1px solid #646464; }
+  .Controls p {
+    padding: 5px 10px;
+    color: white;
+    transition: all .25s;
+    font-size: 1.25rem; }
+    .Controls p:hover {
+      background: #2cb3fc;
+      cursor: pointer; }
+
 .body-container {
   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, sans-serif;
   max-width: 600px;
@@ -175,7 +191,8 @@ body, html {
 .CanvasParent {
   width: 100%;
   height: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  position: relative; }
 
 #Canvas {
   width: 5000px;

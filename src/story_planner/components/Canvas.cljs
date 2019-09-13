@@ -1,6 +1,7 @@
 (ns story-planner.components.Canvas
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
+            [story-planner.components.canvas.Controls :refer [Controls]]
             ["panzoom" :as panzoom]
             ["interactjs" :as interact]))
 
@@ -22,9 +23,7 @@
 ; TODO test with state - think a rerender will break everything - maybe set a global `handlersSet` ?
 ; TODO this does break on a reload - probably need a flag to only do this once or some sort of cleanup?
 (defn render-canvas []
-  (print "tests")
   (def zoomElem (.querySelector js/document "#Canvas"))
-  (print zoomElem)
   (if zoomElem
     (do
   (def panHandler (panzoom zoomElem (clj->js {:maxZoom 4 :minZoom 0.1
@@ -70,10 +69,11 @@
         :reagent-render        ;; Note:  is not :render
          (fn []           ;; remember to repeat parameters
             [:div.CanvasParent
+              [Controls]
               [:div#Canvas
                 [:div.card.draggable [:p "im some content in the canvas"]]]])}))
 
-; TODO we can probably just work with the abpve canvas
+; TODO we can probably just work with the abpve canvas - remove this and import the component
 (defn render []
    [Canvas])
 

@@ -4,7 +4,8 @@
             [story-planner.components.Overlay :refer [Overlay]]
             [story-planner.components.EntityOverlay :refer [EntityOverlay]]
             [story-planner.components.canvas.Folder :refer [Folder]]
-            [story-planner.services.scripts.folders :as folderHelpers]))
+            [story-planner.services.scripts.folders :as folderHelpers]
+            [story-planner.services.scripts.sidebar :refer [get-boards-by-folders]]))
 
 (defn add-folder [state projectId folderType value]
   "Adds a new folder"
@@ -61,7 +62,7 @@
               [:div.addEntity  [:p {:on-click #(handleShowOverlay showBoardOverlay)}  "+"]]
               [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))} "+"]]]]
           [:div.Sidebar__contentWrapper
-            (for [folder (get sortedFolders "board")]
+            (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               (Folder folder #(comp
                              (generate-folder-path currentFolderPath (:name folder))
                              (handleShowOverlay showBoardOverlay)) true))]]))))

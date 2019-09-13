@@ -57,12 +57,43 @@
 ; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
 (defn create-board [boardData]
   "Inserts an enttiy into the given folder or a root entities object"
-  (if (= "n/a" (:folder boardData)) ; account for the base case first with no folder
-    (mc/update db "projects" {:_id (ObjectId. (:projectId boardData))}
-      {$push {:boards (:value boardData)}} {:upsert true})
-    (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))} {:folders {$elemMatch {:name (:folder boardData)}}} ]}
-      {$push {"folders.$.boards" (:value boardData)}}))
+  (mc/update db "projects" {:_id (ObjectId. (:projectId boardData))}
+    {$push {:boards (:value boardData)}} {:upsert true})
    (get-project (:projectId boardData)))
+
+
+
+(defn create-storypoint [storyData]
+  ; (println storyData)
+;     (mc/find-maps db "projects" {$and [{:_id (ObjectId. "5d67cff2233c5111a7a32171")}
+;                                 {:folders {$elemMatch {:name "Act 1"}}}]})
+;     ; (mc/find-maps db "projects" {$and [{:_id (ObjectId. (:projectId storyData))}
+;     ;                                 {:folders {:boards {$elemMatch {:name (:board storyData)}}}}]})
+;     (mc/find-maps db "projects" {$and [{:_id (ObjectId. "5d67cff2233c5111a7a32171")}
+;                                 {"folders.boards" {$elemMatch {:name "Intro"}}}]})
+;
+;     (mc/find-maps db "projects" {$and [{:_id (ObjectId. "5d67cff2233c5111a7a32171")}
+;                                 {:folders {$elemMatch {:boards {$elemMatch {:name "Intro"}}}}}]})
+;
+; ; (mc/update db "barbers" {} {"$set" {"members.$[elem].text" "hellothere"}} {"arrayFilters" [{"elem.id" {"$eq" 1}}}} {:multi true})
+; ; "array1": {
+; ;       "$elemMatch": {
+; ;         "_id": "12","array2._id": "123"
+; ;       }
+; ;     }
+;     (mc/update db "projects" {$and [{:_id (ObjectId. "5d67cff2233c5111a7a32171")}
+;                                     {:folders {$elemMatch {:boards.name "Intro"}}}]}
+;       {$push {"folders.boards.$[board.name].storypoints" {:name "" :description ""}}}
+;       {"arrayFilters" [{"board.name" {= "Intro"}}]}
+;
+;     )
+
+
+  "Creates a blank story point for the :board :projectId combo"
+  (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId storyData))}
+                                  {"folders.boards" {$elemMatch {:name (:board storyData)}}}]}
+    {$push {"folders.boards.$.storypoints" {:name "" :description ""}}})
+    (get-project (:projectId storyData))) ; TODO we can define this type elsewhere for reuse
 
 
 ; READ METHODS
