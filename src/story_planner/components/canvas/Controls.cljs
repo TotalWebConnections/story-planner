@@ -9,6 +9,6 @@
 (defn Controls []
   [:div.Controls
     [:div.Controls__NewStoryPoint
-      [:p {:on-click #(handle-add-storypoint "5d67cff2233c5111a7a32171" "Intro")}"+"]] ; TODO pull this down remove hardcode
+      [:p {:on-click #(handle-add-storypoint "5d67cff2233c5111a7a32171" "Test")}"+"]] ; TODO pull this down remove hardcode
     [:div.Controls__ProjectInfo
       [:p "?"]]])
