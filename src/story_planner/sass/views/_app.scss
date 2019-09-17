@@ -4,7 +4,7 @@
 
   &__canvasWrapper {
     width: calc(100% - 150px); // current the width of the sidebar - might just abs it so 100% then
-    height: 100vh;
+    height: calc(100vh - #{$headerHeight});
     overflow: hidden;
   }
 }

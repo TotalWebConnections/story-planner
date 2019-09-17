@@ -47,7 +47,7 @@
           [EntityOverlay showEntityOverlay
             (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath)]
           [:div.Sidebar__header
-            [:h4 "Entities"]
+            [:h3 "Entities"]
             [:div.Sidebar__header__controls
               [:div.addEntity  [:p {:on-click #(handleShowOverlay showEntityOverlay)} "+"]]
               [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "entity"))} "+"]]]]
@@ -57,7 +57,7 @@
                              (generate-folder-path currentFolderPath (:name folder))
                              (handleShowOverlay showEntityOverlay)) false))]
           [:div.Sidebar__header
-            [:p "Boards"]
+            [:h3 "Boards"]
             [:div.Sidebar__header__controls
               [:div.addEntity  [:p {:on-click #(handleShowOverlay showBoardOverlay)}  "+"]]
               [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))} "+"]]]]

@@ -2,12 +2,18 @@
   background: #333;
   color: white;
   width: 150px;
+  height: calc(100vh - #{$headerHeight});
 
   &__header {
     display: flex;
     background: #222;
-    display: flex;
     justify-content: space-between;
+    padding: 8px 0;
+
+    h3 {
+      position: relative;
+      top: 3px; // small hack as things are weirdly aligned
+    }
 
     &__controls {
       display: flex;

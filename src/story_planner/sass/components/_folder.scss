@@ -1,6 +1,47 @@
 .Folder {
 
+  i, p {
+    padding: 5px;
+  }
+
+  &__closed {
+    height: 25px;
+    overflow: hidden;
+  }
+
+  &__folder {
+    display: flex;
+    cursor: pointer;
+    transition: all .25s;
+
+    &__left {
+      display: flex;
+      width: 75%;
+    }
+
+    &__right {
+      width: 25%;
+      text-align: center;
+
+      i {
+        transition: all .25s;
+      }
+
+      &:hover {
+        i {
+          font-size: 1.5rem;
+
+        }
+      }
+    }
+
+    &:hover {
+      background: $mainBlue;
+    }
+  }
+
   &__entityWrapper {
+    width: 100%;
     background: #444;
 
     p {
