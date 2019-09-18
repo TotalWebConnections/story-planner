@@ -1,7 +1,7 @@
 (ns story-planner.services.state.dispatcher
   (:require [story-planner.services.state.global :refer [app-state]]
             [story-planner.services.state.textstate :refer [update-state-text]]
-            [story-planner.services.state.actions.folders :refer [toggle-folder-as-open]]
+            [story-planner.services.state.actions.folders :refer [toggle-folder-as-open set-active-board]]
             [story-planner.services.state.actions.projects :as projects]
             [story-planner.services.state.actions.canvas :refer [set-canvas-render]]))
 
@@ -23,3 +23,6 @@
   (defmethod handle-state-change "toggle-folder-open"
     [action]
     (toggle-folder-as-open app-state (:value action)))
+  (defmethod handle-state-change "set-active-board"
+    [action]
+    (set-active-board app-state (:value action)))

@@ -24,15 +24,29 @@
     background: $lightBlack;
     color: white;
     width: 400px;
-    height: 200px;
+    min-height: 200px;
+    max-height: 400px;
     position: absolute;
     left: calc(50% - 200px); // TODO we probaby want to make this more dynmaic
-    top: calc(50% - 100px);
+    top: 10%;
+    overflow: scroll;
+    padding: 25px;
+    box-sizing: border-box;
+    border: 1px solid $offWhite;
+
+    &-header {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+    }
 
     &__close {
       position: absolute;
       top: 5px;
       right: 5px;
     }
+  }
+
+  &__fieldWrapper {
+    margin-bottom: 15px;
   }
 }

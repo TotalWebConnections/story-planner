@@ -39,4 +39,14 @@
 
 (defn create-storypoint [constructor]
   "creates a brand new storpy point associated with the board/projectID combo"
-  (send-message {:type "create-storypoint" :projectId (:projectId constructor) :board (:board constructor)}))
+  (send-message {:type "create-storypoint" :projectId (:projectId constructor)
+                 :board (:board constructor)
+                 :position (:position constructor)
+                 :size (:size constructor)}))
+
+
+
+
+
+
+

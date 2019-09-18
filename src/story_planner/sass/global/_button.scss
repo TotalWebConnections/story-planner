@@ -1,0 +1,12 @@
+button {
+  background: $mainBlue;
+  border: 1px solid $offWhite;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all .5s;
+
+  &:hover {
+    background: $darkerBlue;
+  }
+}

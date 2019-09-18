@@ -10,6 +10,6 @@
   [:div.Overlay {:class (str "Overlay--" @active)}
     [:div.Overlay__inner
       [:p.Overlay__inner__close {:on-click #(reset! active false)} "x"]
-      [:h3 headerText]
+      [:h3.Overlay__inner-header headerText]
       [:input {:type "text" :id (str "Overlay__input-" id)}]
-      [:button {:on-click #(onSubmit (get-input-value id))} "Add"]]])
+      [:button {:on-click #(onSubmit (get-input-value id))} "Save"]]])

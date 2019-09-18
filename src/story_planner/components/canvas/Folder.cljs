@@ -3,6 +3,10 @@
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.services.scripts.api.api :as api]))
 
+(defn set-active-board [board]
+  "Sets the clicked board to active in state - dictates which story points to show"
+  (handle-state-change {:type "set-active-board" :value board}))
+
 (defn generate-storypoints [board]
   "Generates teh storpoints dispaly for a board"
   (for [storypoint (:storypoints board)]
@@ -17,9 +21,8 @@
 (defn generate-board-display [folder]
   "Generates our board section display"
   [:div
-    [:p {:key (str (:name folder) "-" (rand-int 10000))}
-      (:name folder)]
-    (generate-storypoints folder)])
+    [:p {:key (str (:name folder) "-" (rand-int 10000)) :on-click #(set-active-board (:name folder))}
+      (:name folder)]])
 
 (defn toggle-folder-display [folder]
   "toggles whether a folder should be open or closed which shows its contents"

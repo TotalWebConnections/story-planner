@@ -3,8 +3,10 @@
             [story-planner.services.scripts.api.api :as api]))
 
 (defn handle-add-storypoint [projectId board]
-  (api/create-storypoint {:projectId projectId :board board})
-  )
+  (api/create-storypoint {:projectId projectId
+                          :board board
+                          :position {:x 0 :y 0}
+                          :size {:h 100 :w 400}}))
 
 (defn Controls []
   [:div.Controls

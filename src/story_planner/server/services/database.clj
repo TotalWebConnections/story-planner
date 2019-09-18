@@ -67,7 +67,11 @@
   "Creates a blank story point for the :board :projectId combo"
   (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId storyData))}
                                   {:boards {$elemMatch {:name (:board storyData)}}}]}
-    {$push {"boards.$.storypoints" {:name "Title" :description "Description"}}})
+    {$push {"boards.$.storypoints" {
+      :name "Title"
+      :description "Description"
+      :position (:position storyData)
+      :size (:size storyData)}}})
     (get-project (:projectId storyData))) ; TODO we can define this type elsewhere for reuse
 
 

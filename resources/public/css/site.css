@@ -35,6 +35,23 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+button {
+  background: #2cb3fc;
+  border: 1px solid #fcfeff;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all .5s; }
+  button:hover {
+    background: #1c80b6; }
+
+input {
+  background: #282828;
+  border: 1px solid #9f9f9f;
+  border-radius: 4px;
+  padding: 8px;
+  color: white; }
+
 .App {
   display: flex;
   flex-wrap: wrap; }
@@ -93,11 +110,17 @@ table {
   .Overlay__inner {
     background: #282828;
     color: white;
-    width: 400px;
-    height: 200px;
+    width: 300px;
+    height: 150px;
     position: absolute;
-    left: calc(50% - 200px);
-    top: calc(50% - 100px); }
+    padding: 25px;
+    box-sizing: border-box;
+    left: calc(50% - 150px);
+    top: calc(50% - 75px);
+    border: 1px solid #fcfeff; }
+    .Overlay__inner-header {
+      margin-bottom: 15px;
+      padding-bottom: 15px; }
     .Overlay__inner__close {
       position: absolute;
       top: 5px;
@@ -128,14 +151,24 @@ table {
     background: #282828;
     color: white;
     width: 400px;
-    height: 200px;
+    min-height: 200px;
+    max-height: 400px;
     position: absolute;
     left: calc(50% - 200px);
-    top: calc(50% - 100px); }
+    top: 10%;
+    overflow: scroll;
+    padding: 25px;
+    box-sizing: border-box;
+    border: 1px solid #fcfeff; }
+    .OverlayEntity__inner-header {
+      margin-bottom: 15px;
+      padding-bottom: 15px; }
     .OverlayEntity__inner__close {
       position: absolute;
       top: 5px;
       right: 5px; }
+  .OverlayEntity__fieldWrapper {
+    margin-bottom: 15px; }
 
 .Folder i, .Folder p {
   padding: 5px; }

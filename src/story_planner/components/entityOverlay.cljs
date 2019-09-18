@@ -14,9 +14,10 @@
       [:div.OverlayEntity {:class (str "OverlayEntity--" @active)}
         [:div.OverlayEntity__inner
           [:p.OverlayEntity__inner__close {:on-click #(reset! active false)} "x"]
-          [:h3 "Add Entity"]
+          [:h3.OverlayEntity__inner-header "Add Entity"]
+          [:div.OverlayEntity__fieldWrapper
+            (for [entityField @inputFields]
+              [:input#OverlayEntity__input {:key (:id entityField) :type "text"
+                :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}])]
           [:button {:on-click #(add-field inputFields)} "Add Field"]
-          (for [entityField @inputFields]
-            [:input#OverlayEntity__input {:key (:id entityField) :type "text"
-              :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}])
-          [:button {:on-click #(onSubmit @inputFields)} "Add"]]])))
+          [:button {:on-click #(onSubmit @inputFields)} "Save"]]])))

@@ -10,4 +10,4 @@
     [Header]
     [Sidebar (:currentProject @app-state)]
     [:div.App__canvasWrapper
-      [Canvas/render]]])
+      [Canvas/render (:currentProject @app-state) (:currentBoard @app-state)]]])

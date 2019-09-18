@@ -43,7 +43,7 @@
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
         [:div.Sidebar
           [Overlay showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
-          [Overlay showBoardOverlay "Board Name" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
+          [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
             (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath)]
           [:div.Sidebar__header

@@ -2,6 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.canvas.Controls :refer [Controls]]
+            [story-planner.services.scripts.canvas :refer [get-current-board]]
             ["panzoom" :as panzoom]
             ["interactjs" :as interact]))
 
@@ -18,6 +19,7 @@
     (if (js/isNaN y)
       0
       y)))
+
 
 ; We need to setup all our handlers after the componeent has rendered
 ; TODO test with state - think a rerender will break everything - maybe set a global `handlersSet` ?
@@ -50,7 +52,7 @@
   (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler})))
 ))
 
-(defn Canvas []
+(defn Canvas [currentProject currentBoard]
   (reagent/create-class                 ;; <-- expects a map of functions
     {:display-name  "canvas"      ;; for more helpful warnings & errors
 
@@ -67,13 +69,20 @@
 
 
         :reagent-render        ;; Note:  is not :render
-         (fn []           ;; remember to repeat parameters
-            [:div.CanvasParent
-              [Controls]
-              [:div#Canvas
-                [:div.card.draggable [:p "im some content in the canvas"]]]])}))
+         (fn [currentProject currentBoard]           ;; remember to repeat parameters
+          ; (print (:boards currentProject))
+          ;  (print currentBoard)
+           ; (print (get-current-board (:boards currentProject) currentBoard))
+           [:div.CanvasParent
+             [Controls]
+             [:div#Canvas
+              (if currentBoard
+                (for [storypoint (:storypoints (get-current-board (:boards currentProject) currentBoard))] ; TODO actually pull the current
+                  [:div.card.draggable
+                    [:h2 (:name storypoint)]
+                    [:p (:description storypoint)]]))]])}))
 
 ; TODO we can probably just work with the abpve canvas - remove this and import the component
-(defn render []
-   [Canvas])
+(defn render [currentProject currentBoard]
+   [Canvas currentProject currentBoard])
 
