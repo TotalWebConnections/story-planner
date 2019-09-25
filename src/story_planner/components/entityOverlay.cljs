@@ -17,7 +17,8 @@
           [:h3.OverlayEntity__inner-header "Add Entity"]
           [:div.OverlayEntity__fieldWrapper
             (for [entityField @inputFields]
-              [:input#OverlayEntity__input {:key (:id entityField) :type "text"
-                :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}])]
+              [:div {:key (:id entityField)}
+                [:input.OverlayEntity__input {:type "text"
+                  :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])]
           [:button {:on-click #(add-field inputFields)} "Add Field"]
           [:button {:on-click #(onSubmit @inputFields)} "Save"]]])))

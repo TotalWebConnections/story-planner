@@ -14,14 +14,14 @@
 
 (defn generate-entity-display [folder]
   "generates a folder display, nested values so it's a bit different"
-  [:div
-    [:p {:key (str (:value (first folder)) "-" (rand-int 10000))}
+  [:div {:key (str (:value (first folder)) "-" (rand-int 10000))}
+    [:p
       (:value (first folder))]])
 
 (defn generate-board-display [folder]
   "Generates our board section display"
-  [:div
-    [:p {:key (str (:name folder) "-" (rand-int 10000)) :on-click #(set-active-board (:name folder))}
+  [:div {:key (str (:name folder) "-" (rand-int 10000))}
+    [:p {:on-click #(set-active-board (:name folder))}
       (:name folder)]])
 
 (defn toggle-folder-display [folder]

@@ -62,13 +62,14 @@
    (get-project (:projectId boardData)))
 
 
-
+; TODO probably need to roll this out into it's own attr - modifying story points is going to run into issues here
 (defn create-storypoint [storyData]
   "Creates a blank story point for the :board :projectId combo"
-  (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId storyData))}
-                                  {:boards {$elemMatch {:name (:board storyData)}}}]}
-    {$push {"boards.$.storypoints" {
+  (mc/update db "projects" {:_id (ObjectId. (:projectId storyData))}
+    {$push {"storypoints" {
       :name "Title"
+      :id (str (ObjectId.))
+      :board (:board storyData)
       :description "Description"
       :position (:position storyData)
       :size (:size storyData)}}})

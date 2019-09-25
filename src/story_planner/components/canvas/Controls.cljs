@@ -8,9 +8,9 @@
                           :position {:x 0 :y 0}
                           :size {:h 100 :w 400}}))
 
-(defn Controls []
+(defn Controls [projectId currentBoard]
   [:div.Controls
     [:div.Controls__NewStoryPoint
-      [:p {:on-click #(handle-add-storypoint "5d67cff2233c5111a7a32171" "Test2")}"+"]] ; TODO pull this down remove hardcode
+      [:p {:on-click #(handle-add-storypoint projectId currentBoard)}"+"]] ; TODO pull this down remove hardcode
     [:div.Controls__ProjectInfo
       [:p "?"]]])

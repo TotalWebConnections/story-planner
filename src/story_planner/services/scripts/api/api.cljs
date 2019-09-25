@@ -44,6 +44,14 @@
                  :position (:position constructor)
                  :size (:size constructor)}))
 
+; NOTE - opted to break apart updates here to prevent weird race conditions
+; where someone edits the name and another moves it - these states could still happen
+; but the odds are much less and likely to be two people trying to edit the same attr that
+; causes teh condition
+(defn update-storypoint-position [constructor]
+  "Updates the X - y coords of a storypoint"
+  (print constructor))
+
 
 
 

@@ -1,8 +1,9 @@
 (ns story-planner.components.Canvas
   (:require [reagent.core :as reagent :refer [atom]]
+            [story-planner.services.scripts.api.api :as api]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.canvas.Controls :refer [Controls]]
-            [story-planner.services.scripts.canvas :refer [get-current-board]]
+            [story-planner.services.scripts.canvas :refer [get-current-board-storypoints]]
             ["panzoom" :as panzoom]
             ["interactjs" :as interact]))
 
@@ -46,7 +47,11 @@
         (.setAttribute target "data-x" x)
         (.setAttribute target "data-y" y))))
 
-  (defn onMoveEndHandler[]
+  (defn onMoveEndHandler [event]
+    (let [target (.-target event)]
+      (api/update-storypoint-position {:x (getXVal target event)
+                                       :y (getYVal target event)
+                                       :id (.getAttribute target "id")}))
     (.resume panHandler))
 
   (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler})))
@@ -70,15 +75,12 @@
 
         :reagent-render        ;; Note:  is not :render
          (fn [currentProject currentBoard]           ;; remember to repeat parameters
-          ; (print (:boards currentProject))
-          ;  (print currentBoard)
-           ; (print (get-current-board (:boards currentProject) currentBoard))
            [:div.CanvasParent
-             [Controls]
+             [Controls (:_id currentProject) currentBoard]
              [:div#Canvas
               (if currentBoard
-                (for [storypoint (:storypoints (get-current-board (:boards currentProject) currentBoard))] ; TODO actually pull the current
-                  [:div.card.draggable
+                (for [storypoint (get-current-board-storypoints (:storypoints currentProject) currentBoard)] ; TODO actually pull the current
+                  [:div.card.draggable {:key (:id storypoint) :id (:id storypoint)}
                     [:h2 (:name storypoint)]
                     [:p (:description storypoint)]]))]])}))
 

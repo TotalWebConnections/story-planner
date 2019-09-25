@@ -8,7 +8,7 @@
                           :navType "app" ; Either app or view - display or not dispaly nav
                           :currentProject nil ; id of the current project opened
                           :currentBoard nil ; currently selected board
-                          :currentProjectDetails nil ; holds a reference to the details of the current project
+                          :storypoints nil ; holds a reference to the details of the current project
                             ; i.e all the actual entties that are placed in a particular board - this is separate from the projects I think??
                           }))
 
