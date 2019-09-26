@@ -15,5 +15,5 @@
 
 (defn get-from-state [key]
   "returns the value for a specified key from state"
-  ((keyword key) app-state))
+  ((keyword key) @app-state))
 

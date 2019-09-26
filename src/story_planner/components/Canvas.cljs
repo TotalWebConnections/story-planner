@@ -80,7 +80,10 @@
              [:div#Canvas
               (if currentBoard
                 (for [storypoint (get-current-board-storypoints (:storypoints currentProject) currentBoard)] ; TODO actually pull the current
-                  [:div.card.draggable {:key (:id storypoint) :id (:id storypoint)}
+                  [:div.card.draggable {:key (:id storypoint) :id (:id storypoint)
+                                        :data-x (:x (:position storypoint))
+                                        :data-y (:y (:position storypoint))
+                                        :style {:transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")}}
                     [:h2 (:name storypoint)]
                     [:p (:description storypoint)]]))]])}))
 

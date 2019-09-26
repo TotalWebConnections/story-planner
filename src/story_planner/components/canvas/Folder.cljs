@@ -1,10 +1,22 @@
 (ns story-planner.components.canvas.Folder
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
-            [story-planner.services.scripts.api.api :as api]))
+            [story-planner.services.scripts.api.api :as api]
+            [story-planner.services.state.global :refer [get-from-state]]))
 
-(defn set-active-board [board]
+(defn set-active-board [event board]
   "Sets the clicked board to active in state - dictates which story points to show"
+
+  ; This is kind of a hacky way to do this, but I like it more than doing some weird
+  ; stuff with the state to get it here correctly
+  (let [currentElement (.getElementById js/document "Folder__board--active")]
+    (if currentElement
+      (do
+        (.remove (.-classList (.getElementById js/document "Folder__board--active")) "Folder__board--active")
+        (.setAttribute event "id" ""))))
+  (.setAttribute event "class" "Folder__board--active")
+  (.setAttribute event "id" "Folder__board--active")
+
   (handle-state-change {:type "set-active-board" :value board}))
 
 (defn generate-storypoints [board]
@@ -20,8 +32,8 @@
 
 (defn generate-board-display [folder]
   "Generates our board section display"
-  [:div {:key (str (:name folder) "-" (rand-int 10000))}
-    [:p {:on-click #(set-active-board (:name folder))}
+  [:div.Folder__board {:key (str (:name folder) "-" (rand-int 10000))}
+    [:p {:on-click #(set-active-board (-> % .-target) (:name folder))}
       (:name folder)]])
 
 (defn toggle-folder-display [folder]

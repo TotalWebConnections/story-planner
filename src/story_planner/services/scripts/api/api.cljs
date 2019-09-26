@@ -1,5 +1,6 @@
 (ns story-planner.services.scripts.api.api
-  (:require [story-planner.services.scripts.api.websocket :refer [send-message]]))
+  (:require [story-planner.services.scripts.api.websocket :refer [send-message]]
+            [story-planner.services.state.global :refer [get-from-state]]))
 
 ; CLIENT SIDE API REQUESTS
 ; This file only handles the actual requsts to the server that the application makes
@@ -50,7 +51,10 @@
 ; causes teh condition
 (defn update-storypoint-position [constructor]
   "Updates the X - y coords of a storypoint"
-  (print constructor))
+  (send-message {:type "update-storypoint-position"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :storypointId (:id constructor)
+                 :position {:x (:x constructor ) :y (:y constructor)}}))
 
 
 

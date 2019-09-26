@@ -75,6 +75,14 @@
       :size (:size storyData)}}})
     (get-project (:projectId storyData))) ; TODO we can define this type elsewhere for reuse
 
+; Choice to break up edits to prevent race conditions if multiple users edit same storypoint
+(defn update-storypoint-position [storyData]
+  (println storyData)
+  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+    {$set {"storypoints.$.position" (:position storyData)}})
+  )
+
 
 ; READ METHODS
 ; TODO remove let - can simplify a bit

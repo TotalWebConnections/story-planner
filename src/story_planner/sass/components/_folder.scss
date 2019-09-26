@@ -36,7 +36,7 @@
     }
 
     &:hover {
-      background: $mainBlue;
+      background: $gray;
     }
   }
 
@@ -46,6 +46,22 @@
 
     p {
       padding-left: 10px;
+    }
+  }
+
+  &__board {
+    transition: .25s;
+    cursor: pointer;
+    &:hover {
+      background: $gray;
+    }
+
+    &--active{
+      background: $mainBlue;
+
+      &:hover {
+        background: $mainBlue;
+      }
     }
   }
 

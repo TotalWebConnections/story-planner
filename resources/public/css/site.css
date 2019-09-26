@@ -192,13 +192,23 @@ input {
     .Folder__folder__right:hover i {
       font-size: 1.5rem; }
   .Folder__folder:hover {
-    background: #2cb3fc; }
+    background: #646464; }
 
 .Folder__entityWrapper {
   width: 100%;
   background: #444; }
   .Folder__entityWrapper p {
     padding-left: 10px; }
+
+.Folder__board {
+  transition: .25s;
+  cursor: pointer; }
+  .Folder__board:hover {
+    background: #646464; }
+  .Folder__board--active {
+    background: #2cb3fc; }
+    .Folder__board--active:hover {
+      background: #2cb3fc; }
 
 .Controls {
   position: absolute;
@@ -280,7 +290,4 @@ body, html {
 .card {
   width: 500px;
   height: 200px;
-  background-color: white;
-  position: absolute;
-  top: 500px;
-  left: 200px; }
+  background-color: white; }
