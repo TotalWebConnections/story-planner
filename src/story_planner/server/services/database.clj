@@ -77,11 +77,22 @@
 
 ; Choice to break up edits to prevent race conditions if multiple users edit same storypoint
 (defn update-storypoint-position [storyData]
-  (println storyData)
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                           {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
     {$set {"storypoints.$.position" (:position storyData)}})
-  )
+  (get-project (:id storyData)))
+
+;TODO DRY
+(defn update-storypoint-title [storyData]
+  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+    {$set {"storypoints.$.name" (:value storyData)}})
+  (get-project (:id storyData)))
+(defn update-storypoint-description [storyData]
+  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+    {$set {"storypoints.$.description" (:value storyData)}})
+  (get-project (:id storyData)))
 
 
 ; READ METHODS

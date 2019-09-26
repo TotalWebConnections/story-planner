@@ -3,6 +3,7 @@
             [story-planner.services.scripts.api.api :as api]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.canvas.Controls :refer [Controls]]
+            [story-planner.components.canvas.Storypoint :refer [Storypoint]]
             [story-planner.services.scripts.canvas :refer [get-current-board-storypoints]]
             ["panzoom" :as panzoom]
             ["interactjs" :as interact]))
@@ -80,12 +81,8 @@
              [:div#Canvas
               (if currentBoard
                 (for [storypoint (get-current-board-storypoints (:storypoints currentProject) currentBoard)] ; TODO actually pull the current
-                  [:div.card.draggable {:key (:id storypoint) :id (:id storypoint)
-                                        :data-x (:x (:position storypoint))
-                                        :data-y (:y (:position storypoint))
-                                        :style {:transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")}}
-                    [:h2 (:name storypoint)]
-                    [:p (:description storypoint)]]))]])}))
+                  [:div {:key (:id storypoint)}
+                    [Storypoint storypoint]]))]])}))
 
 ; TODO we can probably just work with the abpve canvas - remove this and import the component
 (defn render [currentProject currentBoard]

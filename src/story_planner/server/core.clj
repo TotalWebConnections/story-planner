@@ -85,6 +85,16 @@
     (async/send! (:channel data)
       (generate-string
         {:type "project" :data (DB/update-storypoint-position {:storypointId (:storypointId data) :position (:position data) :id (:projectId data)})})))
+  (defmethod handle-websocket-message "update-storypoint-title"
+    [data] ; Returns the name and ID of all projects
+    (async/send! (:channel data)
+      (generate-string
+        {:type "project" :data (DB/update-storypoint-title {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)})})))
+  (defmethod handle-websocket-message "update-storypoint-description"
+    [data] ; Returns the name and ID of all projects
+    (async/send! (:channel data)
+      (generate-string
+        {:type "project" :data (DB/update-storypoint-description {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)})})))
   (defmethod handle-websocket-message :default [data]
     (async/send! (:channel data) (generate-string "No method signiture found"))) ; String for consistency sake
 

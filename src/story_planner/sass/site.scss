@@ -14,6 +14,7 @@
 @import 'components/_overlayEntity';
 @import 'components/_folder';
 @import 'components/canvas/_controls';
+@import 'components/canvas/_storypoint';
 
 // You can use any sass features, like variables, for instance:
 $font-stack: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
@@ -94,13 +95,4 @@ body, html {
   z-index: -1;
   background-size: 200px 200px;
   background-repeat: repeat;
-}
-
-.card {
-  width: 500px;
-  height: 200px;
-  background-color: white;
-  // position: absolute;
-  // top: 500px;
-  // left: 200px;
 }

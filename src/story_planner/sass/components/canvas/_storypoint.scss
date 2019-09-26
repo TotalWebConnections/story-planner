@@ -1,0 +1,17 @@
+.Storypoint {
+  width: 250px;
+  height: 300px;
+  background: $darkBlack;
+  border: 1px solid $lightGray;
+  padding-top: 15px; // for drag zone
+
+  input, textarea {
+    width: 100%;
+    border-radius: 0px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    height: 264px;
+  }
+}

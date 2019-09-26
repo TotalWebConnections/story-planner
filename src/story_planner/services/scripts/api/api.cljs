@@ -56,6 +56,21 @@
                  :storypointId (:id constructor)
                  :position {:x (:x constructor ) :y (:y constructor)}}))
 
+(defn update-storypoint-title [constructor]
+  "updates the title property"
+  (send-message {:type "update-storypoint-title"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :storypointId (:id constructor)
+                 :value (:value constructor)}))
+
+(defn update-storypoint-description [constructor]
+  "updates the description property"
+  (print "test")
+  (send-message {:type "update-storypoint-description"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :storypointId (:id constructor)
+                 :value (:value constructor)}))
+
 
 
 
