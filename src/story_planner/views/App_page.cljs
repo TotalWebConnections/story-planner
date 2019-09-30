@@ -8,6 +8,6 @@
 (defn App-page [app-state]
   [:div.App
     [Header]
-    [Sidebar (:currentProject @app-state)]
+    [Sidebar (:currentProject @app-state) (:currentBoard @app-state)]
     [:div.App__canvasWrapper
       [Canvas/render (:currentProject @app-state) (:currentBoard @app-state)]]])

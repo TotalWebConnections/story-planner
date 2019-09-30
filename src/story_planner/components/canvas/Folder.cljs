@@ -6,17 +6,6 @@
 
 (defn set-active-board [event board]
   "Sets the clicked board to active in state - dictates which story points to show"
-
-  ; This is kind of a hacky way to do this, but I like it more than doing some weird
-  ; stuff with the state to get it here correctly
-  (let [currentElement (.getElementById js/document "Folder__board--active")]
-    (if currentElement
-      (do
-        (.remove (.-classList (.getElementById js/document "Folder__board--active")) "Folder__board--active")
-        (.setAttribute event "id" ""))))
-  (.setAttribute event "class" "Folder__board--active")
-  (.setAttribute event "id" "Folder__board--active")
-
   (handle-state-change {:type "set-active-board" :value board}))
 
 (defn generate-storypoints [board]
@@ -30,9 +19,10 @@
     [:p
       (:value (first folder))]])
 
-(defn generate-board-display [folder]
+(defn generate-board-display [folder currentBoard]
   "Generates our board section display"
-  [:div.Folder__board {:key (str (:name folder) "-" (rand-int 10000))}
+  [:div.Folder__board {:key (str (:name folder) "-" (rand-int 10000))
+                       :class (if (= currentBoard (:name folder)) "Folder__board--active")}
     [:p {:on-click #(set-active-board (-> % .-target) (:name folder))}
       (:name folder)]])
 
@@ -47,7 +37,7 @@
     "fa-caret-down"))
 
 
-(defn Folder [folderInfo onClick isBoardFolder]
+(defn Folder [folderInfo currentBoard onClick isBoardFolder]
   (let [folderType (if isBoardFolder :boards :entities)]
     [:div.Folder {:key (str (:name folderInfo) "-" (rand-int 10000))
                   :class (if (not (:active folderInfo)) "Folder__closed" "Folder__open")}
@@ -60,5 +50,5 @@
       [:div.Folder__entityWrapper
         (for [entity (folderType folderInfo)]
           (if (= :boards folderType)
-            (generate-board-display entity)
+            (generate-board-display entity currentBoard)
             (generate-entity-display entity)))]]))

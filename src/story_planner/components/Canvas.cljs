@@ -69,7 +69,9 @@
 
        :component-did-update              ;; the name of a lifecycle function
         (fn [this old-argv]                ;; reagent provides you the entire "argv", not just the "props"
-          (js/console.log "did update"))
+          ; (js/console.log "did update")
+        )
+
 
         ;; other lifecycle funcs can go in here
 
