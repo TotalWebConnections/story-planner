@@ -26,9 +26,9 @@
     [:p {:on-click #(set-active-board (-> % .-target) (:name folder))}
       (:name folder)]])
 
-(defn toggle-folder-display [folder]
+(defn toggle-folder-display [folder value]
   "toggles whether a folder should be open or closed which shows its contents"
-  (handle-state-change {:type "toggle-folder-open" :value folder}))
+  (handle-state-change {:type "toggle-folder-open" :value {:name folder :value value}}))
 
 (defn get-folder-active-display [active]
   "Show up or down arrow based on state"
@@ -37,15 +37,15 @@
     "fa-caret-down"))
 
 
-(defn Folder [folderInfo currentBoard onClick isBoardFolder]
+(defn Folder [folderInfo currentBoard openedFolders onClick isBoardFolder]
   (let [folderType (if isBoardFolder :boards :entities)]
     [:div.Folder {:key (str (:name folderInfo) "-" (rand-int 10000))
-                  :class (if (not (:active folderInfo)) "Folder__closed" "Folder__open")}
+                  :class (if (not ((keyword (:name folderInfo)) openedFolders)) "Folder__closed" "Folder__open")}
       [:div.Folder__folder
         [:div.Folder__folder__left {:on-click #(onClick)}
           [:i.fas.fa-folder]
           [:p (:name folderInfo)]]
-        [:div.Folder__folder__right {:on-click #(toggle-folder-display (:name folderInfo))}
+        [:div.Folder__folder__right {:on-click #(toggle-folder-display (:name folderInfo) (not ((keyword (:name folderInfo)) openedFolders)))}
           [:i.fas {:class (get-folder-active-display (:active folderInfo))} ]]]
       [:div.Folder__entityWrapper
         (for [entity (folderType folderInfo)]

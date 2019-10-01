@@ -33,13 +33,13 @@
   (reset! currentFolderType type))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
-(defn Sidebar [currentProject currentBoard]
+(defn Sidebar [currentProject currentBoard openedFolders]
   (let [showFolderOverlay (atom false)
         showBoardOverlay (atom false)
         showEntityOverlay (atom false)
         currentFolderPath (atom "n/a")
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
-    (fn [currentProject currentBoard]
+    (fn [currentProject currentBoard openedFolders]
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
         [:div.Sidebar
           [Overlay showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
@@ -53,7 +53,7 @@
               [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "entity"))} "+"]]]]
           [:div.Sidebar__contentWrapper
             (for [folder (get sortedFolders "entity")]
-              (Folder folder currentBoard #(comp
+              (Folder folder currentBoard openedFolders #(comp
                              (generate-folder-path currentFolderPath (:name folder))
                              (handleShowOverlay showEntityOverlay)) false))]
           [:div.Sidebar__header
@@ -63,6 +63,6 @@
               [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))} "+"]]]]
           [:div.Sidebar__contentWrapper
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
-              (Folder folder currentBoard #(comp
+              (Folder folder currentBoard openedFolders #(comp
                              (generate-folder-path currentFolderPath (:name folder))
                              (handleShowOverlay showBoardOverlay)) true))]]))))

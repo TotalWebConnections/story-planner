@@ -25,7 +25,7 @@
 
 ;Base for our authenticated pages
 (defn Auth-base [app-state]
-  ; (print (:currentBoard @app-state))
+  ; (print (:openedFolders @app-state))
   ; (print (:new-prop @app-state))
   (init-websocket-connection)
   [:div.Main
