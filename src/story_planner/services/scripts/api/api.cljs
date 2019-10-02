@@ -65,10 +65,16 @@
 
 (defn update-storypoint-description [constructor]
   "updates the description property"
-  (print "test")
   (send-message {:type "update-storypoint-description"
                  :projectId (:_id (get-from-state "currentProject"))
                  :storypointId (:id constructor)
+                 :value (:value constructor)}))
+
+(defn add-link-to-storypoint [constructor]
+  "adds a link to the storypoint"
+  (send-message {:type "add-link-to-storypoint"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :storypointId (:storypointId constructor)
                  :value (:value constructor)}))
 
 

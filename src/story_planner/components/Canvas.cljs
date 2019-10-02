@@ -58,9 +58,6 @@
   (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler})))
 ))
 
-(defn draw-curve []
-  (js/console.log "ttest"))
-
 (defn Canvas [currentProject currentBoard linkStartId]
   (reagent/create-class                 ;; <-- expects a map of functions
     {:display-name  "canvas"      ;; for more helpful warnings & errors
@@ -81,13 +78,9 @@
 
         :reagent-render        ;; Note:  is not :render
          (fn [currentProject currentBoard linkStartId]           ;; remember to repeat parameters
-           (if linkStartId
-              (draw-curve))
            [:div.CanvasParent
              [Controls (:_id currentProject) currentBoard]
              [:div#Canvas
-              [:svg {:height "200px" :width "300px"}
-                [:path {:fill "transparent" :stroke "white" :d "M8,292 Q100,10 80,100"} ]]
               (if currentBoard
                 (for [storypoint (get-current-board-storypoints (:storypoints currentProject) currentBoard)] ; TODO actually pull the current
                   [:div {:key (:id storypoint)}

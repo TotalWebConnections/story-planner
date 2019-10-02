@@ -210,6 +210,9 @@ input, textarea {
     .Folder__board--active:hover {
       background: #2cb3fc; }
 
+#Canvas svg {
+  position: absolute; }
+
 .Controls {
   position: absolute;
   top: 0;
@@ -231,7 +234,8 @@ input, textarea {
   height: 300px;
   background: #1e1d18;
   border: 1px solid #9f9f9f;
-  padding-top: 15px; }
+  padding-top: 15px;
+  position: absolute; }
   .Storypoint input, .Storypoint textarea {
     width: 100%;
     border-radius: 0px;

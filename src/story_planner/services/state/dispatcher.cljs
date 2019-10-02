@@ -4,7 +4,7 @@
             [story-planner.services.state.actions.folders :refer [toggle-folder-as-open set-active-board]]
             [story-planner.services.state.actions.projects :as projects]
             [story-planner.services.state.actions.canvas :refer [set-canvas-render]]
-            [story-planner.services.state.actions.linking :refer [set-linking-id]]))
+            [story-planner.services.state.actions.linking :refer [handle-linking]]))
 
 ; As we need more mutations for state we can add them here - Handle state change
 ; calls the correct method based on the type passed in
@@ -27,6 +27,6 @@
   (defmethod handle-state-change "set-active-board"
     [action]
     (set-active-board app-state (:value action)))
-  (defmethod handle-state-change "set-linking-id"
+  (defmethod handle-state-change "handle-linking-id"
     [action]
-    (set-linking-id app-state (:value action)))
+    (handle-linking app-state (:value action)))

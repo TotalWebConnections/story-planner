@@ -88,10 +88,18 @@
                           {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
     {$set {"storypoints.$.name" (:value storyData)}})
   (get-project (:id storyData)))
+
 (defn update-storypoint-description [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                           {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
     {$set {"storypoints.$.description" (:value storyData)}})
+  (get-project (:id storyData)))
+
+(defn add-link-to-storypoint [storyData]
+  (println storyData)
+  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+    {$push {"storypoints.$.links" {:id (:value storyData)}}})
   (get-project (:id storyData)))
 
 

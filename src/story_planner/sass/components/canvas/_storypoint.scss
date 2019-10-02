@@ -4,6 +4,7 @@
   background: $darkBlack;
   border: 1px solid $lightGray;
   padding-top: 15px; // for drag zone
+  position: absolute; // or we get weird negatives
 
   input, textarea {
     width: 100%;
