@@ -24,13 +24,41 @@
       (handle-state-change {:type "handle-linking-id" :value id}))))
 
 ; TODO need to account for different diections
+
+; IF above
+; IF below
+; IF more left
+; IF More Right
+
+; take the one with the greatest difference as where we start
+
+; X1 - X2 > Y1 - Y2 ? side : top/bottom ?? something like this???
+
+(defn get-direction-for-top [y]
+  (if (> y 0)
+    "Top"
+    "Bottom"))
+(defn get-direction-for-side [x]
+  (if (> x 0)
+  "Left"
+  "Right"))
+
+(defn get-relative-position [point1 point2]
+  (let [x (- (:x point1) (:x point2))
+        y(- (:y point1) (:y point2))]
+  (if (> (.abs js/Math x) (.abs js/Math y))
+    (get-direction-for-side x)
+    (get-direction-for-top y))))
+
 (defn draw-curve [position size linkEndId]
   (let [currentPoint (storypointHelpers/get-storypoint-by-id (:storypoints (get-from-state "currentProject")) linkEndId)
-        end-x (- (:x (:position currentPoint)) (:x position)) ; Should be x pos of end - the x offset of the original since 0,0 is relative to the first elem
-        end-y (- (+ (* 0.5 (:h (:size currentPoint))) (:y (:position currentPoint))) (:y position))] ; y pos + 1/2 height - y offset of firs - make it positive
+        starting-direction (get-relative-position position (:position currentPoint))] ; y pos + 1/2 height - y offset of firs - make it positive
     (if currentPoint
-     (let [x-initial (storypointHelpers/calculate-curve-x-initial size) ; Should just be the width
-           y-initial (storypointHelpers/calculate-curve-y-initial size)] ; should be half the height
+     (let [x-initial (storypointHelpers/calculate-curve-x-initial size starting-direction) ; Should just be the width
+           y-initial (storypointHelpers/calculate-curve-y-initial size starting-direction)
+          ; [size position1 position2 starting-direction]
+           end-x (storypointHelpers/calculate-curve-x-end (:size currentPoint) (:position currentPoint) position starting-direction) ; Should be x pos of end - the x offset of the original since 0,0 is relative to the first elem
+           end-y (storypointHelpers/calculate-curve-y-end (:size currentPoint) (:position currentPoint) position starting-direction)] ; should be half the height
       [:svg {:height "auto" :width "auto" :overflow "visible"}
         [:path {:fill "transparent" :stroke "white" :stroke-width "2"
                 :d (str "M"x-initial","y-initial"
@@ -46,7 +74,7 @@
                         :style {:transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
                                 :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
     (draw-curve (:position storypoint) (:size storypoint) (:id (first (:links storypoint))))
-    [:p {:on-click #(initilize-link (:id storypoint))} "link"]
+    [:p {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}} "link"]
     [:input
       {:type "text"
        :default-value (:name storypoint)
