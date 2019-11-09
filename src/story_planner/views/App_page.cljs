@@ -7,7 +7,7 @@
 
 (defn App-page [app-state]
   [:div.App
-    [Header]
+    [Header (:name (:currentProject @app-state))]
     [Sidebar (:currentProject @app-state) (:currentBoard @app-state) (:openedFolders @app-state)]
     [:div.App__canvasWrapper
       [Canvas/render (:currentProject @app-state) (:currentBoard @app-state) (:linkStartId @app-state)]]])

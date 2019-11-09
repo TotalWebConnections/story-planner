@@ -1,6 +1,11 @@
-(ns story-planner.components.app.header)
+(ns story-planner.components.app.header
+  (:require [story-planner.services.scripts.navigation :refer [navigate]]))
 
-
-(defn Header []
+; TODO navigate back to projects needs to clear data from currentProject
+; and things like open folder/board ect.
+(defn Header [projectName]
   [:div.Header
-    [:p "Header Content"]])
+    [:div.Header__block
+      [:p projectName]]
+    [:div.Header__block
+      [:p {:on-click #((navigate ""))} "Projects"]]])

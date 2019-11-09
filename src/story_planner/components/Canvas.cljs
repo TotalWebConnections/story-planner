@@ -11,14 +11,14 @@
 (defn getXVal [target event]
   "Grabs the x value for the onDrag event"
   (let [x (+ (js/parseFloat (.getAttribute target "data-x")) (.-dx event))]
-    (if (js/isNaN x)
+    (if (or (js/isNaN x) (< x 0))
       0
       x)))
 
 (defn getYVal [target event]
   "Grabs the y value for the onDrag event"
   (let [y (+ (js/parseFloat (.getAttribute target "data-y")) (.-dy event))]
-    (if (js/isNaN y)
+    (if (or (js/isNaN y) (< y 0))
       0
       y)))
 
@@ -72,10 +72,7 @@
           ; (js/console.log "did update")
         )
 
-
         ;; other lifecycle funcs can go in here
-
-
         :reagent-render        ;; Note:  is not :render
          (fn [currentProject currentBoard linkStartId]           ;; remember to repeat parameters
            [:div.CanvasParent

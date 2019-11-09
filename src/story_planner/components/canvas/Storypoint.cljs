@@ -23,17 +23,6 @@
           (api/add-link-to-storypoint {:storypointId currentLink :value id})))
       (handle-state-change {:type "handle-linking-id" :value id}))))
 
-; TODO need to account for different diections
-
-; IF above
-; IF below
-; IF more left
-; IF More Right
-
-; take the one with the greatest difference as where we start
-
-; X1 - X2 > Y1 - Y2 ? side : top/bottom ?? something like this???
-
 (defn get-direction-for-top [y]
   (if (> y 0)
     "Top"

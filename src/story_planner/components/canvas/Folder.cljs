@@ -13,11 +13,13 @@
   (for [storypoint (:storypoints board)]
     [:p (:name storypoint)]))
 
-(defn generate-entity-display [folder]
+(defn generate-entity-display [entity]
   "generates a folder display, nested values so it's a bit different"
-  [:div {:key (str (:value (first folder)) "-" (rand-int 10000))}
-    [:p
-      (:value (first folder))]])
+  ;TODO this needs to open the entity display
+  (print entity)
+  [:div {:key (str (:value (first entity)) "-" (rand-int 10000))}
+    [:p {:on-click #(js/alert "go")}
+      (:value (first entity))]])
 
 (defn generate-board-display [folder currentBoard]
   "Generates our board section display"

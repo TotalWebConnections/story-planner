@@ -41,9 +41,14 @@ button {
   color: white;
   padding: 8px 12px;
   cursor: pointer;
-  transition: all .5s; }
+  transition: all .5s;
+  border-radius: 4px; }
   button:hover {
     background: #1c80b6; }
+  button.danger {
+    background: #fc2c2c; }
+    button.danger:hover {
+      background: #ca2424; }
 
 input, textarea {
   background: #282828;
@@ -62,7 +67,27 @@ input, textarea {
 
 .Projects {
   background: #1e1d18;
-  height: 100vh; }
+  height: 100vh;
+  color: white;
+  padding: 15px; }
+  .Projects__body {
+    margin: 25px 0;
+    display: flex;
+    flex-wrap: wrap; }
+  .Projects__projectBlock {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 30%;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #fcfeff;
+    margin: 0 10px;
+    border-radius: 4px;
+    background: #282828; }
+    .Projects__projectBlock h2 {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #fcfeff; }
 
 .Sidebar {
   background: #333;
@@ -84,7 +109,10 @@ input, textarea {
 
 .Header {
   width: 100%;
-  height: 30px; }
+  height: 30px;
+  display: flex; }
+  .Header__block {
+    padding: 5px 10px; }
 
 @keyframes fadeIn {
   0% {
@@ -169,6 +197,9 @@ input, textarea {
       right: 5px; }
   .OverlayEntity__fieldWrapper {
     margin-bottom: 15px; }
+
+.Folder__open i.fa-caret-down {
+  transform: rotate(180deg); }
 
 .Folder i, .Folder p {
   padding: 5px; }

@@ -19,13 +19,16 @@
   (reset! state false)
   (api/create-project value))
 
+(defn delete-project [id]
+  "TODO handle delete of project")
+
 (defn open-project [id]
   "Sets the active project by id - calls query to pull information"
   ; First we set teh current project as the ID that is being queries
   ; dispatch api call but not care about it
   (api/get-project id)
   ; (rfe/push-state ::frontpage) ; THid doesnt work but I wish it would...
-  (navigate "")
+  (navigate "app")
 
 )
 
@@ -34,11 +37,11 @@
     (fn []
       [:div.Projects
         [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
-        [Header]
+        [:h2 "My Projects"]
         [:div.Projects__body
-          [:h2 "Project Page"]
-          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]
-        (for [project (:projects @app-state)]
-          [:div.Projects__projectBlock {:key (:_id project)}
-            [:h2  (:name project)]
-            [:button {:on-click #(open-project (:_id project))} "Build"]])]])))
+          (for [project (:projects @app-state)]
+            [:div.Projects__projectBlock {:key (:_id project)}
+              [:h2  (:name project)]
+              [:button {:on-click #(open-project (:_id project))} "Build"]
+              [:button.danger {:on-click #(delete-project (:_id project))} "Delete"]])]
+        [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]])))

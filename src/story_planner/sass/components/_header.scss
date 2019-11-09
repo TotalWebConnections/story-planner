@@ -1,4 +1,9 @@
 .Header {
   width: 100%;
   height: $headerHeight;
+  display: flex;
+
+  &__block {
+    padding: 5px 10px;
+  }
 }

@@ -5,8 +5,17 @@ button {
   padding: 8px 12px;
   cursor: pointer;
   transition: all .5s;
+  border-radius: 4px;
 
   &:hover {
     background: $darkerBlue;
+  }
+
+  &.danger {
+    background: #fc2c2c;
+
+    &:hover {
+      background: #ca2424;
+    }
   }
 }

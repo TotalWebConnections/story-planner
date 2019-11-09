@@ -41,6 +41,3 @@
     (= starting-direction "Bottom") (- (:y position1) (:y position2) ) ; y post - y position2
     (= starting-direction "Left") (- (+ (:y position1) (* 0.5 (:h size))) (:y position2)) ; 1/2 + pos y - y position2
     (= starting-direction "Right") (- (+ (:y position1)(* 0.5 (:h size))) (:y position2)))) ; 1/2 + pos - y position 2
-
-; end-x (- (:x (:position currentPoint)) (:x position)) ; Should be x pos of end - the x offset of the original since 0,0 is relative to the first elem
-; end-y (- (+ (* 0.5 (:h (:size currentPoint))) (:y (:position currentPoint))) (:y position))

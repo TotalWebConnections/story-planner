@@ -46,11 +46,11 @@
        [view app-state]))])
 
 (def routes
-  [["/"
+  [["/app"
     {:name ::frontpage
      :view App-page}]
 
-  ["/projects"
+  ["/"
     {:name ::projects
      :view Project-page}]
 
