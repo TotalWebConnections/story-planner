@@ -6,7 +6,7 @@
   (api/create-storypoint {:projectId projectId
                           :board board
                           :position {:x 0 :y 0}
-                          :size {:h 100 :w 400}}))
+                          :size {:h 200 :w 300}}))
 
 (defn Controls [projectId currentBoard]
   [:div.Controls

@@ -265,14 +265,26 @@ input, textarea {
   height: 300px;
   background: #1e1d18;
   border: 1px solid #9f9f9f;
-  padding-top: 15px;
-  position: absolute; }
+  position: absolute;
+  display: flex;
+  flex-direction: column; }
   .Storypoint input, .Storypoint textarea {
     width: 100%;
     border-radius: 0px;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    border: none; }
+  .Storypoint__header {
+    flex-grow: 1;
+    max-height: 30px;
+    color: white; }
+    .Storypoint__header p {
+      padding: 0;
+      margin: 0; }
+  .Storypoint input {
+    flex-grow: 1;
+    max-height: 30px; }
   .Storypoint textarea {
-    height: 264px; }
+    flex-grow: 5; }
 
 .body-container {
   font-family: "Helvetica Neue", Verdana, Helvetica, Arial, sans-serif;

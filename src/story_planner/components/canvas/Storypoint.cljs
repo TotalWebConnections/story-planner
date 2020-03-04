@@ -46,12 +46,17 @@
      (let [x-initial (storypointHelpers/calculate-curve-x-initial size starting-direction) ; Should just be the width
            y-initial (storypointHelpers/calculate-curve-y-initial size starting-direction)
            end-x (storypointHelpers/calculate-curve-x-end (:size currentPoint) (:position currentPoint) position starting-direction) ; Should be x pos of end - the x offset of the original since 0,0 is relative to the first elem
-           end-y (storypointHelpers/calculate-curve-y-end (:size currentPoint) (:position currentPoint) position starting-direction)] ; should be half the height
+           end-y (storypointHelpers/calculate-curve-y-end (:size currentPoint) (:position currentPoint) position starting-direction)
+           p2x (storypointHelpers/caculate-first-control-point-x starting-direction (- end-x x-initial) x-initial)
+           p2y (storypointHelpers/caculate-first-control-point-y starting-direction (- end-y y-initial) y-initial)
+           p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial)
+           p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) y-initial)
+          ]
       [:svg {:height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
         [:path {:fill "transparent" :stroke "white" :stroke-width "2"
                 :d (str "M"x-initial","y-initial"
-                     C"(+ x-initial (/ (- end-x x-initial) 3))","(- y-initial 50)"
-                    "(+ x-initial x-initial (/ (- end-x x-initial) 3))","(+ 50 end-y)"
+                     C"p2x","p2y"
+                    "p3x","p3y"
                      "end-x","end-y"")} ]]))))
 
 (defn Storypoint [storypoint]
@@ -62,7 +67,8 @@
                                 :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
     (doall (for [link (:links storypoint)]
       (draw-curve (:position storypoint) (:size storypoint) (:id link))))
-    [:p {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}} "link"]
+    [:div.Storypoint__header
+      [:p {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}} "link"]]
     [:input
       {:type "text"
        :default-value (:name storypoint)

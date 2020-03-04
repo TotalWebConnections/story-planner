@@ -8,6 +8,8 @@
             ["panzoom" :as panzoom]
             ["interactjs" :as interact]))
 
+(set! js/global js/window); Work around as panzoom will error on global sometimes
+
 (defn getXVal [target event]
   "Grabs the x value for the onDrag event"
   (let [x (+ (js/parseFloat (.getAttribute target "data-x")) (.-dx event))]

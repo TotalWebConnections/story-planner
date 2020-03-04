@@ -3,16 +3,36 @@
   height: 300px;
   background: $darkBlack;
   border: 1px solid $lightGray;
-  padding-top: 15px; // for drag zone
+  // padding-top: 15px; // for drag zone
   position: absolute; // or we get weird negatives
+  display: flex;
+  flex-direction: column;
 
   input, textarea {
     width: 100%;
     border-radius: 0px;
     box-sizing: border-box;
+    border: none;
+  }
+
+  &__header {
+    flex-grow: 1;
+    max-height: 30px;
+    color: white;
+
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  input {
+    flex-grow: 1;
+    max-height: 30px;
   }
 
   textarea {
-    height: 264px;
+    // height: 264px;
+    flex-grow: 5;
   }
 }
