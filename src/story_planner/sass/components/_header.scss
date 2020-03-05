@@ -2,6 +2,7 @@
   width: 100%;
   height: $headerHeight;
   display: flex;
+  justify-content: space-between;
 
   &__block {
     padding: 5px 10px;

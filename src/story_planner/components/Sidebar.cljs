@@ -42,7 +42,7 @@
     (fn [currentProject currentBoard openedFolders]
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
         [:div.Sidebar
-          [Overlay showFolderOverlay "Folder Name" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
+          [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
             (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath)]
@@ -50,8 +50,10 @@
             [:h3 "Entities"]
             [:div.Sidebar__header__controls
               [:div.addEntity  [:p {:on-click #(handleShowOverlay showEntityOverlay)} "+"]]
-              [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "entity"))} "+"]]]]
+              [:div.addFolder [:i.fas.fa-folder {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "entity"))}]]]]
           [:div.Sidebar__contentWrapper
+            (for [entity (:entities currentProject)]
+              [:div (:value (first entity))])
             (for [folder (get sortedFolders "entity")]
               (Folder folder currentBoard openedFolders #(comp
                              (generate-folder-path currentFolderPath (:name folder))
@@ -60,7 +62,7 @@
             [:h3 "Boards"]
             [:div.Sidebar__header__controls
               [:div.addEntity  [:p {:on-click #(handleShowOverlay showBoardOverlay)}  "+"]]
-              [:div.addFolder [:p {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))} "+"]]]]
+              [:div.addFolder [:i.fas.fa-folder {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))} ]]]]
           [:div.Sidebar__contentWrapper
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               (Folder folder currentBoard openedFolders #(comp

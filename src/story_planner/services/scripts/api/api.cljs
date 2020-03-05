@@ -78,6 +78,12 @@
                  :storypointId (:storypointId constructor)
                  :value (:value constructor)}))
 
+(defn delete-storypoint [constructor]
+  "removes a storypoint from a project"
+  (send-message {:type "delete-storypoint"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :storypointId (:storypointId constructor)}))
+
 
 
 

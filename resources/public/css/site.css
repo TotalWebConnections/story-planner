@@ -110,7 +110,8 @@ input, textarea {
 .Header {
   width: 100%;
   height: 30px;
-  display: flex; }
+  display: flex;
+  justify-content: space-between; }
   .Header__block {
     padding: 5px 10px; }
 
@@ -276,10 +277,14 @@ input, textarea {
   .Storypoint__header {
     flex-grow: 1;
     max-height: 30px;
-    color: white; }
+    color: white;
+    display: flex;
+    justify-content: space-between; }
     .Storypoint__header p {
       padding: 0;
       margin: 0; }
+    .Storypoint__header__delete {
+      background: red; }
   .Storypoint input {
     flex-grow: 1;
     max-height: 30px; }

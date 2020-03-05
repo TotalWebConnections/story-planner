@@ -68,6 +68,11 @@
       (async/send! (:channel data)
         (generate-string
           {:type "project" :data (DB/add-link-to-storypoint {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)})})))
+  (defmethod handle-websocket-message "delete-storypoint"
+    [data]
+      (async/send! (:channel data)
+        (generate-string
+          {:type "project" :data (DB/delete-storypoint {:id (:projectId data) :storypointId (:storypointId data)})})))
   (defmethod handle-websocket-message :default [data]
     (async/send! (:channel data) (generate-string "No method signiture found"))) ; String for consistency sake
 

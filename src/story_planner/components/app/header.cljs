@@ -5,7 +5,9 @@
 ; and things like open folder/board ect.
 (defn Header [projectName]
   [:div.Header
-    [:div.Header__block
-      [:p projectName]]
-    [:div.Header__block
-      [:p {:on-click #((navigate ""))} "Projects"]]])
+    [:div.Header__left
+      [:div.Header__block
+        [:p projectName]]]
+    [:div.Header__right
+      [:div.Header__block
+        [:p {:on-click #((navigate ""))} "Projects"]]]])

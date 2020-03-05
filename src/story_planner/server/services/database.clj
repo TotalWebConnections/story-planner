@@ -38,10 +38,9 @@
   "insers a new project for current user"
   (mc/insert-and-return db "projects" projectData))
 
-; (mc/count db coll {$and [{:language "Clojure"}
-;                              {:users {$gt 10}}]})
 (defn create-entity [entityData]
   "Inserts an enttiy into the given folder or a root entities object"
+  (println entityData)
   (if (= "n/a" (:folder entityData)) ; account for the base case first with no folder
     (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
       {$push {:entities (:value entityData)}} {:upsert true})
@@ -85,23 +84,27 @@
 ;TODO DRY
 (defn update-storypoint-title [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
     {$set {"storypoints.$.name" (:value storyData)}})
   (get-project (:id storyData)))
 
 (defn update-storypoint-description [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
     {$set {"storypoints.$.description" (:value storyData)}})
   (get-project (:id storyData)))
 
 (defn add-link-to-storypoint [storyData]
-  (println storyData)
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
     {$push {"storypoints.$.links" {:id (:value storyData)}}})
   (get-project (:id storyData)))
 
+(defn delete-storypoint [storyData]
+  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+    {$pull {"storypoints" {:id (:storypointId storyData)}}})
+  (get-project (:id storyData)))
 
 ; READ METHODS
 ; TODO remove let - can simplify a bit

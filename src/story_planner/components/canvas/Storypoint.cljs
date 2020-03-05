@@ -13,6 +13,9 @@
   "updates the value of a storypoints description"
   (api/update-storypoint-description {:id id :value value}))
 
+(defn delete-storypoint [id]
+  (api/delete-storypoint {:storypointId id}))
+
 (defn initilize-link [id]
   (let [currentLink (get-from-state "linkStartId")]
     (if currentLink
@@ -68,7 +71,8 @@
     (doall (for [link (:links storypoint)]
       (draw-curve (:position storypoint) (:size storypoint) (:id link))))
     [:div.Storypoint__header
-      [:p {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}} "link"]]
+      [:p {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}} "link"]
+      [:p.Storypoint__header__delete {:on-click #(delete-storypoint (:id storypoint))} "X"]]
     [:input
       {:type "text"
        :default-value (:name storypoint)

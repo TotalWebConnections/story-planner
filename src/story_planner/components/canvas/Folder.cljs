@@ -16,7 +16,6 @@
 (defn generate-entity-display [entity]
   "generates a folder display, nested values so it's a bit different"
   ;TODO this needs to open the entity display
-  (print entity)
   [:div {:key (str (:value (first entity)) "-" (rand-int 10000))}
     [:p {:on-click #(js/alert "go")}
       (:value (first entity))]])
