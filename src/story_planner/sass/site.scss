@@ -18,8 +18,18 @@
 @import 'components/canvas/_storypoint';
 
 // You can use any sass features, like variables, for instance:
-$font-stack: 'Helvetica Neue', Verdana, Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap');
+$font-stack: 'Montserrat', sans-serif;
 $base-font-size: 1em;
+
+p {
+  font-family: $font-stack;
+}
+
+h1,h2,h3,h4,h5 {
+  font-family: $font-stack;
+  font-weight: 500;
+}
 
 .body-container {
   font-family: $font-stack;

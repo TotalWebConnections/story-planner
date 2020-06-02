@@ -1,21 +1,21 @@
 button {
   background: $mainBlue;
-  border: 1px solid $offWhite;
+  border: none;
   color: white;
-  padding: 8px 12px;
+  padding: 8px 16px;
   cursor: pointer;
   transition: all .5s;
-  border-radius: 4px;
+  border-radius: 12px;
 
   &:hover {
     background: $darkerBlue;
   }
 
   &.danger {
-    background: #fc2c2c;
+    background: #fa6476;
 
     &:hover {
-      background: #ca2424;
+      background: #e45c6c;
     }
   }
 }

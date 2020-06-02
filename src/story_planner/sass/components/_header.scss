@@ -3,8 +3,15 @@
   height: $headerHeight;
   display: flex;
   justify-content: space-between;
+  color: white;
+  background: $darkBlack;
 
   &__block {
     padding: 5px 10px;
+    display: flex;
+  }
+
+  &__left {
+    color: $mainBlue;
   }
 }

@@ -1,5 +1,8 @@
+$standard-box-padding: 15px 10px;
 
-
+.standard-padding {
+  padding: $standard-box-padding;
+}
 
 // CANVS PAGE STUFF
 $headerHeight: 30px;

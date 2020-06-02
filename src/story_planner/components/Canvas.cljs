@@ -6,9 +6,11 @@
             [story-planner.components.canvas.Storypoint :refer [Storypoint]]
             [story-planner.services.scripts.canvas :refer [get-current-board-storypoints]]
             ["panzoom" :as panzoom]
-            ["interactjs" :as interact]))
+            ["interactjs" :as interact]
+            ["displacejs" :as displace]))
 
 (set! js/global js/window); Work around as panzoom will error on global sometimes
+(def drag-ref (atom [])) ; reference to our draggable elements
 
 (defn getXVal [target event]
   "Grabs the x value for the onDrag event"
@@ -41,23 +43,27 @@
   ; TODO we should chanage drag speed based on zoom level
   ; The further out the faster the zoom needs to be to seem fluid
   (defn onMoveHandler [event]
+    (js/console.log event)
     (.pause panHandler) ; resume call on end on end
-    (let [target (.-target event)]
-      (let [x (getXVal target event)
-            y (getYVal target event)]
-        (set! (.-transform (.-style target)) (str "translate("x"px, "y"px)"))
-        (set! (.-webkitTransform (.-style target)) (str "translate("x"px, "y"px)"))
-        (.setAttribute target "data-x" x)
-        (.setAttribute target "data-y" y))))
+;     (let [target (.-target event)]
+;       (let [x (getXVal target event)
+;             y (getYVal target event)]
+;         (set! (.-transform (.-style target)) (str "translate("x"px, "y"px)"))
+;         (set! (.-webkitTransform (.-style target)) (str "translate("x"px, "y"px)"))
+;         (.setAttribute target "data-x" x)
+;         (.setAttribute target "data-y" y)))
+  )
 
   (defn onMoveEndHandler [event]
-    (let [target (.-target event)]
-      (api/update-storypoint-position {:x (getXVal target event)
-                                       :y (getYVal target event)
-                                       :id (.getAttribute target "id")}))
+    (js/console.log event)
+    ; (let [target (.-target event)]
+    ;   (api/update-storypoint-position {:x (getXVal target event)
+    ;                                    :y (getYVal target event)
+    ;                                    :id (.getAttribute target "id")}))
     (.resume panHandler))
 
-  (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler})))
+  ; (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler}))
+  )
 ))
 
 (defn Canvas [currentProject currentBoard linkStartId]
@@ -71,7 +77,21 @@
 
        :component-did-update              ;; the name of a lifecycle function
         (fn [this old-argv]                ;; reagent provides you the entire "argv", not just the "props"
-          ; (js/console.log "did update")
+          (doseq [dragRef @drag-ref] ; We delete each drag ref so that we dont overload after a couple of drags
+            (.destroy dragRef))      ; if we don't then each new one doubles it and we get 100's of drag events
+          (reset! drag-ref [])
+          (let [elems (array-seq (.getElementsByClassName js/document "draggable"))]
+            (doseq [elem elems]
+              (swap! drag-ref conj
+                (displace elem
+                  (clj->js
+                    {:onMouseDown onMoveHandler
+                     ; :onTouchStart onMoveEventStart
+                     ; :onTouchMove handleBounds
+                     ; :onMouseMove handleBounds
+                     :onMouseUp onMoveEndHandler
+                     ; :onTouchStop onMoveEventEnd
+                    })))))
         )
 
         ;; other lifecycle funcs can go in here

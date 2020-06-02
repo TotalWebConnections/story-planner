@@ -10,4 +10,6 @@
         [:p projectName]]]
     [:div.Header__right
       [:div.Header__block
-        [:p {:on-click #((navigate ""))} "Projects"]]]])
+        [:p {:on-click #((navigate ""))} "Projects"]
+        [:p {:on-click #((navigate ""))} "Settings"]
+        [:p {:on-click #((navigate ""))} "Account"]]]])

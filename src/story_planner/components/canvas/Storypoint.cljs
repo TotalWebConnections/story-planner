@@ -56,14 +56,27 @@
            p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) y-initial)
           ]
       [:svg {:height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
+        [:defs
+          [:marker {:id "head"
+                    :orient "auto"
+                    :markerWidth "4"
+                    :markerHeight "6"
+                    :fill "red"
+                    :stroke "white"
+                    :refX "3"
+                    :refY "2"}
+            [:path {:d "M0,0 V4 L2,2 Z" :fill "white"}]
+            ]
+          ]
         [:path {:fill "transparent" :stroke "white" :stroke-width "2"
                 :d (str "M"x-initial","y-initial"
                      C"p2x","p2y"
                     "p3x","p3y"
-                     "end-x","end-y"")} ]]))))
+                     "end-x","end-y"")
+                 :marker-end "url(#head)"} ]]))))
 
 (defn Storypoint [storypoint]
-  [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint)
+  [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
                         :data-x (:x (:position storypoint))
                         :data-y (:y (:position storypoint))
                         :style {:transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
@@ -71,7 +84,7 @@
     (doall (for [link (:links storypoint)]
       (draw-curve (:position storypoint) (:size storypoint) (:id link))))
     [:div.Storypoint__header
-      [:p {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}} "link"]
+      [:i.fas.fa-link {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}}]
       [:p.Storypoint__header__delete {:on-click #(delete-storypoint (:id storypoint))} "X"]]
     [:input
       {:type "text"

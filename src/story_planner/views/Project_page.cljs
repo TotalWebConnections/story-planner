@@ -37,11 +37,13 @@
     (fn []
       [:div.Projects
         [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
-        [:h2 "My Projects"]
-        [:div.Projects__body
+        [:div.Projects__header.standard-padding
+          [:h2 "My Projects"]]
+        [:div.Projects__body.standard-padding
           (for [project (:projects @app-state)]
             [:div.Projects__projectBlock {:key (:_id project)}
               [:h2  (:name project)]
               [:button {:on-click #(open-project (:_id project))} "Build"]
               [:button.danger {:on-click #(delete-project (:_id project))} "Delete"]])]
-        [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]])))
+        [:div.standard-padding
+          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]]])))
