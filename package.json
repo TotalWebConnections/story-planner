@@ -2,9 +2,9 @@
   "dependencies": {
     "@cljs-oss/module-deps": "^1.1.1",
     "displacejs": "^1.4.1",
-    "interactjs": "^1.9.18",
+    "interactjs": "^1.9.19",
     "node-sass": "^4.7.2",
-    "panzoom": "^9.2.4"
+    "panzoom": "^9.2.5"
   },
   "scripts": {
     "scss": "node-sass --include-path src/store_planner/sass/ --watch src/story_planner/sass/ -o resources/public/css"

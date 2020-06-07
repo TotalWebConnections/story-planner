@@ -97,13 +97,13 @@ input, textarea {
       border-bottom: 1px solid #fcfeff; }
 
 .Sidebar {
-  background: #333;
+  background: #272f42;
   color: white;
   width: 150px;
   height: calc(100vh - 30px); }
   .Sidebar__header {
     display: flex;
-    background: #222;
+    background: #353c4f;
     justify-content: space-between;
     padding: 8px 0; }
     .Sidebar__header h3 {

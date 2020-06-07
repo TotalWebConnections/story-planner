@@ -1,12 +1,12 @@
 .Sidebar {
-  background: #333;
+  background: $darkBlack;
   color: white;
   width: 150px;
   height: calc(100vh - #{$headerHeight});
 
   &__header {
     display: flex;
-    background: #222;
+    background: $lightBlack;
     justify-content: space-between;
     padding: 8px 0;
 
