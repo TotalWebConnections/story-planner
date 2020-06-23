@@ -4,7 +4,7 @@
            [monger.operators :refer :all]
            [mount.core :refer [defstate]]
            [config.core :refer [env]])
-           (:import org.bson.types.ObjectId))
+  (:import org.bson.types.ObjectId))
 
 (declare get-project)
 
@@ -41,24 +41,21 @@
 (defn create-entity [entityData]
   "Inserts an enttiy into the given folder or a root entities object"
   (println entityData)
-  (if (= "n/a" (:folder entityData)) ; account for the base case first with no folder
-    (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
-      {$push {:entities (:value entityData)}} {:upsert true})
-    (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))} {:folders {$elemMatch {:name (:folder entityData)}}} ]}
-      {$push {"folders.$.entities" (:value entityData)}}))
-   (get-project (:projectId entityData))) ; TODO handle save to specific folder path
+  (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
+    {$push {:entities {:folder (:folder entityData) :values (:value entityData)}}} {:upsert true})
+  (get-project (:projectId entityData))) ; TODO handle save to specific folder path
 
 (defn edit-entity [entityData]
   "We'll use a separate function here
-  cause it would just be easier to separate them"
-)
+  cause it would just be easier to separate them")
+
 
 ; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
 (defn create-board [boardData]
   "Inserts an enttiy into the given folder or a root entities object"
   (mc/update db "projects" {:_id (ObjectId. (:projectId boardData))}
     {$push {:boards (:value boardData)}} {:upsert true})
-   (get-project (:projectId boardData)))
+  (get-project (:projectId boardData)))
 
 
 ; TODO probably need to roll this out into it's own attr - modifying story points is going to run into issues here
@@ -66,43 +63,43 @@
   "Creates a blank story point for the :board :projectId combo"
   (mc/update db "projects" {:_id (ObjectId. (:projectId storyData))}
     {$push {"storypoints" {
-      :name "Title"
-      :id (str (ObjectId.))
-      :board (:board storyData)
-      :description "Description"
-      :position (:position storyData)
-      :size (:size storyData)}}})
-    (get-project (:projectId storyData))) ; TODO we can define this type elsewhere for reuse
+                           :name "Title"
+                           :id (str (ObjectId.))
+                           :board (:board storyData)
+                           :description "Description"
+                           :position (:position storyData)
+                           :size (:size storyData)}}})
+  (get-project (:projectId storyData))) ; TODO we can define this type elsewhere for reuse
 
 ; Choice to break up edits to prevent race conditions if multiple users edit same storypoint
 (defn update-storypoint-position [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                          {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
     {$set {"storypoints.$.position" (:position storyData)}})
   (get-project (:id storyData)))
 
 ;TODO DRY
 (defn update-storypoint-title [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
     {$set {"storypoints.$.name" (:value storyData)}})
   (get-project (:id storyData)))
 
 (defn update-storypoint-description [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
     {$set {"storypoints.$.description" (:value storyData)}})
   (get-project (:id storyData)))
 
 (defn add-link-to-storypoint [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
     {$push {"storypoints.$.links" {:id (:value storyData)}}})
   (get-project (:id storyData)))
 
 (defn delete-storypoint [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}} ]}
+                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
     {$pull {"storypoints" {:id (:storypointId storyData)}}})
   (get-project (:id storyData)))
 

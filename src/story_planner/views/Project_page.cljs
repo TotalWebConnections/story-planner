@@ -28,9 +28,9 @@
   ; dispatch api call but not care about it
   (api/get-project id)
   ; (rfe/push-state ::frontpage) ; THid doesnt work but I wish it would...
-  (navigate "app")
+  (navigate "app"))
 
-)
+
 
 (defn Project-page [app-state]
   (let [showProjectOverlay (atom false)]

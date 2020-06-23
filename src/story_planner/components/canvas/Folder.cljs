@@ -18,7 +18,7 @@
   ;TODO this needs to open the entity display
   [:div {:key (str (:value (first entity)) "-" (rand-int 10000))}
     [:p {:on-click #(js/alert "go")}
-      (:value (first entity))]])
+      (:value (first (:values entity)))]])
 
 (defn generate-board-display [folder currentBoard]
   "Generates our board section display"
@@ -47,7 +47,7 @@
           [:i.fas.fa-folder]
           [:p (:name folderInfo)]]
         [:div.Folder__folder__right {:on-click #(toggle-folder-display (:name folderInfo) (not ((keyword (:name folderInfo)) openedFolders)))}
-          [:i.fas {:class (get-folder-active-display (:active folderInfo))} ]]]
+          [:i.fas {:class (get-folder-active-display (:active folderInfo))}]]]
       [:div.Folder__entityWrapper
         (for [entity (folderType folderInfo)]
           (if (= :boards folderType)

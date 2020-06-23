@@ -5,14 +5,14 @@
 
 
 (defmulti handle-websocket-message (fn [data] (:type data)))
-  (defmethod handle-websocket-message "projects"
-    [data]
-    (handle-state-change {:type "get-projects" :value (:data data)}))
-  (defmethod handle-websocket-message "project"
-    [data]
-    (handle-state-change {:type "get-project" :value (:data data)}))
-  (defmethod handle-websocket-message :default [data]
-    (print "Default Called"))
+(defmethod handle-websocket-message "projects"
+  [data]
+  (handle-state-change {:type "get-projects" :value (:data data)}))
+(defmethod handle-websocket-message "project"
+  [data]
+  (handle-state-change {:type "get-project" :value (:data data)}))
+(defmethod handle-websocket-message :default [data]
+  (print "Default Called"))
 
 (defn handle-onOpen []
   (print "Connection Opened"))

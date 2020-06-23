@@ -13,7 +13,6 @@
 (defn delete-project [])
 (defn edit-project [])
 (defn get-project [id]
-  (print id)
   (send-message {:type "get-project" :value id}))
 (defn get-projects []
   (send-message {:type "get-projects" :value "123"})) ; value here represents our userID!

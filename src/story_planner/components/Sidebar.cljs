@@ -17,6 +17,7 @@
 
 (defn add-entity [state projectId folder value]
   "adds a new entity to the give folder"
+  (print projectId)
   (reset! state false)
   (api/create-entity {:folder @folder :projectId projectId :value value}))
 
@@ -53,18 +54,19 @@
               [:div.addFolder [:i.fas.fa-folder {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "entity"))}]]]]
           [:div.Sidebar__contentWrapper
             (for [entity (:entities currentProject)]
-              [:div (:value (first entity))])
-            (for [folder (get sortedFolders "entity")]
+              (if (= (:folder entity) "n/a")
+                [:div (:value (first (:values entity)))]))
+            (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
               (Folder folder currentBoard openedFolders #(comp
-                             (generate-folder-path currentFolderPath (:name folder))
-                             (handleShowOverlay showEntityOverlay)) false))]
+                                                          (generate-folder-path currentFolderPath (:name folder))
+                                                          (handleShowOverlay showEntityOverlay)) false))]
           [:div.Sidebar__header
             [:h3 "Boards"]
             [:div.Sidebar__header__controls
               [:div.addEntity  [:p {:on-click #(handleShowOverlay showBoardOverlay)}  "+"]]
-              [:div.addFolder [:i.fas.fa-folder {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))} ]]]]
+              [:div.addFolder [:i.fas.fa-folder {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))}]]]]
           [:div.Sidebar__contentWrapper
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               (Folder folder currentBoard openedFolders #(comp
-                             (generate-folder-path currentFolderPath (:name folder))
-                             (handleShowOverlay showBoardOverlay)) true))]]))))
+                                                            (generate-folder-path currentFolderPath (:name folder))
+                                                            (handleShowOverlay showBoardOverlay)) true))]]))))

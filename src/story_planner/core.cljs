@@ -50,9 +50,9 @@
     {:name ::frontpage
      :view App-page}]
 
-  ["/"
-    {:name ::projects
-     :view Project-page}]
+   ["/"
+     {:name ::projects
+      :view Project-page}]
 
    ["/home"
     {:name ::home
@@ -64,6 +64,7 @@
     (fn [m] (reset! match m))
     ;; set to false to enable HistoryAPI
     {:use-fragment true})
+  (print @app-state)
   (r/render [Auth-base app-state] (.getElementById js/document "app")))
 
 (init!)
@@ -74,10 +75,10 @@
 
 
 
-(defn on-js-reload []
+(defn on-js-reload [])
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
-)
+
 
 

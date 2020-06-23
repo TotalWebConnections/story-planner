@@ -5,3 +5,8 @@
 (defn get-folders-by-type [folders]
   "Sorts folders by entity and board"
   (group-by :type folders))
+
+(defn assign-entities-to-parent-folder [folders entities]
+  (map (fn [folder]
+         (conj folder {:entities (filter (fn [entity]
+                                           (if (= (:folder entity) (:name folder)) true false)) entities)})) folders))
