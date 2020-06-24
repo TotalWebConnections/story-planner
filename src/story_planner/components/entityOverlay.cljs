@@ -19,6 +19,6 @@
             (for [entityField @inputFields]
               [:div {:key (:id entityField)}
                 [:input.OverlayEntity__input {:type "text"
-                  :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])]
+                                              :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])]
           [:button {:on-click #(add-field inputFields)} "Add Field"]
           [:button {:on-click #(onSubmit @inputFields)} "Save"]]])))

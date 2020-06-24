@@ -17,14 +17,15 @@
 
 (defn add-entity [state projectId folder value]
   "adds a new entity to the give folder"
-  (print projectId)
   (reset! state false)
+  (reset! folder "n/a")
   (api/create-entity {:folder @folder :projectId projectId :value value}))
 
 ; nearly the same as add-entity but give us some separation if need it l8er
 (defn add-board [state projectId folder value]
   "adds a new board to the project"
   (reset! state false)
+  (reset! folder "n/a")
   (api/create-board {:folder @folder :projectId projectId :value value}))
 
 (defn handleShowOverlay [state]
