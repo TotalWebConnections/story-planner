@@ -66,6 +66,9 @@
               [:div.addEntity  [:p {:on-click #(handleShowOverlay showBoardOverlay)}  "+"]]
               [:div.addFolder [:i.fas.fa-folder {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "board"))}]]]]
           [:div.Sidebar__contentWrapper
+            (for [board (:boards currentProject)]
+              (if (= (:folder board) "n/a")
+                [:div (:name board)]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               (Folder folder currentBoard openedFolders #(comp
                                                             (generate-folder-path currentFolderPath (:name folder))

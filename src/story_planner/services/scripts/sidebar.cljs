@@ -11,5 +11,5 @@
         (conj folder {:boards (filter (fn [board]
                                        (if (= (:folder board) (:name folder))
                                          true
-                                         false)) boards)})))
-  folders)
+                                         false)) boards)}))
+    folders))
