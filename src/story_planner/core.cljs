@@ -64,7 +64,6 @@
     (fn [m] (reset! match m))
     ;; set to false to enable HistoryAPI
     {:use-fragment true})
-  (print @app-state)
   (r/render [Auth-base app-state] (.getElementById js/document "app")))
 
 (init!)

@@ -17,7 +17,7 @@
   [data]
   (async/send! (:channel data)
                (generate-string
-                (dissoc (DB/create-project {:name (:value data) :userId "123"}) :_id))))
+                {:type "new-project" :data (DB/create-project {:name (:value data) :userId "123"})})))
 (defmethod handle-websocket-message "create-folder"
   [data]
   (async/send! (:channel data)

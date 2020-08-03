@@ -36,7 +36,8 @@
 
 (defn create-project [projectData]
   "insers a new project for current user"
-  (mc/insert-and-return db "projects" projectData))
+  (let [new-project (mc/insert-and-return db "projects" projectData)]
+    (get-project (str (:_id new-project)))))
 
 (defn create-entity [entityData]
   "Inserts an enttiy into the given folder or a root entities object"
