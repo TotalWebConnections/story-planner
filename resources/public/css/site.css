@@ -112,7 +112,19 @@ input, textarea {
     .Sidebar__header__controls {
       display: flex; }
       .Sidebar__header__controls .addEntity, .Sidebar__header__controls .addFolder {
-        padding: 5px; }
+        padding: 5px;
+        cursor: pointer;
+        transition: .25s; }
+        .Sidebar__header__controls .addEntity:hover, .Sidebar__header__controls .addFolder:hover {
+          color: #4a80f0; }
+  .Sidebar .entityWrapper {
+    font-size: .75rem;
+    padding: 5px 0;
+    padding-left: 15px;
+    transition: .25s;
+    cursor: pointer; }
+    .Sidebar .entityWrapper:hover {
+      background: #303738; }
 
 .Header {
   width: 100%;
@@ -211,8 +223,10 @@ input, textarea {
   .OverlayEntity__fieldWrapper {
     margin-bottom: 15px; }
 
-.Folder__open i.fa-caret-down {
-  transform: rotate(180deg); }
+.Folder__open {
+  background: #444; }
+  .Folder__open i.fa-caret-down {
+    transform: rotate(180deg); }
 
 .Folder i, .Folder p {
   padding: 5px; }
@@ -240,9 +254,10 @@ input, textarea {
 
 .Folder__entityWrapper {
   width: 100%;
-  background: #444; }
+  background: #444;
+  font-size: .75rem; }
   .Folder__entityWrapper p {
-    padding-left: 10px; }
+    padding-left: 15px; }
 
 .Folder__board {
   transition: .25s;

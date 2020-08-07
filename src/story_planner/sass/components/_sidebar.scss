@@ -20,7 +20,25 @@
 
       .addEntity, .addFolder {
         padding: 5px;
+        cursor: pointer;
+        transition: .25s;
+
+        &:hover {
+          color: $mainBlue;
+        }
       }
+    }
+  }
+
+  .entityWrapper {
+    font-size: .75rem;
+    padding: 5px 0;
+    padding-left: 15px;
+    transition: .25s;
+    cursor: pointer;
+
+    &:hover {
+      background: $gray;
     }
   }
 }

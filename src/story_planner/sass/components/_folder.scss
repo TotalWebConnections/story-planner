@@ -1,6 +1,7 @@
 .Folder {
 
   &__open {
+    background: #444;
     i.fa-caret-down {
       transform: rotate(180deg);
     }
@@ -49,9 +50,11 @@
   &__entityWrapper {
     width: 100%;
     background: #444;
+    font-size: .75rem;
+
 
     p {
-      padding-left: 10px;
+      padding-left: 15px;
     }
   }
 

@@ -56,7 +56,7 @@
           [:div.Sidebar__contentWrapper
             (for [entity (:entities currentProject)]
               (if (= (:folder entity) "n/a")
-                [:div (:value (first (:values entity)))]))
+                [:p.entityWrapper (:value (first (:values entity)))]))
             (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
               (Folder folder currentBoard openedFolders #(comp
                                                           (generate-folder-path currentFolderPath (:name folder))
@@ -69,7 +69,7 @@
           [:div.Sidebar__contentWrapper
             (for [board (:boards currentProject)]
               (if (= (:folder board) "n/a")
-                [:div (:name board)]))
+                [:p.entityWrapper (:name board)]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               (Folder folder currentBoard openedFolders #(comp
                                                             (generate-folder-path currentFolderPath (:name folder))
