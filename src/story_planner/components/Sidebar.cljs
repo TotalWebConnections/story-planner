@@ -2,6 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.scripts.api.api :as api]
             [story-planner.components.Overlay :refer [Overlay]]
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.EntityOverlay :refer [EntityOverlay]]
             [story-planner.components.canvas.Folder :refer [Folder]]
             [story-planner.services.scripts.folders :as folderHelpers]
@@ -69,7 +70,7 @@
           [:div.Sidebar__contentWrapper
             (for [board (:boards currentProject)]
               (if (= (:folder board) "n/a")
-                [:p.entityWrapper (:name board)]))
+                [:p.entityWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)})} (:name board)]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               (Folder folder currentBoard openedFolders #(comp
                                                             (generate-folder-path currentFolderPath (:name folder))

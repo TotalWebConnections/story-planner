@@ -32,15 +32,15 @@
     "Bottom"))
 (defn get-direction-for-side [x]
   (if (> x 0)
-  "Left"
-  "Right"))
+   "Left"
+   "Right"))
 
 (defn get-relative-position [point1 point2]
   (let [x (- (:x point1) (:x point2))
         y(- (:y point1) (:y point2))]
-  (if (> (.abs js/Math x) (.abs js/Math y))
-    (get-direction-for-side x)
-    (get-direction-for-top y))))
+   (if (> (.abs js/Math x) (.abs js/Math y))
+     (get-direction-for-side x)
+     (get-direction-for-top y))))
 
 (defn draw-curve [position size linkEndId]
   (let [currentPoint (storypointHelpers/get-storypoint-by-id (:storypoints (get-from-state "currentProject")) linkEndId)
@@ -53,8 +53,8 @@
            p2x (storypointHelpers/caculate-first-control-point-x starting-direction (- end-x x-initial) x-initial)
            p2y (storypointHelpers/caculate-first-control-point-y starting-direction (- end-y y-initial) y-initial)
            p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial)
-           p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) y-initial)
-          ]
+           p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) y-initial)]
+
       [:svg {:height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
         [:defs
           [:marker {:id "head"
@@ -65,30 +65,32 @@
                     :stroke "white"
                     :refX "3"
                     :refY "2"}
-            [:path {:d "M0,0 V4 L2,2 Z" :fill "white"}]
-            ]
-          ]
+            [:path {:d "M0,0 V4 L2,2 Z" :fill "white"}]]]
+
+
         [:path {:fill "transparent" :stroke "white" :stroke-width "2"
                 :d (str "M"x-initial","y-initial"
                      C"p2x","p2y"
                     "p3x","p3y"
                      "end-x","end-y"")
-                 :marker-end "url(#head)"} ]]))))
+                 :marker-end "url(#head)"}]]))))
 
 (defn Storypoint [storypoint]
-  [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
-                        :data-x (:x (:position storypoint))
-                        :data-y (:y (:position storypoint))
-                        :style {:transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
-                                :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
-    (doall (for [link (:links storypoint)]
-      (draw-curve (:position storypoint) (:size storypoint) (:id link))))
-    [:div.Storypoint__header
-      [:i.fas.fa-link {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}}]
-      [:p.Storypoint__header__delete {:on-click #(delete-storypoint (:id storypoint))} "X"]]
-    [:input
-      {:type "text"
-       :default-value (:name storypoint)
-       :on-change #(update-storypoint-title (:id storypoint) (-> % .-target .-value))}]
-    [:textarea {:default-value (:description storypoint)
-                :on-change #(update-storypoint-description (:id storypoint) (-> % .-target .-value))}]])
+  (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})]
+    (fn [storypoint]
+      [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
+                                  :data-x (:x (:position storypoint))
+                                  :data-y (:y (:position storypoint))
+                                  :style {:transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
+                                          :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
+        (doall (for [link (:links storypoint)]
+                (draw-curve (:position storypoint) (:size storypoint) (:id link))))
+        [:div.Storypoint__header
+          [:i.fas.fa-link {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}}]
+          [:p.Storypoint__header__delete {:on-click #(delete-storypoint (:id storypoint))} "X"]]
+        [:input
+          {:type "text"
+           :default-value (:name @input-values)
+           :on-change #(do (swap! input-values conj {:name (-> % .-target .-value)})(update-storypoint-title (:id storypoint) (-> % .-target .-value)))}]
+        [:textarea {:default-value (:description storypoint)
+                    :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]])))

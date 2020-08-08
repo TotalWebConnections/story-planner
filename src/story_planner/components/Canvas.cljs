@@ -39,6 +39,7 @@
                                               :boundsPadding 1 ; it multiplies by this is in the code for panzoom
                                               :bounds true})))
 
+  (.moveTo panHandler -2500 -2500)
   ; function taken from interact - probably not `functional`
   ; TODO we should chanage drag speed based on zoom level
   ; The further out the faster the zoom needs to be to seem fluid
@@ -77,6 +78,7 @@
 
        :component-did-update              ;; the name of a lifecycle function
         (fn [this old-argv]                ;; reagent provides you the entire "argv", not just the "props"
+          (print "update")
           (doseq [dragRef @drag-ref] ; We delete each drag ref so that we dont overload after a couple of drags
             (.destroy dragRef))      ; if we don't then each new one doubles it and we get 100's of drag events
           (reset! drag-ref [])
@@ -85,7 +87,8 @@
               (swap! drag-ref conj
                 (displace elem
                   (clj->js
-                    {:onMouseDown onMoveHandler
+                    {
+                     :onMouseDown onMoveHandler
                      ; :onTouchStart onMoveEventStart
                      ; :onTouchMove handleBounds
                      ; :onMouseMove handleBounds
