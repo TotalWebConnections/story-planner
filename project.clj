@@ -49,7 +49,7 @@
                            :open-urls ["http://localhost:3449/index.html"]}
 
                 :compiler {:main story-planner.core
-                           :npm-deps {:panzoom "*" :interactjs "*" :displacejs "*"}
+                           :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/story_planner.js"
@@ -65,7 +65,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/story_planner.js"
                            :main story-planner.core
-                           :npm-deps {:panzoom "*" :interactjs "*" :displacejs "*"}
+                           :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
                            :optimizations :whitespace
                            :pretty-print false}}]}
@@ -76,7 +76,7 @@
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"
 
-             :css-dirs ["resources/public/css"] ;; watch and update CSS
+             :css-dirs ["resources/public/css"]} ;; watch and update CSS
 
 
              ;; Start an nREPL server into the running figwheel process
@@ -110,7 +110,7 @@
 
              ;; to pipe all the output to the repl
              ;; :server-logfile false
-             }
+
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [figwheel-sidecar "0.5.19"]]
                    ;; need to add dev source path here to get user.clj loaded

@@ -81,7 +81,8 @@
       [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
                                   :data-x (:x (:position storypoint))
                                   :data-y (:y (:position storypoint))
-                                  :style {:transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
+                                  :style {
+                                          :transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
                                           :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
         (doall (for [link (:links storypoint)]
                 (draw-curve (:position storypoint) (:size storypoint) (:id link))))

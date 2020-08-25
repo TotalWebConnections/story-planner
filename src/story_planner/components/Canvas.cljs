@@ -5,11 +5,13 @@
             [story-planner.components.canvas.Controls :refer [Controls]]
             [story-planner.components.canvas.Storypoint :refer [Storypoint]]
             [story-planner.services.scripts.canvas :refer [get-current-board-storypoints]]
-            ["panzoom" :as panzoom]
+            ; ["@panzoom/panzoom" :as panzoom]
             ["interactjs" :as interact]
             ["displacejs" :as displace]))
 
+
 (set! js/global js/window); Work around as panzoom will error on global sometimes
+(def panzoom (.-Panzoom js/window))
 (def drag-ref (atom [])) ; reference to our draggable elements
 
 (defn getXVal [target event]
@@ -34,36 +36,34 @@
   (def zoomElem (.querySelector js/document "#Canvas"))
   (if zoomElem
     (do
-  (def panHandler (panzoom zoomElem (clj->js {:maxZoom 4 :minZoom 0.1
-                                              :minScale 1
-                                              :boundsPadding 1 ; it multiplies by this is in the code for panzoom
-                                              :bounds true})))
-
-  (.moveTo panHandler -2500 -2500)
+  (def panHandler (panzoom zoomElem (clj->js {:maxScale 4
+                                      :minScale 0.5
+                                      :excludeClass "draggable"
+                                      :contain "outside"})))
+  ;
+  (js/setTimeout #(.pan panHandler -2500 -2500))
+  (js/setTimeout #(.addEventListener zoomElem "wheel" (.-zoomWithWheel panHandler)))
   ; function taken from interact - probably not `functional`
   ; TODO we should chanage drag speed based on zoom level
   ; The further out the faster the zoom needs to be to seem fluid
   (defn onMoveHandler [event]
-    (js/console.log event)
-    (.pause panHandler) ; resume call on end on end
-;     (let [target (.-target event)]
-;       (let [x (getXVal target event)
-;             y (getYVal target event)]
-;         (set! (.-transform (.-style target)) (str "translate("x"px, "y"px)"))
-;         (set! (.-webkitTransform (.-style target)) (str "translate("x"px, "y"px)"))
-;         (.setAttribute target "data-x" x)
-;         (.setAttribute target "data-y" y)))
+    (let [target (.-target event)]
+      (let [x (getXVal target event)
+            y (getYVal target event)]
+        (set! (.-transform (.-style target)) (str "translate("x"px, "y"px)"))
+        (set! (.-webkitTransform (.-style target)) (str "translate("x"px, "y"px)"))
+        (.setAttribute target "data-x" x)
+        (.setAttribute target "data-y" y)))
   )
 
   (defn onMoveEndHandler [event]
     (js/console.log event)
-    ; (let [target (.-target event)]
-    ;   (api/update-storypoint-position {:x (getXVal target event)
-    ;                                    :y (getYVal target event)
-    ;                                    :id (.getAttribute target "id")}))
-    (.resume panHandler))
+    (let [target (.-target event)]
+      (api/update-storypoint-position {:x (getXVal target event)
+                                       :y (getYVal target event)
+                                       :id (.getAttribute target "id")})))
 
-  ; (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler}))
+  (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler}))
   )
 ))
 
@@ -78,23 +78,7 @@
 
        :component-did-update              ;; the name of a lifecycle function
         (fn [this old-argv]                ;; reagent provides you the entire "argv", not just the "props"
-          (print "update")
-          (doseq [dragRef @drag-ref] ; We delete each drag ref so that we dont overload after a couple of drags
-            (.destroy dragRef))      ; if we don't then each new one doubles it and we get 100's of drag events
-          (reset! drag-ref [])
-          (let [elems (array-seq (.getElementsByClassName js/document "draggable"))]
-            (doseq [elem elems]
-              (swap! drag-ref conj
-                (displace elem
-                  (clj->js
-                    {
-                     :onMouseDown onMoveHandler
-                     ; :onTouchStart onMoveEventStart
-                     ; :onTouchMove handleBounds
-                     ; :onMouseMove handleBounds
-                     :onMouseUp onMoveEndHandler
-                     ; :onTouchStop onMoveEventEnd
-                    })))))
+
         )
 
         ;; other lifecycle funcs can go in here
