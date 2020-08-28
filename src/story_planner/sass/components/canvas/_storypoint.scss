@@ -7,6 +7,7 @@
   position: absolute; // or we get weird negatives
   display: flex;
   flex-direction: column;
+  touch-action: none;
 
   &-currentlyLinked {
     border: 2px solid red;

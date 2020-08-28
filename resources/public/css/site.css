@@ -295,7 +295,8 @@ input, textarea {
   border: 1px solid #4577e0;
   position: absolute;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  touch-action: none; }
   .Storypoint-currentlyLinked {
     border: 2px solid red; }
   .Storypoint input, .Storypoint textarea {

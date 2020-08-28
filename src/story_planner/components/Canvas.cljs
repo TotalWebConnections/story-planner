@@ -36,13 +36,13 @@
   (def zoomElem (.querySelector js/document "#Canvas"))
   (if zoomElem
     (do
-  (def panHandler (panzoom zoomElem (clj->js {:maxScale 4
-                                      :minScale 0.5
-                                      :excludeClass "draggable"
-                                      :contain "outside"})))
-  ;
-  (js/setTimeout #(.pan panHandler -2500 -2500))
-  (js/setTimeout #(.addEventListener zoomElem "wheel" (.-zoomWithWheel panHandler)))
+      (def panHandler (panzoom zoomElem (clj->js {:maxScale 4
+                                          :minScale 0.5
+                                          :excludeClass "draggable"
+                                          :contain "outside"})))
+      ;
+      (js/setTimeout #(.pan panHandler -2500 -2500))
+      (js/setTimeout #(.addEventListener zoomElem "wheel" (.-zoomWithWheel panHandler)))
   ; function taken from interact - probably not `functional`
   ; TODO we should chanage drag speed based on zoom level
   ; The further out the faster the zoom needs to be to seem fluid
@@ -57,13 +57,35 @@
   )
 
   (defn onMoveEndHandler [event]
-    (js/console.log event)
+    (print "onMoveEnd")
     (let [target (.-target event)]
       (api/update-storypoint-position {:x (getXVal target event)
                                        :y (getYVal target event)
                                        :id (.getAttribute target "id")})))
 
+  (defn onResize [event]
+    (let [target (.-target event)
+          x (js/parseFloat (.getAttribute target "data-x"))
+          y (js/parseFloat (.getAttribute target "data-y"))
+          newX (+ x (.-left (.-deltaRect event)))
+          newY (+ y (.-top (.-deltaRect event)))]
+
+
+    ; set the size
+    (set! (.-height (.-style (.-target event))) (str (.-height (.-rect event)) "px"))
+    (set! (.-width (.-style (.-target event))) (str (.-width (.-rect event)) "px"))
+
+    ;translate when resizing from top or edges
+
+    (.setAttribute target "data-x" newX)
+    (.setAttribute target "data-y" newY)
+    (set! (.-transform (.-style target)) (str "translate("newX"px, "newY"px)"))
+    (set! (.-webkitTransform (.-style target)) (str "translate("newX"px, "newY"px)"))
+  ))
+
   (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler}))
+  (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true }
+                                                :listeners {:move onResize}}))
   )
 ))
 
