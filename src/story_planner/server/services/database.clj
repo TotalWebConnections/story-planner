@@ -76,7 +76,7 @@
 (defn update-storypoint-position [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                   {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$set {"storypoints.$.position" (:position storyData)}})
+    {$set {"storypoints.$.position" (:position storyData) "storypoints.$.size" (:size storyData)}})
   (get-project (:id storyData)))
 
 ;TODO DRY
