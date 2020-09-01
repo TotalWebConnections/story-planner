@@ -6,7 +6,7 @@
 
 
 (defn App-page [app-state]
-  (print @app-state)
+  ; (print @app-state)
   [:div.App
     [Header (:name (:currentProject @app-state))]
     [Sidebar (:currentProject @app-state) (:currentBoard @app-state) (:openedFolders @app-state)]

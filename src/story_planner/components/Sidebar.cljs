@@ -18,9 +18,9 @@
 
 (defn add-entity [state projectId folder value]
   "adds a new entity to the give folder"
+  (api/create-entity {:folder @folder :projectId projectId :value value})
   (reset! state false)
-  (reset! folder "n/a")
-  (api/create-entity {:folder @folder :projectId projectId :value value}))
+  (reset! folder "n/a"))
 
 ; nearly the same as add-entity but give us some separation if need it l8er
 (defn add-board [state projectId folder value]
@@ -41,6 +41,7 @@
         showBoardOverlay (atom false)
         showEntityOverlay (atom false)
         currentFolderPath (atom "n/a")
+        projectId (:_id currentProject)
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
     (fn [currentProject currentBoard openedFolders]
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
@@ -48,7 +49,7 @@
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
-            (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath)]
+            (partial add-entity showEntityOverlay projectId currentFolderPath)]
           [:div.Sidebar__header
             [:h3 "Entities"]
             [:div.Sidebar__header__controls

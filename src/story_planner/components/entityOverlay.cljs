@@ -8,6 +8,11 @@
   "updates the value for the changed input"
   (swap! state update-in [(- id 1)] conj {:value value}))
 
+(defn handle-submit [inputFields onSubmit]
+  (onSubmit @inputFields)
+  (reset! inputFields [{:id 1 :value ""}]))
+
+
 (defn EntityOverlay [active onSubmit]
   (let [inputFields (atom [{:id 1 :value ""}])]
     (fn []
@@ -19,6 +24,7 @@
             (for [entityField @inputFields]
               [:div {:key (:id entityField)}
                 [:input.OverlayEntity__input {:type "text"
+                                              :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])]
           [:button {:on-click #(add-field inputFields)} "Add Field"]
-          [:button {:on-click #(onSubmit @inputFields)} "Save"]]])))
+          [:button {:on-click #(handle-submit inputFields onSubmit)} "Save"]]])))
