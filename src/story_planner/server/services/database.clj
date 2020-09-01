@@ -43,7 +43,7 @@
   "Inserts an enttiy into the given folder or a root entities object"
   (println entityData)
   (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
-    {$push {:entities {:folder (:folder entityData) :values (:value entityData)}}} {:upsert true})
+    {$push {:entities {:folder (:folder entityData) :title (:title entityData) :values (:value entityData)}}} {:upsert true})
   (get-project (:projectId entityData))) ; TODO handle save to specific folder path
 
 (defn edit-entity [entityData]

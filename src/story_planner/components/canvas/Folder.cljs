@@ -18,7 +18,7 @@
   ;TODO this needs to open the entity display
   [:div {:key (str (:value (first entity)) "-" (rand-int 10000))}
     [:p {:on-click #(js/alert "go")}
-      (:value (first (:values entity)))]])
+      (:title entity)]])
 
 (defn generate-board-display [folder currentBoard]
   "Generates our board section display"

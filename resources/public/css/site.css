@@ -210,18 +210,31 @@ input, textarea {
     left: calc(50% - 200px);
     top: 10%;
     overflow: scroll;
-    padding: 25px;
-    box-sizing: border-box;
-    border: 1px solid #fcfeff; }
+    box-sizing: border-box; }
     .OverlayEntity__inner-header {
       margin-bottom: 15px;
-      padding-bottom: 15px; }
+      padding-bottom: 15px;
+      padding-top: 15px;
+      padding-left: 15px; }
+    .OverlayEntity__inner-title {
+      width: 100%;
+      border-radius: 0px;
+      box-sizing: border-box;
+      text-align: center;
+      border-left: 0px;
+      border-right: 0px; }
     .OverlayEntity__inner__close {
       position: absolute;
       top: 5px;
-      right: 5px; }
+      right: 5px;
+      transition: all .25s; }
+      .OverlayEntity__inner__close:hover {
+        cursor: pointer;
+        color: #4a80f0; }
   .OverlayEntity__fieldWrapper {
-    margin-bottom: 15px; }
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-left: 15px; }
 
 .Folder__open {
   background: #444; }

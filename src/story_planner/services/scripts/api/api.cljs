@@ -32,7 +32,8 @@
   (send-message {:type "create-entity"
                  :folder (:folder constructor)
                  :projectId (:projectId constructor)
-                 :value (:value constructor)}))
+                 :value (:value constructor)
+                 :title (:title constructor)}))
 (defn delete-entity [])
 (defn edit-entiy [])
 

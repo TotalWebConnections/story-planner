@@ -16,9 +16,10 @@
 (defn generate-folder-path [currentFolderPath folderPath]
   (reset! currentFolderPath folderPath))
 
-(defn add-entity [state projectId folder value]
+(defn add-entity [state projectId folder value title]
+  (print projectId)
   "adds a new entity to the give folder"
-  (api/create-entity {:folder @folder :projectId projectId :value value})
+  (api/create-entity {:folder @folder :projectId projectId :value value :title title})
   (reset! state false)
   (reset! folder "n/a"))
 
@@ -44,6 +45,7 @@
         projectId (:_id currentProject)
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
     (fn [currentProject currentBoard openedFolders]
+      (print projectId)
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
         [:div.Sidebar
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
@@ -58,7 +60,7 @@
           [:div.Sidebar__contentWrapper
             (for [entity (:entities currentProject)]
               (if (= (:folder entity) "n/a")
-                [:p.entityWrapper (:value (first (:values entity)))]))
+                [:p.entityWrapper (:title entity)]))
             (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
               (Folder folder currentBoard openedFolders #(comp
                                                           (generate-folder-path currentFolderPath (:name folder))

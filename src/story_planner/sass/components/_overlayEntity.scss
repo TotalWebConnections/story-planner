@@ -30,23 +30,42 @@
     left: calc(50% - 200px); // TODO we probaby want to make this more dynmaic
     top: 10%;
     overflow: scroll;
-    padding: 25px;
+    // padding: 25px;
     box-sizing: border-box;
-    border: 1px solid $offWhite;
+    // border: 1px solid $offWhite;
 
     &-header {
       margin-bottom: 15px;
       padding-bottom: 15px;
+      padding-top: 15px;
+      padding-left: 15px;
+    }
+
+    &-title {
+      width: 100%;
+      border-radius: 0px;
+      box-sizing: border-box;
+      text-align: center;
+      border-left: 0px;
+      border-right: 0px;
     }
 
     &__close {
       position: absolute;
       top: 5px;
       right: 5px;
+      transition: all .25s;
+
+      &:hover {
+        cursor: pointer;
+        color: $mainBlue;
+      }
     }
   }
 
   &__fieldWrapper {
+    margin-top: 15px;
     margin-bottom: 15px;
+    padding-left: 15px;
   }
 }
