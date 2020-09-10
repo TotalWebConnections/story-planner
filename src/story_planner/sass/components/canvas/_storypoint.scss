@@ -53,10 +53,14 @@
 
   &__curve {
     position: relative;
-    
+
     &__label {
       position: absolute;
       color: white;
+
+      input {
+        min-width: 50px;
+      }
     }
   }
 }
