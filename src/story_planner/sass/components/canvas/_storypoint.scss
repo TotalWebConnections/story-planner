@@ -50,4 +50,13 @@
     // height: 264px;
     flex-grow: 5;
   }
+
+  &__curve {
+    position: relative;
+    
+    &__label {
+      position: absolute;
+      color: white;
+    }
+  }
 }

@@ -68,6 +68,11 @@
   (async/send! (:channel data)
     (generate-string
       {:type "project" :data (DB/add-link-to-storypoint {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)})})))
+(defmethod handle-websocket-message "update-link-label"
+  [data]
+  (async/send! (:channel data)
+    (generate-string
+      {:type "project" :data (DB/update-link-label {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data) :label (:label data)})})))
 (defmethod handle-websocket-message "delete-storypoint"
   [data]
   (async/send! (:channel data)

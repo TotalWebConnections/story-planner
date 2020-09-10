@@ -26,6 +26,9 @@
           (api/add-link-to-storypoint {:storypointId currentLink :value id})))
       (handle-state-change {:type "handle-linking-id" :value id}))))
 
+(defn update-link-label [storypointId linkId label]
+  (api/update-link-label {:storypointId storypointId :linkId linkId :label label}))
+
 (defn get-direction-for-top [y]
   (if (> y 0)
     "Top"
@@ -42,7 +45,7 @@
      (get-direction-for-side x)
      (get-direction-for-top y))))
 
-(defn draw-curve [position size linkEndId]
+(defn draw-curve [position size linkEndId linkId linkLabel is-active storypointId]
   (let [currentPoint (storypointHelpers/get-storypoint-by-id (:storypoints (get-from-state "currentProject")) linkEndId)
         starting-direction (get-relative-position position (:position currentPoint))] ; y pos + 1/2 height - y offset of firs - make it positive
     (if currentPoint
@@ -54,29 +57,36 @@
            p2y (storypointHelpers/caculate-first-control-point-y starting-direction (- end-y y-initial) y-initial)
            p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial)
            p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) y-initial)]
+      [:div.Storypoint__curve
+       [:svg {:on-click #(reset! is-active (not @is-active))
+              :height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
+         [:defs
+           [:marker {:id "head"
+                     :orient "auto"
+                     :markerWidth "4"
+                     :markerHeight "6"
+                     :fill "red"
+                     :stroke "white"
+                     :refX "3"
+                     :refY "2"}
+             [:path {:d "M0,0 V4 L2,2 Z" :fill "white"}]]]
 
-      [:svg {:height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
-        [:defs
-          [:marker {:id "head"
-                    :orient "auto"
-                    :markerWidth "4"
-                    :markerHeight "6"
-                    :fill "red"
-                    :stroke "white"
-                    :refX "3"
-                    :refY "2"}
-            [:path {:d "M0,0 V4 L2,2 Z" :fill "white"}]]]
 
+         [:path {:fill "transparent" :stroke (if @is-active "red" "white") :stroke-width "2"
+                 :d (str "M"x-initial","y-initial"
+                      C"p2x","p2y"
+                     "p3x","p3y"
+                      "end-x","end-y"")
+                  :marker-end "url(#head)"}]]
+       (if @is-active
+         [:div.Storypoint__curve__label {:style {:top p3y :left p3x}}
+          [:input {:type "text" :default-value linkLabel :placeholder "label" :id (str "linkLabelId-" linkId)}]
+          [:button {:on-click #(update-link-label storypointId linkId (.-value (.getElementById js/document (str "linkLabelId-" linkId))))} "Submit"]])]))))
 
-        [:path {:fill "transparent" :stroke "white" :stroke-width "2"
-                :d (str "M"x-initial","y-initial"
-                     C"p2x","p2y"
-                    "p3x","p3y"
-                     "end-x","end-y"")
-                 :marker-end "url(#head)"}]]))))
 
 (defn Storypoint [storypoint]
-  (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})]
+  (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
+        is-active (atom false)]
     (fn [storypoint]
       [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
                                   :data-x (:x (:position storypoint))
@@ -85,7 +95,7 @@
                                           :transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
                                           :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
         (doall (for [link (:links storypoint)]
-                (draw-curve (:position storypoint) (:size storypoint) (:id link))))
+                (draw-curve (:position storypoint) (:size storypoint) (:id link) (:linkId link) (:label link) is-active (:id storypoint))))
         [:div.Storypoint__header
           [:i.fas.fa-link {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}}]
           [:p.Storypoint__header__delete {:on-click #(delete-storypoint (:id storypoint))} "X"]]

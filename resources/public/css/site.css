@@ -336,6 +336,11 @@ input, textarea {
     max-height: 30px; }
   .Storypoint textarea {
     flex-grow: 5; }
+  .Storypoint__curve {
+    position: relative; }
+    .Storypoint__curve__label {
+      position: absolute;
+      color: white; }
 
 p {
   font-family: "Montserrat", sans-serif; }

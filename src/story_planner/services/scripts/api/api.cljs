@@ -78,6 +78,14 @@
                  :storypointId (:storypointId constructor)
                  :value (:value constructor)}))
 
+(defn update-link-label [constructor]
+  "updates a storypoint link's label"
+  (send-message {:type "update-link-label"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :storypointId (:storypointId constructor)
+                 :linkId (:linkId constructor)
+                 :label (:label constructor)}))
+
 (defn delete-storypoint [constructor]
   "removes a storypoint from a project"
   (send-message {:type "delete-storypoint"

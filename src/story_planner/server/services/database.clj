@@ -95,13 +95,20 @@
 (defn add-link-to-storypoint [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                   {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$push {"storypoints.$.links" {:id (:value storyData)}}})
+    {$push {"storypoints.$.links" {:id (:value storyData) :linkId (str (ObjectId.))}}})
+  (get-project (:id storyData)))
+
+(defn update-link-label [storyData]
+  (mg/command db (sorted-map :update "projects"
+                   :updates [{:q {$and [{:_id (ObjectId. (:id storyData))}
+                                        {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
+                              :u {"$set" {"storypoints.$.links.$[link].label" (:label storyData)}} :arrayFilters [ {"link.linkId" (:linkId storyData)}]}]))
   (get-project (:id storyData)))
 
 (defn delete-storypoint [storyData]
   (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                   {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$pull {"storypoints" {:id (:storypointId storyData)}}})
+    {$pull {"storypoints" {:id (:storypointId storyData)}}} true)
   (get-project (:id storyData)))
 
 ; READ METHODS
@@ -117,5 +124,3 @@
     (map ; Turn characters into a modified list
       #(update % :_id str) ; By updating each map :id by casting to a string
       projects)))
-
-
