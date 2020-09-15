@@ -71,7 +71,7 @@
                      :markerHeight "6"
                      :fill "red"
                      :stroke "white"
-                     :refX "3"
+                     :refX "1"
                      :refY "2"}
              [:path {:d "M0,0 V4 L2,2 Z" :fill "white"}]]]
 
@@ -80,7 +80,7 @@
                  :d (str "M"x-initial","y-initial"
                       C"p2x","p2y"
                      "p3x","p3y"
-                      "end-x","end-y"")
+                      "(- end-x 4)","(- end-y 4)"")
                   :marker-end "url(#head)"}]]
        (if (show-curve-label @is-active linkLabel)
          [:div.Storypoint__curve__label {:style {:top y-initial :left p2x}} ; TODO we may want to make this closer
