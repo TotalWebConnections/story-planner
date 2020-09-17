@@ -27,6 +27,8 @@
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
                  [reagent "0.8.1"]
+                 [cljs-http "0.1.46"]
+                 [amazonica "0.3.153"]
                  [yogthos/config "1.1.5"]]
 
   :plugins [[lein-figwheel "0.5.19"]

@@ -5,12 +5,15 @@
     [immutant.web.middleware  :as web-middleware]
     [compojure.route          :as route]
     [environ.core             :refer (env)]
-    [compojure.core           :refer (ANY GET defroutes)]
+    [compojure.core           :refer (ANY GET POST defroutes)]
     [ring.util.response       :refer (response redirect content-type)]
+    [ring.middleware.params   :refer [wrap-params]]
+    [ring.middleware.multipart-params     :refer [wrap-multipart-params]]
     [cheshire.core            :refer :all]
     [mount.core :refer :all]
     [story-planner.server.services.database :as DB]
-    [story-planner.server.services.socket :as socketHandlers])
+    [story-planner.server.services.socket :as socketHandlers]
+    [story-planner.server.services.amazon :refer [handle-image-upload]])
   (:gen-class))
 
 (mount.core/start) ; Starts our DB
@@ -35,14 +38,35 @@
    :on-message (fn [ch m]
                 (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch})))})
 
+(def cors-headers
+  { "Access-Control-Allow-Origin" "*"
+    "Access-Control-Allow-Headers" "Content-Type"
+    "Access-Control-Allow-Credentials" "false"
+    "Access-Control-Allow-Methods" "GET,POST,OPTIONS"})
+
+(defn all-cors
+  "Allow requests from all origins"
+  [handler]
+  (fn [request]
+    (let [response (handler request)]
+      (update-in response [:headers]
+        merge cors-headers))))
+
 
 (defroutes routes
   (GET "/" {c :context} (redirect (str c "/index.html")))
+  (POST "/upload-img" request
+    (do ; basic image upload
+      (handle-image-upload (:multipart-params request))
+      (response "10")))
   (route/resources "/"))
 
 (defn -main [& {:as args}]
   (web/run
     (-> routes
+      (all-cors)
+      (wrap-params)
+      (wrap-multipart-params)
       ; (web-middleware/wrap-session {:timeout 20})
       ;; wrap the handler with websocket support
       ;; websocket requests will go to the callbacks, ring requests to the handler

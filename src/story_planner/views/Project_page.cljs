@@ -1,4 +1,5 @@
 (ns story-planner.views.Project_page
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
             [reagent.core :as r]
             [reitit.frontend :as rf]
@@ -7,7 +8,8 @@
             [story-planner.services.scripts.api.api :as api]
             [story-planner.components.Overlay :refer [Overlay]]
             [story-planner.components.app.header :refer [Header]]
-            [story-planner.services.state.dispatcher :refer [handle-state-change]]))
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
+            [cljs-http.client :as http]))
 
 
 (defn open-new-project-overlay [state]
@@ -31,6 +33,14 @@
   (navigate "app"))
 
 
+(defn upload-image []
+  (let  [my-file (first (array-seq (.-files (.getElementById js/document "my-file"))))]
+
+    (go (let [response (<! (http/post "http://localhost:8080/upload-img"
+                                   {:with-credentials? false
+                                    :multipart-params [["myFile" my-file]]}))]
+          (prn response)))))
+
 
 (defn Project-page [app-state]
   (let [showProjectOverlay (atom false)]
@@ -46,4 +56,6 @@
               [:button {:on-click #(open-project (:_id project))} "Build"]
               [:button.danger {:on-click #(delete-project (:_id project))} "Delete"]])]
         [:div.standard-padding
-          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]]])))
+          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]
+          [:button {:on-click #(upload-image)}"upload image"]
+          [:input#my-file {:type "file"}]]])))
