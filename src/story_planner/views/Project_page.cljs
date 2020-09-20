@@ -8,6 +8,7 @@
             [story-planner.services.scripts.api.api :as api]
             [story-planner.components.Overlay :refer [Overlay]]
             [story-planner.components.app.header :refer [Header]]
+            [story-planner.components.media.media-manager :refer [Media-Manager]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [cljs-http.client :as http]))
 
@@ -43,12 +44,15 @@
 
 
 (defn Project-page [app-state]
-  (let [showProjectOverlay (atom false)]
+  (let [showProjectOverlay (atom false)
+        showMediaManager (atom false)]
     (fn []
       [:div.Projects
+        [Media-Manager showMediaManager (:images @app-state)]
         [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
         [:div.Projects__header.standard-padding
-          [:h2 "My Projects"]]
+          [:h2 "My Projects"]
+          [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]]
         [:div.Projects__body.standard-padding
           (for [project (:projects @app-state)]
             [:div.Projects__projectBlock {:key (:_id project)}

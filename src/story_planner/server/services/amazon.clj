@@ -9,3 +9,6 @@
         :bucket-name "story-planner"
         :key (str "userID/" (:filename (get file "myFile")))
         :file (:tempfile (get file "myFile"))))
+
+
+(defn handle-load-images [id])

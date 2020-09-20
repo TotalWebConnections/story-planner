@@ -1,0 +1,59 @@
+.MediaManager {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75);
+  opacity: 0;
+  display: none;
+
+  &--active {
+    display: block;
+    opacity: 1;
+    animation: fadeIn .25s linear;
+  }
+
+  &__header {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    background: $lightBlack;
+  }
+
+  &__inner {
+    background: $lightBlack;
+    color: white;
+    width: 300px;
+    height: 150px;
+    position: absolute;
+    padding: 25px;
+    box-sizing: border-box;
+    left: calc(50% - 150px); // TODO we probaby want to make this more dynmaic
+    top: calc(50% - 75px);
+    border: 1px solid $offWhite;
+
+    &__close {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+  }
+
+  &__imageWrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    &-image {
+      width: 200px;
+      height: 200px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

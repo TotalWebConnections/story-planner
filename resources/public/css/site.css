@@ -74,7 +74,9 @@ input, textarea {
   height: 100vh;
   color: white; }
   .Projects__header {
-    background: #353c4f; }
+    background: #353c4f;
+    display: flex;
+    justify-content: space-between; }
   .Projects__body {
     margin: 25px 0;
     display: flex;
@@ -343,6 +345,51 @@ input, textarea {
       color: white; }
       .Storypoint__curve__label input {
         min-width: 50px; }
+
+.MediaManager {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  display: none; }
+  .MediaManager--active {
+    display: block;
+    opacity: 1;
+    animation: fadeIn .25s linear; }
+  .MediaManager__header {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    background: #353c4f; }
+  .MediaManager__inner {
+    background: #353c4f;
+    color: white;
+    width: 300px;
+    height: 150px;
+    position: absolute;
+    padding: 25px;
+    box-sizing: border-box;
+    left: calc(50% - 150px);
+    top: calc(50% - 75px);
+    border: 1px solid #fcfeff; }
+    .MediaManager__inner__close {
+      position: absolute;
+      top: 5px;
+      right: 5px; }
+  .MediaManager__imageWrapper {
+    display: flex;
+    flex-wrap: wrap; }
+    .MediaManager__imageWrapper-image {
+      width: 200px;
+      height: 200px; }
+      .MediaManager__imageWrapper-image img {
+        width: 100%;
+        height: 100%; }
 
 p {
   font-family: "Montserrat", sans-serif; }

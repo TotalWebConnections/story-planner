@@ -41,6 +41,7 @@
      [:ul
       [:li [:a {:href (rfe/href ::frontpage)} "Frontpage"]]
       [:li [:a {:href (rfe/href ::home)} "home"]]])
+
    (if @match
      (let [view (:view (:data @match))]
        [view app-state]))])

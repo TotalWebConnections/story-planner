@@ -5,6 +5,8 @@
 
   &__header {
     background: $lightBlack;
+    display: flex;
+    justify-content: space-between;
   }
 
   &__body {
