@@ -14,6 +14,8 @@
               [story-planner.views.Home_page :refer [Home-page]]
               [story-planner.views.App_page :refer [App-page]]
               [story-planner.views.Project_page :refer [Project-page]]
+              [story-planner.views.Login_page :refer [Login-page]]
+              [story-planner.views.Signup_page :refer [Signup-page]]
               [story-planner.services.state.global :refer [app-state]]
               [story-planner.services.state.dispatcher :refer [handle-state-change]]))
 
@@ -47,17 +49,27 @@
        [view app-state]))])
 
 (def routes
-  [["/app"
+  [["/"
+    {:name ::home
+     :view Home-page}]
+
+   ["/login"
+     {:name ::login
+      :view Login-page}]
+
+   ["/signup"
+     {:name ::signup
+      :view Signup-page}]
+
+   ["/app"
     {:name ::frontpage
      :view App-page}]
 
-   ["/"
+   ["/projects"
      {:name ::projects
-      :view Project-page}]
+      :view Project-page}]])
 
-   ["/home"
-    {:name ::home
-     :view Home-page}]])
+
 
 (defn init! []
   (rfe/start!
