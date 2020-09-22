@@ -11,9 +11,11 @@
     [ring.middleware.multipart-params     :refer [wrap-multipart-params]]
     [cheshire.core            :refer :all]
     [mount.core :refer :all]
+    [clojure.walk :as walk]
     [story-planner.server.services.database :as DB]
     [story-planner.server.services.socket :as socketHandlers]
-    [story-planner.server.services.amazon :refer [handle-image-upload]])
+    [story-planner.server.services.amazon :refer [handle-image-upload]]
+    [story-planner.server.services.user :refer [handle-save-user]])
   (:gen-class))
 
 (mount.core/start) ; Starts our DB
@@ -59,6 +61,8 @@
     (do ; basic image upload
       (handle-image-upload (:multipart-params request))
       (response "10")))
+  (POST "/user" request
+    (response (handle-save-user  (walk/keywordize-keys (:form-params request)))))
   (route/resources "/"))
 
 (defn -main [& {:as args}]

@@ -59,7 +59,16 @@ input, textarea {
   border: 1px solid #9f9f9f;
   border-radius: 4px;
   padding: 8px;
-  color: white; }
+  color: white;
+  margin: 10px 0; }
+
+.ErrorText {
+  color: red;
+  font-size: .75rem;
+  padding-top: 10px; }
+
+.ErrorText + input {
+  border-color: red; }
 
 .App {
   display: flex;
@@ -97,6 +106,32 @@ input, textarea {
       margin-bottom: 10px;
       padding-bottom: 10px;
       border-bottom: 1px solid #fcfeff; }
+
+.Signup {
+  background: #272f42;
+  height: 100vh;
+  color: white; }
+  .Signup__header {
+    background: #353c4f;
+    display: flex;
+    justify-content: space-between; }
+    .Signup__header h2 {
+      cursor: pointer; }
+  .Signup__inner {
+    height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+  .Signup__form {
+    background: #353c4f;
+    width: 300px;
+    padding: 15px 10px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column; }
+    .Signup__form button {
+      width: 100px;
+      margin-top: 10px; }
 
 .Sidebar {
   background: #272f42;

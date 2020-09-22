@@ -4,4 +4,15 @@ input, textarea {
   border-radius: 4px;
   padding: 8px;
   color: white;
+  margin: 10px 0;
+}
+
+.ErrorText {
+  color: red;
+  font-size: .75rem;
+  padding-top: 10px;
+}
+
+.ErrorText + input {
+  border-color: red;
 }
