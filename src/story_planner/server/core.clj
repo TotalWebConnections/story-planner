@@ -62,7 +62,7 @@
       (handle-image-upload (:multipart-params request))
       (response "10")))
   (POST "/user" request
-    (response (handle-save-user  (walk/keywordize-keys (:form-params request)))))
+    (response (generate-string (handle-save-user  (walk/keywordize-keys (:form-params request))))))
   (route/resources "/"))
 
 (defn -main [& {:as args}]

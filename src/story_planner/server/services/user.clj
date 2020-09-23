@@ -1,7 +1,9 @@
 (ns story-planner.server.services.user
   (:require [clojure.spec.alpha :as s]
             [cheshire.core            :refer :all]
-            [clojure.walk :as walk]))
+            [story-planner.server.services.response-handler :refer [wrap-response]]
+            [story-planner.server.services.database :as DB]
+            [buddy.hashers :as hashers]))
 
 (s/def ::email (s/and string? (partial re-matches #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$")))
 (s/def ::password-not-empty not-empty)
@@ -32,6 +34,9 @@
 (defn handle-save-user [user]
   (let [error-block (validate-input user)]
     (if (> (count error-block) 0)
-      (generate-string error-block)
-      "Save Succesfull")))
+      (wrap-response "error" error-block)
+      (wrap-response "success"
+        (DB/add-user
+          (dissoc
+            (conj user {:password (hashers/derive (:password user) {:alg :bcrypt+blake2b-512})}) :password-repeat))))))
 

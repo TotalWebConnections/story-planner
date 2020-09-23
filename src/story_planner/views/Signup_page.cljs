@@ -38,8 +38,11 @@
       (reset! errors error-block)
       (go (let [response (<! (http/post "http://localhost:8080/user"
                                      {:with-credentials? false
-                                      :form-params {:email (:email @user) :password (:password @user) :password-repeat (:confirm @user)}}))]
-            (reset! errors (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)))))))
+                                      :form-params {:email (:email @user) :password (:password @user) :password-repeat (:confirm @user)}}))
+                response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+            (if (= (:type response-body) "error")
+              (reset! errors (:data response-body))
+              (.setItem js/localStorage "story-planner-token" (:data response-body))))))))
 
 
 (defn Signup-page []
@@ -48,7 +51,7 @@
     (fn []
       [:div.Signup
        [:div.Signup__header.standard-padding
-         [:h2 {:on-click #((navigate ""))} "My Projects"]]
+         [:h2 {:on-click #((navigate ""))} "App Name"]]
        [:div.Signup__inner
         [:div.Signup__form
          [:h1 "Signup"]

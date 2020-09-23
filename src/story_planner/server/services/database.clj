@@ -22,6 +22,16 @@
 
 ; Need to add our CRUD stuff here
 
+
+
+; TODO move this to it's own file
+
+(defn add-user [user]
+  "checks should be done prior to this point for anything we need to do"
+  (:token (mc/insert-and-return db "users" (conj user {:token (str (java.util.UUID/randomUUID))}))))
+
+
+
 ; TODO probably best to keep this all under the project as one big entity
 ; TODO move these
 ;CREATE METHODS
@@ -41,7 +51,6 @@
 
 (defn create-entity [entityData]
   "Inserts an enttiy into the given folder or a root entities object"
-  (println entityData)
   (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
     {$push {:entities {:folder (:folder entityData) :title (:title entityData) :values (:value entityData)}}} {:upsert true})
   (get-project (:projectId entityData))) ; TODO handle save to specific folder path

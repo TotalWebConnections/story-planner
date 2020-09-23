@@ -29,7 +29,8 @@
                  [reagent "0.8.1"]
                  [cljs-http "0.1.46"]
                  [amazonica "0.3.153"]
-                 [yogthos/config "1.1.5"]]
+                 [yogthos/config "1.1.5"]
+                 [buddy/buddy-hashers "1.6.0"]]
 
   :plugins [[lein-figwheel "0.5.19"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
