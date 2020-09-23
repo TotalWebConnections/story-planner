@@ -30,7 +30,13 @@
   "checks should be done prior to this point for anything we need to do"
   (:token (mc/insert-and-return db "users" (conj user {:token (str (java.util.UUID/randomUUID))}))))
 
+(defn get-user [email]
+  (mc/find-maps db "users" {:email email}))
 
+(defn update-user-token [email]
+  (let [token (str (java.util.UUID/randomUUID))]
+    (mc/update db "users" {:email email} {$set {:token token }} {:upsert true})
+    token))
 
 ; TODO probably best to keep this all under the project as one big entity
 ; TODO move these

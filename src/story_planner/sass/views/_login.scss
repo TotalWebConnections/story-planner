@@ -1,3 +1,36 @@
 .Login {
-  
+  background: $darkBlack;
+  height: 100vh;
+  color: white;
+
+  &__header {
+    background: $lightBlack;
+    display: flex;
+    justify-content: space-between;
+
+    h2 {
+      cursor: pointer;
+    }
+  }
+
+  &__inner {
+    height: calc(100vh - 120px); // it's a little bigger as it looks weird when perfectly centered
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__form {
+    background: $lightBlack;
+    width: 300px;
+    padding: $standard-box-padding;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+
+    button {
+      width: 100px;
+      margin-top: 10px;
+    }
+  }
 }

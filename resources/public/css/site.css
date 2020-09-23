@@ -133,6 +133,32 @@ input, textarea {
       width: 100px;
       margin-top: 10px; }
 
+.Login {
+  background: #272f42;
+  height: 100vh;
+  color: white; }
+  .Login__header {
+    background: #353c4f;
+    display: flex;
+    justify-content: space-between; }
+    .Login__header h2 {
+      cursor: pointer; }
+  .Login__inner {
+    height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+  .Login__form {
+    background: #353c4f;
+    width: 300px;
+    padding: 15px 10px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column; }
+    .Login__form button {
+      width: 100px;
+      margin-top: 10px; }
+
 .Sidebar {
   background: #272f42;
   color: white;

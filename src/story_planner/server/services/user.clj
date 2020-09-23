@@ -40,3 +40,9 @@
           (dissoc
             (conj user {:password (hashers/derive (:password user) {:alg :bcrypt+blake2b-512})}) :password-repeat))))))
 
+(defn handle-login-user [user-creds]
+  (let [user (DB/get-user (:email user-creds))]
+    (if (and (first user) (:valid (hashers/verify (:password user-creds) (:password (first user)))))
+      (wrap-response "success" (DB/update-user-token (:email user-creds))) ;do update token send to ui
+      (wrap-response "error" "Password Error"))))
+
