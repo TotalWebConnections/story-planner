@@ -6,7 +6,8 @@
   (fn []
     [:div.Home
      [:div.Home__header
-      [:p {:on-click #((navigate "signup"))} "Sign up"]
-      [:p {:on-click #((navigate "login"))} "Login"]]
+      [:p {:on-click #(navigate "signup")} "Sign up"]
+      [:p {:on-click #(navigate "login")} "Login"]
+      [:p {:on-click #(navigate "projects")} "projects"]]
 
      [:h1 "Welcome to reagent-template"]]))

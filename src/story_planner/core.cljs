@@ -3,6 +3,7 @@
               [reagent.core :as r]
               [reitit.frontend :as rf]
               [reitit.frontend.easy :as rfe]
+              [reitit.frontend.controllers :as rfc]
               [reitit.coercion :as rc]
               [reitit.coercion.spec :as rss]
               [clerk.core :as clerk]
@@ -28,6 +29,7 @@
 ;Base for our authenticated pages
 (defn Auth-base [app-state]
   ; (print @app-state)
+  ; (print @match)
   ; (print (:linkStartId @app-state))
   ; (print (:new-prop @app-state))
   (init-websocket-connection)
@@ -53,6 +55,7 @@
     {:name ::home
      :view Home-page}]
 
+
    ["/login"
      {:name ::login
       :view Login-page}]
@@ -67,14 +70,22 @@
 
    ["/projects"
      {:name ::projects
-      :view Project-page}]])
+      :view Project-page
+      :controllers [{:start #(js/console.log "start")
+                     :stop #(js/console.log "stop")}]
+      :public? false}]])
 
 
 
 (defn init! []
   (rfe/start!
     (rf/router routes {:data {:coercion rss/coercion}})
-    (fn [m] (reset! match m))
+    (fn [new-match]
+      (swap! match
+        (fn [old-match]
+          (when new-match
+            (assoc new-match :controllers (rfc/apply-controllers (:controllers old-match) new-match))))))
+
     ;; set to false to enable HistoryAPI
     {:use-fragment true})
   (r/render [Auth-base app-state] (.getElementById js/document "app")))
