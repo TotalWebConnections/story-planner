@@ -9,6 +9,9 @@
 ; As we need more mutations for state we can add them here - Handle state change
 ; calls the correct method based on the type passed in
 (defmulti handle-state-change (fn [action] (:type action)))
+  (defmethod handle-state-change "set-login-error"
+    [action]
+    (swap! app-state conj {:loginError (:value action)}))
   (defmethod handle-state-change "set-canvas-render"
     [action]
     (set-canvas-render app-state (:value action)))

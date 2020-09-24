@@ -28,6 +28,7 @@
 
 (defn add-user [user]
   "checks should be done prior to this point for anything we need to do"
+  ; This token generation is probably good enough given Java's implementation of UUID is suppose to be secure
   (:token (mc/insert-and-return db "users" (conj user {:token (str (java.util.UUID/randomUUID))}))))
 
 (defn get-user [email]
@@ -37,6 +38,12 @@
   (let [token (str (java.util.UUID/randomUUID))]
     (mc/update db "users" {:email email} {$set {:token token }} {:upsert true})
     token))
+
+(defn check-user-token [token]
+  (let [user (mc/find-maps db "users" {:token token})]
+    (if (> (count user) 0)
+      true
+      false)))
 
 ; TODO probably best to keep this all under the project as one big entity
 ; TODO move these

@@ -1,4 +1,5 @@
 (ns story-planner.core
+    (:require-macros [cljs.core.async.macros :refer [go]])
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.core :as r]
               [reitit.frontend :as rf]
@@ -18,7 +19,8 @@
               [story-planner.views.Login_page :refer [Login-page]]
               [story-planner.views.Signup_page :refer [Signup-page]]
               [story-planner.services.state.global :refer [app-state]]
-              [story-planner.services.state.dispatcher :refer [handle-state-change]]))
+              [story-planner.services.state.dispatcher :refer [handle-state-change]]
+              [story-planner.services.scripts.api.permissions :refer [check-token login-failed]]))
 
 (enable-console-print!)
 
@@ -26,17 +28,28 @@
 ; TODO this works for testing but needs to be moved for prod
 (js/setTimeout #(api/get-projects) 1000)
 
-;Base for our authenticated pages
-(defn Auth-base [app-state]
-  ; (print @app-state)
-  ; (print @match)
-  ; (print (:linkStartId @app-state))
-  ; (print (:new-prop @app-state))
-  (init-websocket-connection)
+
+(defn generate-base-html []
   [:div.Main
     (if @match
       (let [view (:view (:data @match))]
         [view app-state]))])
+
+(defn handle-permissions-flow []
+  (let [chan (check-token (.getItem js/localStorage "story-planner-token"))]
+    (go (let [response (<! chan)
+              response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+          (if (:data response-body)
+            (generate-base-html)
+            (login-failed))))))
+
+;Base for our authenticated pages
+(defn Auth-base [app-state]
+  (init-websocket-connection)
+  (let [route-data (:data @match)]
+    (if (not (:public? route-data))
+      (handle-permissions-flow))
+    (generate-base-html)))
 
 ;Base for our pulbic facing pages
 (defn Base-page [app-state] ; Our base to hold the shell of our application - probably move this once it gets bigger
@@ -53,26 +66,28 @@
 (def routes
   [["/"
     {:name ::home
-     :view Home-page}]
+     :view Home-page
+     :public? true}]
 
 
    ["/login"
      {:name ::login
-      :view Login-page}]
+      :view Login-page
+      :public? true}]
 
    ["/signup"
      {:name ::signup
-      :view Signup-page}]
+      :view Signup-page
+      :public? true}]
 
    ["/app"
     {:name ::frontpage
-     :view App-page}]
+     :view App-page
+     :public? true}]
 
    ["/projects"
      {:name ::projects
       :view Project-page
-      :controllers [{:start #(js/console.log "start")
-                     :stop #(js/console.log "stop")}]
       :public? false}]])
 
 

@@ -46,3 +46,6 @@
       (wrap-response "success" (DB/update-user-token (:email user-creds))) ;do update token send to ui
       (wrap-response "error" "Password Error"))))
 
+(defn check-user-token [token]
+  (wrap-response "success" (DB/check-user-token token)))
+

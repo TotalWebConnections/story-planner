@@ -14,7 +14,7 @@
           (reset! errors (:data response-body))
           (.setItem js/localStorage "story-planner-token" (:data response-body))))))
 
-(defn Login-page []
+(defn Login-page [app-state]
   (let [user (atom {:email "" :password ""})
         errors (atom nil)]
     (fn []
@@ -25,6 +25,7 @@
         [:div.Login__form
          [:h1 "Login"]
          (if @errors [:p.ErrorText "Email or Password Invalid"])
+         (if (:loginError @app-state) [:p.ErrorText (:loginError @app-state)])
          [:input {:type "text" :placeholder "email" :on-change #(swap! user conj {:email (-> % .-target .-value)})}]
          [:input {:type "password" :placeholder "password" :on-change #(swap! user conj {:password (-> % .-target .-value)})}]
          [:button  {:on-click #(handle-login user errors)}"Submit"]]]])))
