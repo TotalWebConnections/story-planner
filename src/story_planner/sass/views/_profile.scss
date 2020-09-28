@@ -1,0 +1,29 @@
+.Profile {
+  background: $darkBlack;
+  height: 100vh;
+  color: white;
+
+  &__header {
+    background: $lightBlack;
+    display: flex;
+    justify-content: space-between;
+
+    h2 {
+      cursor: pointer;
+    }
+  }
+
+  &__inner {
+    height: calc(100vh - 120px); // it's a little bigger as it looks weird when perfectly centered
+    max-width: 1024px;
+    margin: 0 auto;
+
+    form {
+      max-width: 480px;
+    }
+  }
+
+  &__row {
+    margin: 25px 0;
+  }
+}

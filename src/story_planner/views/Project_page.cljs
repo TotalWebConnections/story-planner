@@ -52,7 +52,8 @@
         [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
         [:div.Projects__header.standard-padding
           [:h2 "My Projects"]
-          [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]]
+          [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]
+          [:p {:on-click #(navigate "profile")} "Profile"]]
         [:div.Projects__body.standard-padding
           (for [project (:projects @app-state)]
             [:div.Projects__projectBlock {:key (:_id project)}

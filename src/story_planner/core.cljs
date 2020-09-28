@@ -18,6 +18,7 @@
               [story-planner.views.Project_page :refer [Project-page]]
               [story-planner.views.Login_page :refer [Login-page]]
               [story-planner.views.Signup_page :refer [Signup-page]]
+              [story-planner.views.Profile_page :refer [Profile-page]]
               [story-planner.services.state.global :refer [app-state]]
               [story-planner.services.state.dispatcher :refer [handle-state-change]]
               [story-planner.services.scripts.api.permissions :refer [check-token login-failed]]))
@@ -83,11 +84,16 @@
    ["/app"
     {:name ::frontpage
      :view App-page
-     :public? true}]
+     :public? false}]
 
    ["/projects"
      {:name ::projects
       :view Project-page
+      :public? false}]
+
+   ["/profile"
+     {:name ::profile
+      :view Profile-page
       :public? false}]])
 
 

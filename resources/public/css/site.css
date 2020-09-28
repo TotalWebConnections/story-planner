@@ -159,6 +159,25 @@ input, textarea {
       width: 100px;
       margin-top: 10px; }
 
+.Profile {
+  background: #272f42;
+  height: 100vh;
+  color: white; }
+  .Profile__header {
+    background: #353c4f;
+    display: flex;
+    justify-content: space-between; }
+    .Profile__header h2 {
+      cursor: pointer; }
+  .Profile__inner {
+    height: calc(100vh - 120px);
+    max-width: 1024px;
+    margin: 0 auto; }
+    .Profile__inner form {
+      max-width: 480px; }
+  .Profile__row {
+    margin: 25px 0; }
+
 .Sidebar {
   background: #272f42;
   color: white;
