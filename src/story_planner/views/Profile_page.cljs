@@ -7,7 +7,11 @@
 
 (defn handle-subscribe [token]
   "Takes are new stripe token and sends it to server to finish the subscription process"
-  (print token))
+  (go (let [response (<! (http/post "http://localhost:8080/subscribe"
+                                 {:with-credentials? false
+                                  :form-params {:token (.getItem js/localStorage "story-planner-token") :stripeToken (:id (js->clj token :keywordize-keys true))}}))
+            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+          (print response-body))))
 
 (def card-style {
                  :base {

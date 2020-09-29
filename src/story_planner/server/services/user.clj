@@ -3,6 +3,7 @@
             [cheshire.core            :refer :all]
             [story-planner.server.services.response-handler :refer [wrap-response]]
             [story-planner.server.services.database :as DB]
+            [story-planner.server.services.billing :refer [create-new-customer]]
             [buddy.hashers :as hashers]))
 
 (s/def ::email (s/and string? (partial re-matches #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$")))
@@ -46,6 +47,24 @@
       (wrap-response "success" (DB/update-user-token (:email user-creds))) ;do update token send to ui
       (wrap-response "error" "Password Error"))))
 
+(defn validate-token [token]
+  (DB/check-user-token token))
+
 (defn check-user-token [token]
-  (wrap-response "success" (DB/check-user-token token)))
+  (wrap-response "success" (validate-token token)))
+
+(defn handle-subscribe-success [user-token sub-token])
+
+; (:id (first (:data (:subscriptions stripeResult))))
+(defn handle-subscribe-user [token email user-token]
+  (let [stripe-result (create-new-customer token email)
+        sub-token (:id (first (:data (:subscriptions stripe-result))))]
+    (if sub-token
+      (wrap-response "success" (DB/add-user-stripe-token sub-token user-token))
+      (wrap-response "error" "Token invalid"))))
+
+(defn subscribe-user [values]
+  (if (validate-token (:token values))
+    (wrap-response "success" (handle-subscribe-user (:stripeToken values) "test@test.com" (:token values))) ; TODO make the real email
+    (wrap-response "error" "Token invalid")))
 

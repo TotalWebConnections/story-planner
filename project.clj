@@ -29,6 +29,7 @@
                  [reagent "0.8.1"]
                  [cljs-http "0.1.46"]
                  [amazonica "0.3.153"]
+                 [abengoa/clj-stripe "1.0.4" :exclusions [org.apache.httpcomponents/httpcore org.apache.httpcomponents/httpclient]]
                  [yogthos/config "1.1.5"]
                  [buddy/buddy-hashers "1.6.0"]]
 
