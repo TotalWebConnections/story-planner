@@ -2,6 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.scripts.navigation :refer [navigate]]
+            [story-planner.services.scripts.api.localstorage :refer [update-local-storage]]
             [cljs-http.client :as http]))
 
 (defn handle-login [user errors]
@@ -12,7 +13,7 @@
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
         (if (= (:type response-body) "error")
           (reset! errors (:data response-body))
-          (.setItem js/localStorage "story-planner-token" (:data response-body))))))
+          (update-local-storage (:data response-body))))))
 
 (defn Login-page [app-state]
   (let [user (atom {:email "" :password ""})

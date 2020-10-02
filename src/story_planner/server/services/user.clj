@@ -3,7 +3,7 @@
             [cheshire.core            :refer :all]
             [story-planner.server.services.response-handler :refer [wrap-response]]
             [story-planner.server.services.database :as DB]
-            [story-planner.server.services.billing :refer [create-new-customer]]
+            [story-planner.server.services.billing :refer [create-new-customer stripe-unsubscribe-user]]
             [buddy.hashers :as hashers]))
 
 (s/def ::email (s/and string? (partial re-matches #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$")))
@@ -44,7 +44,7 @@
 (defn handle-login-user [user-creds]
   (let [user (DB/get-user (:email user-creds))]
     (if (and (first user) (:valid (hashers/verify (:password user-creds) (:password (first user)))))
-      (wrap-response "success" (DB/update-user-token (:email user-creds))) ;do update token send to ui
+      (wrap-response "success" (dissoc (conj (first user) {:token (DB/update-user-token (:email user-creds))}) :_id :password)) ;do update token send to ui
       (wrap-response "error" "Password Error"))))
 
 (defn validate-token [token]
@@ -60,11 +60,21 @@
   (let [stripe-result (create-new-customer token email)
         sub-token (:id (first (:data (:subscriptions stripe-result))))]
     (if sub-token
-      (wrap-response "success" (DB/add-user-stripe-token sub-token user-token))
+      (DB/add-user-stripe-token sub-token user-token)
       (wrap-response "error" "Token invalid"))))
 
 (defn subscribe-user [values]
   (if (validate-token (:token values))
     (wrap-response "success" (handle-subscribe-user (:stripeToken values) "test@test.com" (:token values))) ; TODO make the real email
     (wrap-response "error" "Token invalid")))
+
+(defn handle-unsubscribe-user [user-token sub-token]
+  (stripe-unsubscribe-user sub-token)
+  (wrap-response "success" (DB/add-user-stripe-token nil user-token)))
+
+(defn unsubscribe-user [values]
+  (if (validate-token (:token values))
+    (wrap-response "success" (handle-unsubscribe-user (:token values) (:sub-token values)))
+    (wrap-response "error" "Token invalid")))
+
 

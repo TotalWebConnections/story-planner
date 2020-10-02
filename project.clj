@@ -27,6 +27,7 @@
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
                  [reagent "0.8.1"]
+                 [clj-http "3.9.1"]
                  [cljs-http "0.1.46"]
                  [amazonica "0.3.153"]
                  [abengoa/clj-stripe "1.0.4" :exclusions [org.apache.httpcomponents/httpcore org.apache.httpcomponents/httpclient]]

@@ -12,6 +12,9 @@
   (defmethod handle-state-change "set-login-error"
     [action]
     (swap! app-state conj {:loginError (:value action)}))
+  (defmethod handle-state-change "set-user"
+    [action]
+    (swap! app-state conj {:user (:value action)}))
   (defmethod handle-state-change "set-canvas-render"
     [action]
     (set-canvas-render app-state (:value action)))

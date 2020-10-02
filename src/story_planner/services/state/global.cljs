@@ -5,7 +5,7 @@
 ; probably send our WS here too
 (defonce app-state (atom {:canvasLoaded false ; prevents the canvas from reloading
                           :loginError nil
-                          :userToken "" ; string user login token for auth
+                          :user nil
                           :navType "app" ; Either app or view - display or not dispaly nav
                           :images [{:src "https://www.theindoorgardens.com/wp-content/uploads/2020/08/fall_veggies-732x732.jpg"} {:src "https://www.theindoorgardens.com/wp-content/uploads/2020/08/overwatering_plants-732x732.jpg"}] ; For testing
                           :show-media false

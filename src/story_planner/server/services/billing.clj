@@ -1,5 +1,6 @@
 (ns story-planner.server.services.billing
   (:require [config.core :refer [env]]
+            [clj-http.client :as client]
             [clj-stripe.util :as util]
             [clj-stripe.common :as common]
             [clj-stripe.plans :as plans]
@@ -17,3 +18,10 @@
                      (common/card stripeToken)
                      (customers/email email)
                      (common/plan (:stripe-plan env))))))
+
+
+(defn stripe-unsubscribe-user
+  "Unsubscribes a user from stripe"
+  [subToken]
+  (let [url (str "https://api.stripe.com/v1/subscriptions/" subToken)]
+    (client/delete url {:basic-auth (:stripe-private-key env)})))

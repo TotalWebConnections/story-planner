@@ -47,7 +47,7 @@
 
 (defn add-user-stripe-token [sub-token user-token]
   (mc/update db "users" {:token user-token} {$set {:subToken sub-token }} {:upsert true})
-  "Token Updated")
+  sub-token)
 
 ; TODO probably best to keep this all under the project as one big entity
 ; TODO move these

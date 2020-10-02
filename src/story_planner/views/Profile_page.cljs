@@ -3,15 +3,27 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [goog.dom :as gdom]
             [story-planner.services.scripts.navigation :refer [navigate]]
+            [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key]]
             [cljs-http.client :as http]))
 
-(defn handle-subscribe [token]
+(defn handle-subscribe [stripe-token]
   "Takes are new stripe token and sends it to server to finish the subscription process"
   (go (let [response (<! (http/post "http://localhost:8080/subscribe"
                                  {:with-credentials? false
-                                  :form-params {:token (.getItem js/localStorage "story-planner-token") :stripeToken (:id (js->clj token :keywordize-keys true))}}))
+                                  :form-params {:token (:token (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)) :stripeToken (:id (js->clj stripe-token :keywordize-keys true))}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
-          (print response-body))))
+          (if (= (:type response-body) "error")
+            (js/alert "Credit card invalid")
+            (update-localstorage-by-key "subToken" (:data response-body))))))
+
+(defn handle-unsubscribe [token sub-token]
+  (go (let [response (<! (http/post "http://localhost:8080/unsubscribe"
+                                 {:with-credentials? false
+                                  :form-params {:token token :sub-token sub-token}}))
+            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+          (if (= (:type response-body) "error")
+            (js/alert "Error - Please contact support")
+            (update-localstorage-by-key "subToken" nil)))))
 
 (def card-style {
                  :base {
@@ -56,7 +68,7 @@
   (let [stripe (.Stripe js/window "pk_test_LgROF2ukcNIc3P3I3p4Nq31v") ;TODO we need to build this into a compile time var
         elements (.elements stripe)
         card (.create elements "card" (clj->js {:style card-style}))
-        subscribed false]
+        token (:token (:user @app-state))]
     (js/setTimeout #(setup-card-handlers stripe card) 2000) ; TODO make this better
     (fn []
       [:div.Profile
@@ -66,8 +78,13 @@
           [:h1 "My Details"]
           [:div.Profile__row
            [:h2 "Billing"]
-           [:p "You are currently not subscibed. Filling out the form below you will be charged $9/month until you cancel."]
-           [:form#subscription-form {:action "/subscribe" :method "post"}
-            [:div#card-element]
-            [:div#card-errors]
-            [:button {:type "submit"} "Subscribe"]]]]])))
+           (if (not (:subToken (:user @app-state)))
+             [:div.Profile__subscribe
+              [:p "You are currently not subscibed. Filling out the form below you will be charged $9/month until you cancel."]
+              [:form#subscription-form {:action "/subscribe" :method "post"}
+               [:div#card-element]
+               [:div#card-errors]
+               [:button {:type "submit"} "Subscribe"]]]
+             [:div.Profile__subscribe
+              [:p "Un-sub"]
+              [:button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]]])))

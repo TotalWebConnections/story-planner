@@ -37,7 +37,8 @@
         [view app-state]))])
 
 (defn handle-permissions-flow []
-  (let [chan (check-token (.getItem js/localStorage "story-planner-token"))]
+  (let [chan (check-token (:token (:user @app-state)))]
+    ; TODO we should cache a valid token in the state here so we can limit api requests and it shouldn't change that often
     (go (let [response (<! chan)
               response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
           (if (:data response-body)
@@ -96,9 +97,14 @@
       :view Profile-page
       :public? false}]])
 
-
+(defn move-localstorage-to-state [app-state]
+  "sets our state to have localstorage vals to persist login"
+  (let [localstorage (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)]
+    (if (and (not (:user @app-state)) localstorage)
+      (handle-state-change {:type "set-user" :value localstorage}))))
 
 (defn init! []
+  (move-localstorage-to-state app-state)
   (rfe/start!
     (rf/router routes {:data {:coercion rss/coercion}})
     (fn [new-match]
