@@ -70,6 +70,33 @@ input, textarea {
 .ErrorText + input {
   border-color: red; }
 
+.Home {
+  background: #272f42;
+  color: white; }
+  .Home__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; }
+  .Home__mainVisual {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .Home__mainVisual__inner {
+      display: flex;
+      flex-direction: row; }
+  .Home__ribbon {
+    text-align: center; }
+    .Home__ribbon__wrapper {
+      display: flex; }
+      .Home__ribbon__wrapper div {
+        width: 25%; }
+  .Home__section {
+    display: flex; }
+    .Home__section div {
+      width: 50%; }
+
 .App {
   display: flex;
   flex-wrap: wrap; }

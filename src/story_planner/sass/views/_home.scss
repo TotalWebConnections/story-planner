@@ -1,0 +1,43 @@
+.Home {
+  background: $darkBlack;
+  color: white;
+
+  &__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  &__mainVisual {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__inner {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  &__ribbon {
+    text-align: center;
+
+    &__wrapper {
+      display: flex;
+
+      div {
+        width: 25%;
+      }
+    }
+  }
+
+  &__section {
+    display: flex;
+
+    div {
+      width: 50%;
+    }
+  }
+}
