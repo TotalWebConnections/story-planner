@@ -17,6 +17,10 @@
   [data]
   (generate-string
     {:type "new-project" :data (DB/create-project {:name (:value data) :userId "123"})}))
+(defmethod handle-websocket-message "delete-project"
+  [data]
+  (generate-string
+    {:type "delete-project" :data (DB/delete-project {:id (:value data) :userId "123"})}))
 (defmethod handle-websocket-message "create-folder"
   [data]
   (generate-string

@@ -66,6 +66,11 @@
   (let [new-project (mc/insert-and-return db "projects" projectData)]
     (get-project (str (:_id new-project)))))
 
+(defn delete-project [projectData]
+  "TODO test deleting from a non-auth user"
+  (mc/remove db "projects" { :_id (ObjectId. (:id projectData))})
+  (:id projectData))
+
 (defn create-entity [entityData]
   "Inserts an enttiy into the given folder or a root entities object"
   (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}

@@ -23,7 +23,8 @@
   (api/create-project value))
 
 (defn delete-project [id]
-  "TODO handle delete of project")
+  "handle delete of project"
+  (api/delete-project id))
 
 (defn open-project [id]
   "Sets the active project by id - calls query to pull information"

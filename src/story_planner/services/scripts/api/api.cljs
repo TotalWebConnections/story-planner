@@ -10,7 +10,8 @@
 
 (defn create-project [constructor]
   (send-message {:type "create-project" :value constructor}))
-(defn delete-project [])
+(defn delete-project [id]
+  (send-message {:type "delete-project" :value id}))
 (defn edit-project [])
 (defn get-project [id]
   (send-message {:type "get-project" :value id}))

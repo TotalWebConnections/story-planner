@@ -24,6 +24,9 @@
   (defmethod handle-state-change "new-project"
     [action]
     (projects/add-new-project app-state (:value action)))
+  (defmethod handle-state-change "delete-project"
+    [action]
+    (projects/delete-project app-state (:value action)))
   (defmethod handle-state-change "get-project"
     [action]
     (projects/update-project app-state (:value action)))

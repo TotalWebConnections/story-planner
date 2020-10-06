@@ -9,6 +9,9 @@
 (defmethod handle-websocket-message "new-project"
   [data]
   (handle-state-change {:type "new-project" :value (:data data)}))
+(defmethod handle-websocket-message "delete-project"
+  [data]
+  (handle-state-change {:type "delete-project" :value (:data data)}))
 (defmethod handle-websocket-message "projects"
   [data]
   (handle-state-change {:type "get-projects" :value (:data data)}))

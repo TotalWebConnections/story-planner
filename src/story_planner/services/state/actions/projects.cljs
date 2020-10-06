@@ -7,6 +7,12 @@
 (defn add-new-project [state value]
   (swap! state update-in [:projects] conj (first value)))
 
+(defn delete-project [state value]
+  (swap! state update-in [:projects]
+    (fn [projects]
+      (filter #(not (= value (:_id %))) projects))))
+
+
 (defn update-project [state value]
   "updates the current project with the new state"
     ; We can safely take first here here as the vector will
