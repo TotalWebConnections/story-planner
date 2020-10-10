@@ -1,7 +1,8 @@
 (ns story-planner.services.scripts.api.websocket
   (:require [wscljs.client :as ws]
             [wscljs.format :as fmt]
-            [story-planner.services.state.dispatcher :refer [handle-state-change]]))
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
+            [story-planner.services.state.global :refer [get-current-user-token]]))
 
 
 (defmulti handle-websocket-message (fn [data] (:type data)))
@@ -42,7 +43,8 @@
 
 
 (defn send-message [value]
-  (ws/send socket value fmt/json))
+  "here we wrap all of our requests in our token - all ws should be auth"
+  (ws/send socket (conj value {:token (get-current-user-token)}) fmt/json))
 
 (defn close-connection []
   (ws/close socket)

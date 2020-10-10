@@ -9,14 +9,14 @@
 
 
 (defn create-project [constructor]
-  (send-message {:type "create-project" :value constructor}))
+  (send-message {:type "create-project" :value (:project constructor)}))
 (defn delete-project [id]
   (send-message {:type "delete-project" :value id}))
 (defn edit-project [])
 (defn get-project [id]
   (send-message {:type "get-project" :value id}))
-(defn get-projects []
-  (send-message {:type "get-projects" :value "123"})) ; value here represents our userID!
+(defn get-projects [token]
+  (send-message {:type "get-projects" :token token})) ; value here represents our userID!
 
 (defn create-board [constructor]
   (send-message {:type "create-board" :projectId (:projectId constructor) :value {:name (:value constructor) :folder (:folder constructor)}}))

@@ -22,3 +22,7 @@
   "returns the value for a specified key from state"
   ((keyword key) @app-state))
 
+(defn get-current-user-token []
+  "used in most api calls so we'll expose it on it's own"
+  (:token (:user @app-state)))
+

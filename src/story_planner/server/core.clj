@@ -38,8 +38,10 @@
     ; (swap! channel-store filter (fn [chan] (if (= chan channel) true false)) channel-store) close enough
                 (println "close code:" code "reason:" reason))
    :on-message (fn [ch m]
-                (send-message-to-all (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch}))))})
-
+                (let [user (DB/get-user-by-token (:token (parse-string m true)))]
+                  (if user
+                    (send-message-to-all (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user})))
+                    (async/send! ch (generate-string {:type "BAD-TOKEN-REQUEST" :data "Bad Token"})))))})
 (def cors-headers
   { "Access-Control-Allow-Origin" "*"
     "Access-Control-Allow-Headers" "Content-Type"

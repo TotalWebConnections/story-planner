@@ -6,6 +6,10 @@
   "custom http response wrapper that we can use to decide UI actions"
   {:type type :data data})
 
+(defn send-auth-error []
+  (wrap-response "error" "User is not authorized to edit entity"))
+
+
 
 
 

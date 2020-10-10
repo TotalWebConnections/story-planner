@@ -16,7 +16,7 @@
 (defmethod handle-websocket-message "create-project"
   [data]
   (generate-string
-    {:type "new-project" :data (DB/create-project {:name (:value data) :userId "123"})}))
+    {:type "new-project" :data (DB/create-project {:name (:value data) :userId (:_id (:user data))})}))
 (defmethod handle-websocket-message "delete-project"
   [data]
   (generate-string
@@ -31,8 +31,7 @@
     {:type "project" :data (DB/create-entity (dissoc data :channel))}))
 (defmethod handle-websocket-message "create-board"
   [data]
-  (generate-string
-    {:type "project" :data (DB/create-board (dissoc data :channel))}))
+  (generate-string (DB/create-board (dissoc data :channel) (:_id (:user data)))))
 (defmethod handle-websocket-message "create-storypoint"
   [data]
   (generate-string
@@ -40,11 +39,11 @@
 (defmethod handle-websocket-message "get-projects"
   [data] ; Returns the name and ID of all projects
   (generate-string
-    {:type "projects" :data (construct-all-project-return (DB/get-projects (:value data)))}))
+    {:type "projects" :data (construct-all-project-return (DB/get-projects (:_id (:user data))))}))
 (defmethod handle-websocket-message "get-project"
   [data] ; Returns the name and ID of all projects
   (generate-string
-    {:type "project" :data (DB/get-project (:value data))}))
+    {:type "project" :data (DB/get-project (:value data) (:_id (:user data)))}))
 (defmethod handle-websocket-message "update-storypoint-position"
   [data] ; Returns the name and ID of all projects
   (generate-string

@@ -20,7 +20,7 @@
 (defn save-new-project [state value]
   "Calls the api to save a new project"
   (reset! state false)
-  (api/create-project value))
+  (api/create-project {:project value}))
 
 (defn delete-project [id]
   "handle delete of project"

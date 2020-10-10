@@ -1,9 +1,11 @@
 (ns story-planner.server.services.database
   (:require [monger.core :as mg]
            [monger.collection :as mc]
+           [monger.conversion :as mgcon]
            [monger.operators :refer :all]
            [mount.core :refer [defstate]]
-           [config.core :refer [env]])
+           [config.core :refer [env]]
+           [story-planner.server.services.response-handler :as response-handler])
   (:import org.bson.types.ObjectId))
 
 (declare get-project)
@@ -29,7 +31,7 @@
 (defn add-user [user]
   "checks should be done prior to this point for anything we need to do"
   ; This token generation is probably good enough given Java's implementation of UUID is suppose to be secure
-  (:token (mc/insert-and-return db "users" (conj user {:token (str (java.util.UUID/randomUUID))}))))
+  (dissoc (update (mc/insert-and-return db "users" (conj user {:token (str (java.util.UUID/randomUUID))})) :_id str) :password))
 
 (defn get-user [email]
   (mc/find-maps db "users" {:email email}))
@@ -38,6 +40,12 @@
   (let [token (str (java.util.UUID/randomUUID))]
     (mc/update db "users" {:email email} {$set {:token token }} {:upsert true})
     token))
+
+(defn get-user-by-token [token]
+  (let [user (mc/find-maps db "users" {:token token})]
+    (if (> (count user) 0)
+      (first user)
+      false)))
 
 (defn check-user-token [token]
   (let [user (mc/find-maps db "users" {:token token})]
@@ -53,8 +61,10 @@
 ; TODO move these
 ;CREATE METHODS
 
-;TODO when we create a folder need to append it to the folders on the
-; (:projectId folderData)
+(defn check-project-permissions [projectId userId]
+  "Checks that a project is owned by the user")
+  ;TODO also check ifthe user has been granted access
+
 (defn create-folder [folderData]
   "Inserts a new folder"
   (mc/update db "projects" {:_id (ObjectId. (:id folderData))}
@@ -83,11 +93,15 @@
 
 
 ; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
-(defn create-board [boardData]
+(defn create-board [boardData userId]
   "Inserts an enttiy into the given folder or a root entities object"
-  (mc/update db "projects" {:_id (ObjectId. (:projectId boardData))}
-    {$push {:boards (:value boardData)}} {:upsert true})
-  (get-project (:projectId boardData)))
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$push {:boards (:value boardData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:projectId boardData) userId))
+      (response-handler/send-auth-error))))
 
 
 ; TODO probably need to roll this out into it's own attr - modifying story points is going to run into issues here
@@ -144,10 +158,11 @@
 
 ; READ METHODS
 ; TODO remove let - can simplify a bit
-(defn get-project [id]
-  (let [projects (mc/find-maps db "projects" {:_id (ObjectId. id)})]
+(defn get-project [id userId]
+  (let [projects (mc/find-maps db "projects" {:_id (ObjectId. id) :userId userId})]
     (map ; Turn characters into a modified list
-      #(update % :_id str) ; By updating each map :id by casting to a string
+      ; #(comp (update % :_id str) (update % :userId str)) ; By updating each map :id by casting to a string
+      #(dissoc (conj % {:_id (str (:_id %))  :userId (str (:userId %))}) :authorizedUsers)
       projects)))
 
 (defn get-projects [userId]
