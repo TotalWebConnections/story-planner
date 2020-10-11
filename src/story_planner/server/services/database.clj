@@ -65,12 +65,6 @@
   "Checks that a project is owned by the user")
   ;TODO also check ifthe user has been granted access
 
-(defn create-folder [folderData]
-  "Inserts a new folder"
-  (mc/update db "projects" {:_id (ObjectId. (:id folderData))}
-    {$push {:folders (dissoc folderData :id)}} {:upsert true})
-  (get-project (:id folderData)))
-
 (defn create-project [projectData]
   "insers a new project for current user"
   (let [new-project (mc/insert-and-return db "projects" projectData)]
@@ -80,16 +74,33 @@
   "TODO test deleting from a non-auth user"
   (mc/remove db "projects" { :_id (ObjectId. (:id projectData))})
   (:id projectData))
-
-(defn create-entity [entityData]
+; {:_id (ObjectId. (:projectId entityData))}
+(defn create-entity [entityData userId]
   "Inserts an enttiy into the given folder or a root entities object"
-  (mc/update db "projects" {:_id (ObjectId. (:projectId entityData))}
-    {$push {:entities {:folder (:folder entityData) :title (:title entityData) :values (:value entityData)}}} {:upsert true})
-  (get-project (:projectId entityData))) ; TODO handle save to specific folder path
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$push {:entities {:folder (:folder entityData) :title (:title entityData) :values (:value entityData)}}} {:upsert true}))]
+
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:projectId entityData) userId))
+      (response-handler/send-auth-error))))
+
 
 (defn edit-entity [entityData]
   "We'll use a separate function here
   cause it would just be easier to separate them")
+
+(defn create-folder [folderData userId]
+  "Inserts a new folder"
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id folderData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$push {:folders (dissoc folderData :id)}} {:upsert true}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:id folderData) userId))
+      (response-handler/send-auth-error))))
+
 
 
 ; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
@@ -105,56 +116,86 @@
 
 
 ; TODO probably need to roll this out into it's own attr - modifying story points is going to run into issues here
-(defn create-storypoint [storyData]
+(defn create-storypoint [storyData userId]
   "Creates a blank story point for the :board :projectId combo"
-  (mc/update db "projects" {:_id (ObjectId. (:projectId storyData))}
-    {$push {"storypoints" {
-                           :name "Title"
-                           :id (str (ObjectId.))
-                           :board (:board storyData)
-                           :description "Description"
-                           :position (:position storyData)
-                           :size (:size storyData)}}})
-  (get-project (:projectId storyData))) ; TODO we can define this type elsewhere for reuse
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId storyData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$push {"storypoints" {
+                                                                             :name "Title"
+                                                                             :id (str (ObjectId.))
+                                                                             :board (:board storyData)
+                                                                             :description "Description"
+                                                                             :position (:position storyData)
+                                                                             :size (:size storyData)}}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:projectId storyData) userId))
+      (response-handler/send-auth-error))))
 
 ; Choice to break up edits to prevent race conditions if multiple users edit same storypoint
-(defn update-storypoint-position [storyData]
-  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$set {"storypoints.$.position" (:position storyData) "storypoints.$.size" (:size storyData)}})
-  (get-project (:id storyData)))
+(defn update-storypoint-position [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$set {"storypoints.$.position" (:position storyData) "storypoints.$.size" (:size storyData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
 
 ;TODO DRY
-(defn update-storypoint-title [storyData]
-  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$set {"storypoints.$.name" (:value storyData)}})
-  (get-project (:id storyData)))
+(defn update-storypoint-title [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$set {"storypoints.$.name" (:value storyData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
 
-(defn update-storypoint-description [storyData]
-  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$set {"storypoints.$.description" (:value storyData)}})
-  (get-project (:id storyData)))
+(defn update-storypoint-description [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                               {$set {"storypoints.$.description" (:value storyData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
 
-(defn add-link-to-storypoint [storyData]
-  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$push {"storypoints.$.links" {:id (:value storyData) :linkId (str (ObjectId.))}}})
-  (get-project (:id storyData)))
+(defn add-link-to-storypoint [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$push {"storypoints.$.links" {:id (:value storyData) :linkId (str (ObjectId.))}}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
 
-(defn update-link-label [storyData]
-  (mg/command db (sorted-map :update "projects"
-                   :updates [{:q {$and [{:_id (ObjectId. (:id storyData))}
-                                        {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-                              :u {"$set" {"storypoints.$.links.$[link].label" (:label storyData)}} :arrayFilters [ {"link.linkId" (:linkId storyData)}]}]))
-  (get-project (:id storyData)))
+(defn update-link-label [storyData userId]
+  "This one is a bit different since the command results is different - we have to use that as the update filters we used
+    aren't supported by the core monger - have to access it with a manual mongo command"
+  (let [projectUpdate (.ok (mg/command db (sorted-map :update "projects"
+                                              :updates [{:q {$and [{:_id (ObjectId. (:id storyData))}
+                                                                   {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                                   {$or [{:userId userId}
+                                                                         {:authorizedUsers {$in [userId]}}]}]}
+                                                         :u {"$set" {"storypoints.$.links.$[link].label" (:label storyData)}} :arrayFilters [ {"link.linkId" (:linkId storyData)}]}])))]
+    (if projectUpdate
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
 
-(defn delete-storypoint [storyData]
-  (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                  {:storypoints {$elemMatch {:id (:storypointId storyData)}}}]}
-    {$pull {"storypoints" {:id (:storypointId storyData)}}} true)
-  (get-project (:id storyData)))
+(defn delete-storypoint [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                      {$pull {"storypoints" {:id (:storypointId storyData)}}} true))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
 
 ; READ METHODS
 ; TODO remove let - can simplify a bit
