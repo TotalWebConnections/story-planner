@@ -1,6 +1,7 @@
 (ns story-planner.services.scripts.api.api
   (:require [story-planner.services.scripts.api.websocket :refer [send-message]]
-            [story-planner.services.state.global :refer [get-from-state]]))
+            [story-planner.services.state.global :refer [get-from-state]]
+            [story-planner.services.scripts.trial :as trial-checks]))
 
 ; CLIENT SIDE API REQUESTS
 ; This file only handles the actual requsts to the server that the application makes
@@ -30,11 +31,13 @@
 (defn edit-folder [])
 
 (defn create-entity [constructor]
-  (send-message {:type "create-entity"
-                 :folder (:folder constructor)
-                 :projectId (:projectId constructor)
-                 :value (:value constructor)
-                 :title (:title constructor)}))
+  (if (trial-checks/user-able-to-add?)
+    (send-message {:type "create-entity"
+                   :folder (:folder constructor)
+                   :projectId (:projectId constructor)
+                   :value (:value constructor)
+                   :title (:title constructor)})
+    (js/alert "Max added - please subcribe for unlimited."))) ;TODO make nice
 (defn delete-entity [])
 (defn edit-entiy [])
 
@@ -42,10 +45,12 @@
 
 (defn create-storypoint [constructor]
   "creates a brand new storpy point associated with the board/projectID combo"
-  (send-message {:type "create-storypoint" :projectId (:projectId constructor)
-                 :board (:board constructor)
-                 :position (:position constructor)
-                 :size (:size constructor)}))
+  (if (trial-checks/user-able-to-add?)
+    (send-message {:type "create-storypoint" :projectId (:projectId constructor)
+                   :board (:board constructor)
+                   :position (:position constructor)
+                   :size (:size constructor)})
+    (js/alert "Max added - please subcribe for unlimited."))) ;TODO make nice
 
 ; NOTE - opted to break apart updates here to prevent weird race conditions
 ; where someone edits the name and another moves it - these states could still happen

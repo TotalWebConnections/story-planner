@@ -6,9 +6,28 @@
   color: white;
   background: $darkBlack;
 
+  &__left {
+    display: flex;
+  }
+
   &__block {
     padding: 5px 10px;
     display: flex;
+
+    &__trialIndicator {
+      width: 200px;
+      height: 10px;
+      border: 1px solid white;
+      position: relative;
+      display: flex;
+
+      .trialIndicator--inner {
+        height: 10px;
+        position: relative;
+        left: 0;
+        right: 0;
+      }
+    }
   }
 
   &__left {

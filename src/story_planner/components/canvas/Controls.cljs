@@ -3,7 +3,6 @@
             [story-planner.services.scripts.api.api :as api]))
 
 (defn handle-add-storypoint [projectId board]
-  (print board)
   (api/create-storypoint {:projectId projectId
                           :board board
                           :position {:x 2500 :y 2500} ;TODO make this take the zoom/pos into account

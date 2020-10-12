@@ -242,9 +242,22 @@ input, textarea {
   justify-content: space-between;
   color: white;
   background: #272f42; }
+  .Header__left {
+    display: flex; }
   .Header__block {
     padding: 5px 10px;
     display: flex; }
+    .Header__block__trialIndicator {
+      width: 200px;
+      height: 10px;
+      border: 1px solid white;
+      position: relative;
+      display: flex; }
+      .Header__block__trialIndicator .trialIndicator--inner {
+        height: 10px;
+        position: relative;
+        left: 0;
+        right: 0; }
   .Header__left {
     color: #4a80f0; }
 
