@@ -9,8 +9,11 @@
   "updates the value for the changed input"
   (swap! state update-in [(- id 1)] conj {:value value}))
 
-(defn handle-submit [inputFields titleField onSubmit]
-  (onSubmit @inputFields @titleField)
+(defn handle-set-image [image-state src]
+  (reset! image-state src))
+
+(defn handle-submit [inputFields titleField imageField onSubmit]
+  (onSubmit @inputFields @titleField @imageField)
   (reset! inputFields [{:id 1 :value ""}])
   (reset! titleField "Untitled"))
 
@@ -18,14 +21,17 @@
 (defn EntityOverlay [active onSubmit images]
   (let [inputFields (atom [{:id 1 :value ""}])
         titleField (atom "Untitled")
+        imageField (atom nil)
         showMedia (atom false)]
     (fn []
       [:div.OverlayEntity {:class (str "OverlayEntity--" @active)}
         [:div.OverlayEntity__inner
-          [Media-Manager-Small showMedia images]
+          [Media-Manager-Small showMedia images (partial handle-set-image imageField)]
           [:p.OverlayEntity__inner__close {:on-click #(reset! active false)} "x"]
           [:h3.OverlayEntity__inner-header "Add Entity"]
-          [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}]
+          [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
+           (if @imageField
+             [:img {:src @imageField :height "100%"}])]
           [:input.OverlayEntity__inner-title {:value @titleField :on-change #(reset! titleField (-> % .-target .-value))}]
           [:div.OverlayEntity__fieldWrapper
             (for [entityField @inputFields]
@@ -34,4 +40,4 @@
                                               :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])
            [:button {:on-click #(add-field inputFields)} "Add Field"]
-           [:button {:on-click #(handle-submit inputFields titleField onSubmit)} "Save"]]]])))
+           [:button {:on-click #(handle-submit inputFields titleField imageField onSubmit)} "Save"]]]])))

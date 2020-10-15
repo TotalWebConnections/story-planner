@@ -36,7 +36,8 @@
                    :folder (:folder constructor)
                    :projectId (:projectId constructor)
                    :value (:value constructor)
-                   :title (:title constructor)})
+                   :title (:title constructor)
+                   :image (:image constructor)})
     (js/alert "Max added - please subcribe for unlimited."))) ;TODO make nice
 (defn delete-entity [])
 (defn edit-entiy [])

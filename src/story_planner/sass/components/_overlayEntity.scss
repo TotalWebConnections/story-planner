@@ -61,6 +61,7 @@
       cursor: pointer;
       filter: brightness(100%); // prevents it jumping back
       transition: .5s;
+      text-align: center;
 
       &:hover {
         filter: brightness(75%);

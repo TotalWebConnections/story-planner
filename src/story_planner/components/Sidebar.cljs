@@ -16,9 +16,9 @@
 (defn generate-folder-path [currentFolderPath folderPath]
   (reset! currentFolderPath folderPath))
 
-(defn add-entity [state projectId folder value title]
+(defn add-entity [state projectId folder value title image]
   "adds a new entity to the give folder"
-  (api/create-entity {:folder @folder :projectId projectId :value value :title title})
+  (api/create-entity {:folder @folder :projectId projectId :value value :title title :image image})
   (reset! state false)
   (reset! folder "n/a"))
 

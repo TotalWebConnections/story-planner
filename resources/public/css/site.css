@@ -355,7 +355,8 @@ input, textarea {
       background-position: center;
       cursor: pointer;
       filter: brightness(100%);
-      transition: .5s; }
+      transition: .5s;
+      text-align: center; }
       .OverlayEntity__inner-media:hover {
         filter: brightness(75%);
         background-color: rgba(0, 0, 0, 0.15); }
@@ -533,7 +534,8 @@ input, textarea {
   height: 300px;
   display: none;
   background: #272f42;
-  box-shadow: 0px 5px 8px -2px black; }
+  box-shadow: 0px 5px 8px -2px black;
+  z-index: 25; }
   .MediaManagerSmall--active {
     display: block; }
   .MediaManagerSmall__imageWrapper {
