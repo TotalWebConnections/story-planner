@@ -25,11 +25,11 @@
     color: white;
     width: 400px;
     min-height: 200px;
-    max-height: 400px;
+    max-height: 450px;
     position: absolute;
     left: calc(50% - 200px); // TODO we probaby want to make this more dynmaic
     top: 10%;
-    overflow: scroll;
+    overflow: auto;
     // padding: 25px;
     box-sizing: border-box;
     // border: 1px solid $offWhite;
@@ -48,6 +48,25 @@
       text-align: center;
       border-left: 0px;
       border-right: 0px;
+    }
+
+    &-media {
+      width: 100%;
+      height: 200px;
+      border: 1px solid gray;
+      box-sizing: border-box;
+      background-image: url('../images/media.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      filter: brightness(100%); // prevents it jumping back
+      transition: .5s;
+
+      &:hover {
+        filter: brightness(75%);
+        background-color: rgba(0,0,0,.15);
+      }
+
     }
 
     &__close {

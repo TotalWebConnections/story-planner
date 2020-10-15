@@ -17,7 +17,6 @@
   (reset! currentFolderPath folderPath))
 
 (defn add-entity [state projectId folder value title]
-  (print projectId)
   "adds a new entity to the give folder"
   (api/create-entity {:folder @folder :projectId projectId :value value :title title})
   (reset! state false)
@@ -37,7 +36,7 @@
   (reset! currentFolderType type))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
-(defn Sidebar [currentProject currentBoard openedFolders]
+(defn Sidebar [currentProject currentBoard openedFolders images]
   (let [showFolderOverlay (atom false)
         showBoardOverlay (atom false)
         showEntityOverlay (atom false)
@@ -49,9 +48,8 @@
         [:div.Sidebar
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
-          (print projectId)
           [EntityOverlay showEntityOverlay
-            (partial add-entity showEntityOverlay projectId currentFolderPath)]
+            (partial add-entity showEntityOverlay projectId currentFolderPath) images]
           [:div.Sidebar__header
             [:h3 "Entities"]
             [:div.Sidebar__header__controls

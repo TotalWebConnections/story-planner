@@ -1,5 +1,6 @@
 (ns story-planner.components.EntityOverlay
-  (:require [reagent.core :as reagent :refer [atom]]))
+  (:require [reagent.core :as reagent :refer [atom]]
+            [story-planner.components.media.media-manager-small :refer [Media-Manager-Small]]))
 
 (defn add-field [state]
   (swap! state conj {:id (+ 1 (count @state)) :value ""}))
@@ -14,14 +15,17 @@
   (reset! titleField "Untitled"))
 
 
-(defn EntityOverlay [active onSubmit]
+(defn EntityOverlay [active onSubmit images]
   (let [inputFields (atom [{:id 1 :value ""}])
-        titleField (atom "Untitled")]
+        titleField (atom "Untitled")
+        showMedia (atom false)]
     (fn []
       [:div.OverlayEntity {:class (str "OverlayEntity--" @active)}
         [:div.OverlayEntity__inner
+          [Media-Manager-Small showMedia images]
           [:p.OverlayEntity__inner__close {:on-click #(reset! active false)} "x"]
           [:h3.OverlayEntity__inner-header "Add Entity"]
+          [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}]
           [:input.OverlayEntity__inner-title {:value @titleField :on-change #(reset! titleField (-> % .-target .-value))}]
           [:div.OverlayEntity__fieldWrapper
             (for [entityField @inputFields]
