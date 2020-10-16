@@ -1,4 +1,5 @@
-(ns story-planner.components.media.media-manager-small)
+(ns story-planner.components.media.media-manager-small
+  (:require [story-planner.services.scripts.api.upload :refer [upload-image]]))
 
 
 
@@ -7,6 +8,8 @@
    [:div.MediaManagerSmall__header.standard-padding
     [:h2 "Your Images"]
     [:p {:on-click #(reset! active false)} "x"]]
+   [:button {:on-click #(upload-image "mediaManagerSmall")}"upload image"]
+   [:input#mediaManagerSmall {:type "file"}]
    [:div.MediaManagerSmall__imageWrapper
     (for [image images]
       [:div.MediaManagerSmall__imageWrapper-image

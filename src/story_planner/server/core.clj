@@ -60,9 +60,7 @@
 (defroutes routes
   (GET "/" {c :context} (redirect (str c "/index.html")))
   (POST "/upload-img" request
-    (do ; basic image upload
-      (handle-image-upload (:multipart-params request))
-      (response "10")))
+    (response (generate-string (handle-image-upload (:multipart-params request)))))
   (POST "/user" request
     (response (generate-string (handle-save-user  (walk/keywordize-keys (:form-params request))))))
   (POST "/login" request
