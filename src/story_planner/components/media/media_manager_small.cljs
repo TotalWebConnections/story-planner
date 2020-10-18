@@ -13,4 +13,4 @@
    [:div.MediaManagerSmall__imageWrapper
     (for [image images]
       [:div.MediaManagerSmall__imageWrapper-image
-       [:img {:src (:src image) :on-click #(do (reset! active false) (on-image-select (:src image)))}]])]])
+       [:img {:src (str "https://story-planner.s3.amazonaws.com/" (:src image)) :on-click #(do (reset! active false) (on-image-select (:src image)))}]])]])

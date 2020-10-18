@@ -18,3 +18,10 @@
     ; We can safely take first here here as the vector will
     ; only be an elemnt of size 1
     (swap! state conj {:currentProject (first value)}))
+
+(defn update-images [state value]
+  "Updates our images list"
+  (swap! state conj {:images value}))
+
+(defn add-image [state value]
+  (swap! state update-in [:images] conj {:src value}))

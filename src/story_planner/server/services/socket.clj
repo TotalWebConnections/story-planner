@@ -2,7 +2,8 @@
   (:require
     [immutant.web.async       :as async]
     [cheshire.core            :refer :all]
-    [story-planner.server.services.database :as DB]))
+    [story-planner.server.services.database :as DB]
+    [story-planner.server.services.amazon :as AWS]))
 
 
 (defn construct-all-project-return [query]
@@ -40,7 +41,9 @@
 (defmethod handle-websocket-message "get-project"
   [data] ; Returns the name and ID of all projects
   (generate-string
-    {:type "project" :data (DB/get-project (:value data) (:_id (:user data)))}))
+    {:type "project-first"
+     :data [(DB/get-project (:value data) (:_id (:user data)))
+            (map (fn [img] {:src (:key img)}) (:object-summaries (AWS/handle-load-images (:_id (:user data)))))]}))
 (defmethod handle-websocket-message "update-storypoint-position"
   [data] ; Returns the name and ID of all projects
   (generate-string (DB/update-storypoint-position {:storypointId (:storypointId data) :position (:position data) :size (:size data) :id (:projectId data)} (:_id (:user data)))))

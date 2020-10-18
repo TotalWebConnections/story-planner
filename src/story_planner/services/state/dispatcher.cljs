@@ -21,6 +21,12 @@
   (defmethod handle-state-change "get-projects"
     [action]
     (projects/update-projects app-state (:value action)))
+  (defmethod handle-state-change "get-images"
+    [action]
+    (projects/update-images app-state (:value action)))
+  (defmethod handle-state-change "add-image"
+    [action]
+    (projects/add-image app-state (:value action)))
   (defmethod handle-state-change "new-project"
     [action]
     (projects/add-new-project app-state (:value action)))

@@ -43,7 +43,7 @@
         currentFolderPath (atom "n/a")
         projectId (:_id currentProject)
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
-    (fn [currentProject currentBoard openedFolders]
+    (fn [currentProject currentBoard openedFolders images]
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
         [:div.Sidebar
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]

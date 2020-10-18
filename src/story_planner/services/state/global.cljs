@@ -7,7 +7,7 @@
                           :loginError nil
                           :user nil
                           :navType "app" ; Either app or view - display or not dispaly nav
-                          :images [{:src "https://www.theindoorgardens.com/wp-content/uploads/2020/08/fall_veggies-732x732.jpg"} {:src "https://www.theindoorgardens.com/wp-content/uploads/2020/08/overwatering_plants-732x732.jpg"}] ; For testing
+                          :images [] ; For testing
                           :show-media false
                           :currentProject nil ; id of the current project opened
                           :currentBoard nil ; currently selected board

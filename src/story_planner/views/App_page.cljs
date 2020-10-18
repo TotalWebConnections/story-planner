@@ -1,5 +1,6 @@
 (ns story-planner.views.App_page
-  (:require [story-planner.components.Canvas :as Canvas]
+  (:require [reagent.core :as reagent :refer [atom]]
+            [story-planner.components.Canvas :as Canvas]
             [story-planner.components.Sidebar :refer [Sidebar]]
             [story-planner.components.app.header :refer [Header]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]))
@@ -10,7 +11,6 @@
     (handle-state-change {:type "set-active-board" :value (:name (first (:boards (:currentProject @app-state))))})))
 
 (defn App-page [app-state]
-  ; (print (:boards (:currentProject @app-state)))
   (set-initial-board app-state)
   [:div.App
     [Header (:name (:currentProject @app-state))]

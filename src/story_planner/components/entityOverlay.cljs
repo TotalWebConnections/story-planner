@@ -23,7 +23,7 @@
         titleField (atom "Untitled")
         imageField (atom nil)
         showMedia (atom false)]
-    (fn []
+    (fn [active onSubmit images]
       [:div.OverlayEntity {:class (str "OverlayEntity--" @active)}
         [:div.OverlayEntity__inner
           [Media-Manager-Small showMedia images (partial handle-set-image imageField)]
@@ -31,7 +31,7 @@
           [:h3.OverlayEntity__inner-header "Add Entity"]
           [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
            (if @imageField
-             [:img {:src @imageField :height "100%"}])]
+             [:img {:src (str "https://story-planner.s3.amazonaws.com/" @imageField) :height "100%"}])]
           [:input.OverlayEntity__inner-title {:value @titleField :on-change #(reset! titleField (-> % .-target .-value))}]
           [:div.OverlayEntity__fieldWrapper
             (for [entityField @inputFields]
