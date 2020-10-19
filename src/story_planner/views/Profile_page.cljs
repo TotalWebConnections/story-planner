@@ -2,9 +2,11 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
             [goog.dom :as gdom]
+            [cljs-http.client :as http]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key]]
-            [cljs-http.client :as http]))
+            [story-planner.components.profile.registed_users :refer [Registered-users]]))
+
 
 (defn handle-subscribe [stripe-token]
   "Takes are new stripe token and sends it to server to finish the subscription process"
@@ -87,4 +89,6 @@
                [:button {:type "submit"} "Subscribe"]]]
              [:div.Profile__subscribe
               [:p "Un-sub"]
-              [:button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]]])))
+              [:button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]
+          [:div.Profile__row
+           [Registered-users]]]])))

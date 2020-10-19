@@ -1,6 +1,5 @@
 .Profile {
   background: $darkBlack;
-  height: 100vh;
   color: white;
 
   &__header {
@@ -14,7 +13,6 @@
   }
 
   &__inner {
-    height: calc(100vh - 120px); // it's a little bigger as it looks weird when perfectly centered
     max-width: 1024px;
     margin: 0 auto;
 

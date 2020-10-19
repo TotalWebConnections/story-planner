@@ -188,7 +188,6 @@ input, textarea {
 
 .Profile {
   background: #272f42;
-  height: 100vh;
   color: white; }
   .Profile__header {
     background: #353c4f;
@@ -197,7 +196,6 @@ input, textarea {
     .Profile__header h2 {
       cursor: pointer; }
   .Profile__inner {
-    height: calc(100vh - 120px);
     max-width: 1024px;
     margin: 0 auto; }
     .Profile__inner form {
@@ -550,6 +548,31 @@ input, textarea {
       .MediaManagerSmall__imageWrapper-image img {
         width: 100%;
         height: 100%; }
+
+.RegisteredUsers h2 {
+  padding-bottom: 15px; }
+
+.RegisteredUsers h3 {
+  padding-bottom: 10px; }
+
+.RegisteredUsers h4 {
+  padding-top: 10px; }
+
+.RegisteredUsers__section {
+  padding: 25px 0; }
+
+.RegisteredUsers table tr {
+  padding: 5px 0;
+  display: block; }
+
+.RegisteredUsers table td, .RegisteredUsers table th {
+  padding: 0 8px;
+  width: 50px;
+  text-align: center; }
+
+.RegisteredUsers table .userTableCell {
+  width: 150px;
+  text-align: left; }
 
 p {
   font-family: "Montserrat", sans-serif; }
