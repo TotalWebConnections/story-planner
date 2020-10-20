@@ -35,6 +35,10 @@
 (defn setCurrentFolderType [currentFolderType type]
   (reset! currentFolderType type))
 
+(defn start-drag [e]
+  (handle-state-change {:type "set-drag-id" :value (.-id (.-target e))}))
+
+
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
 (defn Sidebar [currentProject currentBoard openedFolders images]
   (let [showFolderOverlay (atom false)
@@ -49,7 +53,7 @@
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
-            (partial add-entity showEntityOverlay projectId currentFolderPath) images]
+            (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath) images]
           [:div.Sidebar__header
             [:h3 "Entities"]
             [:div.Sidebar__header__controls
@@ -58,7 +62,7 @@
           [:div.Sidebar__contentWrapper
             (for [entity (:entities currentProject)]
               (if (= (:folder entity) "n/a")
-                [:p.entityWrapper (:title entity)]))
+                [:p.entityWrapper {:draggable true :id (:id entity) :on-drag-start start-drag} (:title entity)]))
             (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
               (Folder folder currentBoard openedFolders #(comp
                                                           (generate-folder-path currentFolderPath (:name folder))

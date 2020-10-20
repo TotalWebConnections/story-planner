@@ -4,6 +4,7 @@
 ; Define the state we need to hold here
 ; probably send our WS here too
 (defonce app-state (atom {:canvasLoaded false ; prevents the canvas from reloading
+                          :dragId nil ; we use this to update the entity after a drag
                           :loginError nil
                           :user nil
                           :navType "app" ; Either app or view - display or not dispaly nav

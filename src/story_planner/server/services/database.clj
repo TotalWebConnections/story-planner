@@ -80,7 +80,7 @@
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))}
                                                              {$or [{:userId userId}
                                                                    {:authorizedUsers {$in [userId]}}]}]}
-                                                      {$push {:entities {:folder (:folder entityData) :title (:title entityData) :values (:value entityData) :image (:image entityData)}}} {:upsert true}))]
+                                                      {$push {:entities {:folder (:folder entityData) :title (:title entityData) :values (:value entityData) :id (str (ObjectId.)) :image (:image entityData)}}} {:upsert true}))]
 
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:projectId entityData) userId))
@@ -126,6 +126,7 @@
                                                                              :id (str (ObjectId.))
                                                                              :board (:board storyData)
                                                                              :description "Description"
+                                                                             :entityId (:entityId storyData)
                                                                              :position (:position storyData)
                                                                              :size (:size storyData)}}}))]
     (if (> projectUpdate 0)

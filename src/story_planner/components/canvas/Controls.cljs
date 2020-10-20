@@ -5,6 +5,7 @@
 (defn handle-add-storypoint [projectId board]
   (api/create-storypoint {:projectId projectId
                           :board board
+                          :entityId nil
                           :position {:x 2500 :y 2500} ;TODO make this take the zoom/pos into account
                           :size {:h 200 :w 300}}))
 

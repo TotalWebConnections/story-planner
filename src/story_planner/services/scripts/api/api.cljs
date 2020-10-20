@@ -49,6 +49,7 @@
   (if (trial-checks/user-able-to-add?)
     (send-message {:type "create-storypoint" :projectId (:projectId constructor)
                    :board (:board constructor)
+                   :entityId (:entityId constructor)
                    :position (:position constructor)
                    :size (:size constructor)})
     (js/alert "Max added - please subcribe for unlimited."))) ;TODO make nice

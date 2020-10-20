@@ -1,6 +1,7 @@
 (ns story-planner.components.Canvas
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.scripts.api.api :as api]
+            [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.canvas.Controls :refer [Controls]]
             [story-planner.components.canvas.Storypoint :refer [Storypoint]]
@@ -35,6 +36,13 @@
                                    :height height
                                    :width width
                                    :id id}))
+
+(defn handle-add-storypoint [projectId board entityId]
+  (api/create-storypoint {:projectId projectId
+                          :board board
+                          :entityId entityId
+                          :position {:x 2500 :y 2500} ;TODO make this take the zoom/pos into account
+                          :size {:h 200 :w 300}}))
 
 
 ; We need to setup all our handlers after the componeent has rendered
@@ -97,8 +105,12 @@
      (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler}))
      (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true}
                                                    :listeners {:move onResize}})))))
+(defn allow-drop [e]
+  (.preventDefault e))
 
-
+(defn handle-drop [e projectId board]
+  (handle-add-storypoint projectId board (get-from-state "dragId"))
+  (handle-state-change {:type "remove-drag-id" :value nil}))
 
 (defn Canvas [currentProject currentBoard linkStartId]
   (reagent/create-class                 ;; <-- expects a map of functions
@@ -117,7 +129,7 @@
         ;; other lifecycle funcs can go in here
         :reagent-render        ;; Note:  is not :render
         (fn [currentProject currentBoard linkStartId]           ;; remember to repeat parameters
-          [:div.CanvasParent
+          [:div.CanvasParent {:on-drop #(handle-drop % (:_id currentProject) currentBoard) :on-drag-over allow-drop}
             [Controls (:_id currentProject) currentBoard]
             [:div#Canvas
              (if currentBoard

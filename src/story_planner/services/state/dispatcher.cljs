@@ -48,3 +48,11 @@
   (defmethod handle-state-change "handle-linking-id"
     [action]
     (handle-linking app-state (:value action)))
+
+  ; D&D stuff
+  (defmethod handle-state-change "set-drag-id"
+    [action]
+    (swap! app-state conj {:dragId (:value action)}))
+  (defmethod handle-state-change "remove-drag-id"
+    [action]
+    (swap! app-state conj {:dragId nil}))
