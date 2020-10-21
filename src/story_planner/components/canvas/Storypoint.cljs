@@ -3,6 +3,7 @@
             [story-planner.services.scripts.api.api :as api]
             [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.services.scripts.components.storypoints :as storypointHelpers]
+            [story-planner.services.scripts.components.entities :as entityHelpers]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]))
 
 (defn update-storypoint-title [id value]
@@ -91,7 +92,8 @@
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
-        is-active (atom false)]
+        is-active (atom false)
+        entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)]
     (fn [storypoint]
       [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
                                   :data-x (:x (:position storypoint))
@@ -106,7 +108,8 @@
           [:p.Storypoint__header__delete {:on-click #(delete-storypoint (:id storypoint))} "X"]]
         [:input
           {:type "text"
-           :default-value (:name @input-values)
+           :disabled (if entity true false)
+           :default-value (if entity (:title entity) (:name @input-values))
            :on-change #(do (swap! input-values conj {:name (-> % .-target .-value)})(update-storypoint-title (:id storypoint) (-> % .-target .-value)))}]
         [:textarea {:default-value (:description storypoint)
                     :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]])))
