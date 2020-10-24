@@ -1,21 +1,24 @@
 (ns story-planner.components.profile.registed_users
-  (:require [reagent.core :as reagent :refer [atom]]))
+  (:require [reagent.core :as reagent :refer [atom]]
+            [story-planner.services.scripts.api.api :as api]))
 
-; TODO for testing - remove
-(def authUsers
-  [{:name "Peter" :id "123" :access [1 4]}
-   {:name "Bobby Hill" :id "234" :access [4 2]}])
+(defn handle-add-authorized-user [added-user initial-add-list]
+  (api/add-new-authorized-user {:user @added-user :projectIds @initial-add-list})
+  (swap! added-user conj {:name nil :email nil})
+  (reset! initial-add-list []))
 
-(def projects
-  [{:name "test" :id 1}
-   {:name "test1" :id 2}
-   {:name "test2" :id 3}
-   {:name "test3" :id 4}
-   {:name "test4" :id 5}])
 
-(defn Registered-users []
-  (let [added-user (atom {:name nil :email nil})]
-    (fn []
+(defn handle-new-user-checkbox [e initial-add-list]
+  (if (.-checked (.-target e))
+    (swap! initial-add-list conj (.-id (.-target e)))
+    (swap! initial-add-list (fn [projects]
+                              (into [] (remove #(= % (.-id (.-target e))) projects))))))
+  ; (print @initial-add-list))
+
+(defn Registered-users [projects auth-user]
+  (let [added-user (atom {:name nil :email nil})
+        initial-add-list (atom [])]
+    (fn [projects auth-user]
       [:div.RegisteredUsers
        [:h2 "My Team"]
        [:p "Invite team members by email and manage which projects they have access to."]
@@ -28,23 +31,26 @@
            [:div
             [:h4 "Select which projects to grant access"]
             [:table.RegisteredUsers__currentWrapper
-             [:tr
-              (for [project projects]
-                [:th (:name project)])]
-             [:tr
-              (for [project projects]
-                [:td
-                 [:input {:type "checkbox"}]])]]])]]
+             [:tbody
+              [:tr
+               (for [project projects]
+                 [:th (:name project)])]
+              [:tr
+               (for [project projects]
+                 [:td
+                  [:input {:type "checkbox" :id (:_id project) :on-click #(handle-new-user-checkbox % initial-add-list)}]])]]]])]
+        [:button {:on-click #(handle-add-authorized-user added-user initial-add-list)} "Add User"]]
        [:div.RegisteredUsers__section
         [:h3 "Current Users"]
         [:table.RegisteredUsers__currentWrapper
-         [:tr
-          [:th.userTableCell "Name"]
-          (for [project projects]
-            [:th (:name project)])]
-         (for [user authUsers]
-           [:tr
-            [:td.userTableCell (:name user)]
-            (for [project projects]
-              [:td
-               [:input {:type "checkbox" :checked (some #(= (:id project) %) (:access user))}]])])]]])))
+         [:tbody
+          [:tr
+           [:th.userTableCell "Name"]
+           (for [project projects]
+             [:th (:name project)])]
+          (for [user auth-user]
+            [:tr
+             [:td.userTableCell (:name user)]
+             (for [project projects]
+               [:td
+                [:input {:type "checkbox" :checked (some #(= (:_id project) %) (:access user))}]])])]]]])))

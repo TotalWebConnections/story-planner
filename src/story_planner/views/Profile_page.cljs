@@ -91,4 +91,4 @@
               [:p "Un-sub"]
               [:button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]
           [:div.Profile__row
-           [Registered-users]]]])))
+           [Registered-users (:projects @app-state) (:authorizedUsers @app-state)]]]])))

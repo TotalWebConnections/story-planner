@@ -198,6 +198,17 @@
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
       (response-handler/send-auth-error))))
 
+
+;TODO move this to its own file
+(defn add-authorized-user [user projectIds parentId]
+  (mc/insert-and-return db "users"
+    (conj
+      user
+     {:token ""
+      :parentId parentId
+      :type "sub"
+      :setupToken (str (java.util.UUID/randomUUID))})))
+
 ; READ METHODS
 ; TODO remove let - can simplify a bit
 (defn get-project [id userId]

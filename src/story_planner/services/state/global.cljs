@@ -7,6 +7,7 @@
                           :dragId nil ; we use this to update the entity after a drag
                           :loginError nil
                           :user nil
+                          :authorizedUsers []
                           :navType "app" ; Either app or view - display or not dispaly nav
                           :images [] ; For testing
                           :show-media false

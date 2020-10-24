@@ -65,5 +65,13 @@
 (defmethod handle-websocket-message :default [data]
   (async/send! (:channel data) (generate-string "No method signiture found"))) ; String for consistency sake
 
+; Authorized user flow methods
+(defmethod handle-websocket-message "add-new-authorized-user"
+  [data]
+  (DB/add-authorized-user (:newUser data) (:projectIds data) (:_id (:user data))))
+; (defmethod handle-websocket-message "update-user-permissions"
+;   "Takes a users permissions and overrides them with new ones"
+;   [data])
+
 
 

@@ -100,6 +100,12 @@
                  :projectId (:_id (get-from-state "currentProject"))
                  :storypointId (:storypointId constructor)}))
 
+; Authorized Users stuff
+(defn add-new-authorized-user [constructor]
+  (send-message {:type "add-new-authorized-user"
+                 :newUser (:user constructor)
+                 :projectIds (:projectIds constructor)}))
+
 
 
 
