@@ -16,6 +16,9 @@
 (defmethod handle-websocket-message "projects"
   [data]
   (handle-state-change {:type "get-projects" :value (:data data)}))
+(defmethod handle-websocket-message "get-authorized-users"
+  [data]
+  (handle-state-change {:type "get-authorized-users" :value (:data data)}))
 (defmethod handle-websocket-message "project-first"
   [data]
   (handle-state-change {:type "get-project" :value (first (:data data))})

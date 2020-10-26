@@ -9,7 +9,9 @@
 (defn construct-all-project-return [query]
   "pulls out the ids to send for the all projects page"
   (map (fn [project]
-        {:_id (:_id project) :name (:name project)} ) query))
+        {:_id (:_id project)
+          :name (:name project)
+          :authorizedUsers (map #(str %) (:authorizedUsers project))} ) query))
 
 
 ; Handlers for our websocket functions
@@ -66,6 +68,11 @@
   (async/send! (:channel data) (generate-string "No method signiture found"))) ; String for consistency sake
 
 ; Authorized user flow methods
+(defmethod handle-websocket-message "get-authorized-users"
+  [data]
+  (generate-string
+    {:type "get-authorized-users"
+     :data (DB/get-authorized-users (:_id (:user data)))}))
 (defmethod handle-websocket-message "add-new-authorized-user"
   [data]
   (DB/add-authorized-user (:newUser data) (:projectIds data) (:_id (:user data))))

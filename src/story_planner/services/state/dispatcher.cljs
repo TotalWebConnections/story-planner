@@ -21,6 +21,9 @@
   (defmethod handle-state-change "get-projects"
     [action]
     (projects/update-projects app-state (:value action)))
+  (defmethod handle-state-change "get-authorized-users"
+    [action]
+    (swap! app-state conj {:users (:value action)}))
   (defmethod handle-state-change "get-images"
     [action]
     (projects/update-images app-state (:value action)))

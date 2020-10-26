@@ -9,6 +9,7 @@
   (:import org.bson.types.ObjectId))
 
 (declare get-project)
+(declare get-projects)
 
 (defstate db*
   :start (-> env :database-url mg/connect-via-uri)
@@ -200,14 +201,34 @@
 
 
 ;TODO move this to its own file
+(defn get-authorized-users [userId]
+  (println userId)
+  (let [users (mc/find-maps db "users" {:parentId userId})]
+    (println users)
+    (map ; Turn characters into a modified list
+      ; #(comp (update % :_id str) (update % :userId str)) ; By updating each map :id by casting to a string
+      #(conj % {:_id (str (:_id %))  :parentId (str (:parentId %))})
+      users)))
+
+(defn add-new-user-project [authorizedUserId parentId projectIds]
+  (let [projectList (get-projects parentId)]
+    (doseq [projectId projectIds]
+      (let [project (first
+                     (filter #(= projectId (:_id %)) projectList))]
+        (if project
+          (mc/update db "projects" {:_id (ObjectId. (:_id project))}
+                                   {$push {"authorizedUsers" authorizedUserId}} {:upsert true}))))))
+
 (defn add-authorized-user [user projectIds parentId]
-  (mc/insert-and-return db "users"
-    (conj
-      user
-     {:token ""
-      :parentId parentId
-      :type "sub"
-      :setupToken (str (java.util.UUID/randomUUID))})))
+  (let [newUser (mc/insert-and-return db "users"
+                  (conj
+                    user
+                   {:token ""
+                    :parentId parentId
+                    :type "sub"
+                    :setupToken (str (java.util.UUID/randomUUID))}))]
+    (add-new-user-project (str (:_id newUser)) parentId projectIds)))
+
 
 ; READ METHODS
 ; TODO remove let - can simplify a bit

@@ -15,7 +15,7 @@
                               (into [] (remove #(= % (.-id (.-target e))) projects))))))
   ; (print @initial-add-list))
 
-(defn Registered-users [projects auth-user]
+(defn Registered-users [projects auth-users]
   (let [added-user (atom {:name nil :email nil})
         initial-add-list (atom [])]
     (fn [projects auth-user]
@@ -48,9 +48,9 @@
            [:th.userTableCell "Name"]
            (for [project projects]
              [:th (:name project)])]
-          (for [user auth-user]
+          (for [user auth-users]
             [:tr
              [:td.userTableCell (:name user)]
              (for [project projects]
                [:td
-                [:input {:type "checkbox" :checked (some #(= (:_id project) %) (:access user))}]])])]]]])))
+                [:input {:type "checkbox" :checked (some #(= (:_id user) %) (:authorizedUsers project))}]])])]]]])))

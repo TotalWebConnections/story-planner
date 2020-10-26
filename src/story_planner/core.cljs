@@ -28,6 +28,7 @@
 (defonce match (r/atom nil)) ; this is our current page - we define it here outside our normal data flow
 ; TODO this works for testing but needs to be moved for prod
 (js/setTimeout #(api/get-projects (:token (:user @app-state))) 1000)
+(js/setTimeout #(api/get-authorized-users) 1000)
 
 
 (defn generate-base-html []

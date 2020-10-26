@@ -101,6 +101,9 @@
                  :storypointId (:storypointId constructor)}))
 
 ; Authorized Users stuff
+(defn get-authorized-users []
+  (send-message {:type "get-authorized-users"}))
+
 (defn add-new-authorized-user [constructor]
   (send-message {:type "add-new-authorized-user"
                  :newUser (:user constructor)
