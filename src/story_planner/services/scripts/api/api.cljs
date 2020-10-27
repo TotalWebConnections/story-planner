@@ -109,6 +109,11 @@
                  :newUser (:user constructor)
                  :projectIds (:projectIds constructor)}))
 
+(defn udpdate-project-permissions [constructor]
+  (send-message {:type "update-project-permissions"
+                 :authorizedUsers (:authorizedUsers constructor)
+                 :projectId (:projectId constructor)}))
+
 
 
 

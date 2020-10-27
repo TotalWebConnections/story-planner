@@ -76,9 +76,13 @@
 (defmethod handle-websocket-message "add-new-authorized-user"
   [data]
   (DB/add-authorized-user (:newUser data) (:projectIds data) (:_id (:user data))))
-; (defmethod handle-websocket-message "update-user-permissions"
-;   "Takes a users permissions and overrides them with new ones"
-;   [data])
+
+(defmethod handle-websocket-message "update-project-permissions"
+  [data]
+  (DB/update-project-permissions (:_id (:user data)) (:authorizedUsers data) (:projectId data))
+  (generate-string
+    {:type "generic"
+     :data "success"}))
 
 
 

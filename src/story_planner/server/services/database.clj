@@ -227,6 +227,12 @@
                     :setupToken (str (java.util.UUID/randomUUID))}))]
     (add-new-user-project (str (:_id newUser)) parentId projectIds)))
 
+(defn update-project-permissions [userId authorizedUsers projectId]
+  (println projectId)
+  (println authorizedUsers)
+  (mc/update db "projects" {:_id (ObjectId. projectId)}
+                           {$set {"authorizedUsers" authorizedUsers}} {:upsert true}))
+
 
 ; READ METHODS
 ; TODO remove let - can simplify a bit

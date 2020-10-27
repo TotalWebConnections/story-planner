@@ -16,11 +16,21 @@
                               (into [] (remove #(= % (.-id (.-target e))) projects))))))
 
 
+(defn add-user-to-project [project userId authorizedUsers]
+  (let [newAuthUsers (conj authorizedUsers userId)]
+    (handle-state-change {:type "update-project-authorized-users" :value {:projectId (:_id project) :authorizedUsers newAuthUsers}})
+    (api/udpdate-project-permissions {:authorizedUsers newAuthUsers :projectId (:_id project)})))
+
+(defn remove-user-from-project [project userId authorizedUsers]
+  (let [newAuthUsers (filter #(not (= % userId)) authorizedUsers)]
+    (handle-state-change {:type "update-project-authorized-users" :value {:projectId (:_id project) :authorizedUsers newAuthUsers}})
+    (api/udpdate-project-permissions {:authorizedUsers newAuthUsers :projectId (:_id project)})))
+
 (defn update-project-permissions [e project userId]
   (let [authorizedUsers (:authorizedUsers project)]
     (if (.-checked (.-target e))
-      (handle-state-change {:type "update-project-authorized-users" :value {:projectId (:_id project) :authorizedUsers (conj authorizedUsers userId)}})
-      (handle-state-change {:type "update-project-authorized-users" :value {:projectId (:_id project) :authorizedUsers (filter #(not (= % userId)) authorizedUsers)}}))))
+      (add-user-to-project project userId authorizedUsers)
+      (remove-user-from-project project userId authorizedUsers))))
 
 (defn Registered-users [projects auth-users]
   (let [added-user (atom {:name nil :email nil})
