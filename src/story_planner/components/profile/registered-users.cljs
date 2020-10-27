@@ -1,5 +1,6 @@
 (ns story-planner.components.profile.registed_users
   (:require [reagent.core :as reagent :refer [atom]]
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.services.scripts.api.api :as api]))
 
 (defn handle-add-authorized-user [added-user initial-add-list]
@@ -13,12 +14,19 @@
     (swap! initial-add-list conj (.-id (.-target e)))
     (swap! initial-add-list (fn [projects]
                               (into [] (remove #(= % (.-id (.-target e))) projects))))))
-  ; (print @initial-add-list))
+
+
+(defn update-project-permissions [e project userId]
+  (let [authorizedUsers (:authorizedUsers project)]
+    (if (.-checked (.-target e))
+      (handle-state-change {:type "update-project-authorized-users" :value {:projectId (:_id project) :authorizedUsers (conj authorizedUsers userId)}})
+      (handle-state-change {:type "update-project-authorized-users" :value {:projectId (:_id project) :authorizedUsers (filter #(not (= % userId)) authorizedUsers)}}))))
 
 (defn Registered-users [projects auth-users]
   (let [added-user (atom {:name nil :email nil})
         initial-add-list (atom [])]
     (fn [projects auth-user]
+      (print projects)
       [:div.RegisteredUsers
        [:h2 "My Team"]
        [:p "Invite team members by email and manage which projects they have access to."]
@@ -34,10 +42,10 @@
              [:tbody
               [:tr
                (for [project projects]
-                 [:th (:name project)])]
+                 [:th {:key (:_id project)} (:name project)])]
               [:tr
                (for [project projects]
-                 [:td
+                 [:td {:key (:_id project)}
                   [:input {:type "checkbox" :id (:_id project) :on-click #(handle-new-user-checkbox % initial-add-list)}]])]]]])]
         [:button {:on-click #(handle-add-authorized-user added-user initial-add-list)} "Add User"]]
        [:div.RegisteredUsers__section
@@ -47,10 +55,12 @@
           [:tr
            [:th.userTableCell "Name"]
            (for [project projects]
-             [:th (:name project)])]
+             [:th {:key (:_id project)} (:name project)])]
           (for [user auth-users]
-            [:tr
+            [:tr {:key (:_id user)}
              [:td.userTableCell (:name user)]
              (for [project projects]
-               [:td
-                [:input {:type "checkbox" :checked (some #(= (:_id user) %) (:authorizedUsers project))}]])])]]]])))
+               [:td {:key (:_id project)}
+                [:input {:type "checkbox"
+                         :checked (some #(= (:_id user) %) (:authorizedUsers project))
+                         :on-change #(update-project-permissions % project (:_id user))}]])])]]]])))

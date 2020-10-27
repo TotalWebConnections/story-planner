@@ -202,9 +202,7 @@
 
 ;TODO move this to its own file
 (defn get-authorized-users [userId]
-  (println userId)
   (let [users (mc/find-maps db "users" {:parentId userId})]
-    (println users)
     (map ; Turn characters into a modified list
       ; #(comp (update % :_id str) (update % :userId str)) ; By updating each map :id by casting to a string
       #(conj % {:_id (str (:_id %))  :parentId (str (:parentId %))})

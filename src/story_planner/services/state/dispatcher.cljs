@@ -59,3 +59,15 @@
   (defmethod handle-state-change "remove-drag-id"
     [action]
     (swap! app-state conj {:dragId nil}))
+
+
+  ;Stuff related to authorized Users
+  (defmethod handle-state-change "update-project-authorized-users"
+    [action]
+    (swap! app-state update-in [:projects]
+      (fn [projects]
+        (map
+          #(if (= (:projectId (:value action)) (:_id %))
+            (conj % {:authorizedUsers (:authorizedUsers (:value action))})
+            %
+            ) projects))))

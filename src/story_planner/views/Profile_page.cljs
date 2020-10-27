@@ -72,7 +72,7 @@
         card (.create elements "card" (clj->js {:style card-style}))
         token (:token (:user @app-state))]
     (js/setTimeout #(setup-card-handlers stripe card) 2000) ; TODO make this better
-    (fn []
+    (fn [app-state]
       [:div.Profile
         [:div.Profile__header.standard-padding
          [:h2 {:on-click #((navigate ""))} "App Name"]]
