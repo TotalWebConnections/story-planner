@@ -19,6 +19,7 @@
               [story-planner.views.Login_page :refer [Login-page]]
               [story-planner.views.Signup_page :refer [Signup-page]]
               [story-planner.views.Profile_page :refer [Profile-page]]
+              [story-planner.views.Auth_user_signup :refer [Auth-user-page]]
               [story-planner.services.state.global :refer [app-state]]
               [story-planner.services.state.dispatcher :refer [handle-state-change]]
               [story-planner.services.scripts.api.permissions :refer [check-token login-failed]]))
@@ -35,7 +36,9 @@
   [:div.Main
     (if @match
       (let [view (:view (:data @match))]
-        [view app-state]))])
+        (if (:id (:path (:parameters @match)))
+          [view app-state (:id (:path (:parameters @match)))]
+          [view app-state])))])
 
 (defn handle-permissions-flow []
   (let [chan (check-token (:token (:user @app-state)))]
@@ -96,7 +99,13 @@
    ["/profile"
      {:name ::profile
       :view Profile-page
-      :public? false}]])
+      :public? false}]
+
+   ["/signup-auth-user/:id"
+     {:name ::signup-auth-user
+      :view Auth-user-page
+      :parameters {:path {:id string?}}
+      :public? true}]])
 
 (defn move-localstorage-to-state [app-state]
   "sets our state to have localstorage vals to persist login"

@@ -228,12 +228,21 @@
     (add-new-user-project (str (:_id newUser)) parentId projectIds)))
 
 (defn update-project-permissions [userId authorizedUsers projectId]
-  (println projectId)
-  (println authorizedUsers)
   (mc/update db "projects" {:_id (ObjectId. projectId)}
                            {$set {"authorizedUsers" authorizedUsers}} {:upsert true}))
 
+(defn user-with-token-exists? [token]
+  (> (count (mc/find-maps db "users" {:setupToken token})) 0))
 
+(defn update-auth-user [token password]
+  (let [loginToken (str (java.util.UUID/randomUUID))]
+    (mc/update db "users" {:setupToken token}
+                         {$set {"setupToken" nil "password" password "token" loginToken}} {:upsert true})
+    (dissoc (get-user-by-token loginToken) :password :parentId :id)))
+
+
+
+; (wrap-response "success" (dissoc (conj (first user) {:token (DB/update-user-token (:email user-creds))}) :_id :password))
 ; READ METHODS
 ; TODO remove let - can simplify a bit
 (defn get-project [id userId]

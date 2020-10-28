@@ -77,4 +77,10 @@
     (wrap-response "success" (handle-unsubscribe-user (:token values) (:sub-token values)))
     (wrap-response "error" "Token invalid")))
 
+(defn signup-auth-user [values]
+  (println (:id values))
+  (if (DB/user-with-token-exists? (:id values))
+    (wrap-response "success" (DB/update-auth-user (:id values) (hashers/derive (:password values) {:alg :bcrypt+blake2b-512})))
+    (wrap-response "error" "Token invalid")))
+
 

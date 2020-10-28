@@ -15,7 +15,7 @@
     [story-planner.server.services.database :as DB]
     [story-planner.server.services.socket :as socketHandlers]
     [story-planner.server.services.amazon :refer [handle-image-upload]]
-    [story-planner.server.services.user :refer [handle-save-user handle-login-user check-user-token subscribe-user unsubscribe-user]])
+    [story-planner.server.services.user :refer [handle-save-user handle-login-user check-user-token subscribe-user unsubscribe-user signup-auth-user]])
   (:gen-class))
 
 (mount.core/start) ; Starts our DB
@@ -71,6 +71,8 @@
     (response (generate-string (subscribe-user (walk/keywordize-keys (:form-params request))))))
   (POST "/unsubscribe" request
     (response (generate-string (unsubscribe-user (walk/keywordize-keys (:form-params request))))))
+  (POST "/signup-auth-user" request
+    (response (generate-string (signup-auth-user (walk/keywordize-keys (:form-params request))))))
   (route/resources "/"))
 
 (defn -main [& {:as args}]

@@ -13,7 +13,8 @@
        [:p "Contact"]]
       [:p {:on-click #(navigate "signup")} "Sign up"]
       [:p {:on-click #(navigate "login")} "Login"]
-      [:p {:on-click #(navigate "projects")} "projects"]]
+      [:p {:on-click #(navigate "projects")} "projects"]
+      [:p {:on-click #(navigate "signup-auth-user")} "auth user signup"]]
 
      [:div.Home__mainVisual
       [:div.Home__mainVisual__inner
