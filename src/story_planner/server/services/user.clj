@@ -2,7 +2,8 @@
   (:require [clojure.spec.alpha :as s]
             [cheshire.core            :refer :all]
             [story-planner.server.services.response-handler :refer [wrap-response]]
-            [story-planner.server.services.database :as DB]
+            [story-planner.server.services.database.users :as DB-users]
+            [story-planner.server.services.database.authorized :as DB-auth-users]
             [story-planner.server.services.billing :refer [create-new-customer stripe-unsubscribe-user]]
             [buddy.hashers :as hashers]))
 
@@ -37,18 +38,18 @@
     (if (> (count error-block) 0)
       (wrap-response "error" error-block)
       (wrap-response "success"
-        (DB/add-user
+        (DB-users/add-user
           (dissoc
             (conj user {:password (hashers/derive (:password user) {:alg :bcrypt+blake2b-512})}) :password-repeat))))))
 
 (defn handle-login-user [user-creds]
-  (let [user (DB/get-user (:email user-creds))]
+  (let [user (DB-users/get-user (:email user-creds))]
     (if (and (first user) (:valid (hashers/verify (:password user-creds) (:password (first user)))))
-      (wrap-response "success" (dissoc (conj (first user) {:token (DB/update-user-token (:email user-creds))}) :_id :password)) ;do update token send to ui
+      (wrap-response "success" (dissoc (conj (first user) {:token (DB-users/update-user-token (:email user-creds))}) :_id :password)) ;do update token send to ui
       (wrap-response "error" "Password Error"))))
 
 (defn validate-token [token]
-  (DB/check-user-token token))
+  (DB-users/check-user-token token))
 
 (defn check-user-token [token]
   (wrap-response "success" (validate-token token)))
@@ -60,7 +61,7 @@
   (let [stripe-result (create-new-customer token email)
         sub-token (:id (first (:data (:subscriptions stripe-result))))]
     (if sub-token
-      (DB/add-user-stripe-token sub-token user-token)
+      (DB-users/add-user-stripe-token sub-token user-token)
       (wrap-response "error" "Token invalid"))))
 
 (defn subscribe-user [values]
@@ -70,7 +71,7 @@
 
 (defn handle-unsubscribe-user [user-token sub-token]
   (stripe-unsubscribe-user sub-token)
-  (wrap-response "success" (DB/add-user-stripe-token nil user-token)))
+  (wrap-response "success" (DB-users/add-user-stripe-token nil user-token)))
 
 (defn unsubscribe-user [values]
   (if (validate-token (:token values))
@@ -79,8 +80,8 @@
 
 (defn signup-auth-user [values]
   (println (:id values))
-  (if (DB/user-with-token-exists? (:id values))
-    (wrap-response "success" (DB/update-auth-user (:id values) (hashers/derive (:password values) {:alg :bcrypt+blake2b-512})))
+  (if (DB-auth-users/user-with-token-exists? (:id values))
+    (wrap-response "success" (DB-auth-users/update-auth-user (:id values) (hashers/derive (:password values) {:alg :bcrypt+blake2b-512})))
     (wrap-response "error" "Token invalid")))
 
 

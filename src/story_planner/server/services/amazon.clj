@@ -1,12 +1,12 @@
 (ns story-planner.server.services.amazon
   (:require [config.core :refer [env]]
-            [story-planner.server.services.database :as DB])
+            [story-planner.server.services.database.users :as DB-users])
   (:use [amazonica.aws.s3]))
 
 
 
 (defn handle-image-upload [file]
-  (let [user (DB/get-user-by-token (get file "token"))]
+  (let [user (DB-users/get-user-by-token (get file "token"))]
     (if user
       (do
         (put-object (:s3creds env)

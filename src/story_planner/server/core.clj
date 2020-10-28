@@ -12,7 +12,7 @@
     [cheshire.core            :refer :all]
     [mount.core :refer :all]
     [clojure.walk :as walk]
-    [story-planner.server.services.database :as DB]
+    [story-planner.server.services.database.users :as DB-users]
     [story-planner.server.services.socket :as socketHandlers]
     [story-planner.server.services.amazon :refer [handle-image-upload]]
     [story-planner.server.services.user :refer [handle-save-user handle-login-user check-user-token subscribe-user unsubscribe-user signup-auth-user]])
@@ -38,7 +38,7 @@
     ; (swap! channel-store filter (fn [chan] (if (= chan channel) true false)) channel-store) close enough
                 (println "close code:" code "reason:" reason))
    :on-message (fn [ch m]
-                (let [user (DB/get-user-by-token (:token (parse-string m true)))]
+                (let [user (DB-users/get-user-by-token (:token (parse-string m true)))]
                   (if user
                     (send-message-to-all (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user})))
                     (async/send! ch (generate-string {:type "BAD-TOKEN-REQUEST" :data "Bad Token"})))))})
