@@ -45,7 +45,7 @@
 (defn handle-login-user [user-creds]
   (let [user (DB-users/get-user (:email user-creds))]
     (if (and (first user) (:valid (hashers/verify (:password user-creds) (:password (first user)))))
-      (wrap-response "success" (dissoc (conj (first user) {:token (DB-users/update-user-token (:email user-creds))}) :_id :password)) ;do update token send to ui
+      (wrap-response "success" (dissoc (conj (first user) {:token (DB-users/update-user-token (:email user-creds))}) :_id :password :parentId)) ;do update token send to ui
       (wrap-response "error" "Password Error"))))
 
 (defn validate-token [token]

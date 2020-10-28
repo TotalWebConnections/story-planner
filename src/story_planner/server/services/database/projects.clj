@@ -15,7 +15,8 @@
       projects)))
 
 (defn get-projects [userId]
-  (let [projects (mc/find-maps db "projects" {:userId userId})]
+  (let [projects (mc/find-maps db "projects" {$or [{:userId userId}
+                                                   {:authorizedUsers {$in [(str userId)]}}]})]
     (map ; Turn characters into a modified list
       #(update % :_id str) ; By updating each map :id by casting to a string
       projects)))

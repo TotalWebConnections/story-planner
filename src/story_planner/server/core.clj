@@ -66,7 +66,9 @@
   (POST "/login" request
     (response (generate-string (handle-login-user (walk/keywordize-keys (:form-params request))))))
   (POST "/check-token" request
-    (response (generate-string (check-user-token (:token (walk/keywordize-keys (:form-params request)))))))
+    (try
+      (response (generate-string (check-user-token (:token (walk/keywordize-keys (:form-params request))))))
+      (catch Exception e (str "caught exception: " (.getMessage e)))))
   (POST "/subscribe" request
     (response (generate-string (subscribe-user (walk/keywordize-keys (:form-params request))))))
   (POST "/unsubscribe" request
