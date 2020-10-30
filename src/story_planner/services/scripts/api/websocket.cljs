@@ -4,6 +4,7 @@
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.services.state.global :refer [get-current-user-token]]))
 
+(declare send-message)
 
 (defmulti handle-websocket-message (fn [data] (:type data)))
 
@@ -30,7 +31,8 @@
   (print "Default Called"))
 
 (defn handle-onOpen []
-  (print "Connection Opened"))
+  (print "Connection Opened")
+  (send-message {:type "start-connection"}))
 
 (defn handle-onClose []
   (print "Connection Closes"))

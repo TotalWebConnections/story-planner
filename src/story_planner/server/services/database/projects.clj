@@ -8,10 +8,12 @@
   (:import org.bson.types.ObjectId))
 
 (defn get-project [id userId]
-  (let [projects (mc/find-maps db "projects" {:_id (ObjectId. id) :userId userId})]
+  (let [projects (mc/find-maps db "projects" {$and [{:_id (ObjectId. id)}
+                                                    {$or [{:userId userId}
+                                                          {:authorizedUsers {$in [(str userId)]}}]}]})]
     (map ; Turn characters into a modified list
       ; #(comp (update % :_id str) (update % :userId str)) ; By updating each map :id by casting to a string
-      #(dissoc (conj % {:_id (str (:_id %))  :userId (str (:userId %))}) :authorizedUsers)
+      #(conj % {:_id (str (:_id %))  :userId (str (:userId %))})
       projects)))
 
 (defn get-projects [userId]
@@ -39,7 +41,7 @@
   "Inserts an enttiy into the given folder or a root entities object"
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$push {:entities {:folder (:folder entityData) :title (:title entityData) :values (:value entityData) :id (str (ObjectId.)) :image (:image entityData)}}} {:upsert true}))]
 
     (if (> projectUpdate 0)
@@ -55,7 +57,7 @@
   "Inserts a new folder"
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id folderData))}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$push {:folders (dissoc folderData :id)}} {:upsert true}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id folderData) userId))
@@ -68,7 +70,7 @@
   "Inserts an enttiy into the given folder or a root entities object"
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$push {:boards (:value boardData)}}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:projectId boardData) userId))
@@ -80,7 +82,7 @@
   "Creates a blank story point for the :board :projectId combo"
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId storyData))}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$push {"storypoints" {
                                                                              :name "Title"
                                                                              :id (str (ObjectId.))
@@ -98,7 +100,7 @@
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$set {"storypoints.$.position" (:position storyData) "storypoints.$.size" (:size storyData)}}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
@@ -109,7 +111,7 @@
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$set {"storypoints.$.name" (:value storyData)}}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
@@ -119,7 +121,7 @@
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                {$set {"storypoints.$.description" (:value storyData)}}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
@@ -129,7 +131,7 @@
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$push {"storypoints.$.links" {:id (:value storyData) :linkId (str (ObjectId.))}}}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
@@ -142,7 +144,7 @@
                                               :updates [{:q {$and [{:_id (ObjectId. (:id storyData))}
                                                                    {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
                                                                    {$or [{:userId userId}
-                                                                         {:authorizedUsers {$in [userId]}}]}]}
+                                                                         {:authorizedUsers {$in [(str userId)]}}]}]}
                                                          :u {"$set" {"storypoints.$.links.$[link].label" (:label storyData)}} :arrayFilters [ {"link.linkId" (:linkId storyData)}]}])))]
     (if projectUpdate
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
@@ -152,7 +154,7 @@
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
                                                              {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [userId]}}]}]}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
                                                       {$pull {"storypoints" {:id (:storypointId storyData)}}} true))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))

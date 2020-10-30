@@ -22,25 +22,41 @@
 
 (def channel-store (atom []))
 
-(defn send-message-to-all [msg]
+(defn send-message-to-user [msg id]
+  "used to send a messsage to a specific user - e.x query projects"
+  (doseq [ch @channel-store]
+    (if (= (:id ch) id)
+      (async/send! (:channel ch) (generate-string msg)))))
+; (some #(= (:_id user) %) (:authorizedUsers project))
+(defn send-message-to-all [user msg]
   "Sends a message to all connected ws connections"
     (doseq [ch @channel-store]
-      (async/send! ch msg)))
+      ; (println (:authorizedUsers (first (:data msg))))
+      (if (= "project" (:type msg))
+          (if (or
+                (= (:id ch) (:_id user))
+                (some #(= (str (:id ch))  %) (:authorizedUsers (first (:data msg))))
+                (= (str (:id ch)) (:userId (first (:data msg)))))
+            (async/send! (:channel ch) (generate-string msg)))
+        (send-message-to-user msg (:_id user)))))
 
 ; (:id (ws/session h) get user ID of message
 ; need to be able to pool these and send it out to all with ID
 (def websocket-callbacks
   "WebSocket callback functions"
   {:on-open   (fn [channel]
-               (swap! channel-store conj channel) ; store channels for later
+               ; (swap! channel-store conj channel) ; store channels for later
                (async/send! channel (generate-string {:type "onReady" :data "Succesful connection"})))
    :on-close   (fn [channel {:keys [code reason]}]
     ; (swap! channel-store filter (fn [chan] (if (= chan channel) true false)) channel-store) close enough
                 (println "close code:" code "reason:" reason))
    :on-message (fn [ch m]
+                ; (println (parse-string m true))
                 (let [user (DB-users/get-user-by-token (:token (parse-string m true)))]
                   (if user
-                    (send-message-to-all (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user})))
+                    (if (= (:type (parse-string m true)) "start-connection")
+                      (swap! channel-store conj {:channel ch :id (:_id user)}) ; store channels for later
+                      (send-message-to-all user (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user}))))
                     (async/send! ch (generate-string {:type "BAD-TOKEN-REQUEST" :data "Bad Token"})))))})
 (def cors-headers
   { "Access-Control-Allow-Origin" "*"
