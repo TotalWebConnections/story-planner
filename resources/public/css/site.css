@@ -453,7 +453,8 @@ input, textarea {
   position: absolute;
   display: flex;
   flex-direction: column;
-  touch-action: none; }
+  touch-action: none;
+  box-sizing: border-box; }
   .Storypoint-currentlyLinked {
     border: 2px solid red; }
   .Storypoint input, .Storypoint textarea {
@@ -461,6 +462,26 @@ input, textarea {
     border-radius: 0px;
     box-sizing: border-box;
     border: none; }
+    .Storypoint input:focus, .Storypoint textarea:focus {
+      outline: none; }
+  .Storypoint__dragHandle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: orange;
+    position: absolute; }
+    .Storypoint__dragHandle-topRight {
+      top: -5px;
+      right: -5px; }
+    .Storypoint__dragHandle-topLeft {
+      top: -5px;
+      left: -5px; }
+    .Storypoint__dragHandle-bottomRight {
+      bottom: -5px;
+      right: -5px; }
+    .Storypoint__dragHandle-bottomLeft {
+      bottom: -5px;
+      left: -5px; }
   .Storypoint__header {
     flex-grow: 1;
     max-height: 20px;

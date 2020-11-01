@@ -14,6 +14,7 @@
 (set! js/global js/window); Work around as panzoom will error on global sometimes
 (def panzoom (.-Panzoom js/window))
 (def drag-ref (atom [])) ; reference to our draggable elements
+(def elementSize (atom {}))
 
 (defn getXVal [target event]
   "Grabs the x value for the onDrag event"
@@ -53,7 +54,8 @@
   (if zoomElem
     (do
       (def panHandler (panzoom zoomElem (clj->js {:maxScale 4
-                                                  :minScale 0.5
+                                                  :minScale 1
+                                                  :step 0.05
                                                   :excludeClass "draggable"
                                                   :contain "outside"})))
       ;
@@ -62,6 +64,8 @@
   ; function taken from interact - probably not `functional`
   ; TODO we should chanage drag speed based on zoom level
   ; The further out the faster the zoom needs to be to seem fluid
+
+
      (defn onMoveHandler [event]
        (let [target (.-target event)]
          (let [x (getXVal target event)
@@ -76,9 +80,14 @@
        (let [target (.-target event)]
          (api/update-storypoint-position {:x (getXVal target event)
                                           :y (getYVal target event)
-                                          :height (.-height (.-rect event))
-                                          :width (.-width (.-rect event))
+                                          :height (:height @elementSize)
+                                          :width (:width @elementSize)
                                           :id (.getAttribute target "id")})))
+     (defn onMoveStart [event]
+       ;We set this here as the scale of the zoom can throw off size after a drag event
+       ;we can use the zoom to get back the previous values, but it's often off by 1
+       (let [target (.-target event)]
+         (reset! elementSize {:height (.-offsetHeight target) :width (.-offsetWidth target)})))
 
      (defn onResize [event]
        (let [target (.-target event)
@@ -101,8 +110,7 @@
 
         (update-storypoint-position newX newY (.-height (.-rect event)) (.-width (.-rect event)) (.getAttribute target "id"))))
 
-
-     (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler}))
+     (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler :onstart onMoveStart}))
      (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true}
                                                    :listeners {:move onResize}})))))
 (defn allow-drop [e]

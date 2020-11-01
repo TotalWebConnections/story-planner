@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   touch-action: none;
+  box-sizing: border-box;
 
   &-currentlyLinked {
     border: 2px solid red;
@@ -18,6 +19,41 @@
     border-radius: 0px;
     box-sizing: border-box;
     border: none;
+
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__dragHandle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: orange;
+    position: absolute;
+
+    $dragHandlePosition: -5px;
+
+    &-topRight {
+      top: $dragHandlePosition;
+      right: $dragHandlePosition;
+    }
+
+    &-topLeft {
+      top: $dragHandlePosition;
+      left: $dragHandlePosition;
+    }
+
+    &-bottomRight {
+      bottom: $dragHandlePosition;
+      right: $dragHandlePosition;
+    }
+
+    &-bottomLeft {
+      bottom: $dragHandlePosition;
+      left: $dragHandlePosition;
+    }
   }
 
   &__header {

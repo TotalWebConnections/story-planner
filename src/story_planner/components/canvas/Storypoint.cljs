@@ -101,6 +101,12 @@
                                   :style {
                                           :transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
                                           :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
+        (if (:active storypoint)
+          (do
+            [:div.Storypoint__dragHandle.Storypoint__dragHandle-topRight]
+            [:div.Storypoint__dragHandle.Storypoint__dragHandle-topLeft]
+            [:div.Storypoint__dragHandle.Storypoint__dragHandle-bottomRight]
+            [:div.Storypoint__dragHandle.Storypoint__dragHandle-bottomLeft]))
         (doall (for [link (:links storypoint)]
                 (draw-curve (:position storypoint) (:size storypoint) (:id link) (:linkId link) (:label link) is-active (:id storypoint))))
         [:div.Storypoint__header

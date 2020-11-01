@@ -62,11 +62,11 @@
           [:div.Sidebar__contentWrapper
             (for [entity (:entities currentProject)]
               (if (= (:folder entity) "n/a")
-                [:p.entityWrapper {:draggable true :id (:id entity) :on-drag-start start-drag} (:title entity)]))
+                [:p.entityWrapper {:draggable true :id (:id entity) :on-drag-start start-drag :key (:id entity)} (:title entity)]))
             (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
-              (Folder folder currentBoard openedFolders #(comp
-                                                          (generate-folder-path currentFolderPath (:name folder))
-                                                          (handleShowOverlay showEntityOverlay)) false))]
+              ^{:key folder} (Folder folder currentBoard openedFolders #(comp
+                                                                          (generate-folder-path currentFolderPath (:name folder))
+                                                                          (handleShowOverlay showEntityOverlay)) false))]
           [:div.Sidebar__header
             [:h3 "Boards"]
             [:div.Sidebar__header__controls
@@ -75,8 +75,8 @@
           [:div.Sidebar__contentWrapper
             (for [board (:boards currentProject)]
               (if (= (:folder board) "n/a")
-                [:p.entityWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)})} (:name board)]))
+                [:p.entityWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)}) :key (:name board)} (:name board)]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
-              (Folder folder currentBoard openedFolders #(comp
-                                                            (generate-folder-path currentFolderPath (:name folder))
-                                                            (handleShowOverlay showBoardOverlay)) true))]]))))
+              ^{:key folder} (Folder folder currentBoard openedFolders #(comp
+                                                                          (generate-folder-path currentFolderPath (:name folder))
+                                                                          (handleShowOverlay showBoardOverlay)) true))]]))))
