@@ -3,7 +3,8 @@
             [story-planner.components.Canvas :as Canvas]
             [story-planner.components.Sidebar :refer [Sidebar]]
             [story-planner.components.app.header :refer [Header]]
-            [story-planner.services.state.dispatcher :refer [handle-state-change]]))
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
+            [story-planner.components.Loader :refer [Loader]]))
 
 (defn set-initial-board [app-state]
   "sets the first board to active on load - should only ever fire once"
@@ -16,4 +17,6 @@
     [Header (:name (:currentProject @app-state))]
     [Sidebar (:currentProject @app-state) (:currentBoard @app-state) (:openedFolders @app-state) (:images @app-state)]
     [:div.App__canvasWrapper
-      [Canvas/render (:currentProject @app-state) (:currentBoard @app-state) (:linkStartId @app-state)]]])
+       (if (not (:currentProject @app-state))
+         [Loader]
+         [Canvas/render (:currentProject @app-state) (:currentBoard @app-state) (:linkStartId @app-state)])]])

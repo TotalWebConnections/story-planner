@@ -112,7 +112,8 @@ input, textarea {
   .App__canvasWrapper {
     width: calc(100% - 150px);
     height: calc(100vh - 30px);
-    overflow: hidden; }
+    overflow: hidden;
+    background: #272f42; }
 
 .Projects {
   background: #272f42;
@@ -379,6 +380,21 @@ input, textarea {
     margin-top: 15px;
     margin-bottom: 15px;
     padding-left: 15px; }
+
+.Loader {
+  padding: 25px 15px;
+  text-align: center;
+  color: white; }
+  .Loader i {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    animation: spin-animation 1s infinite; }
+
+@keyframes spin-animation {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(359deg); } }
 
 .Folder__open {
   background: #444; }

@@ -10,8 +10,17 @@
             [story-planner.components.app.header :refer [Header]]
             [story-planner.components.media.media-manager :refer [Media-Manager]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
-            [cljs-http.client :as http]))
+            [cljs-http.client :as http]
+            [story-planner.components.Loader :refer [Loader]]))
 
+(defn load-content [app-state loaded]
+  ; TODO this works for testing but needs to be moved for prod
+  (js/setTimeout
+    (fn []
+      (api/get-projects (:token (:user @app-state)))
+      (api/get-authorized-users)
+      (reset! loaded true))
+    1000))
 
 (defn open-new-project-overlay [state]
   "Opens the new new project overlay"
@@ -46,7 +55,10 @@
 
 (defn Project-page [app-state]
   (let [showProjectOverlay (atom false)
-        showMediaManager (atom false)]
+        showMediaManager (atom false)
+        loaded? (atom false)]
+    (if (not @loaded?)
+      (load-content app-state loaded?))
     (fn []
       [:div.Projects
         [Media-Manager showMediaManager (:images @app-state)]
@@ -55,6 +67,8 @@
           [:h2 "My Projects"]
           [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]
           [:p {:on-click #(navigate "profile")} "Profile"]]
+        (if (not @loaded?)
+          [Loader])
         [:div.Projects__body.standard-padding
           (for [project (:projects @app-state)]
             [:div.Projects__projectBlock {:key (:_id project)}
