@@ -49,9 +49,20 @@
       (response-handler/send-auth-error))))
 
 
-(defn edit-entity [entityData]
+(defn edit-entity [entityData userId]
   "We'll use a separate function here
-  cause it would just be easier to separate them")
+  cause it would just be easier to separate them"
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))}
+                                                             {:entities {$elemMatch {:id (:entityId entityData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                      {$set {"entities.$.title" (:title entityData)
+                                                             "entities.$.values" (:value entityData)
+                                                             "entities.$.image" (:image entityData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:projectId entityData) userId))
+      (response-handler/send-auth-error))))
+
 
 (defn create-folder [folderData userId]
   "Inserts a new folder"

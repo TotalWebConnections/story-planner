@@ -39,8 +39,16 @@
                    :title (:title constructor)
                    :image (:image constructor)})
     (js/alert "Max added - please subcribe for unlimited."))) ;TODO make nice
+
+(defn edit-entity [constructor]
+  (send-message {:type "edit-entity"
+                 :entityId (:id constructor)
+                 :folder (:folder constructor)
+                 :projectId (:projectId constructor)
+                 :value (:value constructor)
+                 :title (:title constructor)
+                 :image (:image constructor)}))
 (defn delete-entity [])
-(defn edit-entiy [])
 
 
 

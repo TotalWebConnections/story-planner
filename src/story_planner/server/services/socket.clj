@@ -29,6 +29,9 @@
 (defmethod handle-websocket-message "create-entity"
   [data]
   (DB-projects/create-entity (dissoc data :channel) (:_id (:user data))))
+(defmethod handle-websocket-message "edit-entity"
+  [data]
+  (DB-projects/edit-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "create-board"
   [data]
   (DB-projects/create-board (dissoc data :channel) (:_id (:user data))))

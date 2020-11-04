@@ -16,10 +16,12 @@
 (defn generate-folder-path [currentFolderPath folderPath]
   (reset! currentFolderPath folderPath))
 
-(defn add-entity [state projectId folder value title image]
-  "adds a new entity to the give folder"
-  (api/create-entity {:folder @folder :projectId projectId :value value :title title :image image})
-  (reset! state false)
+(defn add-entity [state projectId folder value title image & [id]]
+  "adds a new entity to the give folder - taks an optional id to trigger edit"
+  (if id
+    (api/edit-entity {:id id :folder @folder :projectId projectId :value value :title title :image image})
+    (api/create-entity {:folder @folder :projectId projectId :value value :title title :image image}))
+  (reset! state {:show false :edit false :type "entity"})
   (reset! folder "n/a"))
 
 ; nearly the same as add-entity but give us some separation if need it l8er
@@ -30,7 +32,9 @@
   (api/create-board {:folder @folder :projectId projectId :value value}))
 
 (defn handleShowOverlay [state]
-  (reset! state "active"))
+  (if (= (:type @state) "entity")
+    (swap! state conj {:show "active"})
+    (reset! state "active")))
 
 (defn setCurrentFolderType [currentFolderType type]
   (reset! currentFolderType type))
@@ -38,12 +42,14 @@
 (defn start-drag [e]
   (handle-state-change {:type "set-drag-id" :value (.-id (.-target e))}))
 
+(defn edit-entity [showEntityOverlay entity]
+  (swap! showEntityOverlay conj {:show "active" :edit entity}))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
 (defn Sidebar [currentProject currentBoard openedFolders images]
   (let [showFolderOverlay (atom false)
         showBoardOverlay (atom false)
-        showEntityOverlay (atom false)
+        showEntityOverlay (atom {:show false :edit false :type "entity"})
         currentFolderPath (atom "n/a")
         projectId (:_id currentProject)
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
@@ -62,7 +68,8 @@
           [:div.Sidebar__contentWrapper
             (for [entity (:entities currentProject)]
               (if (= (:folder entity) "n/a")
-                [:p.entityWrapper {:draggable true :id (:id entity) :on-drag-start start-drag :key (:id entity)} (:title entity)]))
+                [:p.entityWrapper {:draggable true :id (:id entity) :on-drag-start start-drag :key (:id entity)
+                                   :on-click #(edit-entity showEntityOverlay entity)} (:title entity)]))
             (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp
                                                                           (generate-folder-path currentFolderPath (:name folder))

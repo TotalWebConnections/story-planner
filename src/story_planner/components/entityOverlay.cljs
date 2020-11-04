@@ -12,22 +12,32 @@
 (defn handle-set-image [image-state src]
   (reset! image-state src))
 
-(defn handle-submit [inputFields titleField imageField onSubmit]
-  (onSubmit @inputFields @titleField @imageField)
+(defn handle-submit [inputFields titleField imageField editModeChecked? onSubmit]
+  (onSubmit @inputFields @titleField @imageField @editModeChecked?)
   (reset! inputFields [{:id 1 :value ""}])
-  (reset! titleField "Untitled"))
+  (reset! titleField "Untitled")
+  (reset! editModeChecked? false))
+
+(defn set-edit-mode [editModeChecked? entity titleField inputFields imageField showMedia]
+  (reset! editModeChecked? (:id entity))
+  (reset! titleField (:title entity))
+  (reset! inputFields (:values entity))
+  (reset! imageField (:image entity)))
 
 
 (defn EntityOverlay [active onSubmit images]
   (let [inputFields (atom [{:id 1 :value ""}])
         titleField (atom "Untitled")
         imageField (atom nil)
-        showMedia (atom false)]
+        showMedia (atom false)
+        editModeChecked? (atom false)]
     (fn [active onSubmit images]
-      [:div.OverlayEntity {:class (str "OverlayEntity--" @active)}
+      (if (and (:show @active) (not @editModeChecked?) (:edit @active))
+        (set-edit-mode editModeChecked? (:edit @active) titleField inputFields imageField showMedia))
+      [:div.OverlayEntity {:class (str "OverlayEntity--" (:show @active))}
         [:div.OverlayEntity__inner
           [Media-Manager-Small showMedia images (partial handle-set-image imageField)]
-          [:p.OverlayEntity__inner__close {:on-click #(reset! active false)} "x"]
+          [:p.OverlayEntity__inner__close {:on-click #(do (reset! editModeChecked? false) (swap! active conj {:show false :edit false}))} "x"]
           [:h3.OverlayEntity__inner-header "Add Entity"]
           [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
            (if @imageField
@@ -40,4 +50,4 @@
                                               :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])
            [:button {:on-click #(add-field inputFields)} "Add Field"]
-           [:button {:on-click #(handle-submit inputFields titleField imageField onSubmit)} "Save"]]]])))
+           [:button {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit)} "Save"]]]])))
