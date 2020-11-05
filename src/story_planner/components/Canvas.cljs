@@ -94,12 +94,12 @@
              x (js/parseFloat (.getAttribute target "data-x"))
              y (js/parseFloat (.getAttribute target "data-y"))
              newX (+ x (.-left (.-deltaRect event)))
-             newY (+ y (.-top (.-deltaRect event)))]
-
+             newY (+ y (.-top (.-deltaRect event)))
+             scale (.getScale panHandler)] ; we need the scale as the resize will be wrong unless we account for the differnet zooms
 
        ; set the size
-        (set! (.-height (.-style (.-target event))) (str (.-height (.-rect event)) "px"))
-        (set! (.-width (.-style (.-target event))) (str (.-width (.-rect event)) "px"))
+        (set! (.-height (.-style (.-target event))) (str (/ (.-height (.-rect event)) scale) "px"))
+        (set! (.-width (.-style (.-target event))) (str (/ (.-width (.-rect event)) scale) "px"))
 
        ;translate when resizing from top or edges
 
@@ -108,7 +108,7 @@
         (set! (.-transform (.-style target)) (str "translate("newX"px, "newY"px)"))
         (set! (.-webkitTransform (.-style target)) (str "translate("newX"px, "newY"px)"))
 
-        (update-storypoint-position newX newY (.-height (.-rect event)) (.-width (.-rect event)) (.getAttribute target "id"))))
+        (update-storypoint-position newX newY (/ (.-height (.-rect event)) scale) (/ (.-width (.-rect event)) scale) (.getAttribute target "id"))))
 
      (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler :onstart onMoveStart}))
      (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true}
