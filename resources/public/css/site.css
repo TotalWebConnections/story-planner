@@ -15,6 +15,9 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
   display: block; }
 
+div {
+  box-sizing: border-box; }
+
 body {
   line-height: 1; }
 
@@ -82,11 +85,20 @@ input, textarea {
 .Home {
   background: #272f42;
   color: white; }
+  .Home ul {
+    display: flex; }
+    .Home ul li {
+      padding: 0 5px; }
   .Home__header {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%; }
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 15px; }
+    .Home__header__block {
+      display: flex; }
   .Home__mainVisual {
     height: 100vh;
     display: flex;
@@ -95,16 +107,69 @@ input, textarea {
     .Home__mainVisual__inner {
       display: flex;
       flex-direction: row; }
+    .Home__mainVisual-left {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; }
+    .Home__mainVisual-right {
+      width: 50%; }
   .Home__ribbon {
-    text-align: center; }
+    text-align: center;
+    padding: 75px 0; }
     .Home__ribbon__wrapper {
       display: flex; }
       .Home__ribbon__wrapper div {
         width: 25%; }
+    .Home__ribbon-highlight {
+      background: #41D3BD; }
   .Home__section {
-    display: flex; }
+    display: flex;
+    padding: 75px 15px; }
     .Home__section div {
       width: 50%; }
+  .Home__lgSection {
+    padding: 75px 15px;
+    display: flex; }
+    .Home__lgSection--side--left {
+      width: 30%;
+      display: flex; }
+    .Home__lgSection--side--right {
+      width: 70%;
+      display: flex; }
+  .Home__feature {
+    width: 50%; }
+    .Home__feature__single {
+      border-bottom: 1px solid #41D3BD;
+      margin: 0 15px;
+      padding-bottom: 15px; }
+      .Home__feature__single:not(:first-child) {
+        margin-top: calc(2 * 15px); }
+  .Home__pricing {
+    padding: 75px 15px; }
+    .Home__pricing h2 {
+      text-align: center; }
+    .Home__pricing__options {
+      display: flex;
+      justify-content: space-around;
+      padding: 75px 15px;
+      padding-bottom: 0; }
+    .Home__pricing__card {
+      border: 3px solid #41D3BD;
+      border-radius: 25px;
+      width: 300px; }
+      .Home__pricing__card h3 {
+        text-align: center;
+        background: #4a80f0;
+        padding: 8px 0;
+        border-radius: 24px 24px 0 0; }
+      .Home__pricing__card__inner {
+        padding: 15px; }
+        .Home__pricing__card__inner p {
+          padding: 5px 0; }
+  .Home__footer {
+    padding: 75px 15px;
+    padding-bottom: 15px; }
 
 .App {
   display: flex;
@@ -611,7 +676,7 @@ input, textarea {
   width: 150px;
   text-align: left; }
 
-p {
+p, li, ul, table {
   font-family: "Montserrat", sans-serif; }
 
 h1, h2, h3, h4, h5 {

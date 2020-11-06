@@ -30,7 +30,7 @@
 $font-stack: 'Montserrat', sans-serif;
 $base-font-size: 1em;
 
-p {
+p, li, ul, table {
   font-family: $font-stack;
 }
 
