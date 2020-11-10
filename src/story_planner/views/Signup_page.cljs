@@ -32,6 +32,10 @@
          (validate-password-empty (:password user))
          (validate-password-equal user)))
 
+(defn signup-success [data]
+  (update-local-storage data)
+  (navigate "projects"))
+
 (defn handle-signup [user errors]
   (reset! errors nil)
   (let [error-block (validate-input @user)]
@@ -43,7 +47,7 @@
                 response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
             (if (= (:type response-body) "error")
               (reset! errors (:data response-body))
-              (update-local-storage (:data response-body))))))))
+              (signup-success (:data response-body))))))))
 
 
 (defn Signup-page []

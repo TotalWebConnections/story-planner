@@ -3,7 +3,12 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-local-storage]]
-            [cljs-http.client :as http]))
+            [cljs-http.client :as http]
+            [story-planner.services.scripts.navigation :refer [navigate]]))
+
+(defn login-success [data]
+  (update-local-storage data)
+  (navigate "projects"))
 
 (defn handle-login [user errors]
   (reset! errors nil)
@@ -13,7 +18,7 @@
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
         (if (= (:type response-body) "error")
           (reset! errors (:data response-body))
-          (update-local-storage (:data response-body))))))
+          (login-success (:data response-body))))))
 
 (defn Login-page [app-state]
   (let [user (atom {:email "" :password ""})
