@@ -13,8 +13,8 @@
       (if (not (:subToken (get-from-state "currentProject")))
         [:div.Header__block
          [:div.Header__block__trialIndicator
-          [:div.trialIndicator--inner {:style {:background "gold" :width (str (* 4 (trial-checks/check-total-usage)) "px")}}]]
-         [:p (str (trial-checks/check-total-usage) " of " trial-checks/MAX_ITEMS)]])]
+          [:div.trialIndicator--inner {:style {:background "gold" :width (str (* 2 (trial-checks/check-total-usage)) "px")}}]]
+         [:p.trialIndicator--text (str (trial-checks/check-total-usage) " of " trial-checks/MAX_ITEMS)]])]
     [:div.Header__right
       [:div.Header__block
         [:p {:on-click #((navigate ""))} "Projects"]

@@ -321,16 +321,19 @@ input, textarea {
     padding: 5px 10px;
     display: flex; }
     .Header__block__trialIndicator {
-      width: 200px;
+      width: 100px;
       height: 10px;
       border: 1px solid white;
       position: relative;
       display: flex; }
       .Header__block__trialIndicator .trialIndicator--inner {
-        height: 10px;
         position: relative;
+        box-sizing: border-box;
         left: 0;
         right: 0; }
+  .Header .trialIndicator--text {
+    line-height: 12px;
+    padding-left: 5px; }
   .Header__left {
     color: #4a80f0; }
 
