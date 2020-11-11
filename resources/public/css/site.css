@@ -479,7 +479,8 @@ input, textarea {
 .Folder__folder {
   display: flex;
   cursor: pointer;
-  transition: all .25s; }
+  transition: all .25s;
+  border-bottom: 1px solid #41D3BD; }
   .Folder__folder__left {
     display: flex;
     width: 75%; }
@@ -492,6 +493,9 @@ input, textarea {
       font-size: 1.5rem; }
   .Folder__folder:hover {
     background: #303738; }
+
+.Folder .entityWrapper {
+  border-bottom: 1px solid #41D3BD; }
 
 .Folder__entityWrapper {
   width: 100%;

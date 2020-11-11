@@ -20,6 +20,7 @@
     display: flex;
     cursor: pointer;
     transition: all .25s;
+      border-bottom: 1px solid $green;
 
     &__left {
       display: flex;
@@ -45,6 +46,10 @@
     &:hover {
       background: $gray;
     }
+  }
+
+  .entityWrapper {
+    border-bottom: 1px solid $green;
   }
 
   &__entityWrapper {

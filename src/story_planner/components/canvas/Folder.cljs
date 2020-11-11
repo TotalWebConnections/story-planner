@@ -4,6 +4,9 @@
             [story-planner.services.scripts.api.api :as api]
             [story-planner.services.state.global :refer [get-from-state]]))
 
+(defn start-drag [e]
+  (handle-state-change {:type "set-drag-id" :value (.-id (.-target e))}))
+
 (defn set-active-board [event board]
   "Sets the clicked board to active in state - dictates which story points to show"
   (handle-state-change {:type "set-active-board" :value board}))
@@ -16,8 +19,9 @@
 (defn generate-entity-display [entity]
   "generates a folder display, nested values so it's a bit different"
   ;TODO this needs to open the entity display
-  [:div {:key (str (:value (first entity)) "-" (rand-int 10000))}
-    [:p {:on-click #(js/alert "go")}
+  [:div {:key (str (:value (first entity)) "-" (rand-int 10000))
+         :draggable true :id (:id entity) :on-drag-start start-drag}
+    [:p.entityWrapper {:on-click #(js/alert "go")}
       (:title entity)]])
 
 (defn generate-board-display [folder currentBoard]
