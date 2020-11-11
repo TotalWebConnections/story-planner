@@ -63,10 +63,11 @@
       [:div.Projects
         [Media-Manager showMediaManager (:images @app-state)]
         [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
-        [:div.Projects__header.standard-padding
+        [:div.Projects__header
           [:h2 "My Projects"]
-          [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]
-          [:p {:on-click #(navigate "profile")} "Profile"]]
+          [:div.Projects__header__nav
+           [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]
+           [:p {:on-click #(navigate "profile")} "Profile"]]]
         (if (not @loaded?)
           [Loader])
         [:div.Projects__body.standard-padding

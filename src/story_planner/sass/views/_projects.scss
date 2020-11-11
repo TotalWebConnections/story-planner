@@ -7,6 +7,25 @@
     background: $lightBlack;
     display: flex;
     justify-content: space-between;
+    padding: 10px 15px;
+    h2 {
+      margin: 0;
+    }
+
+    &__nav {
+      display: flex;
+
+      p {
+        margin: 0 10px;
+        line-height: 25px;
+        transition: all .5s;
+
+        &:hover {
+          cursor: pointer;
+          color: #4a80f0;
+        }
+      }
+    }
   }
 
   &__body {

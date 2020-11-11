@@ -28,6 +28,16 @@
         right: 0;
       }
     }
+
+    &.nav p {
+      padding: 0 10px;
+      transition: all .5s;
+
+      &:hover {
+        cursor: pointer;
+        color: #4a80f0;
+      }
+    }
   }
 
   .trialIndicator--text {

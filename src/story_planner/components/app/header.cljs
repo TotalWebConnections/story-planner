@@ -16,7 +16,6 @@
           [:div.trialIndicator--inner {:style {:background "gold" :width (str (* 2 (trial-checks/check-total-usage)) "px")}}]]
          [:p.trialIndicator--text (str (trial-checks/check-total-usage) " of " trial-checks/MAX_ITEMS)]])]
     [:div.Header__right
-      [:div.Header__block
-        [:p {:on-click #((navigate ""))} "Projects"]
-        [:p {:on-click #((navigate ""))} "Settings"]
-        [:p {:on-click #((navigate ""))} "Account"]]]])
+      [:div.Header__block.nav
+        [:p {:on-click #((navigate "projects"))} "Projects"]
+        [:p {:on-click #((navigate "profile"))} "Account"]]]])

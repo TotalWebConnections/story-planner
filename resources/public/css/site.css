@@ -187,7 +187,19 @@ input, textarea {
   .Projects__header {
     background: #353c4f;
     display: flex;
-    justify-content: space-between; }
+    justify-content: space-between;
+    padding: 10px 15px; }
+    .Projects__header h2 {
+      margin: 0; }
+    .Projects__header__nav {
+      display: flex; }
+      .Projects__header__nav p {
+        margin: 0 10px;
+        line-height: 25px;
+        transition: all .5s; }
+        .Projects__header__nav p:hover {
+          cursor: pointer;
+          color: #4a80f0; }
   .Projects__body {
     margin: 25px 0;
     display: flex;
@@ -331,6 +343,12 @@ input, textarea {
         box-sizing: border-box;
         left: 0;
         right: 0; }
+    .Header__block.nav p {
+      padding: 0 10px;
+      transition: all .5s; }
+      .Header__block.nav p:hover {
+        cursor: pointer;
+        color: #4a80f0; }
   .Header .trialIndicator--text {
     line-height: 12px;
     padding-left: 5px; }
