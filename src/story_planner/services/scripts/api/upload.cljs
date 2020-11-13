@@ -12,5 +12,5 @@
                                    {:with-credentials? false
                                     :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))]]}))]
 
-
+          (print (js/JSON.parse (:body response)))
           (handle-state-change  {:type "add-image" :value (js/JSON.parse (:body response))})))))

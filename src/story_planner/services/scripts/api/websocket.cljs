@@ -24,6 +24,9 @@
   [data]
   (handle-state-change {:type "get-project" :value (first (:data data))})
   (handle-state-change {:type "get-images" :value (second (:data data))}))
+(defmethod handle-websocket-message "get-images"
+  [data]
+  (handle-state-change {:type "get-images" :value (:data data)}))
 (defmethod handle-websocket-message "project"
   [data]
   (handle-state-change {:type "get-project" :value (:data data)}))

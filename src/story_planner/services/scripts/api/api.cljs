@@ -18,6 +18,8 @@
   (send-message {:type "get-project" :value id}))
 (defn get-projects [token]
   (send-message {:type "get-projects" :token token})) ; value here represents our userID!
+(defn get-images [token]
+  (send-message {:type "get-images" :token token}))
 
 (defn create-board [constructor]
   (send-message {:type "create-board" :projectId (:projectId constructor) :value {:name (:value constructor) :folder (:folder constructor)}}))

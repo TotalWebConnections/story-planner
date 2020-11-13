@@ -1,5 +1,4 @@
 (ns story-planner.views.Project_page
-  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
             [reagent.core :as r]
             [reitit.frontend :as rf]
@@ -10,7 +9,6 @@
             [story-planner.components.app.header :refer [Header]]
             [story-planner.components.media.media-manager :refer [Media-Manager]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
-            [cljs-http.client :as http]
             [story-planner.components.Loader :refer [Loader]]))
 
 (defn load-content [app-state loaded]
@@ -18,6 +16,7 @@
   (js/setTimeout
     (fn []
       (api/get-projects (:token (:user @app-state)))
+      (api/get-images (:token (:user @app-state)))
       (api/get-authorized-users)
       (reset! loaded true))
     1000))
@@ -44,15 +43,6 @@
   (navigate "app"))
 
 
-(defn upload-image []
-  (let  [my-file (first (array-seq (.-files (.getElementById js/document "my-file"))))]
-
-    (go (let [response (<! (http/post "http://localhost:8080/upload-img"
-                                   {:with-credentials? false
-                                    :multipart-params [["myFile" my-file]]}))]
-          (prn response)))))
-
-
 (defn Project-page [app-state]
   (let [showProjectOverlay (atom false)
         showMediaManager (atom false)
@@ -77,6 +67,4 @@
               [:button {:on-click #(open-project (:_id project))} "Build"]
               [:button.danger {:on-click #(delete-project (:_id project))} "Delete"]])]
         [:div.standard-padding
-          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]
-          [:button {:on-click #(upload-image)}"upload image"]
-          [:input#my-file {:type "file"}]]])))
+          [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]]])))
