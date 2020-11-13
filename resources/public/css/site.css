@@ -567,7 +567,8 @@ input, textarea {
     width: 100%;
     border-radius: 0px;
     box-sizing: border-box;
-    border: none; }
+    border: none;
+    margin: 0; }
     .Storypoint input:focus, .Storypoint textarea:focus {
       outline: none; }
   .Storypoint__dragHandle {
@@ -590,23 +591,53 @@ input, textarea {
       left: -5px; }
   .Storypoint__header {
     flex-grow: 1;
-    max-height: 20px;
+    max-height: 35px;
     color: white;
     display: flex;
-    justify-content: space-between; }
+    justify-content: space-between;
+    position: relative;
+    padding: 5px 0; }
     .Storypoint__header p {
       padding: 0;
       margin: 0; }
-    .Storypoint__header__delete {
-      background: red;
-      line-height: 20px;
-      width: 20px;
-      text-align: center; }
+    .Storypoint__header__optionsDropDown {
+      position: absolute;
+      top: 15px;
+      right: 0px;
+      height: 65px;
+      width: 100px;
+      background: #272f42;
+      border: 1px solid white;
+      padding: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+      font-weight: 300;
+      display: none; }
+      .Storypoint__header__optionsDropDown.active {
+        display: block; }
+      .Storypoint__header__optionsDropDown p {
+        padding-bottom: 3px;
+        transition: .5s; }
+        .Storypoint__header__optionsDropDown p:hover {
+          color: #4a80f0;
+          cursor: pointer; }
+    .Storypoint__header input {
+      width: 75%;
+      background: transparent;
+      font-size: 16px; }
+    .Storypoint__header-right {
+      width: 25%;
+      display: flex;
+      justify-content: flex-end;
+      height: 20px;
+      box-sizing: border-box;
+      padding: 3px 5px; }
   .Storypoint input {
     flex-grow: 1;
-    max-height: 30px; }
+    max-height: 40px; }
   .Storypoint textarea {
-    flex-grow: 5; }
+    flex-grow: 5;
+    resize: none; }
   .Storypoint__curve {
     position: relative; }
     .Storypoint__curve__label {

@@ -19,6 +19,7 @@
     border-radius: 0px;
     box-sizing: border-box;
     border: none;
+    margin: 0;
 
 
     &:focus {
@@ -58,10 +59,12 @@
 
   &__header {
     flex-grow: 1;
-    max-height: 20px;
+    max-height: 35px;
     color: white;
     display: flex;
     justify-content: space-between;
+    position: relative;
+    padding: 5px 0;
 
 
     p {
@@ -69,22 +72,59 @@
       margin: 0;
     }
 
-    &__delete {
-      background: red;
-      line-height: 20px;
-      width: 20px;
-      text-align: center;
+    &__optionsDropDown {
+      position: absolute;
+      top: 15px;
+      right: 0px;
+      height: 65px;
+      width: 100px;
+      background: $darkBlack;
+      border: 1px solid white;
+      padding: 5px;
+      box-sizing: border-box;
+      font-size: 14px;
+      font-weight: 300;
+      display: none;
+
+      &.active {display: block;}
+
+      p {
+        padding-bottom: 3px;
+        transition: .5s;
+
+        &:hover {
+          color: $mainBlue;
+          cursor: pointer;
+        }
+      }
+    }
+
+    input {
+      width: 75%;
+      background: transparent;
+      font-size: 16px;
+    }
+
+    &-right {
+      width: 25%;
+      display: flex;
+      justify-content: flex-end;
+      height: 20px;
+      box-sizing: border-box;
+      padding: 3px 5px;
+
     }
   }
 
   input {
     flex-grow: 1;
-    max-height: 30px;
+    max-height: 40px;
   }
 
   textarea {
     // height: 264px;
     flex-grow: 5;
+    resize: none;
   }
 
   &__curve {

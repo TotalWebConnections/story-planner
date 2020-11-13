@@ -93,7 +93,8 @@
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
         is-active (atom false)
-        entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)]
+        entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
+        dropdown-active (atom false)]
     (fn [storypoint]
       [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
                                   :data-x (:x (:position storypoint))
@@ -110,12 +111,18 @@
         (doall (for [link (:links storypoint)]
                 (draw-curve (:position storypoint) (:size storypoint) (:id link) (:linkId link) (:label link) is-active (:id storypoint))))
         [:div.Storypoint__header
+         [:input
+           {:type "text"
+            :disabled (if entity true false)
+            :default-value (if entity (:title entity) (:name @input-values))
+            :on-click #(reset! dropdown-active false)
+            :on-change #(do (swap! input-values conj {:name (-> % .-target .-value)})(update-storypoint-title (:id storypoint) (-> % .-target .-value)))}]
+         [:div.Storypoint__header-right
           [:i.fas.fa-link {:on-click #(initilize-link (:id storypoint)) :style {:width "50px"}}]
-          [:p.Storypoint__header__delete {:on-click #(delete-storypoint (:id storypoint))} "X"]]
-        [:input
-          {:type "text"
-           :disabled (if entity true false)
-           :default-value (if entity (:title entity) (:name @input-values))
-           :on-change #(do (swap! input-values conj {:name (-> % .-target .-value)})(update-storypoint-title (:id storypoint) (-> % .-target .-value)))}]
+          [:i.Storypoint__header__options.fas.fa-ellipsis-v {:on-click #(reset! dropdown-active (if @dropdown-active false "active"))}]
+          [:div.Storypoint__header__optionsDropDown {:class @dropdown-active}
+            [:p {:on-click #(delete-storypoint (:id storypoint))} "Delete"]
+            [:p "Add Image"]]]]
         [:textarea {:default-value (:description storypoint)
+                    :on-click #(reset! dropdown-active false)
                     :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]])))
