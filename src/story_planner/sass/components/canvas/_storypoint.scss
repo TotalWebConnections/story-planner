@@ -133,9 +133,19 @@
     &__label {
       position: absolute;
       color: white;
+      display: flex;
 
       input {
         min-width: 50px;
+        max-width: 75px;
+        text-align: center;
+      }
+
+      button {
+        border-radius: 0px;
+        height: 33px;
+        position:relative;
+        right: 2px;
       }
     }
   }

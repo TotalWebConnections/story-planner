@@ -46,8 +46,8 @@
      (get-direction-for-side x)
      (get-direction-for-top y))))
 
-(defn show-curve-label [is-active label]
-  (or is-active (not= nil label)))
+(defn show-curve-label [is-active label linkId]
+  (or (= linkId is-active) (not= nil label)))
 
 (defn get-label-position [starting-direction x-initial y-initial p2x p2y p3x]
   (cond
@@ -55,6 +55,11 @@
     (= starting-direction "Bottom") {:top p2y :left x-initial}
     (= starting-direction "Left") {:top y-initial :left p3x}
     (= starting-direction "Right") {:top p2y :left p2x}))
+
+(defn on-curve-click [is-active id]
+  (if @is-active
+    (reset! is-active false)
+    (reset! is-active id)))
 
 (defn draw-curve [position size linkEndId linkId linkLabel is-active storypointId]
   (let [currentPoint (storypointHelpers/get-storypoint-by-id (:storypoints (get-from-state "currentProject")) linkEndId)
@@ -69,7 +74,7 @@
            p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial)
            p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) y-initial)]
       [:div.Storypoint__curve
-       [:svg {:on-click #(reset! is-active (not @is-active))
+       [:svg {:on-click #(on-curve-click is-active linkId)
               :height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
          [:defs
            [:marker {:id "head"
@@ -83,17 +88,17 @@
              [:path {:d "M0,0 V4 L2,2 Z" :fill "white"}]]]
 
 
-         [:path {:fill "transparent" :stroke (if @is-active "red" "white") :stroke-width "2"
+         [:path {:fill "transparent" :stroke (if (= linkId @is-active) "red" "white") :stroke-width "2"
                  :d (str "M"x-initial","y-initial"
                       C"p2x","p2y"
                      "p3x","p3y"
                       "(- end-x 4)","(- end-y 4)"")
                   :marker-end "url(#head)"}]]
-       (if (show-curve-label @is-active linkLabel)
+       (if (show-curve-label @is-active linkLabel linkId)
          [:div.Storypoint__curve__label {:style (get-label-position starting-direction x-initial y-initial p2x p2y p3x)} ; TODO we may want to make this closer
-          [:input {:type "text" :default-value linkLabel :placeholder "label" :id (str "linkLabelId-" linkId) :on-click #(reset! is-active true)}]
-          (if @is-active
-            [:button {:on-click #(do (reset! is-active false)(update-link-label storypointId linkId (.-value (.getElementById js/document (str "linkLabelId-" linkId)))))} "Submit"])])]))))
+          [:input {:type "text" :default-value linkLabel :placeholder "label" :id (str "linkLabelId-" linkId) :on-click #(reset! is-active linkId)}]
+          (if (= linkId @is-active)
+            [:button {:on-click #(do (reset! is-active false)(update-link-label storypointId linkId (.-value (.getElementById js/document (str "linkLabelId-" linkId)))))} "Save"])])]))))
 
 
 (defn Storypoint [storypoint]

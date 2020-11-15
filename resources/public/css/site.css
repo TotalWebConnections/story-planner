@@ -642,9 +642,17 @@ input, textarea {
     position: relative; }
     .Storypoint__curve__label {
       position: absolute;
-      color: white; }
+      color: white;
+      display: flex; }
       .Storypoint__curve__label input {
-        min-width: 50px; }
+        min-width: 50px;
+        max-width: 75px;
+        text-align: center; }
+      .Storypoint__curve__label button {
+        border-radius: 0px;
+        height: 33px;
+        position: relative;
+        right: 2px; }
 
 .MediaManager {
   position: absolute;
