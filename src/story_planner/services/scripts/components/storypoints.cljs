@@ -57,16 +57,16 @@
 ; CONTROL POINT CALCULATORS
 (defn caculate-first-control-point-x [direction distance xStart]
   (cond
-    (= direction "Top") (- xStart 50)  ; start x - 50
-    (= direction "Bottom") (+ xStart 50) ; start x + 50
+    (= direction "Top") (- xStart 5)  ; start x - 5
+    (= direction "Bottom") (+ xStart 5) ; start x + 5
     (= direction "Left") (/ distance 4)  ;1/4 distance
     (= direction "Right") (+ xStart (/ distance 4)) ;1/4 distance
   ))
 
 (defn caculate-second-control-point-x [direction distance xStart]
   (cond
-    (= direction "Top") (+ xStart 50)  ; start x + 50
-    (= direction "Bottom") (- xStart 50) ; start x - 50
+    (= direction "Top") (+ xStart 5)  ; start x + 5
+    (= direction "Bottom") (- xStart 5) ; start x - 5
     (= direction "Left") (* 3 (/ distance 4))  ;3/4 distance
     (= direction "Right") (+ xStart  (* 3 (/ distance 4)) );3/4 distance
   ))
@@ -75,14 +75,14 @@
   (cond
     (= direction "Top") (/ distance 4)
     (= direction "Bottom") (+ yStart (/ distance 4))
-    (= direction "Left") (- yStart 50)
-    (= direction "Right") (+ yStart 50)
+    (= direction "Left") (- yStart 5)
+    (= direction "Right") (+ yStart 5)
   ))
 
-(defn caculate-second-control-point-y [direction distance yStart]
+(defn caculate-second-control-point-y [direction distance yEnd]
   (cond
     (= direction "Top") (* 3 (/ distance 4))
-    (= direction "Bottom") (+ yStart (* 3 (/ distance 4)))
-    (= direction "Left") (+ yStart 50)
-    (= direction "Right") (- yStart 50)
+    (= direction "Bottom") (- yEnd (* 3 (/ distance 4)))
+    (= direction "Left") (+ yEnd 5)
+    (= direction "Right") (- yEnd 5)
   ))

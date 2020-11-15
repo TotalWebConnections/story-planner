@@ -49,12 +49,10 @@
 (defn show-curve-label [is-active label linkId]
   (or (= linkId is-active) (not= nil label)))
 
-(defn get-label-position [starting-direction x-initial y-initial p2x p2y p3x]
-  (cond
-    (= starting-direction "Top") {:top p2y :left p2x}
-    (= starting-direction "Bottom") {:top p2y :left x-initial}
-    (= starting-direction "Left") {:top y-initial :left p3x}
-    (= starting-direction "Right") {:top p2y :left p2x}))
+(defn get-label-position [starting-direction x-initial y-initial p2x p2y p3x p3y end-x end-y]
+  {
+   :top  (storypointHelpers/calcuate-point-on-curve 0.5 y-initial p2y p3y end-y)
+   :left (- (storypointHelpers/calcuate-point-on-curve 0.5 x-initial p2x p3x end-x) 35)}) ; remove half width
 
 (defn on-curve-click [is-active id]
   (if @is-active
@@ -72,7 +70,7 @@
            p2x (storypointHelpers/caculate-first-control-point-x starting-direction (- end-x x-initial) x-initial)
            p2y (storypointHelpers/caculate-first-control-point-y starting-direction (- end-y y-initial) y-initial)
            p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial)
-           p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) y-initial)]
+           p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) end-y)]
       [:div.Storypoint__curve
        [:svg {:on-click #(on-curve-click is-active linkId)
               :height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
@@ -95,7 +93,7 @@
                       "(- end-x 4)","(- end-y 4)"")
                   :marker-end "url(#head)"}]]
        (if (show-curve-label @is-active linkLabel linkId)
-         [:div.Storypoint__curve__label {:style (get-label-position starting-direction x-initial y-initial p2x p2y p3x)} ; TODO we may want to make this closer
+         [:div.Storypoint__curve__label {:style (get-label-position starting-direction x-initial y-initial p2x p2y p3x p3y end-x end-y)} ; TODO we may want to make this closer
           [:input {:type "text" :default-value linkLabel :placeholder "label" :id (str "linkLabelId-" linkId) :on-click #(reset! is-active linkId)}]
           (if (= linkId @is-active)
             [:button {:on-click #(do (reset! is-active false)(update-link-label storypointId linkId (.-value (.getElementById js/document (str "linkLabelId-" linkId)))))} "Save"])])]))))
