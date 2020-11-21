@@ -30,7 +30,7 @@
 (defn create-project [projectData]
   "insers a new project for current user"
   (let [new-project (mc/insert-and-return db "projects" projectData)]
-    (get-project (str (:_id new-project)))))
+    (get-project (str (:_id new-project)) (:userId projectData))))
 
 (defn delete-project [projectData]
   "TODO test deleting from a non-auth user"
