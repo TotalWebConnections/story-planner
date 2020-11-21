@@ -29,7 +29,7 @@
 
 (defn create-project [projectData]
   "insers a new project for current user"
-  (let [new-project (mc/insert-and-return db "projects" projectData)]
+  (let [new-project (mc/insert-and-return db "projects" (conj projectData {:boards [{:name "Base" :folder "n/a"}]}))]
     (get-project (str (:_id new-project)) (:userId projectData))))
 
 (defn delete-project [projectData]
