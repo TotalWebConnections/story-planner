@@ -48,7 +48,7 @@
                ; (swap! channel-store conj channel) ; store channels for later
                (async/send! channel (generate-string {:type "onReady" :data "Succesful connection"})))
    :on-close   (fn [channel {:keys [code reason]}]
-    ; (swap! channel-store filter (fn [chan] (if (= chan channel) true false)) channel-store) close enough
+                (swap! channel-store (partial filter (fn [chan] (if (= (:channel chan) channel) false true)))) ; removes channels on disconnect
                 (println "close code:" code "reason:" reason))
    :on-message (fn [ch m]
                 ; (println (parse-string m true))

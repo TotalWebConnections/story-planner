@@ -41,6 +41,7 @@
   (print "Connection Closes"))
 
 (defn handle-onMessage [e]
+  (println "message received")
   (handle-websocket-message (js->clj (.parse js/JSON (.-data e)) :keywordize-keys true)))
 
 (def handlers {:on-message (fn [e] (handle-onMessage e))
