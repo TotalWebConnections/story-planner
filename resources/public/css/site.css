@@ -740,6 +740,29 @@ input, textarea {
   width: 150px;
   text-align: left; }
 
+.Confirmation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none; }
+  .Confirmation.active {
+    display: flex; }
+  .Confirmation__inner {
+    width: 300px;
+    height: 150px;
+    background: #353c4f;
+    border: 1px solid #fcfeff;
+    padding: 10px;
+    text-align: center; }
+    .Confirmation__inner__buttons {
+      margin-top: 15px; }
+
 p, li, ul, table {
   font-family: "Montserrat", sans-serif; }
 

@@ -9,7 +9,8 @@
             [story-planner.components.app.header :refer [Header]]
             [story-planner.components.media.media-manager :refer [Media-Manager]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
-            [story-planner.components.Loader :refer [Loader]]))
+            [story-planner.components.Loader :refer [Loader]]
+            [story-planner.components.project.Confirmation :refer [Confirmation]]))
 
 (defn load-content [app-state loaded]
   ; TODO this works for testing but needs to be moved for prod
@@ -30,8 +31,9 @@
   (reset! state false)
   (api/create-project {:project value}))
 
-(defn delete-project [id]
+(defn delete-project [id showProjectDelete]
   "handle delete of project"
+  (reset! showProjectDelete {:active false :id nil})
   (api/delete-project id))
 
 (defn open-project [id]
@@ -46,13 +48,15 @@
 (defn Project-page [app-state]
   (let [showProjectOverlay (atom false)
         showMediaManager (atom false)
-        loaded? (atom false)]
+        loaded? (atom false)
+        showProjectDelete (atom {:active false :id nil})]
     (if (not @loaded?)
       (load-content app-state loaded?))
     (fn []
       [:div.Projects
         [Media-Manager showMediaManager (:images @app-state)]
         [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
+        [Confirmation (:active @showProjectDelete) "Are You Sure? You will delete this project and all its contents. This cannot be undone." #(delete-project (:id @showProjectDelete) showProjectDelete) #(reset! showProjectDelete {:active false :id nil})]
         [:div.Projects__header
           [:h2 "My Projects"]
           [:div.Projects__header__nav
@@ -65,6 +69,6 @@
             [:div.Projects__projectBlock {:key (:_id project)}
               [:h2  (:name project)]
               [:button {:on-click #(open-project (:_id project))} "Build"]
-              [:button.danger {:on-click #(delete-project (:_id project))} "Delete"]])]
+              [:button.danger {:on-click #(reset! showProjectDelete {:active "active" :id (:_id project)})} "Delete"]])]
         [:div.standard-padding
           [:button {:on-click #(open-new-project-overlay showProjectOverlay)}"Add New Project"]]])))
