@@ -4,6 +4,7 @@
            [monger.conversion :as mgcon]
            [monger.operators :refer :all]
            [story-planner.server.services.database :refer [db]]
+           [story-planner.server.services.database.media :as media]
            [story-planner.server.services.response-handler :as response-handler])
   (:import org.bson.types.ObjectId))
 
@@ -11,7 +12,10 @@
 (defn add-user [user]
   "checks should be done prior to this point for anything we need to do"
   ; This token generation is probably good enough given Java's implementation of UUID is suppose to be secure
-  (dissoc (update (mc/insert-and-return db "users" (conj user {:token (str (java.util.UUID/randomUUID))})) :_id str) :password))
+  (let [user-token (str (java.util.UUID/randomUUID))
+        new-user (mc/insert-and-return db "users" (conj user {:token user-token}))]
+    (media/create-base-media (:_id new-user))
+    (dissoc (update new-user :_id str) :password)))
 
 (defn get-user [email]
   (mc/find-maps db "users" {:email email}))

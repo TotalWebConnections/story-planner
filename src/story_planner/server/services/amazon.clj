@@ -1,6 +1,7 @@
 (ns story-planner.server.services.amazon
   (:require [config.core :refer [env]]
-            [story-planner.server.services.database.users :as DB-users])
+            [story-planner.server.services.database.users :as DB-users]
+            [story-planner.server.services.database.media :as media])
   (:use [amazonica.aws.s3]))
 
 
@@ -13,6 +14,7 @@
               :bucket-name "story-planner"
               :key (str (str (:_id user)) "/" (:filename (get file "myFile")))
               :file (:tempfile (get file "myFile")))
+        (media/add-media (:_id user) (str (str (:_id user)) "/" (:filename (get file "myFile"))) nil)
         (str (str (:_id user)) "/" (:filename (get file "myFile"))))
       "User Auth Failed")))
 
