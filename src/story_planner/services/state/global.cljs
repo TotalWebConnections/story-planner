@@ -10,6 +10,7 @@
                           :authorizedUsers []
                           :navType "app" ; Either app or view - display or not dispaly nav
                           :images [] ; For testing
+                          :media-folders []
                           :show-media false
                           :currentProject nil ; id of the current project opened
                           :currentBoard nil ; currently selected board

@@ -692,6 +692,12 @@ input, textarea {
   .MediaManager__imageWrapper {
     display: flex;
     flex-wrap: wrap; }
+    .MediaManager__imageWrapper-folder {
+      width: 200px;
+      height: 200px;
+      text-align: center; }
+      .MediaManager__imageWrapper-folder i {
+        font-size: 75px; }
     .MediaManager__imageWrapper-image {
       width: 200px;
       height: 200px; }

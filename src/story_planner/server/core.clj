@@ -15,6 +15,7 @@
     [story-planner.server.services.database.users :as DB-users]
     [story-planner.server.services.socket :as socketHandlers]
     [story-planner.server.services.amazon :refer [handle-image-upload]]
+    [story-planner.server.services.database.media :refer [add-media-folder]]
     [story-planner.server.services.user :refer [handle-save-user handle-login-user check-user-token subscribe-user unsubscribe-user signup-auth-user]])
   (:gen-class))
 
@@ -77,6 +78,9 @@
   (GET "/" {c :context} (redirect (str c "/index.html")))
   (POST "/upload-img" request
     (response (generate-string (handle-image-upload (:multipart-params request)))))
+  (POST "/create-media-folder" request
+    (let [params (walk/keywordize-keys (:form-params request))]
+      (response (generate-string (DB-users/add-user-media-folder (:token params) (:folder params))))))
   (POST "/user" request
     (response (generate-string (handle-save-user  (walk/keywordize-keys (:form-params request))))))
   (POST "/login" request

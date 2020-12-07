@@ -46,6 +46,16 @@
     display: flex;
     flex-wrap: wrap;
 
+    &-folder {
+      width: 200px;
+      height: 200px;
+      text-align: center;
+
+      i {
+        font-size: 75px;
+      }
+    }
+
     &-image {
       width: 200px;
       height: 200px;

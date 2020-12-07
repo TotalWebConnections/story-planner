@@ -21,7 +21,9 @@
 
 (defn update-images [state value]
   "Updates our images list"
-  (swap! state conj {:images value}))
+  (print value)
+  (swap! state conj {:images (:images value)})
+  (swap! state conj {:media-folders (:folders value)}))
 
 (defn add-image [state value]
   (swap! state update-in [:images] conj {:src value}))

@@ -40,3 +40,8 @@
 (defn add-user-stripe-token [sub-token user-token]
   (mc/update db "users" {:token user-token} {$set {:subToken sub-token }} {:upsert true})
   sub-token)
+
+(defn add-user-media-folder [token folder-name]
+  (let [user (get-user-by-token token)]
+    (media/add-media-folder (:_id user) folder-name)))
+

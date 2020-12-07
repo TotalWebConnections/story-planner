@@ -14,3 +14,12 @@
 
           (print (js/JSON.parse (:body response)))
           (handle-state-change  {:type "add-image" :value (js/JSON.parse (:body response))})))))
+
+(defn create-media-folder [folder-name]
+  (go (let [response (<! (http/post "http://localhost:8080/create-media-folder"
+                                 {:with-credentials? false
+                                  :form-params {:folder @folder-name :token (:token (get-from-state "user"))}}))
+            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+        (if (= (:type response-body) "error")
+          (print "error")
+          (print response-body)))))
