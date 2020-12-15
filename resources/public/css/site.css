@@ -692,6 +692,14 @@ input, textarea {
   .MediaManager__imageWrapper {
     display: flex;
     flex-wrap: wrap; }
+    .MediaManager__imageWrapper .goBack {
+      transform: rotate(-90deg);
+      padding-left: 15px;
+      font-size: 28px;
+      transition: all .25s;
+      cursor: pointer; }
+      .MediaManager__imageWrapper .goBack:hover {
+        color: #4a80f0; }
     .MediaManager__imageWrapper-folder {
       width: 200px;
       height: 200px;
