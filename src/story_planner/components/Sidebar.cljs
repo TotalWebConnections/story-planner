@@ -46,7 +46,8 @@
   (swap! showEntityOverlay conj {:show "active" :edit entity}))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
-(defn Sidebar [currentProject currentBoard openedFolders images]
+(defn Sidebar [currentProject currentBoard openedFolders images media-folders]
+  (print images)
   (let [showFolderOverlay (atom false)
         showBoardOverlay (atom false)
         showEntityOverlay (atom {:show false :edit false :type "entity"})
@@ -59,7 +60,7 @@
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
-            (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath) images]
+            (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath) images media-folders]
           [:div.Sidebar__header
             [:h3 "Entities"]
             [:div.Sidebar__header__controls

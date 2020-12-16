@@ -9,6 +9,10 @@
   "updates the value for the changed input"
   (swap! state update-in [(- id 1)] conj {:value value}))
 
+(defn update-label [state id label]
+  "updates the value for the changed input"
+  (swap! state update-in [(- id 1)] conj {:label label}))
+
 (defn handle-set-image [image-state src]
   (reset! image-state src))
 
@@ -25,8 +29,8 @@
   (reset! imageField (:image entity)))
 
 
-(defn EntityOverlay [active onSubmit images]
-  (let [inputFields (atom [{:id 1 :value ""}])
+(defn EntityOverlay [active onSubmit images folders]
+  (let [inputFields (atom [{:id 1 :value "" :label ""}])
         titleField (atom "Untitled")
         imageField (atom nil)
         showMedia (atom false)
@@ -36,7 +40,7 @@
         (set-edit-mode editModeChecked? (:edit @active) titleField inputFields imageField showMedia))
       [:div.OverlayEntity {:class (str "OverlayEntity--" (:show @active))}
         [:div.OverlayEntity__inner
-          [Media-Manager-Small showMedia images (partial handle-set-image imageField)]
+          [Media-Manager-Small showMedia images folders (partial handle-set-image imageField)]
           [:p.OverlayEntity__inner__close {:on-click #(do (reset! editModeChecked? false) (swap! active conj {:show false :edit false}))} "x"]
           [:h3.OverlayEntity__inner-header "Add Entity"]
           [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
@@ -46,6 +50,10 @@
           [:div.OverlayEntity__fieldWrapper
             (for [entityField @inputFields]
               [:div {:key (:id entityField)}
+                [:input.OverlayEntity__input--label {:type "text"
+                                                     :placeholder "Label"
+                                                     :value (:label entityField)
+                                                     :on-change #(update-label inputFields (:id entityField) (-> % .-target .-value))}]
                 [:input.OverlayEntity__input {:type "text"
                                               :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])

@@ -15,7 +15,7 @@
   (set-initial-board app-state)
   [:div.App
     [Header (:name (:currentProject @app-state))]
-    [Sidebar (:currentProject @app-state) (:currentBoard @app-state) (:openedFolders @app-state) (:images @app-state)]
+    [Sidebar (:currentProject @app-state) (:currentBoard @app-state) (:openedFolders @app-state) (:images @app-state) (:media-folders @app-state)]
     [:div.App__canvasWrapper
        (if (not (:currentProject @app-state))
          [Loader]
