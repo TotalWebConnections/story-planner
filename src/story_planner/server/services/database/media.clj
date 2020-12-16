@@ -16,7 +16,9 @@
   (mc/insert-and-return db "media" (conj base-media-object {:owner user-id})))
 
 (defn add-media [user-id url folder]
-  (mc/update db "media" {:owner user-id} {$push {:images {:url url :folder folder}}}))
+  (let [media-object {:url url :folder folder}]
+    (mc/update db "media" {:owner user-id} {$push {:images media-object}})
+    media-object))
 
 (defn add-media-folder [user-id folder]
   (mc/update db "media" {:owner user-id} {$push {:folders folder}})

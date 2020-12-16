@@ -6,7 +6,6 @@
 
 (defn Media-Manager [active images folders]
   (let [active-folder (atom nil)]
-    (print @active-folder)
     (fn [active images folders]
       [:div.MediaManager {:class (str "MediaManager--" @active)}
        [:div.MediaManager__header.standard-padding
@@ -14,7 +13,7 @@
         [:p {:on-click #(reset! active false)} "x"]]
        [:div.MediaManager__upload
         [:input#my-file {:type "file"}]
-        [:button {:on-click #(upload-image "my-file")}"upload image"]]
+        [:button {:on-click #(upload-image "my-file" @active-folder)}"upload image"]]
        [Folder-creation]
        (if @active-folder
          [:p (str "Current Folder: " @active-folder)])
@@ -26,6 +25,6 @@
              [:i.fas.fa-folder]
              [:h3 folder]]))
         (for [image images]
-          (if (= (:folder image) @active-folder)
-            [:div.MediaManager__imageWrapper-image
-             [:img {:src (str "https://story-planner.s3.amazonaws.com/" (:url image))}]]))]])))
+          (if (or (= (:folder image) @active-folder) (and (= @active-folder nil) (= "null" (:folder image))))
+            ^{:key (:url image)}[:div.MediaManager__imageWrapper-image
+                                 [:img {:src (str "https://story-planner.s3.amazonaws.com/" (:url image))}]]))]])))

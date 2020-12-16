@@ -5,15 +5,14 @@
             [story-planner.services.state.dispatcher :refer [handle-state-change]]))
 
 
-(defn upload-image [image-field]
+(defn upload-image [image-field folder]
   (let  [my-file (first (array-seq (.-files (.getElementById js/document image-field))))]
 
     (go (let [response (<! (http/post "http://localhost:8080/upload-img"
                                    {:with-credentials? false
-                                    :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))]]}))]
+                                    :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))] ["folder" folder]]}))]
 
-          (print (js/JSON.parse (:body response)))
-          (handle-state-change  {:type "add-image" :value (js/JSON.parse (:body response))})))))
+          (handle-state-change  {:type "add-image" :value (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)})))))
 
 (defn create-media-folder [folder-name]
   (go (let [response (<! (http/post "http://localhost:8080/create-media-folder"

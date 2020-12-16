@@ -7,15 +7,15 @@
 
 
 (defn handle-image-upload [file]
-  (let [user (DB-users/get-user-by-token (get file "token"))]
+  (let [user (DB-users/get-user-by-token (get file "token"))
+        folder (get file "folder")]
     (if user
       (do
         (put-object (:s3creds env)
               :bucket-name "story-planner"
               :key (str (str (:_id user)) "/" (:filename (get file "myFile")))
               :file (:tempfile (get file "myFile")))
-        (media/add-media (:_id user) (str (str (:_id user)) "/" (:filename (get file "myFile"))) nil)
-        (str (str (:_id user)) "/" (:filename (get file "myFile"))))
+        (media/add-media (:_id user) (str (str (:_id user)) "/" (:filename (get file "myFile"))) folder))
       "User Auth Failed")))
 
 

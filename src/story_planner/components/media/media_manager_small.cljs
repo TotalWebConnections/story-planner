@@ -8,7 +8,7 @@
    [:div.MediaManagerSmall__header.standard-padding
     [:h2 "Your Images"]
     [:p {:on-click #(reset! active false)} "x"]]
-   [:button {:on-click #(upload-image "mediaManagerSmall")}"upload image"]
+   [:button {:on-click #(upload-image "mediaManagerSmall" nil)}"upload image"]
    [:input#mediaManagerSmall {:type "file"}]
    [:div.MediaManagerSmall__imageWrapper
     (for [folder folders]
