@@ -40,5 +40,10 @@
     &:hover {
       background: $gray;
     }
+
+    &.active-board {
+      background: $mainBlue;
+    }
+
   }
 }

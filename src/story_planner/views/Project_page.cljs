@@ -62,7 +62,7 @@
           [:div.Projects__header__nav
            [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]
            [:p {:on-click #(navigate "profile")} "Profile"]]]
-        (if (not @loaded?)
+        (if (and (not @loaded?) (not (:projects @app-state)))
           [Loader])
         [:div.Projects__body.standard-padding
           (for [project (:projects @app-state)]

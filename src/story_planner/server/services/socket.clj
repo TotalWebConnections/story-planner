@@ -45,8 +45,8 @@
 (defmethod handle-websocket-message "get-project"
   [data] ; Returns the name and ID of all projects
   {:type "project-first"
-   :data [(DB-projects/get-project (:value data) (:_id (:user data)))
-          (map (fn [img] {:src (:key img)}) (:object-summaries (AWS/handle-load-images (:_id (:user data)))))]})
+   :data (DB-projects/get-project (:value data) (:_id (:user data)))})
+          
 ; (defmethod handle-websocket-message "get-images"
 ;   [data]
 ;   {:type "get-images"

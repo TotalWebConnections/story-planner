@@ -21,10 +21,11 @@
         (if @active-folder
           [:i.fas.fa-level-up-alt.goBack {:on-click #(reset! active-folder nil)}]
           (for [folder folders]
-            [:div.MediaManager__imageWrapper-folder {:on-click #(reset! active-folder folder)}
+            [:div.MediaManager__imageWrapper-folder {:on-click #(reset! active-folder folder)
+                                                     :key (str folder "-" (rand-int 100))}
              [:i.fas.fa-folder]
              [:h3 folder]]))
-        (for [image images]
-          (if (or (= (:folder image) @active-folder) (and (= @active-folder nil) (= "null" (:folder image))))
-            ^{:key (:url image)}[:div.MediaManager__imageWrapper-image
-                                 [:img {:src (str "https://story-planner.s3.amazonaws.com/" (:url image))}]]))]])))
+        (doall (for [image images]
+                 (if (or (= (:folder image) @active-folder) (and (= @active-folder nil) (= "null" (:folder image))))
+                   ^{:key (str (:url image) "-" (rand-int 100))}[:div.MediaManager__imageWrapper-image
+                                                                 [:img {:src (str "https://story-planner.s3.amazonaws.com/" (:url image))}]])))]])))

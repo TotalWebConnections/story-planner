@@ -319,6 +319,8 @@ input, textarea {
     cursor: pointer; }
     .Sidebar .entityWrapper:hover {
       background: #303738; }
+    .Sidebar .entityWrapper.active-board {
+      background: #4a80f0; }
 
 .Header {
   width: 100%;
@@ -730,13 +732,21 @@ input, textarea {
     display: block; }
   .MediaManagerSmall__imageWrapper {
     display: flex;
-    flex-wrap: wrap; }
+    flex-wrap: wrap;
+    background: #272f42;
+    overflow: scroll; }
     .MediaManagerSmall__imageWrapper-image {
       width: 100px;
       height: 100px; }
       .MediaManagerSmall__imageWrapper-image img {
         width: 100%;
         height: 100%; }
+    .MediaManagerSmall__imageWrapper-folder {
+      width: 100px;
+      height: 100px;
+      text-align: center; }
+      .MediaManagerSmall__imageWrapper-folder i {
+        font-size: 45px; }
 
 .RegisteredUsers__section {
   padding: 25px 0; }

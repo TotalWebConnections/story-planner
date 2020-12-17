@@ -27,9 +27,9 @@
 ; nearly the same as add-entity but give us some separation if need it l8er
 (defn add-board [state projectId folder value]
   "adds a new board to the project"
+  (api/create-board {:folder @folder :projectId projectId :value value})
   (reset! state false)
-  (reset! folder "n/a")
-  (api/create-board {:folder @folder :projectId projectId :value value}))
+  (reset! folder "n/a"))
 
 (defn handleShowOverlay [state]
   (if (= (:type @state) "entity")
@@ -47,14 +47,13 @@
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
 (defn Sidebar [currentProject currentBoard openedFolders images media-folders]
-  (print images)
   (let [showFolderOverlay (atom false)
         showBoardOverlay (atom false)
         showEntityOverlay (atom {:show false :edit false :type "entity"})
         currentFolderPath (atom "n/a")
         projectId (:_id currentProject)
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
-    (fn [currentProject currentBoard openedFolders images]
+    (fn [currentProject currentBoard openedFolders images media-folders]
       (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
         [:div.Sidebar
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
@@ -83,7 +82,8 @@
           [:div.Sidebar__contentWrapper
             (for [board (:boards currentProject)]
               (if (= (:folder board) "n/a")
-                [:p.entityWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)}) :key (:name board)} (:name board)]))
+                [:p.entityWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)}) :key (:name board)
+                                   :class (if (= currentBoard (:name board)) "active-board")} (:name board)]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp
                                                                           (generate-folder-path currentFolderPath (:name folder))
