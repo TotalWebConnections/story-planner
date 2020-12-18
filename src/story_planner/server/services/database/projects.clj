@@ -128,6 +128,16 @@
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
       (response-handler/send-auth-error))))
 
+(defn update-storypoint-image [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                               {$set {"storypoints.$.image" (:value storyData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
+
 (defn update-storypoint-description [storyData userId]
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}

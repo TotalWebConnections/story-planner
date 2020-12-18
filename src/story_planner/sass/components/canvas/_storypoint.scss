@@ -9,6 +9,7 @@
   flex-direction: column;
   touch-action: none;
   box-sizing: border-box;
+  overflow: hidden;
 
   &-currentlyLinked {
     border: 2px solid red;
@@ -60,6 +61,7 @@
   &__header {
     flex-grow: 1;
     max-height: 35px;
+    min-height: 35px;
     color: white;
     display: flex;
     justify-content: space-between;
@@ -114,6 +116,11 @@
       padding: 3px 5px;
 
     }
+  }
+
+  &__image {
+    width: 100%;
+    padding: 0 25px;
   }
 
   input {

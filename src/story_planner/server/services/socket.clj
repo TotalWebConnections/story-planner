@@ -46,7 +46,7 @@
   [data] ; Returns the name and ID of all projects
   {:type "project-first"
    :data (DB-projects/get-project (:value data) (:_id (:user data)))})
-          
+
 ; (defmethod handle-websocket-message "get-images"
 ;   [data]
 ;   {:type "get-images"
@@ -64,6 +64,9 @@
 (defmethod handle-websocket-message "update-storypoint-description"
   [data] ; Returns the name and ID of all projects
   (DB-projects/update-storypoint-description {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
+(defmethod handle-websocket-message "update-storypoint-image"
+  [data] 
+  (DB-projects/update-storypoint-image {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
 (defmethod handle-websocket-message "add-link-to-storypoint"
   [data]
   (DB-projects/add-link-to-storypoint {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))

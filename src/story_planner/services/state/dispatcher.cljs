@@ -3,7 +3,7 @@
             [story-planner.services.state.textstate :refer [update-state-text]]
             [story-planner.services.state.actions.folders :refer [toggle-folder-as-open set-active-board]]
             [story-planner.services.state.actions.projects :as projects]
-            [story-planner.services.state.actions.canvas :refer [set-canvas-render]]
+            [story-planner.services.state.actions.canvas :refer [set-canvas-render set-show-media]]
             [story-planner.services.state.actions.linking :refer [handle-linking]]))
 
 ; As we need more mutations for state we can add them here - Handle state change
@@ -51,6 +51,15 @@
   (defmethod handle-state-change "handle-linking-id"
     [action]
     (handle-linking app-state (:value action)))
+
+
+  ; IMAGE stuff for the stroypoints
+  (defmethod handle-state-change "set-edited-storypoint"
+    [action]
+    (swap! app-state conj {:edited-storypoint (:value action)}))
+  (defmethod handle-state-change "app-show-media-manager"
+    [action]
+    (set-show-media app-state (:value action)))
 
   ; D&D stuff
   (defmethod handle-state-change "set-drag-id"

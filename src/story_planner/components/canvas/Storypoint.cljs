@@ -98,11 +98,17 @@
           (if (= linkId @is-active)
             [:button {:on-click #(do (reset! is-active false)(update-link-label storypointId linkId (.-value (.getElementById js/document (str "linkLabelId-" linkId)))))} "Save"])])]))))
 
+(defn on-add-image [id]
+  (handle-state-change {:type "app-show-media-manager" :value "active"})
+  (handle-state-change {:type "set-edited-storypoint" :value id}))
+
+
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
         is-active (atom false)
         entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
+        image (or (:image entity) (:image storypoint))
         dropdown-active (atom false)]
     (fn [storypoint]
       [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
@@ -131,7 +137,10 @@
           [:i.Storypoint__header__options.fas.fa-ellipsis-v {:on-click #(reset! dropdown-active (if @dropdown-active false "active"))}]
           [:div.Storypoint__header__optionsDropDown {:class @dropdown-active}
             [:p {:on-click #(delete-storypoint (:id storypoint))} "Delete"]
-            [:p "Add Image"]]]]
+            [:p {:on-click #(on-add-image (:id storypoint))} "Add Image"]]]]
+        (if image
+          [:div.Storypoint__image
+            [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
         [:textarea {:default-value (:description storypoint)
                     :on-click #(reset! dropdown-active false)
                     :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]])))

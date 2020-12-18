@@ -54,7 +54,7 @@
       (load-content app-state loaded?))
     (fn []
       [:div.Projects
-        [Media-Manager showMediaManager (:images @app-state) (:media-folders @app-state)]
+        [Media-Manager showMediaManager (:images @app-state) (:media-folders @app-state) nil]
         [Overlay showProjectOverlay "Project New" (partial save-new-project showProjectOverlay)]
         [Confirmation (:active @showProjectDelete) "Are You Sure? You will delete this project and all its contents. This cannot be undone." #(delete-project (:id @showProjectDelete) showProjectDelete) #(reset! showProjectDelete {:active false :id nil})]
         [:div.Projects__header
