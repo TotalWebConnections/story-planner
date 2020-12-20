@@ -5,6 +5,7 @@
   justify-content: space-between;
   color: white;
   background: $darkBlack;
+  line-height: 30px;
 
   &__left {
     display: flex;
@@ -20,6 +21,7 @@
       border: 1px solid white;
       position: relative;
       display: flex;
+      top: 9px;
 
       .trialIndicator--inner {
         position: relative;
@@ -42,7 +44,9 @@
 
   .trialIndicator--text {
     line-height: 12px;
-    padding-left: 5px;
+    padding-left: 7px;
+    position: relative;
+    top: 9px;
   }
 
   &__left {

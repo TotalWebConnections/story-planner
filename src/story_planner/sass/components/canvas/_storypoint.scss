@@ -9,7 +9,6 @@
   flex-direction: column;
   touch-action: none;
   box-sizing: border-box;
-  overflow: hidden;
 
   &-currentlyLinked {
     border: 2px solid red;
@@ -26,6 +25,15 @@
     &:focus {
       outline: none;
     }
+  }
+
+  &__inner {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    touch-action: none;
+    box-sizing: border-box;
   }
 
   &__dragHandle {
@@ -67,6 +75,17 @@
     justify-content: space-between;
     position: relative;
     padding: 5px 0;
+
+    &-right {
+      i {
+        margin: 0 5px;
+        transition: all .5s;
+        &:hover {
+          cursor: pointer;
+          color: $mainBlue;
+        }
+      }
+    }
 
 
     p {

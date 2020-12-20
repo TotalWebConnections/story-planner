@@ -176,7 +176,7 @@ input, textarea {
   flex-wrap: wrap; }
   .App__canvasWrapper {
     width: calc(100% - 150px);
-    height: calc(100vh - 30px);
+    height: calc(100vh - 40px);
     overflow: hidden;
     background: #272f42; }
 
@@ -294,7 +294,7 @@ input, textarea {
   background: #272f42;
   color: white;
   width: 150px;
-  height: calc(100vh - 30px); }
+  height: calc(100vh - 40px); }
   .Sidebar__header {
     display: flex;
     background: #353c4f;
@@ -324,11 +324,12 @@ input, textarea {
 
 .Header {
   width: 100%;
-  height: 30px;
+  height: 40px;
   display: flex;
   justify-content: space-between;
   color: white;
-  background: #272f42; }
+  background: #272f42;
+  line-height: 30px; }
   .Header__left {
     display: flex; }
   .Header__block {
@@ -339,7 +340,8 @@ input, textarea {
       height: 10px;
       border: 1px solid white;
       position: relative;
-      display: flex; }
+      display: flex;
+      top: 9px; }
       .Header__block__trialIndicator .trialIndicator--inner {
         position: relative;
         box-sizing: border-box;
@@ -353,7 +355,9 @@ input, textarea {
         color: #4a80f0; }
   .Header .trialIndicator--text {
     line-height: 12px;
-    padding-left: 5px; }
+    padding-left: 7px;
+    position: relative;
+    top: 9px; }
   .Header__left {
     color: #4a80f0; }
 
@@ -562,8 +566,7 @@ input, textarea {
   display: flex;
   flex-direction: column;
   touch-action: none;
-  box-sizing: border-box;
-  overflow: hidden; }
+  box-sizing: border-box; }
   .Storypoint-currentlyLinked {
     border: 2px solid red; }
   .Storypoint input, .Storypoint textarea {
@@ -574,6 +577,13 @@ input, textarea {
     margin: 0; }
     .Storypoint input:focus, .Storypoint textarea:focus {
       outline: none; }
+  .Storypoint__inner {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    touch-action: none;
+    box-sizing: border-box; }
   .Storypoint__dragHandle {
     width: 10px;
     height: 10px;
@@ -601,6 +611,12 @@ input, textarea {
     justify-content: space-between;
     position: relative;
     padding: 5px 0; }
+    .Storypoint__header-right i {
+      margin: 0 5px;
+      transition: all .5s; }
+      .Storypoint__header-right i:hover {
+        cursor: pointer;
+        color: #4a80f0; }
     .Storypoint__header p {
       padding: 0;
       margin: 0; }
