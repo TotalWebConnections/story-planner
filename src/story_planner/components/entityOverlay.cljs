@@ -56,6 +56,7 @@
                                                      :value (:label entityField)
                                                      :on-change #(update-label inputFields (:id entityField) (-> % .-target .-value))}]
                 [:input.OverlayEntity__input {:type "text"
+                                              :placeholder "Value"
                                               :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])
            [:button {:on-click #(add-field inputFields)} "Add Field"]

@@ -41,6 +41,12 @@
       position: absolute;
       top: 5px;
       right: 5px;
+      transition: all .25s;
+
+      &:hover {
+        cursor: pointer;
+        color: $mainBlue;
+      }
     }
   }
 }

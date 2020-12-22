@@ -8,11 +8,30 @@
   background: rgba(0,0,0,0.75);
   opacity: 0;
   display: none;
+  color: white;
 
   &--active {
     display: block;
     opacity: 1;
     animation: fadeIn .25s linear;
+  }
+
+  &__currentFolder {
+    display: flex;
+    flex-direction: row;
+
+    .goBack {
+      transform: rotate(-90deg);
+      margin-right: 15px;
+      padding-left: 15px;
+      font-size: 28px;
+      transition: all .25s;
+      cursor: pointer;
+
+      &:hover {
+        color: $mainBlue
+      }
+    }
   }
 
   &__header {
@@ -21,6 +40,37 @@
     display: flex;
     justify-content: space-between;
     background: $lightBlack;
+    color: white;
+  }
+
+  &__upload {
+    padding-left: 15px;
+
+    input {
+      border-radius: 12px 0px 0px 12px;
+    }
+
+    button {
+      border-radius: 0px 12px 12px 0px;
+      margin-left: 0px;
+      font-size: 12px;
+      height: 36px;
+    }
+  }
+
+  .Folder-creation {
+    padding-left: 15px;
+
+    input {
+      border-radius: 12px 0px 0px 12px;
+    }
+
+    button {
+      border-radius: 0px 12px 12px 0px;
+      margin-left: 0px;
+      font-size: 12px;
+      height: 31px;
+    }
   }
 
   &__inner {
@@ -42,26 +92,26 @@
     }
   }
 
+  &__currentFolder {
+    padding-left: 15px;
+  }
+
   &__imageWrapper {
     display: flex;
     flex-wrap: wrap;
-
-    .goBack {
-      transform: rotate(-90deg);
-      padding-left: 15px;
-      font-size: 28px;
-      transition: all .25s;
-      cursor: pointer;
-
-      &:hover {
-        color: $mainBlue
-      }
-    }
+    padding: 15px;
 
     &-folder {
       width: 200px;
       height: 200px;
       text-align: center;
+      transition: all .25s;
+      color: white;
+
+      &:hover {
+        cursor: pointer;
+        color: $mainBlue;
+      }
 
       i {
         font-size: 75px;

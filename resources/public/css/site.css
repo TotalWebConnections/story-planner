@@ -399,7 +399,11 @@ input, textarea {
     .Overlay__inner__close {
       position: absolute;
       top: 5px;
-      right: 5px; }
+      right: 5px;
+      transition: all .25s; }
+      .Overlay__inner__close:hover {
+        cursor: pointer;
+        color: #4a80f0; }
 
 @keyframes fadeIn {
   0% {
@@ -468,6 +472,8 @@ input, textarea {
       .OverlayEntity__inner__close:hover {
         cursor: pointer;
         color: #4a80f0; }
+  .OverlayEntity__input--label {
+    margin-right: 5px; }
   .OverlayEntity__fieldWrapper {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -686,17 +692,49 @@ input, textarea {
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
   opacity: 0;
-  display: none; }
+  display: none;
+  color: white; }
   .MediaManager--active {
     display: block;
     opacity: 1;
     animation: fadeIn .25s linear; }
+  .MediaManager__currentFolder {
+    display: flex;
+    flex-direction: row; }
+    .MediaManager__currentFolder .goBack {
+      transform: rotate(-90deg);
+      margin-right: 15px;
+      padding-left: 15px;
+      font-size: 28px;
+      transition: all .25s;
+      cursor: pointer; }
+      .MediaManager__currentFolder .goBack:hover {
+        color: #4a80f0; }
   .MediaManager__header {
     margin-bottom: 15px;
     padding-bottom: 15px;
     display: flex;
     justify-content: space-between;
-    background: #353c4f; }
+    background: #353c4f;
+    color: white; }
+  .MediaManager__upload {
+    padding-left: 15px; }
+    .MediaManager__upload input {
+      border-radius: 12px 0px 0px 12px; }
+    .MediaManager__upload button {
+      border-radius: 0px 12px 12px 0px;
+      margin-left: 0px;
+      font-size: 12px;
+      height: 36px; }
+  .MediaManager .Folder-creation {
+    padding-left: 15px; }
+    .MediaManager .Folder-creation input {
+      border-radius: 12px 0px 0px 12px; }
+    .MediaManager .Folder-creation button {
+      border-radius: 0px 12px 12px 0px;
+      margin-left: 0px;
+      font-size: 12px;
+      height: 31px; }
   .MediaManager__inner {
     background: #353c4f;
     color: white;
@@ -712,21 +750,21 @@ input, textarea {
       position: absolute;
       top: 5px;
       right: 5px; }
+  .MediaManager__currentFolder {
+    padding-left: 15px; }
   .MediaManager__imageWrapper {
     display: flex;
-    flex-wrap: wrap; }
-    .MediaManager__imageWrapper .goBack {
-      transform: rotate(-90deg);
-      padding-left: 15px;
-      font-size: 28px;
-      transition: all .25s;
-      cursor: pointer; }
-      .MediaManager__imageWrapper .goBack:hover {
-        color: #4a80f0; }
+    flex-wrap: wrap;
+    padding: 15px; }
     .MediaManager__imageWrapper-folder {
       width: 200px;
       height: 200px;
-      text-align: center; }
+      text-align: center;
+      transition: all .25s;
+      color: white; }
+      .MediaManager__imageWrapper-folder:hover {
+        cursor: pointer;
+        color: #4a80f0; }
       .MediaManager__imageWrapper-folder i {
         font-size: 75px; }
     .MediaManager__imageWrapper-image {
@@ -749,6 +787,13 @@ input, textarea {
   .MediaManagerSmall__header {
     display: flex;
     justify-content: space-between; }
+  .MediaManagerSmall__upload input {
+    border-radius: 12px 0px 0px 12px; }
+  .MediaManagerSmall__upload button {
+    border-radius: 0px 12px 12px 0px;
+    margin-left: 0px;
+    font-size: 12px;
+    height: 36px; }
   .MediaManagerSmall--active {
     display: block; }
   .MediaManagerSmall__imageWrapper {
@@ -765,7 +810,12 @@ input, textarea {
     .MediaManagerSmall__imageWrapper-folder {
       width: 100px;
       height: 100px;
-      text-align: center; }
+      text-align: center;
+      transition: all .25s;
+      color: white; }
+      .MediaManagerSmall__imageWrapper-folder:hover {
+        cursor: pointer;
+        color: #4a80f0; }
       .MediaManagerSmall__imageWrapper-folder i {
         font-size: 45px; }
 
