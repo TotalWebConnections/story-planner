@@ -59,7 +59,9 @@
                   [:input {:type "checkbox" :id (:_id project) :on-click #(handle-new-user-checkbox % initial-add-list)}]])]]]])]
         [:button {:on-click #(handle-add-authorized-user added-user initial-add-list)} "Add User"]]
        [:div.RegisteredUsers__section
-        [:h3 "Current Users"]
+        [:div.RegisteredUsers__header
+         [:h3 "Current Users"]
+         [:h3.visibleProjects "Visible Projects"]]
         [:table.RegisteredUsers__currentWrapper
          [:tbody
           [:tr

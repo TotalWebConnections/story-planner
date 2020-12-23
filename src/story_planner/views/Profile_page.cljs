@@ -74,8 +74,10 @@
     (js/setTimeout #(setup-card-handlers stripe card) 2000) ; TODO make this better
     (fn [app-state]
       [:div.Profile
-        [:div.Profile__header.standard-padding
-         [:h2 {:on-click #((navigate ""))} "App Name"]]
+        [:div.Profile__header
+         [:h2 "Account"]
+         [:div.Profile__header__nav
+          [:p {:on-click #(navigate "projects")} "Projects"]]]
         [:div.Profile__inner
           [:h1 "My Details"]
           [:div.Profile__row
