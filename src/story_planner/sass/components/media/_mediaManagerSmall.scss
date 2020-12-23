@@ -13,6 +13,14 @@
   &__header {
     display: flex;
     justify-content: space-between;
+
+    .close {
+      transition: all .25s;
+
+      &:hover {
+        color: $mainBlue;
+      }
+    }
   }
 
   &__upload {

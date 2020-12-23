@@ -799,6 +799,10 @@ input, textarea {
   .MediaManagerSmall__header {
     display: flex;
     justify-content: space-between; }
+    .MediaManagerSmall__header .close {
+      transition: all .25s; }
+      .MediaManagerSmall__header .close:hover {
+        color: #4a80f0; }
   .MediaManagerSmall__upload input {
     border-radius: 12px 0px 0px 12px; }
   .MediaManagerSmall__upload button {
