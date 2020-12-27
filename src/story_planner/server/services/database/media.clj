@@ -27,3 +27,9 @@
 (defn load-media [user-id]
   (let [media (mc/find-one-as-map db "media" {:owner user-id})]
     (update (update media :_id str) :owner str))) ; By updating each map :id by casting to a string
+
+(defn remove-image [user-id url]
+  (let [imageUpdate (.getN (mc/update db "media" {:owner user-id} {$pull {:images {:url url}}}))]
+    (if (> imageUpdate 0)
+      "Handle Success"
+      "Handle Failure")))

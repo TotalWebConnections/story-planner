@@ -121,10 +121,30 @@
     &-image {
       width: 200px;
       height: 200px;
+      position: relative;
 
       img {
         width: 100%;
         height: 100%;
+      }
+
+      &-close {
+        width: 25px;
+        height: 25px;
+        background: red;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 25px;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        cursor: pointer;
+        transition: 0.25s;
+
+        &:hover {
+          filter: brightness(75%);
+        }
       }
     }
   }

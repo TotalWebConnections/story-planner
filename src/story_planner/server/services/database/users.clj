@@ -45,3 +45,7 @@
   (let [user (get-user-by-token token)]
     (media/add-media-folder (:_id user) folder-name)))
 
+(defn remove-image [token url]
+  (let [user (get-user-by-token token)]
+    (media/remove-image (:_id user) url)))
+

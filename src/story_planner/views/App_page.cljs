@@ -21,8 +21,6 @@
   (fn [app-state]
     (let [showMedia (atom (:app-show-media-manager @app-state))]
       (set-initial-board app-state)
-      (print @showMedia)
-      ; (print (:app-show-media-manager @app-state))
       [:div.App
         [Media-Manager showMedia (:images @app-state) (:media-folders @app-state) handle-add-image-in-storypoint true]
         [Header (:name (:currentProject @app-state))]

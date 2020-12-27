@@ -22,3 +22,9 @@
         (if (= (:type response-body) "error")
           (print "error")
           (print response-body)))))
+
+(defn delete-image [url]
+  (go (let [response (<! (http/post "http://localhost:8080/delete-image"
+                                 {:with-credentials? false
+                                  :form-params {:url url :token (:token (get-from-state "user"))}}))
+            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)])))

@@ -81,6 +81,9 @@
   (POST "/create-media-folder" request
     (let [params (walk/keywordize-keys (:form-params request))]
       (response (generate-string (DB-users/add-user-media-folder (:token params) (:folder params))))))
+  (POST "/delete-image" request
+    (let [params (walk/keywordize-keys (:form-params request))]
+      (response (generate-string (DB-users/remove-image (:token params) (:url params))))))
   (POST "/user" request
     (response (generate-string (handle-save-user  (walk/keywordize-keys (:form-params request))))))
   (POST "/login" request
