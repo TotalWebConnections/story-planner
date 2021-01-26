@@ -123,6 +123,10 @@
                  :newUser (:user constructor)
                  :projectIds (:projectIds constructor)}))
 
+(defn delete-authorized-user [constructor]
+  (send-message {:type "delete-authorized-user"
+                 :userId (:userId constructor)}))
+
 (defn udpdate-project-permissions [constructor]
   (send-message {:type "update-project-permissions"
                  :authorizedUsers (:authorizedUsers constructor)

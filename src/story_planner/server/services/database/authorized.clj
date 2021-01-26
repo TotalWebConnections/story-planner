@@ -37,6 +37,9 @@
                     :setupToken (str (java.util.UUID/randomUUID))}))]
     (add-new-user-project (str (:_id newUser)) parentId projectIds)))
 
+(defn delete-authorized-user [userId parentId]
+  (mc/remove db "users" {$and [{:_id (ObjectId. userId)} {:parentId parentId}]}))
+
 (defn update-project-permissions [userId authorizedUsers projectId]
   (mc/update db "projects" {:_id (ObjectId. projectId)}
                            {$set {"authorizedUsers" authorizedUsers}} {:upsert true}))

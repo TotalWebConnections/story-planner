@@ -710,6 +710,8 @@ input, textarea {
     display: block;
     opacity: 1;
     animation: fadeIn .25s linear; }
+  .MediaManager .Confirmation {
+    z-index: 200; }
   .MediaManager__currentFolder {
     display: flex;
     flex-direction: row; }

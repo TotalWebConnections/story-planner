@@ -36,7 +36,6 @@
   (let [added-user (atom {:name nil :email nil})
         initial-add-list (atom [])]
     (fn [projects auth-user]
-      (print projects)
       [:div.RegisteredUsers
        [:h2 "My Team"]
        [:p "Invite team members by email and manage which projects they have access to."]
@@ -67,7 +66,8 @@
           [:tr
            [:th.userTableCell "Name"]
            (for [project projects]
-             [:th {:key (:_id project)} (:name project)])]
+             [:th {:key (:_id project)} (:name project)])
+           [:t.userTableCell ""]]
           (for [user auth-users]
             [:tr {:key (:_id user)}
              [:td.userTableCell (:name user)]
@@ -75,4 +75,5 @@
                [:td {:key (:_id project)}
                 [:input {:type "checkbox"
                          :checked (some #(= (:_id user) %) (:authorizedUsers project))
-                         :on-change #(update-project-permissions % project (:_id user))}]])])]]]])))
+                         :on-change #(update-project-permissions % project (:_id user))}]])
+             [:td [:button {:on-click #(api/delete-authorized-user {:userId (:_id user)})} "Delete"]]])]]]])))

@@ -85,6 +85,10 @@
   [data]
   (DB-auth-users/add-authorized-user (:newUser data) (:projectIds data) (:_id (:user data))))
 
+(defmethod handle-websocket-message "delete-authorized-user"
+  [data]
+  (DB-auth-users/delete-authorized-user (:userId data) (:_id (:user data))))
+
 (defmethod handle-websocket-message "update-project-permissions"
   [data]
   (DB-auth-users/update-project-permissions (:_id (:user data)) (:authorizedUsers data) (:projectId data)

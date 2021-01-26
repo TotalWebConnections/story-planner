@@ -16,6 +16,10 @@
     animation: fadeIn .25s linear;
   }
 
+  .Confirmation {
+    z-index: 200;
+  }
+
   &__currentFolder {
     display: flex;
     flex-direction: row;
