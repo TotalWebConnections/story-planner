@@ -35,7 +35,7 @@
 (defn Registered-users [projects auth-users]
   (let [added-user (atom {:name nil :email nil})
         initial-add-list (atom [])]
-    (fn [projects auth-user]
+    (fn [projects auth-users]
       [:div.RegisteredUsers
        [:h2 "My Team"]
        [:p "Invite team members by email and manage which projects they have access to."]
