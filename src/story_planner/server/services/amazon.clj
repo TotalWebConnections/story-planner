@@ -26,8 +26,10 @@
                    {:bucket-name "story-planner"
                     :prefix (str id)}))
 
-(defn handle-delete-image [id]
+(defn handle-delete-image [file-name]
   "deletes an image for user"
-  (delete-object (:s3creds env
-                   :bucket-name "story-planner"
-                   :key id)))
+  (delete-object (:s3creds env)
+                :bucket-name "story-planner"
+                :key file-name)
+  file-name)
+

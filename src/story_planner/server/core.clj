@@ -14,7 +14,7 @@
     [clojure.walk :as walk]
     [story-planner.server.services.database.users :as DB-users]
     [story-planner.server.services.socket :as socketHandlers]
-    [story-planner.server.services.amazon :refer [handle-image-upload]]
+    [story-planner.server.services.amazon :refer [handle-image-upload handle-delete-image]]
     [story-planner.server.services.database.media :refer [add-media-folder]]
     [story-planner.server.services.user :refer [handle-save-user handle-login-user check-user-token subscribe-user unsubscribe-user signup-auth-user]])
   (:gen-class))
@@ -83,7 +83,10 @@
       (response (generate-string (DB-users/add-user-media-folder (:token params) (:folder params))))))
   (POST "/delete-image" request
     (let [params (walk/keywordize-keys (:form-params request))]
-      (response (generate-string (DB-users/remove-image (:token params) (:url params))))))
+      (response
+        (generate-string
+          (handle-delete-image
+            (DB-users/remove-image (:token params) (:url params)))))))
   (POST "/user" request
     (response (generate-string (handle-save-user  (walk/keywordize-keys (:form-params request))))))
   (POST "/login" request

@@ -31,5 +31,5 @@
 (defn remove-image [user-id url]
   (let [imageUpdate (.getN (mc/update db "media" {:owner user-id} {$pull {:images {:url url}}}))]
     (if (> imageUpdate 0)
-      "Handle Success"
+      url
       "Handle Failure")))

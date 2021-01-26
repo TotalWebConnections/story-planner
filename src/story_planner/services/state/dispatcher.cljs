@@ -30,6 +30,9 @@
   (defmethod handle-state-change "add-image"
     [action]
     (projects/add-image app-state (:value action)))
+  (defmethod handle-state-change "remove-image"
+    [action]
+    (projects/remove-image app-state (:value action)))
   (defmethod handle-state-change "new-project"
     [action]
     (projects/add-new-project app-state (:value action)))

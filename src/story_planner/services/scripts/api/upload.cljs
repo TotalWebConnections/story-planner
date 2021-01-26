@@ -27,4 +27,5 @@
   (go (let [response (<! (http/post "http://localhost:8080/delete-image"
                                  {:with-credentials? false
                                   :form-params {:url url :token (:token (get-from-state "user"))}}))
-            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)])))
+            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+        (handle-state-change  {:type "remove-image" :value response-body}))))

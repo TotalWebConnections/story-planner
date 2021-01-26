@@ -27,3 +27,6 @@
 
 (defn add-image [state value]
   (swap! state update-in [:images] conj value))
+
+(defn remove-image [state value]
+  (swap! state update-in [:images] (fn [%] (filter (fn [image] (not= (:url image) value)) %)) value))
