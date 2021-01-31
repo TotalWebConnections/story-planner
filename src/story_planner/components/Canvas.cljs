@@ -138,7 +138,7 @@
         :reagent-render        ;; Note:  is not :render
         (fn [currentProject currentBoard linkStartId]           ;; remember to repeat parameters
           [:div.CanvasParent {:on-drop #(handle-drop % (:_id currentProject) currentBoard) :on-drag-over allow-drop}
-            [Controls (:_id currentProject) currentBoard]
+            [Controls (:_id currentProject) currentBoard panHandler]
             [:div#Canvas
              (if currentBoard
                (for [storypoint (get-current-board-storypoints (:storypoints currentProject) currentBoard)] ; TODO actually pull the current
