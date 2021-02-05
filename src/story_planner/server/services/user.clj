@@ -79,7 +79,6 @@
     (wrap-response "error" "Token invalid")))
 
 (defn signup-auth-user [values]
-  (println (:id values))
   (if (DB-auth-users/user-with-token-exists? (:id values))
     (wrap-response "success" (DB-auth-users/update-auth-user (:id values) (hashers/derive (:password values) {:alg :bcrypt+blake2b-512})))
     (wrap-response "error" "Token invalid")))

@@ -3,29 +3,44 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [goog.dom :as gdom]
             [cljs-http.client :as http]
+            [story-planner.components.Loader :refer [Loader]]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key]]
             [story-planner.components.profile.registed_users :refer [Registered-users]]))
 
+; We put this here as the stripe flow is a little different and it's just easier
+(def on-subscribe-error (atom false))
+(def on-unsubscribe-error (atom false))
+(def is-handling-billing? (atom false))
+
+(defn handle-on-sub-change [tokenVal]
+  (update-localstorage-by-key "subToken" tokenVal)
+  (reset! is-handling-billing? false))
 
 (defn handle-subscribe [stripe-token]
   "Takes are new stripe token and sends it to server to finish the subscription process"
+  (reset! is-handling-billing? true)
   (go (let [response (<! (http/post "http://localhost:8080/subscribe"
                                  {:with-credentials? false
                                   :form-params {:token (:token (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)) :stripeToken (:id (js->clj stripe-token :keywordize-keys true))}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
           (if (= (:type response-body) "error")
-            (js/alert "There Was an Error Processing Your Payment")
-            (update-localstorage-by-key "subToken" (:data response-body))))))
+            (do
+              (reset! is-handling-billing? false)
+              (reset! on-subscribe-error "There Was an Error Processing Your Payment"))
+            (handle-on-sub-change (:data response-body))))))
 
 (defn handle-unsubscribe [token sub-token]
+  (reset! is-handling-billing? true)
   (go (let [response (<! (http/post "http://localhost:8080/unsubscribe"
                                  {:with-credentials? false
                                   :form-params {:token token :sub-token sub-token}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
           (if (= (:type response-body) "error")
-            (js/alert "Error - Please contact support")
-            (update-localstorage-by-key "subToken" nil)))))
+            (do
+              (reset! is-handling-billing? false)
+              (reset! on-unsubscribe-error "Error - Please contact support"))
+            (handle-on-sub-change nil)))))
 
 (def card-style {
                  :base {
@@ -70,11 +85,12 @@
   (let [stripe (.Stripe js/window "pk_test_LgROF2ukcNIc3P3I3p4Nq31v") ;TODO we need to build this into a compile time var
         elements (.elements stripe)
         card (.create elements "card" (clj->js {:style card-style}))
-        token (:token (:user @app-state))
-        on-subscribe-error (atom false)]
-    (js/setTimeout #(setup-card-handlers stripe card) 2000) ; TODO make this better
+        token (:token (:user @app-state))]
+    (js/setTimeout #(setup-card-handlers stripe card) 1000) ; TODO make this better
     (fn [app-state]
       [:div.Profile
+        (if @is-handling-billing?
+          [Loader])
         [:div.Profile__header
          [:h2 "Account"]
          [:div.Profile__header__nav
@@ -86,12 +102,16 @@
            (if (not (:subToken (:user @app-state)))
              [:div.Profile__subscribe
               [:p "You are currently not subscibed. Filling out the form below you will be charged $9/month until you cancel."]
+              (if @on-subscribe-error
+                [:p.ErrorText @on-subscribe-error])
               [:form#subscription-form {:action "/subscribe" :method "post"}
                [:div#card-element]
                [:div#card-errors]
                [:button.subscribe_button {:type "submit"} "Subscribe"]]]
              [:div.Profile__subscribe
               [:p "You are currently subscribed! If you wish to cancel please click the button below to immediately cancel your subscriptions and stop future payments. You will not receive a refund for any unused time in your account."]
+              (if @on-unsubscribe-error
+                [:p.ErrorText @on-unsubscribe-error])
               [:button.subscribe_button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]
           [:div.Profile__row
            [Registered-users (:projects @app-state) (:users @app-state)]]]])))

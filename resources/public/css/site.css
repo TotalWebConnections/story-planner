@@ -303,6 +303,15 @@ input, textarea {
     border-bottom: 1px solid #303738; }
   .Profile .subscribe_button {
     margin-top: 10px; }
+  .Profile .Loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    padding-top: 150px; }
 
 .Sidebar {
   background: #272f42;
