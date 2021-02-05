@@ -16,6 +16,6 @@
 
 (defn user-able-to-add? []
   "not as this gives us a return on whether to continue"
-  (if (:subToken (get-from-state "currentProject")) ; a subscribed user has no restrictions
+  (if (:subToken (get-from-state "user")) ; a subscribed user has no restrictions
     true
     (not (is-at-limit? (check-total-usage)))))

@@ -15,7 +15,7 @@
                                   :form-params {:token (:token (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)) :stripeToken (:id (js->clj stripe-token :keywordize-keys true))}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
           (if (= (:type response-body) "error")
-            (js/alert "Credit card invalid")
+            (js/alert "There Was an Error Processing Your Payment")
             (update-localstorage-by-key "subToken" (:data response-body))))))
 
 (defn handle-unsubscribe [token sub-token]
@@ -70,7 +70,8 @@
   (let [stripe (.Stripe js/window "pk_test_LgROF2ukcNIc3P3I3p4Nq31v") ;TODO we need to build this into a compile time var
         elements (.elements stripe)
         card (.create elements "card" (clj->js {:style card-style}))
-        token (:token (:user @app-state))]
+        token (:token (:user @app-state))
+        on-subscribe-error (atom false)]
     (js/setTimeout #(setup-card-handlers stripe card) 2000) ; TODO make this better
     (fn [app-state]
       [:div.Profile
@@ -88,9 +89,9 @@
               [:form#subscription-form {:action "/subscribe" :method "post"}
                [:div#card-element]
                [:div#card-errors]
-               [:button {:type "submit"} "Subscribe"]]]
+               [:button.subscribe_button {:type "submit"} "Subscribe"]]]
              [:div.Profile__subscribe
-              [:p "Un-sub"]
-              [:button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]
+              [:p "You are currently subscribed! If you wish to cancel please click the button below to immediately cancel your subscriptions and stop future payments. You will not receive a refund for any unused time in your account."]
+              [:button.subscribe_button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]
           [:div.Profile__row
            [Registered-users (:projects @app-state) (:users @app-state)]]]])))

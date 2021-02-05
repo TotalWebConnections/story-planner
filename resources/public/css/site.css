@@ -301,6 +301,8 @@ input, textarea {
     margin: 25px 0;
     padding: 40px 0;
     border-bottom: 1px solid #303738; }
+  .Profile .subscribe_button {
+    margin-top: 10px; }
 
 .Sidebar {
   background: #272f42;
