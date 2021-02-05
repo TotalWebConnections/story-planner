@@ -13,6 +13,7 @@
 
 (set! js/global js/window); Work around as panzoom will error on global sometimes
 (def panzoom (.-Panzoom js/window))
+(def panHandler-ref (atom nil)) ; we use this so child-components can have access to the current state of the canvas
 (def drag-ref (atom [])) ; reference to our draggable elements
 (def elementSize (atom {}))
 
@@ -53,13 +54,14 @@
   (def zoomElem (.querySelector js/document "#Canvas"))
   (if zoomElem
     (do
-      (def panHandler (panzoom zoomElem (clj->js {:maxScale 4
-                                                  :minScale 1
+      (def panHandler (panzoom zoomElem (clj->js {:maxScale 1
+                                                  :minScale 0.125
                                                   :step 0.05
                                                   :excludeClass "draggable"
                                                   :contain "outside"})))
+      (reset! panHandler-ref panHandler)
       ;
-      (js/setTimeout #(.pan panHandler -2500 -2500))
+      ; (js/setTimeout #(.pan panHandler -2500 -2500))
       (js/setTimeout #(.addEventListener zoomElem "wheel" (.-zoomWithWheel panHandler)))
   ; function taken from interact - probably not `functional`
   ; TODO we should chanage drag speed based on zoom level
@@ -138,7 +140,7 @@
         :reagent-render        ;; Note:  is not :render
         (fn [currentProject currentBoard linkStartId]           ;; remember to repeat parameters
           [:div.CanvasParent {:on-drop #(handle-drop % (:_id currentProject) currentBoard) :on-drag-over allow-drop}
-            [Controls (:_id currentProject) currentBoard panHandler]
+            [Controls (:_id currentProject) currentBoard @panHandler-ref]
             [:div#Canvas
              (if currentBoard
                (for [storypoint (get-current-board-storypoints (:storypoints currentProject) currentBoard)] ; TODO actually pull the current
