@@ -803,6 +803,15 @@ input, textarea {
         transition: 0.25s; }
         .MediaManager__imageWrapper-image-close:hover {
           filter: brightness(75%); }
+  .MediaManager .Loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    padding-top: 150px; }
 
 .MediaManagerSmall {
   position: absolute;
@@ -852,6 +861,15 @@ input, textarea {
         color: #4a80f0; }
       .MediaManagerSmall__imageWrapper-folder i {
         font-size: 45px; }
+  .MediaManagerSmall .Loader {
+    position: absolute;
+    width: 100%;
+    height: 300%;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    padding-top: 150px; }
 
 .RegisteredUsers__section {
   padding: 25px 0; }

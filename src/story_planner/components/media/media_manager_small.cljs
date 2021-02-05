@@ -1,17 +1,29 @@
 (ns story-planner.components.media.media-manager-small
   (:require [reagent.core :as reagent :refer [atom]]
-            [story-planner.services.scripts.api.upload :refer [upload-image]]))
+            [clojure.core.async :refer [take!]]
+            [story-planner.services.scripts.api.upload :refer [upload-image]]
+            [story-planner.components.Loader :refer [Loader]]))
+
+(defn on-img-response [isUploading? val]
+  (reset! isUploading? false))
+
+(defn handle-upload-image [active-folder isUploading?]
+  (reset! isUploading? true)
+  (take! (upload-image "mediaManagerSmall" active-folder) (partial on-img-response isUploading?)))
 
 (defn Media-Manager-Small [active images folders on-image-select]
-  (let [active-folder (atom nil)]
+  (let [active-folder (atom nil)
+        isUploading? (atom false)]
     (fn [active images folders on-image-select]
       [:div.MediaManagerSmall {:class (str "MediaManagerSmall--" @active)}
+       (if @isUploading?
+         [Loader])
        [:div.MediaManagerSmall__header.standard-padding
         [:h2 "Your Images"]
         [:p.close {:on-click #(reset! active false)} "x"]]
        [:div.MediaManagerSmall__upload
         [:input#mediaManagerSmall {:type "file"}]
-        [:button {:on-click #(upload-image "mediaManagerSmall" nil)}"upload image"]]
+        [:button {:on-click #(handle-upload-image @active-folder isUploading?)}"upload image"]]
        (if @active-folder
          [:div.MediaManager__currentFolder
           [:i.fas.fa-level-up-alt.goBack {:on-click #(reset! active-folder nil)}]

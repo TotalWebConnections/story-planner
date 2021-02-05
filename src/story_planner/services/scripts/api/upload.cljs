@@ -13,6 +13,7 @@
                                     :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))] ["folder" folder]]}))]
 
           (handle-state-change  {:type "add-image" :value (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)})))))
+  
 
 (defn create-media-folder [folder-name]
   (go (let [response (<! (http/post "http://localhost:8080/create-media-folder"
