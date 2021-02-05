@@ -32,7 +32,7 @@
       (add-user-to-project project userId authorizedUsers)
       (remove-user-from-project project userId authorizedUsers))))
 
-(defn Registered-users [projects auth-users]
+(defn Registered-users [projects auth-users sub-token]
   (let [added-user (atom {:name nil :email nil})
         initial-add-list (atom [])]
     (fn [projects auth-users]
@@ -41,9 +41,12 @@
        [:p "Invite team members by email and manage which projects they have access to."]
        [:div.RegisteredUsers__section
         [:h3 "Add a New User"]
-        [:div.RegisteredUsers__inputWrapper
-         [:input {:type "text" :placeholder "name" :on-change #(swap! added-user conj {:name (-> % .-target .-value)})}]
-         [:input {:type "text" :placeholder "email" :on-change #(swap! added-user conj {:email (-> % .-target .-value)})}]
+        (if sub-token
+          [:div.RegisteredUsers__inputWrapper
+           [:input {:type "text" :placeholder "name" :on-change #(swap! added-user conj {:name (-> % .-target .-value)})}]
+           [:input {:type "text" :placeholder "email" :on-change #(swap! added-user conj {:email (-> % .-target .-value)})}]])
+          [:div.RegisteredUsers__inputWrapper
+           [:p "Multiple users is limited to paying users. Please subscribe to access this functionality!"]]
          (if (:name @added-user)
            [:div
             [:h4 "Select which projects to grant access"]
@@ -55,8 +58,9 @@
               [:tr
                (for [project projects]
                  [:td {:key (:_id project)}
-                  [:input {:type "checkbox" :id (:_id project) :on-click #(handle-new-user-checkbox % initial-add-list)}]])]]]])]
-        [:button {:on-click #(handle-add-authorized-user added-user initial-add-list)} "Add User"]]
+                  [:input {:type "checkbox" :id (:_id project) :on-click #(handle-new-user-checkbox % initial-add-list)}]])]]]])
+        (if sub-token
+          [:button {:on-click #(handle-add-authorized-user added-user initial-add-list)} "Add User"])]
        [:div.RegisteredUsers__section
         [:div.RegisteredUsers__header
          [:h3 "Current Users"]

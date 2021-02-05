@@ -114,4 +114,4 @@
                 [:p.ErrorText @on-unsubscribe-error])
               [:button.subscribe_button {:on-click #(handle-unsubscribe token (:subToken (:user @app-state)))} "Cancel Subscription"]])]
           [:div.Profile__row
-           [Registered-users (:projects @app-state) (:users @app-state)]]]])))
+           [Registered-users (:projects @app-state) (:users @app-state) (:subToken (:user @app-state))]]]])))
