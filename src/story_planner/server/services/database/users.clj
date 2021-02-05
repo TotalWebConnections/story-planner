@@ -26,12 +26,14 @@
     token))
 
 (defn get-user-by-token [token]
+  "returns a user associated with a token, otherwise returns false"
   (let [user (mc/find-maps db "users" {:token token})]
     (if (> (count user) 0)
       (first user)
       false)))
 
 (defn check-user-token [token]
+  "checks if a token is a valid token"
   (let [user (mc/find-maps db "users" {:token token})]
     (if (> (count user) 0)
       true

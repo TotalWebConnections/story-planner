@@ -51,6 +51,9 @@
 (defn validate-token [token]
   (DB-users/check-user-token token))
 
+(defn validate-token-return-user [token]
+  (DB-users/get-user-by-token token))
+
 (defn check-user-token [token]
   (wrap-response "success" (validate-token token)))
 
@@ -65,9 +68,10 @@
       (wrap-response "error" "Token invalid"))))
 
 (defn subscribe-user [values]
-  (if (validate-token (:token values))
-    (wrap-response "success" (handle-subscribe-user (:stripeToken values) "test@test.com" (:token values))) ; TODO make the real email
-    (wrap-response "error" "Token invalid")))
+  (let [user (validate-token-return-user (:token values))]
+    (if user ; will be false if the token doesn't exist
+      (wrap-response "success" (handle-subscribe-user (:stripeToken values) (:email user) (:token values))) ; TODO make the real email
+      (wrap-response "error" "Token invalid"))))
 
 (defn handle-unsubscribe-user [user-token sub-token]
   (stripe-unsubscribe-user sub-token)
