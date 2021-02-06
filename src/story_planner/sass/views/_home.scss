@@ -7,7 +7,18 @@
 
     li {
       padding: 0 5px;
+      transition: all .5s;
+
+      &:hover {
+        cursor: pointer;
+        color: #4a80f0;
+      }
     }
+  }
+
+  img.border {
+    border: 1px solid $green;
+    box-sizing: border-box;
   }
 
   &__header {
@@ -33,23 +44,32 @@
     &__inner {
       display: flex;
       flex-direction: row;
+      max-width: $max-width;
+      padding: 0 15px;
     }
 
     &-left {
-      width: 50%;
+      width: 40%;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
+      button {
+        margin-top: 15px;
+      }
     }
 
     &-right {
-      width: 50%;
+      width: 60%;
+
     }
   }
 
   &__ribbon {
     text-align: center;
     padding: $large-section-padding 0;
+    max-width: $max-width;
+    margin: 0 auto;
 
     &__wrapper {
       display: flex;
@@ -61,32 +81,47 @@
 
     &-highlight {
       background: $green;
+      max-width: none;
+
+      p {
+        margin-bottom: 15px;
+      }
     }
   }
 
   &__section {
     display: flex;
     padding: $large-section-padding $global-padding;
+    max-width: $max-width;
+    margin: 0 auto;
 
-    div {
+    &--side {
       width: 50%;
+      padding: 15px;
+      display: flex;
+      align-items: center;
     }
   }
 
   &__lgSection {
     padding: $large-section-padding $global-padding;
     display: flex;
+    max-width: $max-width;
+    margin: 0 auto;
 
     &--side {
+
 
       &--left {
         width: 30%;
         display: flex;
+        padding: 15px;
       }
 
       &--right {
         width: 70%;
         display: flex;
+        padding: 15px;
       }
     }
   }
@@ -112,7 +147,7 @@
 
     &__options {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       padding: $large-section-padding $global-padding;
       padding-bottom: 0;
     }
@@ -121,6 +156,11 @@
       border: 3px solid $green;
       border-radius: 25px;
       width: 300px;
+      margin: 0 15px;
+
+      button {
+        margin: 0 auto;
+      }
 
       h3 {
         text-align: center;
@@ -143,5 +183,61 @@
   &__footer {
     padding: $large-section-padding $global-padding;
     padding-bottom: $global-padding;
+    background: $green;
+
+    .copyright {
+      width: 100%;
+      text-align: center;
+      font-size: .55rem;
+    }
   }
+}
+
+
+// MOBILE STYLES FOR HOME Home-page
+@media (max-width: 769px) {
+  .Home__header {
+    flex-wrap: wrap;
+
+    &__block {
+      width: 100%;
+    }
+  }
+  .Home__mainVisual__inner {flex-wrap: wrap;}
+  .Home__mainVisual-left, .Home__mainVisual-right {
+    width: 100%;
+  }
+  .Home__mainVisual-left {margin: 45px 0; text-align: center;}
+  .Home__mainVisual-right {
+    text-align: center;
+  }
+  .Home__mainVisual-right img {
+    width: 75%;
+    margin: 0 auto;
+  }
+
+  .Home__ribbon__wrapper {flex-wrap: wrap;}
+  .Home__ribbon__wrapper div {
+    width: 100%;
+    margin-bottom: 50px;
+
+    img { width: 40%; }
+  }
+
+  .Home__section {flex-wrap: wrap;}
+  .Home__section--side {
+    width: 100%;
+  }
+
+  .Home__lgSection {flex-wrap: wrap;}
+  .Home__lgSection--side--left, .Home__lgSection--side--right {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .Home__feature {
+    width: 100%;
+  }
+
+  .Home__pricing__options {flex-wrap: wrap;}
+  .Home__pricing__card:first-child {margin-bottom: 25px;}
 }

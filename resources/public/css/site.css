@@ -88,7 +88,14 @@ input, textarea {
   .Home ul {
     display: flex; }
     .Home ul li {
-      padding: 0 5px; }
+      padding: 0 5px;
+      transition: all .5s; }
+      .Home ul li:hover {
+        cursor: pointer;
+        color: #4a80f0; }
+  .Home img.border {
+    border: 1px solid #79C99E;
+    box-sizing: border-box; }
   .Home__header {
     position: absolute;
     top: 0;
@@ -106,41 +113,59 @@ input, textarea {
     justify-content: center; }
     .Home__mainVisual__inner {
       display: flex;
-      flex-direction: row; }
+      flex-direction: row;
+      max-width: 1200px;
+      padding: 0 15px; }
     .Home__mainVisual-left {
-      width: 50%;
+      width: 40%;
       display: flex;
       flex-direction: column;
       justify-content: center; }
+      .Home__mainVisual-left button {
+        margin-top: 15px; }
     .Home__mainVisual-right {
-      width: 50%; }
+      width: 60%; }
   .Home__ribbon {
     text-align: center;
-    padding: 75px 0; }
+    padding: 75px 0;
+    max-width: 1200px;
+    margin: 0 auto; }
     .Home__ribbon__wrapper {
       display: flex; }
       .Home__ribbon__wrapper div {
         width: 25%; }
     .Home__ribbon-highlight {
-      background: #41D3BD; }
+      background: #79C99E;
+      max-width: none; }
+      .Home__ribbon-highlight p {
+        margin-bottom: 15px; }
   .Home__section {
     display: flex;
-    padding: 75px 15px; }
-    .Home__section div {
-      width: 50%; }
+    padding: 75px 15px;
+    max-width: 1200px;
+    margin: 0 auto; }
+    .Home__section--side {
+      width: 50%;
+      padding: 15px;
+      display: flex;
+      align-items: center; }
   .Home__lgSection {
     padding: 75px 15px;
-    display: flex; }
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto; }
     .Home__lgSection--side--left {
       width: 30%;
-      display: flex; }
+      display: flex;
+      padding: 15px; }
     .Home__lgSection--side--right {
       width: 70%;
-      display: flex; }
+      display: flex;
+      padding: 15px; }
   .Home__feature {
     width: 50%; }
     .Home__feature__single {
-      border-bottom: 1px solid #41D3BD;
+      border-bottom: 1px solid #79C99E;
       margin: 0 15px;
       padding-bottom: 15px; }
       .Home__feature__single:not(:first-child) {
@@ -151,13 +176,16 @@ input, textarea {
       text-align: center; }
     .Home__pricing__options {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       padding: 75px 15px;
       padding-bottom: 0; }
     .Home__pricing__card {
-      border: 3px solid #41D3BD;
+      border: 3px solid #79C99E;
       border-radius: 25px;
-      width: 300px; }
+      width: 300px;
+      margin: 0 15px; }
+      .Home__pricing__card button {
+        margin: 0 auto; }
       .Home__pricing__card h3 {
         text-align: center;
         background: #4a80f0;
@@ -169,7 +197,52 @@ input, textarea {
           padding: 5px 0; }
   .Home__footer {
     padding: 75px 15px;
-    padding-bottom: 15px; }
+    padding-bottom: 15px;
+    background: #79C99E; }
+    .Home__footer .copyright {
+      width: 100%;
+      text-align: center;
+      font-size: .55rem; }
+
+@media (max-width: 769px) {
+  .Home__header {
+    flex-wrap: wrap; }
+    .Home__header__block {
+      width: 100%; }
+  .Home__mainVisual__inner {
+    flex-wrap: wrap; }
+  .Home__mainVisual-left, .Home__mainVisual-right {
+    width: 100%; }
+  .Home__mainVisual-left {
+    margin: 45px 0;
+    text-align: center; }
+  .Home__mainVisual-right {
+    text-align: center; }
+  .Home__mainVisual-right img {
+    width: 75%;
+    margin: 0 auto; }
+  .Home__ribbon__wrapper {
+    flex-wrap: wrap; }
+  .Home__ribbon__wrapper div {
+    width: 100%;
+    margin-bottom: 50px; }
+    .Home__ribbon__wrapper div img {
+      width: 40%; }
+  .Home__section {
+    flex-wrap: wrap; }
+  .Home__section--side {
+    width: 100%; }
+  .Home__lgSection {
+    flex-wrap: wrap; }
+  .Home__lgSection--side--left, .Home__lgSection--side--right {
+    width: 100%;
+    flex-wrap: wrap; }
+  .Home__feature {
+    width: 100%; }
+  .Home__pricing__options {
+    flex-wrap: wrap; }
+  .Home__pricing__card:first-child {
+    margin-bottom: 25px; } }
 
 .App {
   display: flex;
@@ -533,7 +606,7 @@ input, textarea {
   display: flex;
   cursor: pointer;
   transition: all .25s;
-  border-bottom: 1px solid #41D3BD; }
+  border-bottom: 1px solid #79C99E; }
   .Folder__folder__left {
     display: flex;
     width: 75%; }
@@ -548,7 +621,7 @@ input, textarea {
     background: #303738; }
 
 .Folder .entityWrapper {
-  border-bottom: 1px solid #41D3BD; }
+  border-bottom: 1px solid #79C99E; }
 
 .Folder__entityWrapper {
   width: 100%;

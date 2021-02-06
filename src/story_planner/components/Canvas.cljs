@@ -38,13 +38,21 @@
                                    :height height
                                    :width width
                                    :id id}))
+; THis is also in controls TODO move it to one place
+(defn get-zoom-modifier [zoomLevel]
+  (cond
+    (> zoomLevel 1) zoomLevel
+    (= zoomLevel 1) zoomLevel
+    :else (- zoomLevel 0.025)))
 
 (defn handle-add-storypoint [projectId board entityId]
-  (api/create-storypoint {:projectId projectId
-                          :board board
-                          :entityId entityId
-                          :position {:x 2500 :y 2500} ;TODO make this take the zoom/pos into account
-                          :size {:h 200 :w 300}}))
+  (let [currentPan (js->clj (.getPan @panHandler-ref) :keywordize-keys true)
+        zoomLevel (get-zoom-modifier (.getScale @panHandler-ref))]
+    (api/create-storypoint {:projectId projectId
+                            :board board
+                            :entityId entityId
+                            :position {:x (* (* -1 (:x currentPan )) zoomLevel) :y (* (* -1 (:y currentPan)) zoomLevel)}
+                            :size {:h 200 :w 300}})))
 
 
 ; We need to setup all our handlers after the componeent has rendered
@@ -61,7 +69,7 @@
                                                   :contain "outside"})))
       (reset! panHandler-ref panHandler)
       ;
-      ; (js/setTimeout #(.pan panHandler -2500 -2500))
+      (js/setTimeout #(.pan panHandler -2500 -2500))
       (js/setTimeout #(.addEventListener zoomElem "wheel" (.-zoomWithWheel panHandler)))
   ; function taken from interact - probably not `functional`
   ; TODO we should chanage drag speed based on zoom level
