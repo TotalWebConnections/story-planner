@@ -14,7 +14,6 @@
   (swap! state update-in [(- id 1)] conj {:label label}))
 
 (defn handle-set-image [image-state src]
-  (js/console.log src)
   (reset! image-state src))
 
 (defn handle-submit [inputFields titleField imageField editModeChecked? onSubmit]

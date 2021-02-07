@@ -107,44 +107,44 @@
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
         is-active (atom false)
-        entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
-        image (or (:image entity) (:image storypoint))
         dropdown-active (atom false)]
     (fn [storypoint]
-      [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
-                                  :data-x (:x (:position storypoint))
-                                  :data-y (:y (:position storypoint))
-                                  :style {
-                                          :transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
-                                          :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
-        (if (:active storypoint)
-          (do
-            [:div.Storypoint__dragHandle.Storypoint__dragHandle-topRight]
-            [:div.Storypoint__dragHandle.Storypoint__dragHandle-topLeft]
-            [:div.Storypoint__dragHandle.Storypoint__dragHandle-bottomRight]
-            [:div.Storypoint__dragHandle.Storypoint__dragHandle-bottomLeft]))
-        (doall (for [link (:links storypoint)]
-                (draw-curve (:position storypoint) (:size storypoint) (:id link) (:linkId link) (:label link) is-active (:id storypoint))))
-        [:div.Storypoint__inner
-         [:div.Storypoint__header
-          [:input
-            {:type "text"
-             :disabled (if entity true false)
-             :default-value (if entity (:title entity) (:name @input-values))
-             :on-click #(reset! dropdown-active false)
-             :on-change #(do (swap! input-values conj {:name (-> % .-target .-value)})(update-storypoint-title (:id storypoint) (-> % .-target .-value)))}]
-          [:div.Storypoint__header-right
-           (if (= (get-from-state "linkStartId") (:id storypoint))
-             [:i.fas.fa-unlink {:on-click #(initilize-link (:id storypoint))}]
-             [:i.fas.fa-link {:on-click #(initilize-link (:id storypoint))}])
-           [:i.Storypoint__header__options.fas.fa-ellipsis-v {:on-click #(reset! dropdown-active (if @dropdown-active false "active"))}]
-           [:div.Storypoint__header__optionsDropDown {:class @dropdown-active}
-             [:p {:on-click #(delete-storypoint (:id storypoint))} "Delete"]
-             (if (not entity)
-              [:p {:on-click #(on-add-image (:id storypoint))} "Add Image"])]]]
-         (if image
-           [:div.Storypoint__image
-             [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
-         [:textarea {:default-value (:description storypoint)
-                     :on-click #(reset! dropdown-active false)
-                     :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]]])))
+      (let [entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
+            image (or (:image entity) (:image storypoint))]
+        [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
+                                    :data-x (:x (:position storypoint))
+                                    :data-y (:y (:position storypoint))
+                                    :style {
+                                            :transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
+                                            :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
+          (if (:active storypoint)
+            (do
+              [:div.Storypoint__dragHandle.Storypoint__dragHandle-topRight]
+              [:div.Storypoint__dragHandle.Storypoint__dragHandle-topLeft]
+              [:div.Storypoint__dragHandle.Storypoint__dragHandle-bottomRight]
+              [:div.Storypoint__dragHandle.Storypoint__dragHandle-bottomLeft]))
+          (doall (for [link (:links storypoint)]
+                  (draw-curve (:position storypoint) (:size storypoint) (:id link) (:linkId link) (:label link) is-active (:id storypoint))))
+          [:div.Storypoint__inner
+           [:div.Storypoint__header
+            [:input
+              {:type "text"
+               :disabled (if entity true false)
+               :value (if entity (:title entity) (:name @input-values))
+               :on-click #(reset! dropdown-active false)
+               :on-change #(do (swap! input-values conj {:name (-> % .-target .-value)})(update-storypoint-title (:id storypoint) (-> % .-target .-value)))}]
+            [:div.Storypoint__header-right
+             (if (= (get-from-state "linkStartId") (:id storypoint))
+               [:i.fas.fa-unlink {:on-click #(initilize-link (:id storypoint))}]
+               [:i.fas.fa-link {:on-click #(initilize-link (:id storypoint))}])
+             [:i.Storypoint__header__options.fas.fa-ellipsis-v {:on-click #(reset! dropdown-active (if @dropdown-active false "active"))}]
+             [:div.Storypoint__header__optionsDropDown {:class @dropdown-active}
+               [:p {:on-click #(delete-storypoint (:id storypoint))} "Delete"]
+               (if (not entity)
+                [:p {:on-click #(on-add-image (:id storypoint))} "Add Image"])]]]
+           (if image
+             [:div.Storypoint__image
+               [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
+           [:textarea {:default-value (:description storypoint)
+                       :on-click #(reset! dropdown-active false)
+                       :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]]]))))
