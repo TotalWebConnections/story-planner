@@ -54,6 +54,7 @@
                            :open-urls ["http://localhost:3449/index.html"]}
 
                 :compiler {:main story-planner.core
+                           :closure-defines {story-planner.config/ws-api "ws://localhost:8080" story-planner.config/api "http://localhost:8080"}
                            :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
                            :asset-path "js/compiled/out"
@@ -70,6 +71,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/story_planner.js"
                            :main story-planner.core
+                           :closure-defines {story-planner.config/ws-api "ws://localhost:8080" story-planner.config/api "http://localhost:8080"}
                            :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
                            :optimizations :whitespace
