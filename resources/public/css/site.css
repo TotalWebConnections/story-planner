@@ -771,8 +771,8 @@ input, textarea {
       display: flex; }
       .Storypoint__curve__label input {
         min-width: 50px;
-        max-width: 75px;
-        text-align: center; }
+        text-align: center;
+        width: auto; }
       .Storypoint__curve__label button {
         border-radius: 0px;
         height: 33px;
