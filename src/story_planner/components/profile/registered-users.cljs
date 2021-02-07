@@ -44,9 +44,9 @@
         (if sub-token
           [:div.RegisteredUsers__inputWrapper
            [:input {:type "text" :placeholder "name" :on-change #(swap! added-user conj {:name (-> % .-target .-value)})}]
-           [:input {:type "text" :placeholder "email" :on-change #(swap! added-user conj {:email (-> % .-target .-value)})}]])
+           [:input {:type "text" :placeholder "email" :on-change #(swap! added-user conj {:email (-> % .-target .-value)})}]]
           [:div.RegisteredUsers__inputWrapper
-           [:p "Multiple users is limited to paying users. Please subscribe to access this functionality!"]]
+           [:p "Multiple users is limited to paying users. Please subscribe to access this functionality!"]])
          (if (:name @added-user)
            [:div
             [:h4 "Select which projects to grant access"]

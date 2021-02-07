@@ -7,7 +7,7 @@
     [:div.Home
      [:div.Home__header
       [:div.Home__header__block
-       [:h2 "Story Planner"]]
+       [:h2 "Narrative Planner"]]
       [:div.Home__header__block
        [:ul
           [:li "Pricing"]

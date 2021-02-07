@@ -140,7 +140,8 @@
            [:i.Storypoint__header__options.fas.fa-ellipsis-v {:on-click #(reset! dropdown-active (if @dropdown-active false "active"))}]
            [:div.Storypoint__header__optionsDropDown {:class @dropdown-active}
              [:p {:on-click #(delete-storypoint (:id storypoint))} "Delete"]
-             [:p {:on-click #(on-add-image (:id storypoint))} "Add Image"]]]]
+             (if (not entity)
+              [:p {:on-click #(on-add-image (:id storypoint))} "Add Image"])]]]
          (if image
            [:div.Storypoint__image
              [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
