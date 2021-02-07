@@ -2,7 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [clojure.core.async :refer [take!]]
             [story-planner.services.scripts.api.upload :refer [upload-image delete-image]]
-            [story-planner.components.folder :refer [Folder-creation]]
+            [story-planner.components.media.folder :refer [Folder-creation]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.project.Confirmation :refer [Confirmation]]
             [story-planner.components.Loader :refer [Loader]]))

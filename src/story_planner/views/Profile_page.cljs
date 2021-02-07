@@ -6,7 +6,7 @@
             [story-planner.components.Loader :refer [Loader]]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key]]
-            [story-planner.components.profile.registed_users :refer [Registered-users]]))
+            [story-planner.components.profile.registered-users :refer [Registered-users]]))
 
 ; We put this here as the stripe flow is a little different and it's just easier
 (def on-subscribe-error (atom false))

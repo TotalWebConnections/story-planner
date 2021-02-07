@@ -1,4 +1,4 @@
-(ns story-planner.components.profile.registed_users
+(ns story-planner.components.profile.registered-users
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.services.scripts.api.api :as api]))

@@ -1,4 +1,4 @@
-(ns story-planner.components.folder
+(ns story-planner.components.media.folder
   (:require [story-planner.services.scripts.api.upload :refer [create-media-folder]]))
 
 (defn Folder-creation []
