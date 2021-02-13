@@ -6,6 +6,7 @@
            [story-planner.server.services.database :refer [db]]
            [story-planner.server.services.database.users :as DB-users]
            [story-planner.server.services.database.projects :as DB-projects]
+           [story-planner.server.services.mail :refer [send-mail]]
            [story-planner.server.services.response-handler :as response-handler])
   (:import org.bson.types.ObjectId))
 
@@ -35,7 +36,8 @@
                     :parentId parentId
                     :type "sub"
                     :setupToken (str (java.util.UUID/randomUUID))}))]
-    (add-new-user-project (str (:_id newUser)) parentId projectIds)))
+    (add-new-user-project (str (:_id newUser)) parentId projectIds)
+    (send-mail (:email newUser) (:setupToken newUser))))
 
 (defn delete-authorized-user [userId parentId]
   (mc/remove db "users" {$and [{:_id (ObjectId. userId)} {:parentId parentId}]}))

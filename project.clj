@@ -24,6 +24,7 @@
                  [pez/clerk "1.0.0"]
                  [mount "0.1.16"]
                  [nilenso/wscljs "0.2.0"]
+                 [nilenso/mailgun "0.2.3"]
                  [venantius/accountant "0.2.4"
                   :exclusions [org.clojure/tools.reader]]
                  [reagent "0.8.1"]
