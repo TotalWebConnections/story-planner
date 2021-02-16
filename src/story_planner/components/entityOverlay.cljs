@@ -1,4 +1,4 @@
-(ns story_planner.components.EntityOverlay
+(ns story-planner.components.EntityOverlays
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.components.media.media-manager-small :refer [Media-Manager-Small]]))
 
