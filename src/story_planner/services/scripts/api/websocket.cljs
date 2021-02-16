@@ -1,7 +1,7 @@
 (ns story-planner.services.scripts.api.websocket
   (:require [wscljs.client :as ws]
             [wscljs.format :as fmt]
-            [story-planner.config :refer [api ws-api]]
+            [story-planner.config :refer [ws-api]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.services.state.global :refer [get-current-user-token]]))
 
@@ -50,6 +50,7 @@
 
 
 (defn init-websocket-connection []
+  (print ws-api)
   (if (not (exists? socket)) ; TODO test should prevent multiple socket connections
     (def socket (ws/create ws-api handlers))))
 

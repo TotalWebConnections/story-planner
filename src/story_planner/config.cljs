@@ -1,5 +1,5 @@
 (ns story-planner.config)
 
-
-(goog-define ws-api "default-value")
-(goog-define api "default-value")
+; prod urls - overwritten in dev
+(goog-define ws-api "ws://localhost:8080")
+(goog-define api "http://localhost:8080")
