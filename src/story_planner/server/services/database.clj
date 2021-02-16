@@ -9,7 +9,7 @@
   (:import org.bson.types.ObjectId))
 
 (defstate db*
-  :start (-> env :database-url mg/connect-via-uri)
+  :start (-> env :databaseUrl mg/connect-via-uri)
   :stop (-> db* :conn mg/disconnect))
 
 (defstate db
