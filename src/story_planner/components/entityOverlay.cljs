@@ -28,7 +28,6 @@
   (reset! inputFields (:values entity))
   (reset! imageField (:image entity)))
 
-
 (defn EntityOverlay [active onSubmit images folders]
   (let [inputFields (atom [{:id 1 :value "" :label ""}])
         titleField (atom "Untitled")
