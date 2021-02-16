@@ -3,7 +3,7 @@
             [story-planner.services.scripts.api.api :as api]
             [story-planner.components.Overlay :refer [Overlay]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
-            [story-planner.components.EntityOverlay :refer [EntityOverlay]]
+            [story_planner.components.EntityOverlay :refer [EntityOverlay]]
             [story-planner.components.canvas.Folder :refer [Folder]]
             [story-planner.services.scripts.folders :as folderHelpers]
             [story-planner.services.scripts.sidebar :refer [get-boards-by-folders]]))
