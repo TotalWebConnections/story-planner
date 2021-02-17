@@ -72,7 +72,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/story_planner.js"
                            :main story-planner.core
-                           :closure-defines {story-planner.config/ws-api "ws://narrative-planner.herokuapp.com" story-planner.config/api "https://narrative-planner.herokuapp.com"}
+                           :closure-defines {story-planner.config/ws-api "wss://narrative-planner.herokuapp.com" story-planner.config/api "https://narrative-planner.herokuapp.com"}
                            :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
                            :optimizations :whitespace
