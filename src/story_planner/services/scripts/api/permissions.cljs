@@ -9,6 +9,6 @@
   (navigate "login"))
 
 (defn check-token [token]
-  (http/post (str api "/check-token"
-                                 {:with-credentials? false
-                                  :form-params {:token token}})))
+  (http/post (str api "/check-token")
+             {:with-credentials? false
+              :form-params {:token token}}))
