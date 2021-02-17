@@ -16,7 +16,7 @@
   </div>")
 
 
-(def creds {:key (:mailgun-api-key env) :domain "narrativeplanner.com"})
+(def creds {:key (:mailgunapikey env) :domain "narrativeplanner.com"})
 
 (def content {:from "support@narrativeplanner.com"
               :to "EMAIL_HERE"

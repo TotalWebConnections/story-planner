@@ -13,15 +13,15 @@
             [clj-stripe.invoiceitems :as invoiceitems]))
 
 (defn create-new-customer [stripeToken email]
-  (common/with-token (:stripe-private-key env)
+  (common/with-token (:stripeprivatekey env)
     (common/execute (customers/create-customer
                      (common/card stripeToken)
                      (customers/email email)
-                     (common/plan (:stripe-plan env))))))
+                     (common/plan (:stripeplan env))))))
 
 
 (defn stripe-unsubscribe-user
   "Unsubscribes a user from stripe"
   [subToken]
   (let [url (str "https://api.stripe.com/v1/subscriptions/" subToken)]
-    (client/delete url {:basic-auth (:stripe-private-key env)})))
+    (client/delete url {:basic-auth (:stripeprivatekey env)})))
