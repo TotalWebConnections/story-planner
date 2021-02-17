@@ -113,5 +113,5 @@
       ;; wrap the handler with websocket support
       ;; websocket requests will go to the callbacks, ring requests to the handler
       (web-middleware/wrap-websocket websocket-callbacks))
-    (merge {"host" (env :demo-web-host), "port" 8080}
+    (merge {"host" (env :demo-web-host), "port" (Integer. (or (System/getenv "PORT") 8080))}
      args)))
