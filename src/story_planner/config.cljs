@@ -1,5 +1,5 @@
 (ns story-planner.config)
 
 ; prod urls - overwritten in dev
-(goog-define ws-api "ws://localhost:8080")
-(goog-define api "http://localhost:8080")
+(goog-define ws-api "ws://narrative-planner.herokuapp.com")
+(goog-define api "https://narrative-planner.herokuapp.com")
