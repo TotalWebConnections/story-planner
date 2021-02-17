@@ -42,7 +42,7 @@
   (let [error-block (validate-input @user)]
     (if (> (count error-block) 0)
       (reset! errors error-block)
-      (go (let [response (<! (http/post (str "/user")
+      (go (let [response (<! (http/post (str api "/user")
                                      {:with-credentials? false
                                       :form-params {:email (:email @user) :password (:password @user) :password-repeat (:confirm @user)}}))
                 response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
