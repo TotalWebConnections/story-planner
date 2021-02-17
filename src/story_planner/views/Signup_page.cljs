@@ -4,6 +4,7 @@
             [clojure.spec.alpha :as s]
             [story-planner.services.scripts.api.localstorage :refer [update-local-storage]]
             [story-planner.services.scripts.navigation :refer [navigate]]
+            [story-planner.config :refer [api]]
             [cljs-http.client :as http]))
 
 ; TODO this whole logic is shared on the backend as well, we should probably make this into a shareable file to write onc
@@ -41,7 +42,7 @@
   (let [error-block (validate-input @user)]
     (if (> (count error-block) 0)
       (reset! errors error-block)
-      (go (let [response (<! (http/post "http://localhost:8080/user"
+      (go (let [response (<! (http/post (str "/user")
                                      {:with-credentials? false
                                       :form-params {:email (:email @user) :password (:password @user) :password-repeat (:confirm @user)}}))
                 response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]

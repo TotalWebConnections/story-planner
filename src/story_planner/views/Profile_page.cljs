@@ -3,6 +3,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [goog.dom :as gdom]
             [cljs-http.client :as http]
+            [story-planner.config :refer [api]]
             [story-planner.components.Loader :refer [Loader]]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key]]
@@ -20,7 +21,7 @@
 (defn handle-subscribe [stripe-token]
   "Takes are new stripe token and sends it to server to finish the subscription process"
   (reset! is-handling-billing? true)
-  (go (let [response (<! (http/post "http://localhost:8080/subscribe"
+  (go (let [response (<! (http/post (str api "/subscribe")
                                  {:with-credentials? false
                                   :form-params {:token (:token (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)) :stripeToken (:id (js->clj stripe-token :keywordize-keys true))}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
@@ -32,7 +33,7 @@
 
 (defn handle-unsubscribe [token sub-token]
   (reset! is-handling-billing? true)
-  (go (let [response (<! (http/post "http://localhost:8080/unsubscribe"
+  (go (let [response (<! (http/post (str api "/unsubscribe")
                                  {:with-credentials? false
                                   :form-params {:token token :sub-token sub-token}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]

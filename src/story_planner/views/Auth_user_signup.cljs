@@ -1,6 +1,7 @@
 (ns story-planner.views.Auth_user_signup
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
+            [story-planner.config :refer [api]]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-local-storage]]
             [cljs-http.client :as http]))
@@ -8,7 +9,7 @@
 (defn handle-login [id user errors]
   (print id)
   (reset! errors nil)
-  (go (let [response (<! (http/post "http://localhost:8080/signup-auth-user"
+  (go (let [response (<! (http/post (str api "/signup-auth-user")
                                  {:with-credentials? false
                                   :form-params {:id id :password (:password @user)}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]

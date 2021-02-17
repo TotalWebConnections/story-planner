@@ -4,6 +4,7 @@
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-local-storage]]
             [cljs-http.client :as http]
+            [story-planner.config :refer [api]]
             [story-planner.services.scripts.navigation :refer [navigate]]))
 
 (defn login-success [data]
@@ -12,7 +13,7 @@
 
 (defn handle-login [user errors]
   (reset! errors nil)
-  (go (let [response (<! (http/post "http://localhost:8080/login"
+  (go (let [response (<! (http/post (str api "/login")
                                  {:with-credentials? false
                                   :form-params {:email (:email @user) :password (:password @user)}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
