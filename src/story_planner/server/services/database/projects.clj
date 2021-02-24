@@ -171,6 +171,17 @@
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
       (response-handler/send-auth-error))))
 
+(defn delete-link [storyData userId]
+  (let [projectUpdate (mg/command db (sorted-map :update "projects"
+                                              :updates [{:q {$and [{:_id (ObjectId. (:id storyData))}
+                                                                   {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                                   {$or [{:userId userId}
+                                                                         {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                         :u {$pull {"storypoints.$.links" {:linkId (:linkId storyData)}}}}]))]
+    (if projectUpdate
+      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
+      (response-handler/send-auth-error))))
+
 (defn delete-storypoint [storyData userId]
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}

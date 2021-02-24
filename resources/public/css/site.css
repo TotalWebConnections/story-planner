@@ -777,7 +777,8 @@ input, textarea {
         border-radius: 0px;
         height: 33px;
         position: relative;
-        right: 2px; }
+        right: 2px;
+        min-width: 66px; }
 
 .MediaManager {
   position: absolute;

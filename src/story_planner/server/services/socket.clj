@@ -70,6 +70,9 @@
 (defmethod handle-websocket-message "update-link-label"
   [data]
   (DB-projects/update-link-label {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data) :label (:label data)} (:_id (:user data))))
+(defmethod handle-websocket-message "delete-link"
+  [data]
+  (DB-projects/delete-link {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data)} (:_id (:user data))))
 (defmethod handle-websocket-message "delete-storypoint"
   [data]
   (DB-projects/delete-storypoint {:id (:projectId data) :storypointId (:storypointId data)} (:_id (:user data))))

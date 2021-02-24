@@ -30,6 +30,9 @@
 (defn update-link-label [storypointId linkId label]
   (api/update-link-label {:storypointId storypointId :linkId linkId :label label}))
 
+(defn delete-link [storypointId linkId]
+  (api/delete-link {:storypointId storypointId :linkId linkId}))
+
 (defn get-direction-for-top [y]
   (if (> y 0)
     "Top"
@@ -97,7 +100,9 @@
          [:div.Storypoint__curve__label {:style (get-label-position starting-direction x-initial y-initial p2x p2y p3x p3y end-x end-y)} ; TODO we may want to make this closer
           [:input {:type "text" :style {:width (str (* 9 (count linkLabel)) "px") :min-width (if (= linkId @is-active) "155px" "50px")} :default-value linkLabel :placeholder "label" :id (str "linkLabelId-" linkId) :on-click #(reset! is-active linkId)}]
           (if (= linkId @is-active)
-            [:button {:on-click #(do (reset! is-active false)(update-link-label storypointId linkId (.-value (.getElementById js/document (str "linkLabelId-" linkId)))))} "Save"])])]))))
+            [:div
+              [:button {:on-click #(do (reset! is-active false)(update-link-label storypointId linkId (.-value (.getElementById js/document (str "linkLabelId-" linkId)))))} "Save"]
+              [:button.danger {:on-click #(do (reset! is-active false)(delete-link storypointId linkId))} "Delete"]])])]))))
 
 (defn on-add-image [id]
   (handle-state-change {:type "app-show-media-manager" :value "active"})

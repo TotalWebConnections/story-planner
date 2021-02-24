@@ -107,6 +107,12 @@
                  :storypointId (:storypointId constructor)
                  :linkId (:linkId constructor)
                  :label (:label constructor)}))
+(defn delete-link [constructor]
+  "deletes a link from a storypoint"
+  (send-message {:type "delete-link"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :storypointId (:storypointId constructor)
+                 :linkId (:linkId constructor)}))
 
 (defn delete-storypoint [constructor]
   "removes a storypoint from a project"
