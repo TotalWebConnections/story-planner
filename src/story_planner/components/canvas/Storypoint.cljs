@@ -47,7 +47,7 @@
      (get-direction-for-top y))))
 
 (defn show-curve-label [is-active label linkId]
-  (or (= linkId is-active) (not= nil label)))
+  (or (= linkId is-active) (and (not= nil label) (not= label ""))))
 
 (defn get-label-position [starting-direction x-initial y-initial p2x p2y p3x p3y end-x end-y]
   {
@@ -72,7 +72,7 @@
            p2y (storypointHelpers/caculate-first-control-point-y starting-direction (- end-y y-initial) y-initial)
            p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial)
            p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) end-y)]
-      [:div.Storypoint__curve
+      [:div.Storypoint__curve {:key (str linkId (rand-int 100))}
        [:svg {:on-click #(on-curve-click is-active linkId)
               :height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
          [:defs

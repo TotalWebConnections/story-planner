@@ -123,6 +123,8 @@
      (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler :onstart onMoveStart}))
      (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true}
                                                    :listeners {:move onResize}})))))
+
+
 (defn allow-drop [e]
   (.preventDefault e))
 
