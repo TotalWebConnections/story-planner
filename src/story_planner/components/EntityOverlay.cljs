@@ -16,8 +16,8 @@
 (defn handle-set-image [image-state src]
   (reset! image-state src))
 
-(defn handle-submit [inputFields titleField imageField editModeChecked? onSubmit]
-  (onSubmit @inputFields @titleField @imageField @editModeChecked?)
+(defn handle-submit [inputFields titleField imageField editModeChecked? onSubmit & [delete]]
+  (onSubmit @inputFields @titleField @imageField @editModeChecked? delete)
   (reset! inputFields [{:id 1 :value ""}])
   (reset! titleField "Untitled")
   (reset! editModeChecked? false))
@@ -41,7 +41,7 @@
         [:div.OverlayEntity__inner
           [Media-Manager-Small showMedia images folders (partial handle-set-image imageField)]
           [:p.OverlayEntity__inner__close {:on-click #(do (reset! editModeChecked? false) (swap! active conj {:show false :edit false}))} "x"]
-          [:h3.OverlayEntity__inner-header "Add Entity"]
+          (if  @editModeChecked? [:h3.OverlayEntity__inner-header "Edit Entity"] [:h3.OverlayEntity__inner-header "Add Entity"])
           [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
            (if @imageField
              [:img {:src (str "https://story-planner.s3.amazonaws.com/" @imageField) :height "100%"}])]
@@ -58,4 +58,5 @@
                                               :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])
            [:button {:on-click #(add-field inputFields)} "Add Field"]
-           [:button {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit)} "Save"]]]])))
+           [:button {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit)} "Save"]
+           (if  @editModeChecked? [:button.danger {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit true)} "Delete"])]]])))

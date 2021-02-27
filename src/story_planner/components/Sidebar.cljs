@@ -16,11 +16,14 @@
 (defn generate-folder-path [currentFolderPath folderPath]
   (reset! currentFolderPath folderPath))
 
-(defn add-entity [state projectId folder value title image & [id]]
+; TODO this function is becoming a bit of a mess with all the concerns - maybe break out each indiv into its own
+(defn add-entity [state projectId folder value title image & [id delete]]
   "adds a new entity to the give folder - taks an optional id to trigger edit"
-  (if id
-    (api/edit-entity {:id id :folder @folder :projectId projectId :value value :title title :image image})
-    (api/create-entity {:folder @folder :projectId projectId :value value :title title :image image}))
+  (if delete
+    (api/delete-entity {:id id :projectId projectId})
+    (if id ; It's eitehr an edit or add if not delete
+      (api/edit-entity {:id id :folder @folder :projectId projectId :value value :title title :image image})
+      (api/create-entity {:folder @folder :projectId projectId :value value :title title :image image})))
   (reset! state {:show false :edit false :type "entity"})
   (reset! folder "n/a"))
 

@@ -36,7 +36,7 @@
   "TODO test deleting from a non-auth user"
   (mc/remove db "projects" { :_id (ObjectId. (:id projectData))})
   (:id projectData))
-; {:_id (ObjectId. (:projectId entityData))}
+
 (defn create-entity [entityData userId]
   "Inserts an enttiy into the given folder or a root entities object"
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))}
@@ -59,6 +59,16 @@
                                                       {$set {"entities.$.title" (:title entityData)
                                                              "entities.$.values" (:value entityData)
                                                              "entities.$.image" (:image entityData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-response "project" (get-project (:projectId entityData) userId))
+      (response-handler/send-auth-error))))
+
+(defn delete-entity [entityData userId]
+  "Removes an entity from a project"
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                      {$pull {"entities" {:id (:entityId entityData)}}}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:projectId entityData) userId))
       (response-handler/send-auth-error))))

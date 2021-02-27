@@ -50,7 +50,11 @@
                  :value (:value constructor)
                  :title (:title constructor)
                  :image (:image constructor)}))
-(defn delete-entity [])
+(defn delete-entity [constructor]
+  (send-message {:type "delete-entity"
+                 :entityId (:id constructor)
+                 :projectId (:projectId constructor)}))
+
 
 
 
