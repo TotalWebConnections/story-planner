@@ -50,6 +50,7 @@
 
 
 (defn init-websocket-connection []
+  (print ws-api)
   (if (not (exists? socket)) ; TODO test should prevent multiple socket connections
     (def socket (ws/create ws-api handlers))))
 
