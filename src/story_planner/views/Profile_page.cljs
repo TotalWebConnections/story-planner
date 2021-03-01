@@ -2,6 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
             [goog.dom :as gdom]
+            [story-planner.config :refer [stripe-public-key]]
             [cljs-http.client :as http]
             [story-planner.config :refer [api]]
             [story-planner.components.Loader :refer [Loader]]
@@ -83,7 +84,7 @@
 
 
 (defn Profile-page [app-state]
-  (let [stripe (.Stripe js/window "pk_test_LgROF2ukcNIc3P3I3p4Nq31v") ;TODO we need to build this into a compile time var
+  (let [stripe (.Stripe js/window stripe-public-key) ;TODO we need to build this into a compile time var
         elements (.elements stripe)
         card (.create elements "card" (clj->js {:style card-style}))
         token (:token (:user @app-state))]

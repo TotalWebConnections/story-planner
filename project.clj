@@ -55,7 +55,7 @@
                            :open-urls ["http://localhost:3449/index.html"]}
 
                 :compiler {:main story-planner.core
-                           :closure-defines {story-planner.config/ws-api "ws://localhost:8080" story-planner.config/api "http://localhost:8080"}
+                           :closure-defines {story-planner.config/ws-api "ws://localhost:8080" story-planner.config/api "http://localhost:8080" story-planner.config/stripe-public-key "pk_test_LgROF2ukcNIc3P3I3p4Nq31v"}
                            :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
                            :asset-path "js/compiled/out"
@@ -65,6 +65,16 @@
                            ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
                            ;; https://github.com/binaryage/cljs-devtools
                            :preloads [devtools.preload]}}
+               ; Follows all the same build settings as prod but different endpoints
+               {:id "qa"
+                :source-paths ["src"]
+                :compiler {:output-to "resources/public/js/compiled/story_planner.js"
+                           :main story-planner.core
+                           :closure-defines {story-planner.config/ws-api "wss://narrative-planner-qa.herokuapp.com" story-planner.config/api "https://narrative-planner-qa.herokuapp.com" story-planner.config/stripe-public-key "pk_test_LgROF2ukcNIc3P3I3p4Nq31v"}
+                           :npm-deps {:interactjs "*" :displacejs "*"}
+                           :install-deps true
+                           :optimizations :whitespace
+                           :pretty-print false}}
                ;; This next build is a compressed minified build for
                ;; production. You can build this with:
                ;; lein cljsbuild once min
@@ -72,7 +82,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/story_planner.js"
                            :main story-planner.core
-                           :closure-defines {story-planner.config/ws-api "wss://narrative-planner.herokuapp.com" story-planner.config/api "https://narrative-planner.herokuapp.com"}
+                           :closure-defines {story-planner.config/ws-api "wss://narrative-planner.herokuapp.com" story-planner.config/api "https://narrative-planner.herokuapp.com" story-planner.config/stripe-public-key "pk_live_deXVNEouKG2Isicf6sScZYF5"}
                            :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
                            :optimizations :whitespace
