@@ -20,6 +20,6 @@
 (defn Controls [projectId currentBoard panHandler]
   [:div.Controls
     [:div.Controls__NewStoryPoint
-      [:p {:on-click #(handle-add-storypoint projectId currentBoard panHandler)}"+"]] ; TODO pull this down remove hardcode
-    [:div.Controls__ProjectInfo
-      [:p "?"]]])
+      [:p {:on-click #(handle-add-storypoint projectId currentBoard panHandler)}"+"]]]) ; TODO pull this down remove hardcode
+    ; [:div.Controls__ProjectInfo
+    ;   [:p "?"]]])
