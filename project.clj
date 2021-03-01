@@ -74,7 +74,7 @@
                            :closure-defines {story-planner.config/ws-api "wss://narrative-planner-qa.herokuapp.com" story-planner.config/api "https://narrative-planner-qa.herokuapp.com" story-planner.config/stripe-public-key "pk_test_LgROF2ukcNIc3P3I3p4Nq31v"}
                            :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
-                           :optimizations :none
+                           :optimizations :simple
                            :pretty-print false}}
                ;; This next build is a compressed minified build for
                ;; production. You can build this with:
@@ -86,7 +86,7 @@
                            :closure-defines {story-planner.config/ws-api "wss://narrative-planner.herokuapp.com" story-planner.config/api "https://narrative-planner.herokuapp.com" story-planner.config/stripe-public-key "pk_live_deXVNEouKG2Isicf6sScZYF5"}
                            :npm-deps {:interactjs "*" :displacejs "*"}
                            :install-deps true
-                           :optimizations :none
+                           :optimizations :simple
                            :pretty-print false}}]}
   ;
   ; :sass {:source-paths ["src/sass"]
