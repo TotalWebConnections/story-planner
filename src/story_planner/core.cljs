@@ -47,10 +47,11 @@
 
 ;Base for our authenticated pages
 (defn Auth-base [app-state]
-  (init-websocket-connection)
   (let [route-data (:data @match)]
     (if (not (:public? route-data))
-      (handle-permissions-flow))
+      (do
+        (init-websocket-connection)
+        (handle-permissions-flow)))
     (generate-base-html)))
 
 ;Base for our pulbic facing pages

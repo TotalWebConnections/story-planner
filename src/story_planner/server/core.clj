@@ -31,15 +31,14 @@
 ; (some #(= (:_id user) %) (:authorizedUsers project))
 (defn send-message-to-all [user msg]
   "Sends a message to all connected ws connections"
-    (doseq [ch @channel-store]
-      ; (println (:authorizedUsers (first (:data msg))))
-      (if (= "project" (:type msg))
+    (if (= "project" (:type msg))
+      (doseq [ch @channel-store]
           (if (or
                 (= (:id ch) (:_id user))
                 (some #(= (str (:id ch))  %) (:authorizedUsers (first (:data msg))))
                 (= (str (:id ch)) (:userId (first (:data msg)))))
-            (async/send! (:channel ch) (generate-string msg)))
-        (send-message-to-user msg (:_id user)))))
+            (async/send! (:channel ch) (generate-string msg))))
+      (send-message-to-user msg (:_id user))))
 
 ; (:id (ws/session h) get user ID of message
 ; need to be able to pool these and send it out to all with ID
@@ -56,7 +55,7 @@
                 (let [user (DB-users/get-user-by-token (:token (parse-string m true)))]
                   (if user
                     (if (= (:type (parse-string m true)) "start-connection")
-                      (swap! channel-store conj {:channel ch :id (:_id user)}) ; store channels for later
+                      (swap! channel-store conj {:channel ch :id (:_id user)})
                       (send-message-to-all user (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user}))))
                     (async/send! ch (generate-string {:type "BAD-TOKEN-REQUEST" :data "Bad Token"})))))})
 (def cors-headers
