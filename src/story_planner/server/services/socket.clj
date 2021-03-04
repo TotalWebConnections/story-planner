@@ -101,9 +101,9 @@
 
 (defmethod handle-websocket-message "update-project-permissions"
   [data]
-  (DB-auth-users/update-project-permissions (:_id (:user data)) (:authorizedUsers data) (:projectId data)
-    {:type "generic"
-     :data "success"}))
+  (DB-auth-users/update-project-permissions (:_id (:user data)) (:authorizedUsers data) (:projectId data))
+  {:type "generic"
+   :data "success"})
 
 
 
