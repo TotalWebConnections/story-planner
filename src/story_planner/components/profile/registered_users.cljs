@@ -47,18 +47,18 @@
            [:input {:type "text" :placeholder "email" :on-change #(swap! added-user conj {:email (-> % .-target .-value)})}]]
           [:div.RegisteredUsers__inputWrapper
            [:p "Multiple users is limited to paying users. Please subscribe to access this functionality!"]])
-         (if (:name @added-user)
-           [:div
-            [:h4 "Select which projects to grant access"]
-            [:table.RegisteredUsers__currentWrapper
-             [:tbody
-              [:tr
-               (for [project projects]
-                 [:th {:key (:_id project)} (:name project)])]
-              [:tr
-               (for [project projects]
-                 [:td {:key (:_id project)}
-                  [:input {:type "checkbox" :id (:_id project) :on-click #(handle-new-user-checkbox % initial-add-list)}]])]]]])
+        ; (if (:name @added-user)
+        ;   [:div
+        ;    [:h4 "Select which projects to grant access"]
+        ;    [:table.RegisteredUsers__currentWrapper
+        ;     [:tbody
+        ;      [:tr
+        ;       (for [project projects]
+        ;         [:th {:key (:_id project)} (:name project)])]
+        ;      [:tr
+        ;       (for [project projects]
+        ;         [:td {:key (:_id project)}
+        ;          [:input {:type "checkbox" :id (:_id project) :on-click #(handle-new-user-checkbox % initial-add-list)}]])]]]])
         (if sub-token
           [:button {:on-click #(handle-add-authorized-user added-user initial-add-list)} "Add User"])]
        [:div.RegisteredUsers__section
@@ -80,4 +80,4 @@
                 [:input {:type "checkbox"
                          :checked (some #(= (:_id user) %) (:authorizedUsers project))
                          :on-change #(update-project-permissions % project (:_id user))}]])
-             [:td [:button {:on-click #(api/delete-authorized-user {:userId (:_id user)})} "Delete"]]])]]]])))
+             [:td [:button.danger {:on-click #(api/delete-authorized-user {:userId (:_id user)})} "Delete"]]])]]]])))

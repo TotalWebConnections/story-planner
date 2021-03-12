@@ -14,7 +14,7 @@
           [:li "Features"]
           [:li "Contact"]
         (if (.getItem js/localStorage "story-planner-token")
-          [:li {:on-click #(navigate "projects")} "Projects"]
+          [:li {:on-click #(navigate "projects")} "My Projects"]
           [:span
             [:li {:on-click #(navigate "signup")} "Sign up"]
             [:li {:on-click #(navigate "login")} "Login"]])]]]
@@ -36,40 +36,43 @@
       [:div.Home__ribbon__wrapper
        [:div
         [:h3 "Game Designers"]
-        [:img {:src "/images/icons/game_designers.png" :width "75%"}]]
+        [:img {:src "/images/icons/game_designers.png" :width "50%"}]]
        [:div
         [:h3 "Software Developers"]
-        [:img {:src "/images/icons/software_developers.png" :width "75%"}]]
+        [:img {:src "/images/icons/software_developers.png" :width "50%"}]]
        [:div
         [:h3 "Writers"]
-        [:img {:src "/images/icons/writers.png" :width "75%"}]]
+        [:img {:src "/images/icons/writers.png" :width "50%"}]]
        [:div
         [:h3 "RPG Players"]
-        [:img {:src "/images/icons/rpg_players.png" :width "75%"}]]]]
+        [:img {:src "/images/icons/rpg_players.png" :width "50%"}]]]]
 
-     [:div.Home__section
-      [:div.Home__section--side
-       [:div
-        [:h2 "Visualize Complexity"]
-        [:p "Easily visualize complex flows. Perfect for branching dialogue, modeling user decisions, or telling interactive stories."]]]
-      [:div.Home__section--side
-       [:img.border {:src "/images/visualize_complexity.jpg" :width "100%"}]]]
+     [:div.Home__sectionPadding
+      [:div.Home__section
+       [:div.Home__section--side
+        [:div
+         [:h2 "Visualize Complexity"]
+         [:p "Easily visualize complex flows. Perfect for branching dialogue, modeling user decisions, or telling interactive stories."]]]
+       [:div.Home__section--side
+        [:img.border {:src "/images/visualize_complexity.jpg" :width "100%"}]]]]
 
-     [:div.Home__section.alternate
-      [:div.Home__section--side
-       [:img.border {:src "/images/user_example.jpg" :width "100%"}]]
-      [:div.Home__section--side
-       [:div
-        [:h2 "Collaborate Efficiently"]
-        [:p "Share your project with co-workers and friends and seamlessly work togather on the same story in realtime. You have full control over who can access all your projects and can add/remove as many collaborators as you need."]]]]
+     [:div.Home__sectionPadding.alternate
+      [:div.Home__section
+       [:div.Home__section--side
+        [:img.border {:src "/images/user_example.jpg" :width "100%"}]]
+       [:div.Home__section--side
+        [:div
+         [:h2 "Collaborate Efficiently"]
+         [:p "Share your project with co-workers and friends and seamlessly work together on the same story in realtime. You have full control over who can access all your projects and can add/remove as many collaborators as you need."]]]]]
 
-     [:div.Home__section
-      [:div.Home__section--side
-       [:div
-        [:h2 "Prototype Quickly"]
-        [:p "Our easy to use interface makes it easy to work out ideas and makes it simple to change them as requirements change."]]]
-      [:div.Home__section--side
-       [:img.border {:src "/images/easy_to_use.jpg" :width "100%"}]]]
+     [:div.Home__sectionPadding
+      [:div.Home__section
+       [:div.Home__section--side
+        [:div
+         [:h2 "Prototype Quickly"]
+         [:p "Our easy to use interface makes it easy to work out ideas and makes it simple to update them as requirements change."]]]
+       [:div.Home__section--side
+        [:img.border {:src "/images/easy_to_use.jpg" :width "100%"}]]]]
 
 
 
@@ -101,7 +104,7 @@
       [:button {:on-click #(navigate "signup")} "Start Free - No Credit Card"]]
 
      [:div.Home__pricing
-      [:h2 "Start For Free - Upgrade Whenever"]
+      [:h2 "Start For Free - Upgrade When You Need"]
 
       [:div.Home__pricing__options
        [:div.Home__pricing__card
