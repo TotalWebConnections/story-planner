@@ -52,7 +52,7 @@ h4 {
   margin-top: 10px; }
 
 button {
-  background: #4a80f0;
+  background: #197df5;
   border: none;
   color: white;
   padding: 8px 16px;
@@ -67,7 +67,7 @@ button {
       background: #e45c6c; }
 
 input, textarea {
-  background: #353c4f;
+  background: #1c2732;
   border: 1px solid #9f9f9f;
   border-radius: 4px;
   padding: 8px;
@@ -83,7 +83,7 @@ input, textarea {
   border-color: red; }
 
 .Home {
-  background: #272f42;
+  background: #25323d;
   color: white; }
   .Home ul {
     display: flex; }
@@ -94,7 +94,7 @@ input, textarea {
         cursor: pointer;
         color: #4a80f0; }
   .Home img.border {
-    border: 1px solid #61b084;
+    border: 1px solid #28a450;
     box-sizing: border-box; }
   .Home__header {
     position: absolute;
@@ -103,9 +103,16 @@ input, textarea {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 15px 15px; }
+    padding: 15px 15px;
+    background: #28a450; }
+    .Home__header h1 {
+      margin-left: 0;
+      font-size: 1.875em; }
     .Home__header__block {
       display: flex; }
+      .Home__header__block--nav {
+        justify-content: center;
+        flex-direction: column; }
   .Home__mainVisual {
     height: 100vh;
     display: flex;
@@ -133,15 +140,19 @@ input, textarea {
     .Home__ribbon__wrapper {
       display: flex; }
       .Home__ribbon__wrapper div {
-        width: 25%; }
+        width: 25%;
+        background-color: #1c2732;
+        padding: 10px 0;
+        margin: 0 10px;
+        border-radius: 15px; }
     .Home__ribbon-highlight {
-      background: #61b084;
+      background: #28a450;
       max-width: none; }
       .Home__ribbon-highlight p {
         margin-bottom: 15px; }
   .Home__sectionPadding {
     padding: 75px 15px;
-    background: #2f394f; }
+    background: #1c2732; }
   .Home__section {
     display: flex;
     max-width: 1200px;
@@ -169,7 +180,7 @@ input, textarea {
   .Home__feature {
     width: 50%; }
     .Home__feature__single {
-      border-bottom: 1px solid #61b084;
+      border-bottom: 1px solid #28a450;
       margin: 0 15px;
       padding-bottom: 15px; }
       .Home__feature__single:not(:first-child) {
@@ -184,7 +195,7 @@ input, textarea {
       padding: 75px 15px;
       padding-bottom: 0; }
     .Home__pricing__card {
-      border: 3px solid #61b084;
+      border: 3px solid #28a450;
       border-radius: 25px;
       width: 300px;
       margin: 0 15px; }
@@ -193,7 +204,7 @@ input, textarea {
         margin-top: 15px; }
       .Home__pricing__card h3 {
         text-align: center;
-        background: #4a80f0;
+        background: #197df5;
         padding: 8px 0;
         border-radius: 24px 24px 0 0;
         text-transform: uppercase;
@@ -205,7 +216,7 @@ input, textarea {
   .Home__footer {
     padding: 75px 15px;
     padding-bottom: 15px;
-    background: #61b084; }
+    background: #28a450; }
     .Home__footer .copyright {
       width: 100%;
       text-align: center;
@@ -258,14 +269,14 @@ input, textarea {
     width: calc(100% - 150px);
     height: calc(100vh - 40px);
     overflow: hidden;
-    background: #272f42; }
+    background: #25323d; }
 
 .Projects {
-  background: #272f42;
+  background: #25323d;
   height: 100vh;
   color: white; }
   .Projects__header {
-    background: #353c4f;
+    background: #1c2732;
     display: flex;
     justify-content: space-between;
     padding: 10px 15px; }
@@ -292,7 +303,7 @@ input, textarea {
     box-sizing: border-box;
     margin: 0 10px;
     border-radius: 15px;
-    background: #353c4f; }
+    background: #1c2732; }
     @media (min-width: 769px) {
       .Projects__projectBlock {
         max-width: 33%; } }
@@ -302,11 +313,11 @@ input, textarea {
       border-bottom: 1px solid #fcfeff; }
 
 .Signup {
-  background: #272f42;
+  background: #25323d;
   height: 100vh;
   color: white; }
   .Signup__header {
-    background: #353c4f;
+    background: #1c2732;
     display: flex;
     justify-content: space-between; }
     .Signup__header h2 {
@@ -317,7 +328,7 @@ input, textarea {
     align-items: center;
     justify-content: center; }
   .Signup__form {
-    background: #353c4f;
+    background: #1c2732;
     width: 300px;
     padding: 15px 10px;
     border-radius: 15px;
@@ -328,11 +339,11 @@ input, textarea {
       margin-top: 10px; }
 
 .Login {
-  background: #272f42;
+  background: #25323d;
   height: 100vh;
   color: white; }
   .Login__header {
-    background: #353c4f;
+    background: #1c2732;
     display: flex;
     justify-content: space-between; }
     .Login__header h2 {
@@ -343,7 +354,7 @@ input, textarea {
     align-items: center;
     justify-content: center; }
   .Login__form {
-    background: #353c4f;
+    background: #1c2732;
     width: 300px;
     padding: 15px 10px;
     border-radius: 15px;
@@ -354,11 +365,11 @@ input, textarea {
       margin-top: 10px; }
 
 .Profile {
-  background: #272f42;
+  background: #25323d;
   color: white;
   height: 100%; }
   .Profile__header {
-    background: #353c4f;
+    background: #1c2732;
     display: flex;
     justify-content: space-between;
     padding: 10px 15px; }
@@ -394,13 +405,13 @@ input, textarea {
     padding-top: 150px; }
 
 .Sidebar {
-  background: #272f42;
+  background: #25323d;
   color: white;
   width: 150px;
   height: calc(100vh - 40px); }
   .Sidebar__header {
     display: flex;
-    background: #353c4f;
+    background: #1c2732;
     justify-content: space-between;
     padding: 8px 0; }
     .Sidebar__header h3 {
@@ -413,7 +424,7 @@ input, textarea {
         cursor: pointer;
         transition: .25s; }
         .Sidebar__header__controls .addEntity:hover, .Sidebar__header__controls .addFolder:hover {
-          color: #4a80f0; }
+          color: #197df5; }
   .Sidebar .entityWrapper {
     font-size: .75rem;
     padding: 5px 0;
@@ -423,7 +434,7 @@ input, textarea {
     .Sidebar .entityWrapper:hover {
       background: #303738; }
     .Sidebar .entityWrapper.active-board {
-      background: #4a80f0; }
+      background: #197df5; }
 
 .Header {
   width: 100%;
@@ -431,7 +442,7 @@ input, textarea {
   display: flex;
   justify-content: space-between;
   color: white;
-  background: #272f42;
+  background: #25323d;
   line-height: 30px; }
   .Header__left {
     display: flex; }
@@ -462,7 +473,7 @@ input, textarea {
     position: relative;
     top: 9px; }
   .Header__left {
-    color: #4a80f0; }
+    color: #197df5; }
 
 @keyframes fadeIn {
   0% {
@@ -486,7 +497,7 @@ input, textarea {
     opacity: 1;
     animation: fadeIn .25s linear; }
   .Overlay__inner {
-    background: #353c4f;
+    background: #1c2732;
     color: white;
     width: 300px;
     height: 150px;
@@ -506,7 +517,7 @@ input, textarea {
       transition: all .25s; }
       .Overlay__inner__close:hover {
         cursor: pointer;
-        color: #4a80f0; }
+        color: #197df5; }
 
 @keyframes fadeIn {
   0% {
@@ -530,7 +541,7 @@ input, textarea {
     opacity: 1;
     animation: fadeIn .25s linear; }
   .OverlayEntity__inner {
-    background: #353c4f;
+    background: #1c2732;
     color: white;
     width: 400px;
     min-height: 200px;
@@ -574,7 +585,7 @@ input, textarea {
       transition: all .25s; }
       .OverlayEntity__inner__close:hover {
         cursor: pointer;
-        color: #4a80f0; }
+        color: #197df5; }
   .OverlayEntity__input--label {
     margin-right: 5px; }
   .OverlayEntity__fieldWrapper {
@@ -613,7 +624,7 @@ input, textarea {
   display: flex;
   cursor: pointer;
   transition: all .25s;
-  border-bottom: 1px solid #61b084; }
+  border-bottom: 1px solid #28a450; }
   .Folder__folder__left {
     display: flex;
     width: 75%; }
@@ -628,7 +639,7 @@ input, textarea {
     background: #303738; }
 
 .Folder .entityWrapper {
-  border-bottom: 1px solid #61b084; }
+  border-bottom: 1px solid #28a450; }
 
 .Folder__entityWrapper {
   width: 100%;
@@ -643,9 +654,9 @@ input, textarea {
   .Folder__board:hover {
     background: #303738; }
   .Folder__board--active {
-    background: #4a80f0; }
+    background: #197df5; }
     .Folder__board--active:hover {
-      background: #4a80f0; }
+      background: #197df5; }
 
 #Canvas svg {
   position: absolute; }
@@ -663,13 +674,13 @@ input, textarea {
     transition: all .25s;
     font-size: 1.25rem; }
     .Controls p:hover {
-      background: #4a80f0;
+      background: #197df5;
       cursor: pointer; }
 
 .Storypoint {
   width: 250px;
   height: 300px;
-  background: #272f42;
+  background: #25323d;
   border: 1px solid #4577e0;
   position: absolute;
   display: flex;
@@ -725,7 +736,7 @@ input, textarea {
       transition: all .5s; }
       .Storypoint__header-right i:hover {
         cursor: pointer;
-        color: #4a80f0; }
+        color: #197df5; }
     .Storypoint__header p {
       padding: 0;
       margin: 0; }
@@ -735,7 +746,7 @@ input, textarea {
       right: 0px;
       height: 65px;
       width: 100px;
-      background: #272f42;
+      background: #25323d;
       border: 1px solid white;
       padding: 5px;
       box-sizing: border-box;
@@ -748,7 +759,7 @@ input, textarea {
         padding-bottom: 3px;
         transition: .5s; }
         .Storypoint__header__optionsDropDown p:hover {
-          color: #4a80f0;
+          color: #197df5;
           cursor: pointer; }
     .Storypoint__header input {
       width: 75%;
@@ -815,13 +826,13 @@ input, textarea {
       transition: all .25s;
       cursor: pointer; }
       .MediaManager__currentFolder .goBack:hover {
-        color: #4a80f0; }
+        color: #197df5; }
   .MediaManager__header {
     margin-bottom: 15px;
     padding-bottom: 15px;
     display: flex;
     justify-content: space-between;
-    background: #353c4f;
+    background: #1c2732;
     color: white; }
   .MediaManager__upload {
     padding-left: 15px; }
@@ -842,7 +853,7 @@ input, textarea {
       font-size: 12px;
       height: 31px; }
   .MediaManager__inner {
-    background: #353c4f;
+    background: #1c2732;
     color: white;
     width: 300px;
     height: 150px;
@@ -870,7 +881,7 @@ input, textarea {
       color: white; }
       .MediaManager__imageWrapper-folder:hover {
         cursor: pointer;
-        color: #4a80f0; }
+        color: #197df5; }
       .MediaManager__imageWrapper-folder i {
         font-size: 75px; }
     .MediaManager__imageWrapper-image {
@@ -912,7 +923,7 @@ input, textarea {
   width: 100%;
   height: 300px;
   display: none;
-  background: #272f42;
+  background: #25323d;
   box-shadow: 0px 5px 8px -2px black;
   z-index: 25; }
   .MediaManagerSmall__header {
@@ -921,7 +932,7 @@ input, textarea {
     .MediaManagerSmall__header .close {
       transition: all .25s; }
       .MediaManagerSmall__header .close:hover {
-        color: #4a80f0; }
+        color: #197df5; }
   .MediaManagerSmall__upload input {
     border-radius: 12px 0px 0px 12px; }
   .MediaManagerSmall__upload button {
@@ -934,7 +945,7 @@ input, textarea {
   .MediaManagerSmall__imageWrapper {
     display: flex;
     flex-wrap: wrap;
-    background: #272f42;
+    background: #25323d;
     overflow: scroll; }
     .MediaManagerSmall__imageWrapper-image {
       width: 100px;
@@ -950,7 +961,7 @@ input, textarea {
       color: white; }
       .MediaManagerSmall__imageWrapper-folder:hover {
         cursor: pointer;
-        color: #4a80f0; }
+        color: #197df5; }
       .MediaManagerSmall__imageWrapper-folder i {
         font-size: 45px; }
   .MediaManagerSmall .Loader {
@@ -1000,7 +1011,7 @@ input, textarea {
   .Confirmation__inner {
     width: 300px;
     height: 150px;
-    background: #353c4f;
+    background: #1c2732;
     border: 1px solid #fcfeff;
     padding: 10px;
     text-align: center; }
