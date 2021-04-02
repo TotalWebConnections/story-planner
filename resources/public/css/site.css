@@ -209,10 +209,12 @@ input, textarea {
         border-radius: 24px 24px 0 0;
         text-transform: uppercase;
         font-size: 1.3rem; }
-      .Home__pricing__card__inner {
-        padding: 15px; }
-        .Home__pricing__card__inner p {
-          padding: 5px 0; }
+      .Home__pricing__card__inner p {
+        padding: 5px 10px; }
+      .Home__pricing__card__inner p:nth-child(odd) {
+        background: #1c2732; }
+      .Home__pricing__card__inner button {
+        margin-left: 10px; }
   .Home__footer {
     padding: 75px 15px;
     padding-bottom: 15px;
