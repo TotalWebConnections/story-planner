@@ -15,9 +15,9 @@
           [:li "Contact"]
         (if (.getItem js/localStorage "story-planner-token")
           [:li {:on-click #(navigate "projects")} "My Projects"]
-          [:span
-            [:li {:on-click #(navigate "signup")} "Sign up"]
-            [:li {:on-click #(navigate "login")} "Login"]])]]]
+          [:li {:on-click #(navigate "signup")} "Sign up"])
+        (if-not (.getItem js/localStorage "story-planner-token")
+          [:li {:on-click #(navigate "login")} "Login"])]]]
 
 
 
