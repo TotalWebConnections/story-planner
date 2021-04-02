@@ -29,9 +29,20 @@
     display: flex;
     justify-content: space-between;
     padding: $global-padding $global-padding;
+    background: $green;
+
+    h1 {
+      margin-left: 0;
+      font-size: 1.875em;
+    }
 
     &__block {
       display: flex;
+
+      &--nav {
+        justify-content: center;
+        flex-direction: column;
+      }
     }
   }
 
@@ -76,6 +87,10 @@
 
       div {
         width: 25%;
+        background-color: $lightBlack;
+        padding: 10px 0;
+        margin: 0 10px;
+        border-radius: 15px;
       }
     }
 
@@ -91,7 +106,7 @@
 
   &__sectionPadding {
     padding: $large-section-padding $global-padding;
-    background: #2f394f;
+    background: $lightBlack;
   }
 
   &__section {
@@ -182,10 +197,18 @@
       }
 
       &__inner {
-        padding: $global-padding;
+        // padding: $global-padding;
 
         p {
-          padding: 5px 0;
+          padding: 5px 10px;
+        }
+
+        p:nth-child(odd) {
+          background: #1c2732;
+        }
+
+        button {
+          margin-left: 10px;
         }
       }
     }

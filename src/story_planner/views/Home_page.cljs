@@ -7,8 +7,8 @@
     [:div.Home
      [:div.Home__header
       [:div.Home__header__block
-       [:h2 "Narrative Planner"]]
-      [:div.Home__header__block
+       [:h1 "Narrative Planner"]]
+      [:div.Home__header__block.Home__header__block--nav
        [:ul
           [:li "Pricing"]
           [:li "Features"]
