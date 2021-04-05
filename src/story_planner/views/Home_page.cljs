@@ -14,8 +14,8 @@
           [:li "Features"]
           [:li "Contact"]
         (if (.getItem js/localStorage "story-planner-token")
-          [:li {:on-click #(navigate "projects")} "My Projects"]
-          [:li {:on-click #(navigate "signup")} "Sign up"])
+          [:li [:button.small {:on-click #(navigate "projects")} "My Projects"]]
+          [:li [:button.small {:on-click #(navigate "signup")} "Sign up"]])
         (if-not (.getItem js/localStorage "story-planner-token")
           [:li {:on-click #(navigate "login")} "Login"])]]]
 
@@ -30,28 +30,29 @@
          [:button {:on-click #(navigate "signup")} "Get Started For Free"]]]
        [:div.Home__mainVisual-right
         [:img.border {:src "/images/demo.jpg" :width "100%"}]]]]
+       ; [:div.Rectangle-block]]]
 
      [:div.Home__ribbon
       [:h2 "The Pefect Solution For"]
       [:div.Home__ribbon__wrapper
        [:div
-        [:h3 "Game Designers"]
-        [:img {:src "/images/icons/game_designers.png" :width "50%"}]]
+        [:img {:src "/images/home/game-developers.svg" :width "50%"}]
+        [:h4 "Game Designers"]]
        [:div
-        [:h3 "Software Developers"]
-        [:img {:src "/images/icons/software_developers.png" :width "50%"}]]
+        [:img {:src "/images/home/software-devs.svg" :width "50%"}]
+        [:h4 "Software Developers"]]
        [:div
-        [:h3 "Writers"]
-        [:img {:src "/images/icons/writers.png" :width "50%"}]]
+        [:img {:src "/images/home/rpg-players.svg" :width "60%"}]
+        [:h4 "Writers"]]
        [:div
-        [:h3 "RPG Players"]
-        [:img {:src "/images/icons/rpg_players.png" :width "50%"}]]]]
+        [:img {:src "/images/home/rpg-players.svg" :width "60%"}]
+        [:h4 "RPG Players"]]]]
 
      [:div.Home__sectionPadding
       [:div.Home__section
        [:div.Home__section--side
         [:div
-         [:h2 "Visualize Complexity"]
+         [:h2.larger.grad1 "Visualize Complexity"]
          [:p "Easily visualize complex flows. Perfect for branching dialogue, modeling user decisions, or telling interactive stories."]]]
        [:div.Home__section--side
         [:img.border {:src "/images/visualize_complexity.jpg" :width "100%"}]]]]
@@ -62,14 +63,14 @@
         [:img.border {:src "/images/user_example.jpg" :width "100%"}]]
        [:div.Home__section--side
         [:div
-         [:h2 "Collaborate Efficiently"]
+         [:h2.larger.grad2 "Collaborate Efficiently"]
          [:p "Share your project with co-workers and friends and seamlessly work together on the same story in realtime. You have full control over who can access all your projects and can add/remove as many collaborators as you need."]]]]]
 
      [:div.Home__sectionPadding
       [:div.Home__section
        [:div.Home__section--side
         [:div
-         [:h2 "Prototype Quickly"]
+         [:h2.larger.grad3 "Prototype  Quickly"]
          [:p "Our easy to use interface makes it easy to work out ideas and makes it simple to update them as requirements change."]]]
        [:div.Home__section--side
         [:img.border {:src "/images/easy_to_use.jpg" :width "100%"}]]]]
@@ -77,58 +78,70 @@
 
 
      [:div.Home__lgSection
-      [:div.Home__lgSection--side--left
-       [:div
+      [:div.Home__lgSection__header
         [:h2 "Feature Filled"]
-        [:p "Already packed with time saving features, and we're constantly adding more!"]]]
-      [:div.Home__lgSection--side--right
+        [:p "Already packed with time saving features, and we're constantly adding more!"]]
+      [:div.Home__lgSection__featureWrap
        [:div.Home__feature
-        [:div.Home__feature__single
-         [:h3 "Asset Mananger"]
+         [:img {:src "/images/home/asset-manager.svg" :width "34px"}]
+         [:h3.Home__feature-header "Asset Mananger"]
          [:p "Easily organize image assets across multiple projects. A dedicated media manager helps you make sense of your visual content."]]
-        [:div.Home__feature__single
-         [:h3 "Branching Paths"]
-         [:p "Quickly create and test branching story paths. Paths are simple to create and remove allowing you to quickly test new ideas collaboratively."]]]
        [:div.Home__feature
-        [:div.Home__feature__single
-         [:h3 "Visualize at glance"]
+         [:img {:src "/images/home/visualize.svg" :width "34px"}]
+         [:h3.Home__feature-header "Branching Paths"]
+         [:p "Quickly create and test branching story paths. Paths are simple to create and remove allowing you to quickly test new ideas collaboratively."]]
+
+       [:div.Home__feature
+         [:img {:src "/images/home/paths.svg" :width "50px"}]
+         [:h3.Home__feature-header "Visualize at glance"]
          [:p "Easily zoom out to view your whole flow or zoom in on specific details. Breakdown larger stories into boards to further help stay organized."]]
-        [:div.Home__feature__single
-         [:h3 "Conquer Complexity"]
-         [:p "All the tools come together to help you build and manage complex, branching story flows. Master complexity and spend more time building and less time planning."]]]]]
+       [:div.Home__feature
+         [:img {:src "/images/home/complexity.svg" :width "34px"}]
+         [:h3.Home__feature-header "Conquer Complexity"]
+         [:p "All the tools come together to help you build and manage complex, branching story flows. Master complexity and spend more time building and less time planning."]]]]
 
 
-     [:div.Home__ribbon.Home__ribbon-highlight
-      [:h2 "Start Your Free Account"]
-      [:p "Get started free and upgrade at any time!"]
-      [:button {:on-click #(navigate "signup")} "Start Free - No Credit Card"]]
+
 
      [:div.Home__pricing
-      [:h2 "Start For Free - Upgrade When You Need"]
+      [:div.Home__pricing__header
+       [:h2 "Start For Free - Upgrade When You Need"]]
 
       [:div.Home__pricing__options
        [:div.Home__pricing__card
         [:h3 "Free Plan"]
+        [:h3 "$9/Month"]
         [:div.Home__pricing__card__inner
          [:p "- 1 Project"]
          [:p "- 50 details"]
          [:p "- 1 User"]
          [:p "- Limited Media Storage"]
-         [:button {:on-click #(navigate "signup")} "Sign Up Free"]]]
+         [:button {:on-click #(navigate "signup")} "Sign Up"]]]
        [:div.Home__pricing__card
+        [:h3 "Advanced Plan"]
         [:h3 "$9/Month"]
         [:div.Home__pricing__card__inner
          [:p "- Unlimited Users"]
          [:p "- Unlimited Projects"]
          [:p "- Exta Media Storage"]
          [:p "- All Future Updates"]
-         [:button {:on-click #(navigate "signup")} "Start Free"]]]]]
+         [:button {:on-click #(navigate "signup")} "Start Trial"]]]]
+
+      [:div.Home__pricing__callout
+       [:h2 "Start Your Free Account"]
+       [:p "Get started free and upgrade at any time!"]
+       [:button {:on-click #(navigate "signup")} "Start Free - No Credit Card"]]]
 
      [:div.Home__footer
-      [:ul
-       [:li "Terms"]
-       [:li "Privacy"]]
-      [:p.copyright "Copyright 2021 Total Web Connections LLC"]]]))
+       [:div.Home__footer_section.smallFooterSection
+        [:p.copyright "Copyright 2021 Total Web Connections LLC"]
+        [:ul
+         [:li "Terms"]
+         [:li "Privacy"]]]
+       [:div.Home__footer_section.largeFooterSection
+        [:p "Links"]]
+       [:div.Home__footer_section.smallFooterSection
+        [:p "get In touch"]]]]))
 
 
 

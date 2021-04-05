@@ -2,7 +2,8 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap");
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
@@ -52,22 +53,27 @@ h4 {
   margin-top: 10px; }
 
 button {
-  background: #197df5;
+  background: #1664ff;
   border: none;
   color: white;
-  padding: 8px 16px;
   cursor: pointer;
   transition: all .5s;
-  border-radius: 12px; }
+  padding: 10px 24px;
+  border-radius: 6px;
+  box-shadow: 0 1px 1px 0 rgba(19, 31, 21, 0.1), inset 0 2px 0 0 rgba(255, 255, 255, 0.06);
+  font-size: 1rem; }
   button:hover {
     background: #4577e0; }
   button.danger {
     background: #fa6476; }
     button.danger:hover {
       background: #e45c6c; }
+  button.small {
+    font-size: .95rem;
+    padding: 5px 19px 5px 20px; }
 
 input, textarea {
-  background: #1c2732;
+  background: #20242e;
   border: 1px solid #9f9f9f;
   border-radius: 4px;
   padding: 8px;
@@ -83,8 +89,8 @@ input, textarea {
   border-color: red; }
 
 .Home {
-  background: #25323d;
-  color: white; }
+  background: #fff;
+  color: black; }
   .Home ul {
     display: flex; }
     .Home ul li {
@@ -94,8 +100,14 @@ input, textarea {
         cursor: pointer;
         color: #4a80f0; }
   .Home img.border {
-    border: 1px solid #28a450;
     box-sizing: border-box; }
+  .Home .Rectangle-block {
+    width: 75px;
+    height: 76px;
+    margin: 0 0 0 1px;
+    padding: 31px 0 0 30px;
+    transform: rotate(-180deg);
+    background-color: #00ab96; }
   .Home__header {
     position: absolute;
     top: 0;
@@ -104,7 +116,7 @@ input, textarea {
     display: flex;
     justify-content: space-between;
     padding: 15px 15px;
-    background: #28a450; }
+    color: white; }
     .Home__header h1 {
       margin-left: 0;
       font-size: 1.875em; }
@@ -116,8 +128,10 @@ input, textarea {
   .Home__mainVisual {
     height: 100vh;
     display: flex;
+    color: white;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    background-image: linear-gradient(to bottom, #20232d, #151720 80%); }
     .Home__mainVisual__inner {
       display: flex;
       flex-direction: row;
@@ -138,21 +152,21 @@ input, textarea {
     max-width: 1200px;
     margin: 0 auto; }
     .Home__ribbon__wrapper {
-      display: flex; }
+      display: flex;
+      flex-wrap: wrap; }
       .Home__ribbon__wrapper div {
         width: 25%;
-        background-color: #1c2732;
-        padding: 10px 0;
-        margin: 0 10px;
-        border-radius: 15px; }
-    .Home__ribbon-highlight {
-      background: #28a450;
-      max-width: none; }
-      .Home__ribbon-highlight p {
-        margin-bottom: 15px; }
+        padding: 39px 70px 40px 69px;
+        border-radius: 8px;
+        box-shadow: 0 0 7px -3px rgba(0, 0, 0, 0.5);
+        border: solid 1px #dededf;
+        background-color: #ffffff;
+        margin: 48px 35px 75px;
+        max-width: 210px;
+        text-align: center; }
   .Home__sectionPadding {
     padding: 75px 15px;
-    background: #1c2732; }
+    background: #20242e; }
   .Home__section {
     display: flex;
     max-width: 1200px;
@@ -161,64 +175,76 @@ input, textarea {
       background: none; }
     .Home__section--side {
       width: 50%;
-      padding: 15px;
+      padding: 30px;
       display: flex;
       align-items: center; }
+      .Home__section--side p {
+        color: white;
+        font-size: 1.375rem;
+        max-width: 466px; }
+      .Home__section--side h2 {
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.14;
+        letter-spacing: normal;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent; }
+      .Home__section--side .grad1 {
+        background-image: linear-gradient(106deg, #f3a486 3%, #f4a9ec 95%); }
+      .Home__section--side .grad2 {
+        background-image: linear-gradient(101deg, #6fd2ff -5%, #c09bfc 49%); }
+      .Home__section--side .grad3 {
+        background-image: linear-gradient(105deg, #23bcba, #45e994); }
   .Home__lgSection {
     padding: 75px 15px;
-    display: flex;
     max-width: 1200px;
     margin: 0 auto; }
-    .Home__lgSection--side--left {
-      width: 30%;
-      display: flex;
-      padding: 15px; }
-    .Home__lgSection--side--right {
-      width: 70%;
-      display: flex;
-      padding: 15px; }
-  .Home__feature {
-    width: 50%; }
-    .Home__feature__single {
-      border-bottom: 1px solid #28a450;
-      margin: 0 15px;
-      padding-bottom: 15px; }
-      .Home__feature__single:not(:first-child) {
-        margin-top: calc(2 * 15px); }
+    .Home__lgSection__header {
+      text-align: center; }
+      .Home__lgSection__header h2 {
+        margin-bottom: 20px; }
+    .Home__lgSection__featureWrap {
+      padding-top: 130px;
+      display: flex; }
+      .Home__lgSection__featureWrap .Home__feature {
+        padding: 0 15px; }
+        .Home__lgSection__featureWrap .Home__feature img {
+          padding-left: 16px; }
+        .Home__lgSection__featureWrap .Home__feature-header {
+          position: relative;
+          padding-top: 16px;
+          padding-left: 16px; }
+          .Home__lgSection__featureWrap .Home__feature-header::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 3px;
+            height: 18px;
+            background-color: #1664ff; }
+        .Home__lgSection__featureWrap .Home__feature p {
+          padding-top: 16px; }
   .Home__pricing {
-    padding: 75px 15px; }
-    .Home__pricing h2 {
+    padding: 75px 15px;
+    background: #20242e;
+    color: #fff; }
+    .Home__pricing__header {
       text-align: center; }
     .Home__pricing__options {
       display: flex;
-      justify-content: center;
-      padding: 75px 15px;
-      padding-bottom: 0; }
+      justify-content: center; }
     .Home__pricing__card {
-      border: 3px solid #28a450;
-      border-radius: 25px;
-      width: 300px;
-      margin: 0 15px; }
-      .Home__pricing__card button {
-        margin: 10px auto;
-        margin-top: 15px; }
-      .Home__pricing__card h3 {
-        text-align: center;
-        background: #197df5;
-        padding: 8px 0;
-        border-radius: 24px 24px 0 0;
-        text-transform: uppercase;
-        font-size: 1.3rem; }
-      .Home__pricing__card__inner p {
-        padding: 5px 10px; }
-      .Home__pricing__card__inner p:nth-child(odd) {
-        background: #1c2732; }
-      .Home__pricing__card__inner button {
-        margin-left: 10px; }
+      padding: 40px 28px 30px 27px;
+      border-radius: 6px;
+      background-color: #ffffff;
+      color: #1d1d1d;
+      margin: 0 35px; }
+    .Home__pricing__callout {
+      padding-top: calc(2 * 75px);
+      text-align: center; }
   .Home__footer {
     padding: 75px 15px;
-    padding-bottom: 15px;
-    background: #28a450; }
+    padding-bottom: 15px; }
     .Home__footer .copyright {
       width: 100%;
       text-align: center;
@@ -252,13 +278,13 @@ input, textarea {
     flex-wrap: wrap; }
   .Home__section--side {
     width: 100%; }
-  .Home__lgSection {
-    flex-wrap: wrap; }
-  .Home__lgSection--side--left, .Home__lgSection--side--right {
+  .Home__lgSection__featureWrap {
     width: 100%;
     flex-wrap: wrap; }
   .Home__feature {
     width: 100%; }
+  .Home__feature:not(:first-child) {
+    margin-top: 30px; }
   .Home__pricing__options {
     flex-wrap: wrap; }
   .Home__pricing__card:first-child {
@@ -278,7 +304,7 @@ input, textarea {
   height: 100vh;
   color: white; }
   .Projects__header {
-    background: #1c2732;
+    background: #20242e;
     display: flex;
     justify-content: space-between;
     padding: 10px 15px; }
@@ -305,7 +331,7 @@ input, textarea {
     box-sizing: border-box;
     margin: 0 10px;
     border-radius: 15px;
-    background: #1c2732; }
+    background: #20242e; }
     @media (min-width: 769px) {
       .Projects__projectBlock {
         max-width: 33%; } }
@@ -319,7 +345,7 @@ input, textarea {
   height: 100vh;
   color: white; }
   .Signup__header {
-    background: #1c2732;
+    background: #20242e;
     display: flex;
     justify-content: space-between; }
     .Signup__header h2 {
@@ -330,7 +356,7 @@ input, textarea {
     align-items: center;
     justify-content: center; }
   .Signup__form {
-    background: #1c2732;
+    background: #20242e;
     width: 300px;
     padding: 15px 10px;
     border-radius: 15px;
@@ -345,7 +371,7 @@ input, textarea {
   height: 100vh;
   color: white; }
   .Login__header {
-    background: #1c2732;
+    background: #20242e;
     display: flex;
     justify-content: space-between; }
     .Login__header h2 {
@@ -356,7 +382,7 @@ input, textarea {
     align-items: center;
     justify-content: center; }
   .Login__form {
-    background: #1c2732;
+    background: #20242e;
     width: 300px;
     padding: 15px 10px;
     border-radius: 15px;
@@ -371,7 +397,7 @@ input, textarea {
   color: white;
   height: 100%; }
   .Profile__header {
-    background: #1c2732;
+    background: #20242e;
     display: flex;
     justify-content: space-between;
     padding: 10px 15px; }
@@ -413,7 +439,7 @@ input, textarea {
   height: calc(100vh - 40px); }
   .Sidebar__header {
     display: flex;
-    background: #1c2732;
+    background: #20242e;
     justify-content: space-between;
     padding: 8px 0; }
     .Sidebar__header h3 {
@@ -426,7 +452,7 @@ input, textarea {
         cursor: pointer;
         transition: .25s; }
         .Sidebar__header__controls .addEntity:hover, .Sidebar__header__controls .addFolder:hover {
-          color: #197df5; }
+          color: #1664ff; }
   .Sidebar .entityWrapper {
     font-size: .75rem;
     padding: 5px 0;
@@ -436,7 +462,7 @@ input, textarea {
     .Sidebar .entityWrapper:hover {
       background: #303738; }
     .Sidebar .entityWrapper.active-board {
-      background: #197df5; }
+      background: #1664ff; }
 
 .Header {
   width: 100%;
@@ -475,7 +501,7 @@ input, textarea {
     position: relative;
     top: 9px; }
   .Header__left {
-    color: #197df5; }
+    color: #1664ff; }
 
 @keyframes fadeIn {
   0% {
@@ -499,7 +525,7 @@ input, textarea {
     opacity: 1;
     animation: fadeIn .25s linear; }
   .Overlay__inner {
-    background: #1c2732;
+    background: #20242e;
     color: white;
     width: 300px;
     height: 150px;
@@ -519,7 +545,7 @@ input, textarea {
       transition: all .25s; }
       .Overlay__inner__close:hover {
         cursor: pointer;
-        color: #197df5; }
+        color: #1664ff; }
 
 @keyframes fadeIn {
   0% {
@@ -543,7 +569,7 @@ input, textarea {
     opacity: 1;
     animation: fadeIn .25s linear; }
   .OverlayEntity__inner {
-    background: #1c2732;
+    background: #20242e;
     color: white;
     width: 400px;
     min-height: 200px;
@@ -587,7 +613,7 @@ input, textarea {
       transition: all .25s; }
       .OverlayEntity__inner__close:hover {
         cursor: pointer;
-        color: #197df5; }
+        color: #1664ff; }
   .OverlayEntity__input--label {
     margin-right: 5px; }
   .OverlayEntity__fieldWrapper {
@@ -656,9 +682,9 @@ input, textarea {
   .Folder__board:hover {
     background: #303738; }
   .Folder__board--active {
-    background: #197df5; }
+    background: #1664ff; }
     .Folder__board--active:hover {
-      background: #197df5; }
+      background: #1664ff; }
 
 #Canvas svg {
   position: absolute; }
@@ -676,7 +702,7 @@ input, textarea {
     transition: all .25s;
     font-size: 1.25rem; }
     .Controls p:hover {
-      background: #197df5;
+      background: #1664ff;
       cursor: pointer; }
 
 .Storypoint {
@@ -738,7 +764,7 @@ input, textarea {
       transition: all .5s; }
       .Storypoint__header-right i:hover {
         cursor: pointer;
-        color: #197df5; }
+        color: #1664ff; }
     .Storypoint__header p {
       padding: 0;
       margin: 0; }
@@ -761,7 +787,7 @@ input, textarea {
         padding-bottom: 3px;
         transition: .5s; }
         .Storypoint__header__optionsDropDown p:hover {
-          color: #197df5;
+          color: #1664ff;
           cursor: pointer; }
     .Storypoint__header input {
       width: 75%;
@@ -828,13 +854,13 @@ input, textarea {
       transition: all .25s;
       cursor: pointer; }
       .MediaManager__currentFolder .goBack:hover {
-        color: #197df5; }
+        color: #1664ff; }
   .MediaManager__header {
     margin-bottom: 15px;
     padding-bottom: 15px;
     display: flex;
     justify-content: space-between;
-    background: #1c2732;
+    background: #20242e;
     color: white; }
   .MediaManager__upload {
     padding-left: 15px; }
@@ -855,7 +881,7 @@ input, textarea {
       font-size: 12px;
       height: 31px; }
   .MediaManager__inner {
-    background: #1c2732;
+    background: #20242e;
     color: white;
     width: 300px;
     height: 150px;
@@ -883,7 +909,7 @@ input, textarea {
       color: white; }
       .MediaManager__imageWrapper-folder:hover {
         cursor: pointer;
-        color: #197df5; }
+        color: #1664ff; }
       .MediaManager__imageWrapper-folder i {
         font-size: 75px; }
     .MediaManager__imageWrapper-image {
@@ -934,7 +960,7 @@ input, textarea {
     .MediaManagerSmall__header .close {
       transition: all .25s; }
       .MediaManagerSmall__header .close:hover {
-        color: #197df5; }
+        color: #1664ff; }
   .MediaManagerSmall__upload input {
     border-radius: 12px 0px 0px 12px; }
   .MediaManagerSmall__upload button {
@@ -963,7 +989,7 @@ input, textarea {
       color: white; }
       .MediaManagerSmall__imageWrapper-folder:hover {
         cursor: pointer;
-        color: #197df5; }
+        color: #1664ff; }
       .MediaManagerSmall__imageWrapper-folder i {
         font-size: 45px; }
   .MediaManagerSmall .Loader {
@@ -1013,7 +1039,7 @@ input, textarea {
   .Confirmation__inner {
     width: 300px;
     height: 150px;
-    background: #1c2732;
+    background: #20242e;
     border: 1px solid #fcfeff;
     padding: 10px;
     text-align: center; }
@@ -1021,14 +1047,24 @@ input, textarea {
       margin-top: 15px; }
 
 p, li, ul, table {
-  font-family: "Montserrat", sans-serif; }
+  font-family: "Inter", sans-serif; }
 
-h1, h2, h3, h4, h5 {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500; }
+p {
+  line-height: 1.45; }
+
+h1 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700; }
+
+h2, h3 {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 600; }
+
+h4, h5 {
+  font-family: "Work Sans", sans-serif; }
 
 .body-container {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Inter", sans-serif;
   max-width: 600px;
   margin: 0 auto;
   padding-top: 72px;
@@ -1038,13 +1074,20 @@ h1, h2, h3, h4, h5 {
   line-height: 1.5em; }
 
 h1 {
-  font-size: 2.375em; }
+  font-size: 2.65em;
+  line-height: 1.24; }
 
 h2 {
-  font-size: 1.875em; }
+  font-size: 2em;
+  margin-bottom: 48px; }
+  h2.larger {
+    font-size: 2.75em; }
 
 h3 {
   font-size: 1.125em; }
+
+h4 {
+  font-size: 1em; }
 
 a {
   text-decoration: none;

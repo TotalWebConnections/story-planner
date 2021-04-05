@@ -1,6 +1,6 @@
 .Home {
-  background: $darkBlack;
-  color: white;
+  background: #fff;
+  color: black;
 
   ul {
     display: flex;
@@ -17,8 +17,16 @@
   }
 
   img.border {
-    border: 1px solid $green;
     box-sizing: border-box;
+  }
+
+  .Rectangle-block {
+    width: 75px;
+    height: 76px;
+    margin: 0 0 0 1px;
+    padding: 31px 0 0 30px;
+    transform: rotate(-180deg);
+    background-color: #00ab96;
   }
 
   &__header {
@@ -29,7 +37,7 @@
     display: flex;
     justify-content: space-between;
     padding: $global-padding $global-padding;
-    background: $green;
+    color: white;
 
     h1 {
       margin-left: 0;
@@ -49,8 +57,10 @@
   &__mainVisual {
     height: 100vh;
     display: flex;
+    color: white;
     align-items: center;
     justify-content: center;
+    background-image: linear-gradient(to bottom, #20232d, #151720 80%);
 
     &__inner {
       display: flex;
@@ -84,22 +94,18 @@
 
     &__wrapper {
       display: flex;
+      flex-wrap: wrap;
 
       div {
         width: 25%;
-        background-color: $lightBlack;
-        padding: 10px 0;
-        margin: 0 10px;
-        border-radius: 15px;
-      }
-    }
-
-    &-highlight {
-      background: $green;
-      max-width: none;
-
-      p {
-        margin-bottom: 15px;
+        padding: 39px 70px 40px 69px;
+        border-radius: 8px;
+        box-shadow: 0 0 7px -3px rgba(0, 0, 0, 0.5);
+        border: solid 1px #dededf;
+        background-color: #ffffff;
+        margin: 48px 35px 75px;
+        max-width: 210px;
+        text-align: center;
       }
     }
   }
@@ -121,96 +127,113 @@
 
     &--side {
       width: 50%;
-      padding: 15px;
+      padding: 30px;
       display: flex;
       align-items: center;
+
+      p {
+        color: white;
+        font-size: 1.375rem;
+        max-width: 466px;
+      }
+
+      h2 {
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.14;
+        letter-spacing: normal;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .grad1 {
+        background-image: linear-gradient(106deg, #f3a486 3%, #f4a9ec 95%);
+      }
+
+      .grad2 {
+        background-image: linear-gradient(101deg, #6fd2ff -5%, #c09bfc 49%);
+      }
+
+      .grad3 {
+        background-image: linear-gradient(105deg, #23bcba, #45e994);
+      }
     }
   }
 
   &__lgSection {
     padding: $large-section-padding $global-padding;
-    display: flex;
     max-width: $max-width;
     margin: 0 auto;
 
-    &--side {
-
-
-      &--left {
-        width: 30%;
-        display: flex;
-        padding: 15px;
-      }
-
-      &--right {
-        width: 70%;
-        display: flex;
-        padding: 15px;
+    &__header {
+      text-align: center;
+      h2 {
+        margin-bottom: 20px;
       }
     }
-  }
 
-  &__feature {
-    width: 50%;
+    &__featureWrap {
+      padding-top: 130px;
+      display: flex;
 
-    &__single {
-      border-bottom: 1px solid $green;
-      margin: 0 $global-padding;
-      padding-bottom: $global-padding;
+      .Home__feature {
+        $left-push: 16px;
 
+        padding: 0 15px;
 
-      &:not(:first-child) {
-        margin-top: calc(2 * #{$global-padding});
+        img {
+          padding-left: $left-push;
+        }
+        &-header {
+          position: relative;
+          padding-top: $left-push;
+          padding-left: $left-push;
+
+          &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 3px;
+            height: 18px;
+            background-color: #1664ff;
+          }
+        }
+
+        p {
+          padding-top: $left-push;
+        }
       }
     }
+
   }
+
 
   &__pricing {
     padding: $large-section-padding $global-padding;
-    h2 {text-align: center;}
+    background: $lightBlack;
+    color: #fff;
+
+    &__header {
+      text-align: center;
+    }
 
     &__options {
       display: flex;
       justify-content: center;
-      padding: $large-section-padding $global-padding;
-      padding-bottom: 0;
     }
 
     &__card {
-      border: 3px solid $green;
-      border-radius: 25px;
-      width: 300px;
-      margin: 0 15px;
+      padding: 40px 28px 30px 27px;
+      border-radius: 6px;
+      background-color: #ffffff;
+      color: $darkestBlack;
+      margin: 0 35px;
+    }
 
-      button {
-        margin: 10px auto;
-        margin-top: 15px;
-      }
-
-      h3 {
-        text-align: center;
-        background: $mainBlue;
-        padding: 8px 0;
-        border-radius: 24px 24px 0 0;
-        text-transform: uppercase;
-        font-size: 1.3rem;
-      }
-
-      &__inner {
-        // padding: $global-padding;
-
-        p {
-          padding: 5px 10px;
-        }
-
-        p:nth-child(odd) {
-          background: #1c2732;
-        }
-
-        button {
-          margin-left: 10px;
-        }
-      }
+    &__callout {
+      padding-top: calc(2 * #{$large-section-padding});
+      text-align: center;
     }
   }
 
@@ -218,7 +241,6 @@
   &__footer {
     padding: $large-section-padding $global-padding;
     padding-bottom: $global-padding;
-    background: $green;
 
     .copyright {
       width: 100%;
@@ -264,13 +286,17 @@
     width: 100%;
   }
 
-  .Home__lgSection {flex-wrap: wrap;}
-  .Home__lgSection--side--left, .Home__lgSection--side--right {
+  .Home__lgSection__featureWrap {
     width: 100%;
     flex-wrap: wrap;
   }
+
   .Home__feature {
     width: 100%;
+  }
+
+  .Home__feature:not(:first-child) {
+    margin-top: 30px;
   }
 
   .Home__pricing__options {flex-wrap: wrap;}
