@@ -55,12 +55,14 @@
          [:h2.larger.grad1 "Visualize Complexity"]
          [:p "Easily visualize complex flows. Perfect for branching dialogue, modeling user decisions, or telling interactive stories."]]]
        [:div.Home__section--side
-        [:img.border {:src "/images/visualize_complexity.jpg" :width "100%"}]]]]
+        [:img {:src "/images/visualize_complexity.jpg" :width "100%"}]
+        [:div.oval.firstOval]]]]
 
      [:div.Home__sectionPadding.alternate
       [:div.Home__section
        [:div.Home__section--side
-        [:img.border {:src "/images/user_example.jpg" :width "100%"}]]
+        [:img.border {:src "/images/user_example.jpg" :width "100%"}]
+        [:div.oval.secondOval]]
        [:div.Home__section--side
         [:div
          [:h2.larger.grad2 "Collaborate Efficiently"]
@@ -73,7 +75,8 @@
          [:h2.larger.grad3 "Prototype  Quickly"]
          [:p "Our easy to use interface makes it easy to work out ideas and makes it simple to update them as requirements change."]]]
        [:div.Home__section--side
-        [:img.border {:src "/images/easy_to_use.jpg" :width "100%"}]]]]
+        [:img.border {:src "/images/easy_to_use.jpg" :width "100%"}]
+        [:div.oval.thirdOval]]]]
 
 
 
@@ -139,15 +142,28 @@
        [:button {:on-click #(navigate "signup")} "Start Free - No Credit Card"]]]
 
      [:div.Home__footer
-       [:div.Home__footer_section.smallFooterSection
-        [:p.copyright "Copyright 2021 Total Web Connections LLC"]
-        [:ul
-         [:li "Terms"]
-         [:li "Privacy"]]]
-       [:div.Home__footer_section.largeFooterSection
-        [:p "Links"]]
-       [:div.Home__footer_section.smallFooterSection
-        [:p "get In touch"]]]]))
+       [:div.Home__footer__inner
+        [:div.Home__footer__section.smallFooterSection
+         [:h3 "NarrativePlanner"]
+         [:p.copyright "Copyright 2021 Total Web Connections LLC"]
+         [:ul
+          [:li "Terms"]
+          [:li "Privacy"]]]
+        [:div.Home__footer__section.largeFooterSection
+         [:div.Home__footer__subSection
+          [:p.text-bold "Quick Links"]
+          [:ul
+           [:li "Features"]
+           [:li "Pricing"]
+           [:li "Contact"]]]
+         [:div.Home__footer__subSection
+          [:p.text-bold "Resources"]
+          [:ul
+           [:li "Help Articles"]
+           [:li "Company"]]]]
+        [:div.Home__footer__section.smallFooterSection
+         [:p.text-bold "Get In touch"]
+         [:p "info@narrativeplanner.com"]]]]]))
 
 
 

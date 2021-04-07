@@ -39,6 +39,10 @@ p, li, ul, table {
   font-family: $font-stack;
 }
 
+.text-bold {
+  font-weight: bold;
+}
+
 p { line-height: 1.45; }
 p.small {
   font-size: .75rem;

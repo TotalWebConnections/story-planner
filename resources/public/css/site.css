@@ -193,7 +193,8 @@ input, textarea {
       width: 50%;
       padding: 30px;
       display: flex;
-      align-items: center; }
+      align-items: center;
+      position: relative; }
       .Home__section--side p {
         color: white;
         font-size: 1.375rem;
@@ -212,6 +213,32 @@ input, textarea {
         background-image: linear-gradient(101deg, #6fd2ff -5%, #c09bfc 49%); }
       .Home__section--side .grad3 {
         background-image: linear-gradient(105deg, #23bcba, #45e994); }
+      .Home__section--side img {
+        position: relative;
+        z-index: 2; }
+      .Home__section--side .oval {
+        position: absolute;
+        z-index: 1;
+        opacity: .25; }
+        .Home__section--side .oval.firstOval {
+          width: 219px;
+          height: 219px;
+          bottom: 10%;
+          right: 10%;
+          box-shadow: 0 2px 50px 20px #f3a486; }
+        .Home__section--side .oval.secondOval {
+          width: 173px;
+          height: 173px;
+          box-shadow: 0 2px 30px 20px #007dff;
+          right: auto;
+          left: 8%;
+          bottom: 8%; }
+        .Home__section--side .oval.thridOval {
+          width: 215px;
+          height: 215px;
+          bottom: 5%;
+          right: 5%;
+          box-shadow: 0 2px 50px 20px #5ac993; }
   .Home__lgSection {
     padding: 75px 15px;
     max-width: 1200px;
@@ -302,11 +329,24 @@ input, textarea {
         margin-bottom: 15px; }
   .Home__footer {
     padding: 75px 15px;
-    padding-bottom: 15px; }
-    .Home__footer .copyright {
-      width: 100%;
-      text-align: center;
-      font-size: .55rem; }
+    padding-bottom: 50px;
+    font-size: .75rem; }
+    .Home__footer ul {
+      flex-direction: column; }
+      .Home__footer ul li {
+        display: block;
+        padding-top: 10px; }
+    .Home__footer__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex; }
+    .Home__footer__section {
+      flex-grow: 1; }
+      .Home__footer__section.largeFooterSection {
+        flex-grow: 2;
+        display: flex; }
+    .Home__footer__subSection {
+      flex-grow: 1; }
 
 @media (max-width: 769px) {
   .Home__header {
@@ -1106,6 +1146,9 @@ input, textarea {
 
 p, li, ul, table {
   font-family: "Inter", sans-serif; }
+
+.text-bold {
+  font-weight: bold; }
 
 p {
   line-height: 1.45; }

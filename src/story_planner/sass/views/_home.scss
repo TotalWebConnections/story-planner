@@ -139,6 +139,7 @@
       padding: 30px;
       display: flex;
       align-items: center;
+      position: relative;
 
       p {
         color: white;
@@ -166,6 +167,41 @@
 
       .grad3 {
         background-image: linear-gradient(105deg, #23bcba, #45e994);
+      }
+
+      img {
+        position: relative;
+        z-index: 2;
+      }
+      .oval {
+        position: absolute;
+        z-index: 1;
+        opacity: .25;
+
+        &.firstOval {
+          width: 219px;
+          height: 219px;
+          bottom: 10%;
+          right: 10%;
+          box-shadow: 0 2px 50px 20px #f3a486;
+        }
+
+        &.secondOval {
+          width: 173px;
+          height: 173px;
+          box-shadow: 0 2px 30px 20px #007dff;
+          right: auto;
+          left: 8%;
+          bottom: 8%;
+        }
+
+        &.thridOval {
+          width: 215px;
+          height: 215px;
+          bottom: 5%;
+          right: 5%;
+          box-shadow: 0 2px 50px 20px #5ac993;
+        }
       }
     }
   }
@@ -311,12 +347,35 @@
 
   &__footer {
     padding: $large-section-padding $global-padding;
-    padding-bottom: $global-padding;
+    padding-bottom: 50px;
+    font-size: .75rem;
 
-    .copyright {
-      width: 100%;
-      text-align: center;
-      font-size: .55rem;
+    ul {
+      flex-direction: column;
+
+      li {
+        display: block;
+        padding-top: 10px;
+      }
+    }
+
+    &__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+    }
+
+    &__section {
+      flex-grow: 1;
+
+      &.largeFooterSection {
+        flex-grow: 2;
+        display: flex;
+      }
+    }
+
+    &__subSection {
+      flex-grow: 1;
     }
   }
 }
