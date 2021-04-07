@@ -29,8 +29,10 @@
         [:div
          [:button {:on-click #(navigate "signup")} "Get Started For Free"]]]
        [:div.Home__mainVisual-right
-        [:img.border {:src "/images/demo.jpg" :width "100%"}]]
-       [:img.Home__mainVisual__dots {:src "/images/home/dots.svg"}]]]
+        [:div.Home__mainVisual-right__imageContainer
+         [:img.border {:src "/images/demo.jpg" :width "100%"}]
+         [:div.Rectangle-block]]]
+       [:img.Home__mainVisual__dots.flair {:src "/images/home/dots.svg"}]]]
 
      [:div.Home__ribbon
       [:h2 "The Pefect Solution For"]

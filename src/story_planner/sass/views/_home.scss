@@ -20,14 +20,6 @@
     box-sizing: border-box;
   }
 
-  .Rectangle-block {
-    width: 75px;
-    height: 76px;
-    margin: 0 0 0 1px;
-    padding: 31px 0 0 30px;
-    transform: rotate(-180deg);
-    background-color: #00ab96;
-  }
 
   &__header {
     position: absolute;
@@ -50,6 +42,10 @@
       &--nav {
         justify-content: center;
         flex-direction: column;
+
+        ul {
+          align-items: center;
+        }
       }
     }
   }
@@ -83,6 +79,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      padding: 0 10px;
 
       button {
         margin-top: 15px;
@@ -91,7 +88,31 @@
 
     &-right {
       width: 60%;
+      position: relative;
+      padding: 0 10px;
 
+      img {
+        position: relative;
+        z-index: 2;
+      }
+
+      .Rectangle-block {
+        width: 75px;
+        height: 76px;
+        margin: 0 0 0 1px;
+        padding: 31px 0 0 30px;
+        background: repeating-linear-gradient(
+          45deg,
+          #00ab96,
+          #00ab96 10px,
+          $lightBlack 10px,
+          $lightBlack 20px
+        );
+        position: absolute;
+        bottom: -20px;
+        left: -20px;
+        z-index: 1;
+      }
     }
   }
 
@@ -104,6 +125,7 @@
     &__wrapper {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-around;
 
       div {
         width: 25%;
@@ -112,7 +134,7 @@
         box-shadow: 0 0 7px -3px rgba(0, 0, 0, 0.5);
         border: solid 1px #dededf;
         background-color: #ffffff;
-        margin: 48px 35px 75px;
+        // margin: 48px 35px 75px;
         max-width: 210px;
         text-align: center;
       }
@@ -288,7 +310,7 @@
     }
 
     &__card {
-      padding: 20px 28px 30px 27px;
+      padding: 20px 35px 35px 27px;
       border-radius: 6px;
       background-color: #ffffff;
       color: $darkestBlack;
@@ -380,6 +402,12 @@
   }
 }
 
+@media(max-width: 1400px) {
+  .flair {
+    display: none;
+  }
+}
+
 
 // MOBILE STYLES FOR HOME Home-page
 @media (max-width: 769px) {
@@ -397,9 +425,15 @@
   .Home__mainVisual-left {margin: 45px 0; text-align: center;}
   .Home__mainVisual-right {
     text-align: center;
+
+    &__imageContainer {
+      position: relative;
+      width: 75%;
+      margin: 0 auto;
+    }
   }
   .Home__mainVisual-right img {
-    width: 75%;
+    width: 100%;
     margin: 0 auto;
   }
 

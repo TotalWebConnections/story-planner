@@ -110,13 +110,6 @@ input, textarea {
         color: #4a80f0; }
   .Home img.border {
     box-sizing: border-box; }
-  .Home .Rectangle-block {
-    width: 75px;
-    height: 76px;
-    margin: 0 0 0 1px;
-    padding: 31px 0 0 30px;
-    transform: rotate(-180deg);
-    background-color: #00ab96; }
   .Home__header {
     position: absolute;
     top: 0;
@@ -134,6 +127,8 @@ input, textarea {
       .Home__header__block--nav {
         justify-content: center;
         flex-direction: column; }
+        .Home__header__block--nav ul {
+          align-items: center; }
   .Home__mainVisual {
     height: 100vh;
     display: flex;
@@ -157,11 +152,27 @@ input, textarea {
       width: 40%;
       display: flex;
       flex-direction: column;
-      justify-content: center; }
+      justify-content: center;
+      padding: 0 10px; }
       .Home__mainVisual-left button {
         margin-top: 15px; }
     .Home__mainVisual-right {
-      width: 60%; }
+      width: 60%;
+      position: relative;
+      padding: 0 10px; }
+      .Home__mainVisual-right img {
+        position: relative;
+        z-index: 2; }
+      .Home__mainVisual-right .Rectangle-block {
+        width: 75px;
+        height: 76px;
+        margin: 0 0 0 1px;
+        padding: 31px 0 0 30px;
+        background: repeating-linear-gradient(45deg, #00ab96, #00ab96 10px, #20242e 10px, #20242e 20px);
+        position: absolute;
+        bottom: -20px;
+        left: -20px;
+        z-index: 1; }
   .Home__ribbon {
     text-align: center;
     padding: 75px 0;
@@ -169,7 +180,8 @@ input, textarea {
     margin: 0 auto; }
     .Home__ribbon__wrapper {
       display: flex;
-      flex-wrap: wrap; }
+      flex-wrap: wrap;
+      justify-content: space-around; }
       .Home__ribbon__wrapper div {
         width: 25%;
         padding: 39px 70px 40px 69px;
@@ -177,7 +189,6 @@ input, textarea {
         box-shadow: 0 0 7px -3px rgba(0, 0, 0, 0.5);
         border: solid 1px #dededf;
         background-color: #ffffff;
-        margin: 48px 35px 75px;
         max-width: 210px;
         text-align: center; }
   .Home__sectionPadding {
@@ -292,7 +303,7 @@ input, textarea {
       display: flex;
       justify-content: center; }
     .Home__pricing__card {
-      padding: 20px 28px 30px 27px;
+      padding: 20px 35px 35px 27px;
       border-radius: 6px;
       background-color: #ffffff;
       color: #1d1d1d;
@@ -348,6 +359,10 @@ input, textarea {
     .Home__footer__subSection {
       flex-grow: 1; }
 
+@media (max-width: 1400px) {
+  .flair {
+    display: none; } }
+
 @media (max-width: 769px) {
   .Home__header {
     flex-wrap: wrap; }
@@ -362,8 +377,12 @@ input, textarea {
     text-align: center; }
   .Home__mainVisual-right {
     text-align: center; }
+    .Home__mainVisual-right__imageContainer {
+      position: relative;
+      width: 75%;
+      margin: 0 auto; }
   .Home__mainVisual-right img {
-    width: 75%;
+    width: 100%;
     margin: 0 auto; }
   .Home__ribbon__wrapper {
     flex-wrap: wrap; }
