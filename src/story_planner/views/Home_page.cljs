@@ -29,8 +29,8 @@
         [:div
          [:button {:on-click #(navigate "signup")} "Get Started For Free"]]]
        [:div.Home__mainVisual-right
-        [:img.border {:src "/images/demo.jpg" :width "100%"}]]]]
-       ; [:div.Rectangle-block]]]
+        [:img.border {:src "/images/demo.jpg" :width "100%"}]]
+       [:img.Home__mainVisual__dots {:src "/images/home/dots.svg"}]]]
 
      [:div.Home__ribbon
       [:h2 "The Pefect Solution For"]
@@ -104,28 +104,34 @@
 
 
      [:div.Home__pricing
+      [:img.Home__pricing__topline {:src "/images/home/top-line.svg"}]
+      [:img.Home__pricing__bottomline {:src "/images/home/bottom-line.svg"}]
       [:div.Home__pricing__header
        [:h2 "Start For Free - Upgrade When You Need"]]
 
       [:div.Home__pricing__options
        [:div.Home__pricing__card
-        [:h3 "Free Plan"]
-        [:h3 "$9/Month"]
+        [:div.Home__pricing__card__header
+         [:p.paraBold "Free Plan"]
+         [:p.paraHuge "$0"]
+         [:p.small "/month"]]
         [:div.Home__pricing__card__inner
-         [:p "- 1 Project"]
-         [:p "- 50 details"]
-         [:p "- 1 User"]
-         [:p "- Limited Media Storage"]
-         [:button {:on-click #(navigate "signup")} "Sign Up"]]]
+         [:p "1 Project"]
+         [:p "50 details"]
+         [:p "1 User"]
+         [:p "Limited Media Storage"]
+         [:button.reverse {:on-click #(navigate "signup")} "Sign Up"]]]
        [:div.Home__pricing__card
-        [:h3 "Advanced Plan"]
-        [:h3 "$9/Month"]
+        [:div.Home__pricing__card__header
+         [:p.paraBold "Advanced Plan"]
+         [:p.paraHuge "$9"]
+         [:p.small "/month"]]
         [:div.Home__pricing__card__inner
-         [:p "- Unlimited Users"]
-         [:p "- Unlimited Projects"]
-         [:p "- Exta Media Storage"]
-         [:p "- All Future Updates"]
-         [:button {:on-click #(navigate "signup")} "Start Trial"]]]]
+         [:p "Unlimited Users"]
+         [:p "Unlimited Projects"]
+         [:p "Exta Media Storage"]
+         [:p "All Future Updates"]
+         [:button.reverse {:on-click #(navigate "signup")} "Start Trial"]]]]
 
       [:div.Home__pricing__callout
        [:h2 "Start Your Free Account"]

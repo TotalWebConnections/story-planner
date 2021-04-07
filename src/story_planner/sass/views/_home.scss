@@ -62,6 +62,15 @@
     justify-content: center;
     background-image: linear-gradient(to bottom, #20232d, #151720 80%);
 
+    &__dots {
+      position: absolute;
+      top: 20%;
+      left: -160px;
+      width: 385px;
+      height: 389px;
+      object-fit: contain;
+    }
+
     &__inner {
       display: flex;
       flex-direction: row;
@@ -213,6 +222,25 @@
     padding: $large-section-padding $global-padding;
     background: $lightBlack;
     color: #fff;
+    position: relative;
+
+    &__topline {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 230px;
+      height: 248px;
+      object-fit: contain;
+    }
+
+    &__bottomline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 182px;
+      height: 141px;
+      object-fit: contain;
+    }
 
     &__header {
       text-align: center;
@@ -224,16 +252,59 @@
     }
 
     &__card {
-      padding: 40px 28px 30px 27px;
+      padding: 20px 28px 30px 27px;
       border-radius: 6px;
       background-color: #ffffff;
       color: $darkestBlack;
       margin: 0 35px;
+
+      &__header {
+        text-align: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eaedf3;
+      }
+
+      &__inner {
+        padding-top: 15px;
+
+        p {
+          position: relative;
+          padding-left: 10px;
+
+          &:before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: $mainBlue;
+          }
+        }
+
+        p:not(:first-child) {
+          padding-top: 10px;
+
+          &:before {
+            top: 18px;
+          }
+        }
+
+        button {
+          margin-top: 30px;
+          width: 100%;
+        }
+      }
     }
 
     &__callout {
       padding-top: calc(2 * #{$large-section-padding});
       text-align: center;
+
+      h2, p {
+        margin-bottom: 15px;
+      }
     }
   }
 

@@ -40,6 +40,17 @@ p, li, ul, table {
 }
 
 p { line-height: 1.45; }
+p.small {
+  font-size: .75rem;
+}
+p.paraBold {
+  font-weight: bold;
+  font-size: 1.65em;
+}
+p.paraHuge {
+  font-weight: bold;
+  font-size: 2.5rem;
+}
 
 h1 {
   font-family: $font-stack-header;

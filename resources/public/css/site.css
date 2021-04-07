@@ -72,6 +72,15 @@ button {
     font-size: .95rem;
     padding: 5px 19px 5px 20px; }
 
+button.reverse {
+  background: white;
+  color: #1664ff;
+  border-radius: 3px;
+  border: 1px solid #1664ff; }
+  button.reverse:hover {
+    background: #1664ff;
+    color: white; }
+
 input, textarea {
   background: #20242e;
   border: 1px solid #9f9f9f;
@@ -132,6 +141,13 @@ input, textarea {
     align-items: center;
     justify-content: center;
     background-image: linear-gradient(to bottom, #20232d, #151720 80%); }
+    .Home__mainVisual__dots {
+      position: absolute;
+      top: 20%;
+      left: -160px;
+      width: 385px;
+      height: 389px;
+      object-fit: contain; }
     .Home__mainVisual__inner {
       display: flex;
       flex-direction: row;
@@ -227,21 +243,63 @@ input, textarea {
   .Home__pricing {
     padding: 75px 15px;
     background: #20242e;
-    color: #fff; }
+    color: #fff;
+    position: relative; }
+    .Home__pricing__topline {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 230px;
+      height: 248px;
+      object-fit: contain; }
+    .Home__pricing__bottomline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 182px;
+      height: 141px;
+      object-fit: contain; }
     .Home__pricing__header {
       text-align: center; }
     .Home__pricing__options {
       display: flex;
       justify-content: center; }
     .Home__pricing__card {
-      padding: 40px 28px 30px 27px;
+      padding: 20px 28px 30px 27px;
       border-radius: 6px;
       background-color: #ffffff;
       color: #1d1d1d;
       margin: 0 35px; }
+      .Home__pricing__card__header {
+        text-align: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eaedf3; }
+      .Home__pricing__card__inner {
+        padding-top: 15px; }
+        .Home__pricing__card__inner p {
+          position: relative;
+          padding-left: 10px; }
+          .Home__pricing__card__inner p:before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #1664ff; }
+        .Home__pricing__card__inner p:not(:first-child) {
+          padding-top: 10px; }
+          .Home__pricing__card__inner p:not(:first-child):before {
+            top: 18px; }
+        .Home__pricing__card__inner button {
+          margin-top: 30px;
+          width: 100%; }
     .Home__pricing__callout {
       padding-top: calc(2 * 75px);
       text-align: center; }
+      .Home__pricing__callout h2, .Home__pricing__callout p {
+        margin-bottom: 15px; }
   .Home__footer {
     padding: 75px 15px;
     padding-bottom: 15px; }
@@ -1051,6 +1109,17 @@ p, li, ul, table {
 
 p {
   line-height: 1.45; }
+
+p.small {
+  font-size: .75rem; }
+
+p.paraBold {
+  font-weight: bold;
+  font-size: 1.65em; }
+
+p.paraHuge {
+  font-weight: bold;
+  font-size: 2.5rem; }
 
 h1 {
   font-family: "Poppins", sans-serif;

@@ -27,3 +27,15 @@ button {
     padding: 5px 19px 5px 20px;
   }
 }
+
+button.reverse {
+  background: white;
+  color: $mainBlue;
+  border-radius: 3px;
+  border: 1px solid $mainBlue;
+
+  &:hover {
+    background: $mainBlue;
+    color: white;
+  }
+}
