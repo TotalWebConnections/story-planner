@@ -124,6 +124,9 @@ input, textarea {
       font-size: 1.875em; }
     .Home__header__block {
       display: flex; }
+      .Home__header__block .navList {
+        align-items: center;
+        padding-left: 35px; }
       .Home__header__block--nav {
         justify-content: center;
         flex-direction: column; }
@@ -135,7 +138,9 @@ input, textarea {
     color: white;
     align-items: center;
     justify-content: center;
-    background-image: linear-gradient(to bottom, #20232d, #151720 80%); }
+    background-image: url("/images/home/dots.png"), linear-gradient(to bottom, #20232d, #151720 80%);
+    background-position: left;
+    background-repeat: no-repeat; }
     .Home__mainVisual__dots {
       position: absolute;
       top: 20%;

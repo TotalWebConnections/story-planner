@@ -7,12 +7,13 @@
     [:div.Home
      [:div.Home__header
       [:div.Home__header__block
-       [:h1 "Narrative Planner"]]
+       [:h1 "Narrative Planner"]
+       [:ul.navList
+        [:li "Pricing"]
+        [:li "Features"]
+        [:li "Contact"]]]
       [:div.Home__header__block.Home__header__block--nav
        [:ul
-          [:li "Pricing"]
-          [:li "Features"]
-          [:li "Contact"]
         (if (.getItem js/localStorage "story-planner-token")
           [:li [:button.small {:on-click #(navigate "projects")} "My Projects"]]
           [:li [:button.small {:on-click #(navigate "signup")} "Sign up"]])
@@ -31,8 +32,8 @@
        [:div.Home__mainVisual-right
         [:div.Home__mainVisual-right__imageContainer
          [:img.border {:src "/images/demo.jpg" :width "100%"}]
-         [:div.Rectangle-block]]]
-       [:img.Home__mainVisual__dots.flair {:src "/images/home/dots.svg"}]]]
+         [:div.Rectangle-block]]]]]
+       ; [:img.Home__mainVisual__dots.flair {:src "/images/home/dots.svg"}]]]
 
      [:div.Home__ribbon
       [:h2 "The Pefect Solution For"]
