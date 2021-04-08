@@ -6,19 +6,20 @@
   (fn []
     [:div.Home
      [:div.Home__header
-      [:div.Home__header__block
-       [:h1 "Narrative Planner"]
-       [:ul.navList
-        [:li "Pricing"]
-        [:li "Features"]
-        [:li "Contact"]]]
-      [:div.Home__header__block.Home__header__block--nav
-       [:ul
-        (if (.getItem js/localStorage "story-planner-token")
-          [:li [:button.small {:on-click #(navigate "projects")} "My Projects"]]
-          [:li [:button.small {:on-click #(navigate "signup")} "Sign up"]])
-        (if-not (.getItem js/localStorage "story-planner-token")
-          [:li {:on-click #(navigate "login")} "Login"])]]]
+      [:div.Home__header__inner
+       [:div.Home__header__block
+        [:h1 "Narrative Planner"]
+        [:ul.navList
+         [:li "Pricing"]
+         [:li "Features"]
+         [:li "Contact"]]]
+       [:div.Home__header__block.Home__header__block--nav
+        [:ul
+         (if (.getItem js/localStorage "story-planner-token")
+           [:li [:button.small {:on-click #(navigate "projects")} "My Projects"]]
+           [:li [:button.small {:on-click #(navigate "signup")} "Sign up"]])
+         (if-not (.getItem js/localStorage "story-planner-token")
+           [:li {:on-click #(navigate "login")} "Login"])]]]]
 
 
 

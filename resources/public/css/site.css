@@ -115,10 +115,13 @@ input, textarea {
     top: 0;
     left: 0;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
     padding: 15px 15px;
     color: white; }
+    .Home__header__inner {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto; }
     .Home__header h1 {
       margin-left: 0;
       font-size: 1.875em; }
