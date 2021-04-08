@@ -131,13 +131,16 @@
   &__ribbon {
     text-align: center;
     padding: $large-section-padding 0;
-    max-width: $max-width;
-    margin: 0 auto;
+    background-image: url('/images/home/dots-r.png');
+    background-position: right;
+    background-repeat: no-repeat;
 
     &__wrapper {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
+      max-width: $max-width;
+      margin: 0 auto;
 
       div {
         width: 25%;

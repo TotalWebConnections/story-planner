@@ -184,12 +184,15 @@ input, textarea {
   .Home__ribbon {
     text-align: center;
     padding: 75px 0;
-    max-width: 1200px;
-    margin: 0 auto; }
+    background-image: url("/images/home/dots-r.png");
+    background-position: right;
+    background-repeat: no-repeat; }
     .Home__ribbon__wrapper {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around; }
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 0 auto; }
       .Home__ribbon__wrapper div {
         width: 25%;
         padding: 39px 70px 40px 69px;
