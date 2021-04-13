@@ -429,7 +429,6 @@ input, textarea {
 
 .Projects {
   background: #25323d;
-  height: 100vh;
   color: white; }
   .Projects__header {
     background: #20242e;
@@ -459,7 +458,8 @@ input, textarea {
     box-sizing: border-box;
     margin: 0 10px;
     border-radius: 15px;
-    background: #20242e; }
+    background: #20242e;
+    margin-bottom: 25px; }
     @media (min-width: 769px) {
       .Projects__projectBlock {
         max-width: 33%; } }
@@ -569,16 +569,20 @@ input, textarea {
     display: flex;
     background: #20242e;
     justify-content: space-between;
-    padding: 8px 0; }
+    padding: 8px 0;
+    align-items: center; }
     .Sidebar__header h3 {
       position: relative;
-      top: 3px; }
+      top: 3px;
+      padding-left: 4px; }
     .Sidebar__header__controls {
       display: flex; }
       .Sidebar__header__controls .addEntity, .Sidebar__header__controls .addFolder {
         padding: 5px;
         cursor: pointer;
-        transition: .25s; }
+        transition: .25s;
+        display: flex;
+        align-items: center; }
         .Sidebar__header__controls .addEntity:hover, .Sidebar__header__controls .addFolder:hover {
           color: #1664ff; }
   .Sidebar .entityWrapper {
@@ -738,7 +742,8 @@ input, textarea {
       position: absolute;
       top: 5px;
       right: 5px;
-      transition: all .25s; }
+      transition: all .25s;
+      z-index: 2; }
       .OverlayEntity__inner__close:hover {
         cursor: pointer;
         color: #1664ff; }
@@ -990,6 +995,8 @@ input, textarea {
     justify-content: space-between;
     background: #20242e;
     color: white; }
+    .MediaManager__header h2 {
+      margin-bottom: 0; }
   .MediaManager__upload {
     padding-left: 15px; }
     .MediaManager__upload input {
@@ -1007,7 +1014,9 @@ input, textarea {
       border-radius: 0px 12px 12px 0px;
       margin-left: 0px;
       font-size: 12px;
-      height: 31px; }
+      height: 31px;
+      position: relative;
+      top: 2px; }
   .MediaManager__inner {
     background: #20242e;
     color: white;

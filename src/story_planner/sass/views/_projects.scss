@@ -1,6 +1,5 @@
 .Projects {
   background: $darkBlack;
-  height: 100vh;
   color: white;
 
   &__header {
@@ -43,6 +42,7 @@
     margin: 0 10px;
     border-radius: 15px;
     background: $lightBlack;
+    margin-bottom: 25px;
 
     @media(min-width: 769px) {
       max-width: 33%;

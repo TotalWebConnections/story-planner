@@ -45,6 +45,10 @@
     justify-content: space-between;
     background: $lightBlack;
     color: white;
+
+    h2 {
+      margin-bottom: 0;
+    }
   }
 
   &__upload {
@@ -74,6 +78,8 @@
       margin-left: 0px;
       font-size: 12px;
       height: 31px;
+      position: relative;
+      top: 2px;
     }
   }
 
