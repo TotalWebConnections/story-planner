@@ -850,6 +850,25 @@ input, textarea {
   box-sizing: border-box; }
   .Storypoint-currentlyLinked {
     border: 2px solid red; }
+  .Storypoint__resizer {
+    position: absolute;
+    background: #1664ff;
+    width: 12px;
+    height: 12px;
+    z-index: 10;
+    border-radius: 50%; }
+    .Storypoint__resizer.resize-topleft {
+      top: -6px;
+      left: -6px; }
+    .Storypoint__resizer.resize-topright {
+      top: -6px;
+      right: -6px; }
+    .Storypoint__resizer.resize-bottomright {
+      bottom: -6px;
+      right: -6px; }
+    .Storypoint__resizer.resize-bottomleft {
+      bottom: -6px;
+      left: -6px; }
   .Storypoint input, .Storypoint textarea {
     width: 100%;
     border-radius: 0px;
