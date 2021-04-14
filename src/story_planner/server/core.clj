@@ -51,8 +51,7 @@
                 (swap! channel-store (partial filter (fn [chan] (if (= (:channel chan) channel) false true)))) ; removes channels on disconnect
                 (println "close code:" code "reason:" reason))
    :on-message (fn [ch m]
-                ; (println (parse-string m true))
-                (let [user (DB-users/get-user-by-token (:token (parse-string m true)))]
+                (let [user (DB-users/get-user-by-token  (:_id (parse-string m true)) (:token (parse-string m true)))]
                   (if user
                     (if (= (:type (parse-string m true)) "start-connection")
                       (swap! channel-store conj {:channel ch :id (:_id user)})
@@ -92,7 +91,8 @@
     (response (generate-string (handle-login-user (walk/keywordize-keys (:form-params request))))))
   (POST "/check-token" request
     (try
-      (response (generate-string (check-user-token (:token (walk/keywordize-keys (:form-params request))))))
+      (let [user (walk/keywordize-keys (:form-params request))]
+        (response (generate-string (check-user-token (:_id user) (:token user)))))
       (catch Exception e (str "caught exception: " (.getMessage e)))))
   (POST "/subscribe" request
     (response (generate-string (subscribe-user (walk/keywordize-keys (:form-params request))))))

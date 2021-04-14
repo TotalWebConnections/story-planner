@@ -429,7 +429,8 @@ input, textarea {
 
 .Projects {
   background: #25323d;
-  color: white; }
+  color: white;
+  min-height: 100vh; }
   .Projects__header {
     background: #20242e;
     display: flex;

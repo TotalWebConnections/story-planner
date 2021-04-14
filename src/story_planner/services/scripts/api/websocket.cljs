@@ -3,7 +3,7 @@
             [wscljs.format :as fmt]
             [story-planner.config :refer [ws-api]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
-            [story-planner.services.state.global :refer [get-current-user-token]]))
+            [story-planner.services.state.global :refer [get-current-user-token get-from-state]]))
 
 (declare send-message)
 
@@ -55,8 +55,8 @@
 
 
 (defn send-message [value]
-  "here we wrap all of our requests in our token - all ws should be auth"
-  (ws/send socket (conj value {:token (get-current-user-token)}) fmt/json))
+  "here we wrap all of our requests in our token - all ws should be auth - we also use ID to check user faster"
+  (ws/send socket (conj value {:token (get-current-user-token) :_id (:_id (get-from-state "user"))}) fmt/json))
 
 (defn close-connection []
   (ws/close socket)
