@@ -14,6 +14,34 @@
     border: 2px solid red;
   }
 
+  &__resizer {
+    position: absolute;
+    background: $mainBlue;
+    width: 12px;
+    height: 12px;
+    z-index: 10;
+    border-radius: 50%;
+
+    &.resize-topleft {
+      top: -6px;
+      left: -6px;
+    }
+
+    &.resize-topright {
+      top: -6px;
+      right: -6px;
+    }
+
+    &.resize-bottomright {
+      bottom: -6px;
+      right: -6px;
+    }
+    &.resize-bottomleft {
+      bottom: -6px;
+      left: -6px;
+    }
+  }
+
   input, textarea {
     width: 100%;
     border-radius: 0px;

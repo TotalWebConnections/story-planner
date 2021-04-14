@@ -121,7 +121,7 @@
         (update-storypoint-position newX newY (/ (.-height (.-rect event)) scale) (/ (.-width (.-rect event)) scale) (.getAttribute target "id"))))
 
      (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler :onstart onMoveStart}))
-     (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true}
+     (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true} :allowFrom ".Storypoint__resizer"
                                                    :listeners {:move onResize}})))))
 
 

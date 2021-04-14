@@ -9,7 +9,7 @@
   [:div.Header
     [:div.Header__left
       [:div.Header__block
-        [:p projectName]]
+        [:h3 projectName]]
       (if (not (:subToken (get-from-state "user")))
         [:div.Header__block
          [:div.Header__block__trialIndicator

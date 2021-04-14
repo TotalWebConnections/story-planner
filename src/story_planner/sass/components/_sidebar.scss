@@ -9,10 +9,12 @@
     background: $lightBlack;
     justify-content: space-between;
     padding: 8px 0;
+    align-items: center;
 
     h3 {
       position: relative;
       top: 3px; // small hack as things are weirdly aligned
+      padding-left: 4px;
     }
 
     &__controls {
@@ -22,6 +24,8 @@
         padding: 5px;
         cursor: pointer;
         transition: .25s;
+        display: flex;
+        align-items: center;
 
         &:hover {
           color: $mainBlue;

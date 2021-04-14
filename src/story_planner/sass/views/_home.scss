@@ -26,10 +26,15 @@
     top: 0;
     left: 0;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
     padding: $global-padding $global-padding;
     color: white;
+
+    &__inner {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
     h1 {
       margin-left: 0;
@@ -126,13 +131,16 @@
   &__ribbon {
     text-align: center;
     padding: $large-section-padding 0;
-    max-width: $max-width;
-    margin: 0 auto;
+    background-image: url('/images/home/dots-r.png');
+    background-position: right;
+    background-repeat: no-repeat;
 
     &__wrapper {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
+      max-width: $max-width;
+      margin: 0 auto;
 
       div {
         width: 25%;

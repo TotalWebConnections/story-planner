@@ -123,6 +123,10 @@
                                     :style {
                                             :transform (str "translate("(:x (:position storypoint))"px,"(:y (:position storypoint))"px)")
                                             :height (:h (:size storypoint)) :width (:w (:size storypoint))}}
+          [:div.Storypoint__resizer.resize-topleft]
+          [:div.Storypoint__resizer.resize-topright]
+          [:div.Storypoint__resizer.resize-bottomright]
+          [:div.Storypoint__resizer.resize-bottomleft]
           (if (:active storypoint)
             (do
               [:div.Storypoint__dragHandle.Storypoint__dragHandle-topRight]
