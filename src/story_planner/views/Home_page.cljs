@@ -1,5 +1,5 @@
 (ns story-planner.views.Home_page
-  (:require [story-planner.services.scripts.navigation :refer [navigate]]))
+  (:require [story-planner.services.scripts.navigation :refer [navigate home-scroll]]))
 
 
 (defn Home-page []
@@ -10,8 +10,8 @@
        [:div.Home__header__block
         [:h1 "Narrative Planner"]
         [:ul.navList
-         [:li "Pricing"]
-         [:li "Features"]
+         [:li {:on-click #(home-scroll "pricing")} "Pricing"]
+         [:li {:on-click #(home-scroll "features")} "Features"]
          [:li "Contact"]]]
        [:div.Home__header__block.Home__header__block--nav
         [:ul
@@ -52,7 +52,7 @@
         [:img {:src "/images/home/rpg-players.svg" :width "60%"}]
         [:h4 "RPG Players"]]]]
 
-     [:div.Home__sectionPadding
+     [:div.Home__sectionPadding {:id "features"}
       [:div.Home__section
        [:div.Home__section--side
         [:div
@@ -110,7 +110,7 @@
 
 
 
-     [:div.Home__pricing
+     [:div.Home__pricing {:id "pricing"}
       [:img.Home__pricing__topline {:src "/images/home/top-line.svg"}]
       [:img.Home__pricing__bottomline {:src "/images/home/bottom-line.svg"}]
       [:div.Home__pricing__header

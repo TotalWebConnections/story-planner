@@ -32,7 +32,7 @@
   (mc/find-maps db "users" {:email email}))
 
 (defn update-user-token [email]
-  (let [token (str (java.util.UUID/randomUUID))]
+  (let [token (str (hashers/derive user-token {:alg :bcrypt+sha512}))]
     (mc/update db "users" {:email email} {$set {:token token }} {:upsert true})
     token))
 
