@@ -29,18 +29,18 @@
     (conj (dissoc (update new-user :_id str) :password) {:token user-token})))
 
 (defn get-user [email]
-  (mc/find-maps db "users" {:email email}))
+  (update (mc/find-one-as-map db "users" {:email email}) :_id str))
 
 (defn update-user-token [email]
-  (let [token (str (hashers/derive (generate-access-token){:alg :bcrypt+sha512}))]
-    (mc/update db "users" {:email email} {$set {:token token }} {:upsert true})
+  (let [token (str (generate-access-token))]
+    (mc/update db "users" {:email email} {$set {:token (hashers/derive token {:alg :bcrypt+sha512}) }} {:upsert true})
     token))
 
 (defn get-user-by-token [id token]
   "returns a user associated with a token, otherwise returns false"
   (let [user (mc/find-one-as-map db "users" {:_id (ObjectId. id)})]
     (if (and user (is-token-valid? token (:token user)))
-      user
+      (update user :_id str)
       false)))
 
 
@@ -51,8 +51,8 @@
       true
       false)))
 
-(defn add-user-stripe-token [sub-token user-token]
-  (mc/update db "users" {:token user-token} {$set {:subToken sub-token }} {:upsert true})
+(defn add-user-stripe-token [sub-token id]
+  (mc/update db "users" {:_id id} {$set {:subToken sub-token }} {:upsert true})
   sub-token)
 
 (defn add-user-media-folder [token folder-name]

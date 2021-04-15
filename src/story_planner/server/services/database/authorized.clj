@@ -3,13 +3,21 @@
            [monger.collection :as mc]
            [monger.conversion :as mgcon]
            [monger.operators :refer :all]
+           [buddy.hashers :as hashers]
            [story-planner.server.services.database :refer [db]]
            [story-planner.server.services.database.users :as DB-users]
            [story-planner.server.services.database.projects :as DB-projects]
            [story-planner.server.services.mail :refer [send-mail]]
            [story-planner.server.services.response-handler :as response-handler])
-  (:import org.bson.types.ObjectId))
+  (:import org.bson.types.ObjectId)
+  (:import [java.security SecureRandom] java.util.Base64))
 
+(defn generate-access-token []
+  "Generates a secure random string to use as an access token"
+  (let [random (SecureRandom/getInstance "SHA1PRNG")
+        buffer (make-array Byte/TYPE 32)]
+    (.nextBytes random buffer)
+    (.encodeToString (Base64/getEncoder) buffer)))
 
 
 (defn get-authorized-users [userId]
@@ -50,7 +58,8 @@
   (> (count (mc/find-maps db "users" {:setupToken token})) 0))
 
 (defn update-auth-user [token password]
-  (let [loginToken (str (java.util.UUID/randomUUID))]
+  (let [loginToken (str (generate-access-token))
+        currentUser (mc/find-one-as-map db "users" {:setupToken token})]
     (mc/update db "users" {:setupToken token}
-                         {$set {"setupToken" nil "password" password "token" loginToken}} {:upsert true})
-    (dissoc (DB-users/get-user-by-token loginToken) :password :parentId :id)))
+                         {$set {"setupToken" nil "password" password "token" (hashers/derive loginToken {:alg :bcrypt+sha512})}} {:upsert true})
+    (conj (dissoc (DB-users/get-user-by-token (str (:_id currentUser)) loginToken) :password :parentId) {:token loginToken})))
