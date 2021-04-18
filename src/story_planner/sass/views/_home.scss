@@ -178,6 +178,10 @@
       align-items: center;
       position: relative;
 
+      .imageContainer {
+        position: relative;
+      }
+
       p {
         color: white;
         font-size: 1.375rem;
@@ -214,12 +218,13 @@
         position: absolute;
         z-index: 1;
         opacity: .25;
+        max-height: 50%;
 
         &.firstOval {
           width: 219px;
           height: 219px;
-          bottom: 10%;
-          right: 10%;
+          bottom: 7%;
+          right: 7%;
           box-shadow: 0 2px 50px 20px #f3a486;
         }
 
@@ -228,15 +233,15 @@
           height: 173px;
           box-shadow: 0 2px 30px 20px #007dff;
           right: auto;
-          left: 8%;
-          bottom: 8%;
+          left: 4%;
+          bottom: 4%;
         }
 
-        &.thridOval {
+        &.thirdOval {
           width: 215px;
           height: 215px;
-          bottom: 5%;
-          right: 5%;
+          bottom: 8%;
+          right: 4%;
           box-shadow: 0 2px 50px 20px #5ac993;
         }
       }
