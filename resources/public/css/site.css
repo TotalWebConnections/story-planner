@@ -352,6 +352,12 @@ input, textarea {
       text-align: center; }
       .Home__pricing__callout h2, .Home__pricing__callout p {
         margin-bottom: 15px; }
+  .Home__contact {
+    background: #fff;
+    text-align: center;
+    border-bottom: 1px solid #1664ff; }
+    .Home__contact h3 {
+      margin-top: 25px; }
   .Home__footer {
     padding: 75px 15px;
     padding-bottom: 50px;

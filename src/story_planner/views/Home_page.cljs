@@ -145,6 +145,11 @@
        [:p "Get started free and upgrade at any time!"]
        [:button {:on-click #(navigate "signup")} "Start Free - No Credit Card"]]]
 
+     [:div.Home__contact.Home__sectionPadding {:id "contact"}
+      [:h2 "Question, Comment. Suggestion?"]
+      [:p "We always love to hear from our users. If you have feedback we want to hear it! From issues you're having to feature suggestions send us an email and we'll get back to you."]
+      [:h3 [:a {:href "mailto:support@narrativeplanner.com?subject = Narrative Planner Application"} "Support@narrativeplanner.com"]]]
+
      [:div.Home__footer
        [:div.Home__footer__inner
         [:div.Home__footer__section.smallFooterSection
@@ -167,7 +172,7 @@
            [:li "Company"]]]]
         [:div.Home__footer__section.smallFooterSection
          [:p.text-bold "Get In touch"]
-         [:p "info@narrativeplanner.com"]]]]]))
+         [:p [:a {:href "mailto:support@narrativeplanner.com?subject = Narrative Planner Application"} "support@narrativeplanner.com"]]]]]]))
 
 
 

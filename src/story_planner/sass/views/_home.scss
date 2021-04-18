@@ -386,6 +386,16 @@
     }
   }
 
+  &__contact {
+    background: #fff;
+    text-align: center;
+    border-bottom: 1px solid $mainBlue;
+
+    h3 {
+      margin-top: 25px;
+    }
+  }
+
 
   &__footer {
     padding: $large-section-padding $global-padding;
