@@ -72,7 +72,6 @@
      :view Home-page
      :public? true}]
 
-
    ["/login"
      {:name ::login
       :view Login-page

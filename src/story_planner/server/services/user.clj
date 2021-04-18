@@ -44,15 +44,15 @@
 
 (defn handle-login-user [user-creds]
   (let [user (DB-users/get-user (:email user-creds))]
-    (if (and (first user) (:valid (hashers/verify (:password user-creds) (:password (first user)))))
-      (wrap-response "success" (dissoc (conj (first user) {:token (DB-users/update-user-token (:email user-creds))}) :_id :password :parentId)) ;do update token send to ui
+    (if (and user (:valid (hashers/verify (:password user-creds) (:password user))))
+      (wrap-response "success" (dissoc (conj user {:token (DB-users/update-user-token (:email user-creds))}) :password :parentId)) ;do update token send to ui
       (wrap-response "error" "Password Error"))))
 
 (defn validate-token [token]
   (DB-users/check-user-token token))
 
-(defn validate-token-return-user [token]
-  (DB-users/get-user-by-token token))
+(defn validate-token-return-user [id token]
+  (DB-users/get-user-by-token id token))
 
 (defn check-user-token [token]
   (wrap-response "success" (validate-token token)))
@@ -60,17 +60,17 @@
 (defn handle-subscribe-success [user-token sub-token])
 
 ; (:id (first (:data (:subscriptions stripeResult))))
-(defn handle-subscribe-user [token email user-token]
+(defn handle-subscribe-user [token email id]
   (let [stripe-result (create-new-customer token email)
         sub-token (:id (first (:data (:subscriptions stripe-result))))]
     (if sub-token
-      (DB-users/add-user-stripe-token sub-token user-token)
+      (DB-users/add-user-stripe-token sub-token id)
       (wrap-response "error" "Token invalid"))))
 
 (defn subscribe-user [values]
-  (let [user (validate-token-return-user (:token values))]
+  (let [user (validate-token-return-user (:_id values) (:token values))]
     (if user ; will be false if the token doesn't exist
-      (wrap-response "success" (handle-subscribe-user (:stripeToken values) (:email user) (:token values))) ; TODO make the real email
+      (wrap-response "success" (handle-subscribe-user (:stripeToken values) (:email user) (:_id user))) ; TODO make the real email
       (wrap-response "error" "Token invalid"))))
 
 (defn handle-unsubscribe-user [user-token sub-token]

@@ -5,6 +5,7 @@
             [story-planner.config :refer [stripe-public-key]]
             [cljs-http.client :as http]
             [story-planner.config :refer [api]]
+            [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.components.Loader :refer [Loader]]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key]]
@@ -21,10 +22,11 @@
 
 (defn handle-subscribe [stripe-token]
   "Takes are new stripe token and sends it to server to finish the subscription process"
+  (println (get-from-state "user"))
   (reset! is-handling-billing? true)
   (go (let [response (<! (http/post (str api "/subscribe")
                                  {:with-credentials? false
-                                  :form-params {:token (:token (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)) :stripeToken (:id (js->clj stripe-token :keywordize-keys true))}}))
+                                  :form-params {:_id (:_id (get-from-state "user")) :token (:token (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)) :stripeToken (:id (js->clj stripe-token :keywordize-keys true))}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
           (if (= (:type response-body) "error")
             (do

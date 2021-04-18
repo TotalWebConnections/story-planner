@@ -8,7 +8,7 @@
      [:div.Home__header
       [:div.Home__header__inner
        [:div.Home__header__block
-        [:h1 "Narrative Planner"]
+        [:h1 {:on-click #(navigate "/")} "Narrative Planner"]
         [:ul.navList
          [:li {:on-click #(home-scroll "pricing")} "Pricing"]
          [:li {:on-click #(home-scroll "features")} "Features"]
@@ -59,14 +59,16 @@
          [:h2.larger.grad1 "Visualize Complexity"]
          [:p "Easily visualize complex flows. Perfect for branching dialogue, modeling user decisions, or telling interactive stories."]]]
        [:div.Home__section--side
-        [:img {:src "/images/visualize_complexity.jpg" :width "100%"}]
-        [:div.oval.firstOval]]]]
+        [:div.imageContainer
+         [:img {:src "/images/visualize_complexity.jpg" :width "100%"}]
+         [:div.oval.firstOval]]]]]
 
      [:div.Home__sectionPadding.alternate
       [:div.Home__section
        [:div.Home__section--side
-        [:img.border {:src "/images/user_example.jpg" :width "100%"}]
-        [:div.oval.secondOval]]
+        [:div.imageContainer
+         [:img.border {:src "/images/user_example.jpg" :width "100%"}]
+         [:div.oval.secondOval]]]
        [:div.Home__section--side
         [:div
          [:h2.larger.grad2 "Collaborate Efficiently"]
@@ -79,8 +81,9 @@
          [:h2.larger.grad3 "Prototype  Quickly"]
          [:p "Our easy to use interface makes it easy to work out ideas and makes it simple to update them as requirements change."]]]
        [:div.Home__section--side
-        [:img.border {:src "/images/easy_to_use.jpg" :width "100%"}]
-        [:div.oval.thirdOval]]]]
+        [:div.imageContainer
+         [:img.border {:src "/images/easy_to_use.jpg" :width "100%"}]
+         [:div.oval.thirdOval]]]]]
 
 
 
@@ -106,9 +109,6 @@
          [:img {:src "/images/home/complexity.svg" :width "34px"}]
          [:h3.Home__feature-header "Conquer Complexity"]
          [:p "All the tools come together to help you build and manage complex, branching story flows. Master complexity and spend more time building and less time planning."]]]]
-
-
-
 
      [:div.Home__pricing {:id "pricing"}
       [:img.Home__pricing__topline {:src "/images/home/top-line.svg"}]
@@ -145,6 +145,11 @@
        [:p "Get started free and upgrade at any time!"]
        [:button {:on-click #(navigate "signup")} "Start Free - No Credit Card"]]]
 
+     [:div.Home__contact.Home__sectionPadding {:id "contact"}
+      [:h2 "Question, Comment. Suggestion?"]
+      [:p "We always love to hear from our users. If you have feedback we want to hear it! From issues you're having to feature suggestions send us an email and we'll get back to you."]
+      [:h3 [:a {:href "mailto:support@narrativeplanner.com?subject = Narrative Planner Application"} "Support@narrativeplanner.com"]]]
+
      [:div.Home__footer
        [:div.Home__footer__inner
         [:div.Home__footer__section.smallFooterSection
@@ -167,7 +172,7 @@
            [:li "Company"]]]]
         [:div.Home__footer__section.smallFooterSection
          [:p.text-bold "Get In touch"]
-         [:p "info@narrativeplanner.com"]]]]]))
+         [:p [:a {:href "mailto:support@narrativeplanner.com?subject = Narrative Planner Application"} "support@narrativeplanner.com"]]]]]]))
 
 
 
