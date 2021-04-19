@@ -67,4 +67,5 @@
          [:input {:type "password" :placeholder "password" :on-change #(swap! user conj {:password (-> % .-target .-value)})}]
          (if (:password-confirm @errors) [:p.ErrorText (:password-confirm @errors)])
          [:input {:type "password" :placeholder "confirm password" :on-change #(swap! user conj {:confirm (-> % .-target .-value)})}]
-         [:button  {:on-click #(handle-signup user errors)}"Sign Up"]]]])))
+         [:button  {:on-click #(handle-signup user errors)}"Sign Up"]]
+        [:p.Signup__inner__switcher {:on-click #((navigate "login"))} "Already Have an Account?"]]])))

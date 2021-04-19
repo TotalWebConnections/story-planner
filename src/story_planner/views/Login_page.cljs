@@ -35,4 +35,5 @@
          (if (:loginError @app-state) [:p.ErrorText (:loginError @app-state)])
          [:input {:type "text" :placeholder "email" :on-change #(swap! user conj {:email (-> % .-target .-value)})}]
          [:input {:type "password" :placeholder "password" :on-change #(swap! user conj {:password (-> % .-target .-value)})}]
-         [:button  {:on-click #(handle-login user errors)}"Submit"]]]])))
+         [:button  {:on-click #(handle-login user errors)}"Submit"]]
+        [:p.Login__inner__switcher {:on-click #((navigate "signup"))} "No Account? Create One Free!"]]])))

@@ -19,6 +19,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    &__switcher {
+      cursor: pointer;
+      transition: all .25s;
+
+      &:hover {
+        color: $mainBlue;
+      }
+    }
   }
 
   &__form {

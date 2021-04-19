@@ -493,7 +493,13 @@ input, textarea {
     height: calc(100vh - 120px);
     display: flex;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    flex-direction: column; }
+    .Signup__inner__switcher {
+      cursor: pointer;
+      transition: all .25s; }
+      .Signup__inner__switcher:hover {
+        color: #1664ff; }
   .Signup__form {
     background: #20242e;
     width: 300px;
@@ -519,7 +525,13 @@ input, textarea {
     height: calc(100vh - 120px);
     display: flex;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    flex-direction: column; }
+    .Login__inner__switcher {
+      cursor: pointer;
+      transition: all .25s; }
+      .Login__inner__switcher:hover {
+        color: #1664ff; }
   .Login__form {
     background: #20242e;
     width: 300px;
