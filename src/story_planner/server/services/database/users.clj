@@ -22,7 +22,6 @@
 
 (defn add-user [user]
   "checks should be done prior to this point for anything we need to do"
-  ; This token generation is probably good enough given Java's implementation of UUID is suppose to be secure
   (let [user-token (str (generate-access-token))
         new-user (mc/insert-and-return db "users" (conj user {:token (hashers/derive user-token {:alg :bcrypt+sha512})}))]
     (media/create-base-media (:_id new-user))

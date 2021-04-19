@@ -37,10 +37,13 @@
   (let [error-block (validate-input user)]
     (if (> (count error-block) 0)
       (wrap-response "error" error-block)
-      (wrap-response "success"
-        (DB-users/add-user
-          (dissoc
-            (conj user {:password (hashers/derive (:password user) {:alg :bcrypt+blake2b-512})}) :password-repeat))))))
+      (try
+        (wrap-response "success"
+          (DB-users/add-user
+            (dissoc
+              (conj user {:password (hashers/derive (:password user) {:alg :bcrypt+blake2b-512})}) :password-repeat)))
+        (catch Exception e
+          (wrap-response "error" "Email Is Already In Use"))))))
 
 (defn handle-login-user [user-creds]
   (let [user (DB-users/get-user (:email user-creds))]
