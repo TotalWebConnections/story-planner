@@ -487,12 +487,19 @@ input, textarea {
     display: flex;
     justify-content: space-between; }
     .Signup__header h2 {
-      cursor: pointer; }
+      cursor: pointer;
+      margin-bottom: 0px; }
   .Signup__inner {
     height: calc(100vh - 120px);
     display: flex;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    flex-direction: column; }
+    .Signup__inner__switcher {
+      cursor: pointer;
+      transition: all .25s; }
+      .Signup__inner__switcher:hover {
+        color: #1664ff; }
   .Signup__form {
     background: #20242e;
     width: 300px;
@@ -501,7 +508,6 @@ input, textarea {
     display: flex;
     flex-direction: column; }
     .Signup__form button {
-      width: 100px;
       margin-top: 10px; }
 
 .Login {
@@ -513,12 +519,19 @@ input, textarea {
     display: flex;
     justify-content: space-between; }
     .Login__header h2 {
-      cursor: pointer; }
+      cursor: pointer;
+      margin-bottom: 0px; }
   .Login__inner {
     height: calc(100vh - 120px);
     display: flex;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    flex-direction: column; }
+    .Login__inner__switcher {
+      cursor: pointer;
+      transition: all .25s; }
+      .Login__inner__switcher:hover {
+        color: #1664ff; }
   .Login__form {
     background: #20242e;
     width: 300px;
@@ -527,7 +540,6 @@ input, textarea {
     display: flex;
     flex-direction: column; }
     .Login__form button {
-      width: 100px;
       margin-top: 10px; }
 
 .Profile {

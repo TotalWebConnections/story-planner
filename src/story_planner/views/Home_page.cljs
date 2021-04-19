@@ -12,7 +12,7 @@
         [:ul.navList
          [:li {:on-click #(home-scroll "pricing")} "Pricing"]
          [:li {:on-click #(home-scroll "features")} "Features"]
-         [:li "Contact"]]]
+         [:li {:on-click #(home-scroll "contact")}  "Contact"]]]
        [:div.Home__header__block.Home__header__block--nav
         [:ul
          (if (.getItem js/localStorage "story-planner-token")
@@ -162,9 +162,9 @@
          [:div.Home__footer__subSection
           [:p.text-bold "Quick Links"]
           [:ul
-           [:li "Features"]
-           [:li "Pricing"]
-           [:li "Contact"]]]
+           [:li {:on-click #(home-scroll "pricing")} "Pricing"]
+           [:li {:on-click #(home-scroll "features")} "Features"]
+           [:li {:on-click #(home-scroll "contact")}  "Contact"]]]
          [:div.Home__footer__subSection
           [:p.text-bold "Resources"]
           [:ul

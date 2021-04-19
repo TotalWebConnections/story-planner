@@ -57,14 +57,16 @@
     (fn []
       [:div.Signup
        [:div.Signup__header.standard-padding
-         [:h2 {:on-click #((navigate ""))} "App Name"]]
+         [:h2 {:on-click #((navigate ""))} "Narrative Planner"]]
        [:div.Signup__inner
         [:div.Signup__form
          [:h1 "Signup"]
+         (if (and @errors (string? @errors)) [:p.ErrorText @errors])
          (if (:email @errors) [:p.ErrorText (:email @errors)])
          [:input {:type "text" :placeholder "email" :on-change #(swap! user conj {:email (-> % .-target .-value)})}]
          (if (:password @errors) [:p.ErrorText (:password @errors)])
          [:input {:type "password" :placeholder "password" :on-change #(swap! user conj {:password (-> % .-target .-value)})}]
          (if (:password-confirm @errors) [:p.ErrorText (:password-confirm @errors)])
          [:input {:type "password" :placeholder "confirm password" :on-change #(swap! user conj {:confirm (-> % .-target .-value)})}]
-         [:button  {:on-click #(handle-signup user errors)}"Submit"]]]])))
+         [:button  {:on-click #(handle-signup user errors)}"Sign Up"]]
+        [:p.Signup__inner__switcher {:on-click #((navigate "login"))} "Already Have an Account?"]]])))
