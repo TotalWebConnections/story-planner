@@ -10,6 +10,7 @@
 
     h2 {
       cursor: pointer;
+      margin-bottom: 0px;
     }
   }
 
@@ -29,7 +30,6 @@
     flex-direction: column;
 
     button {
-      width: 100px;
       margin-top: 10px;
     }
   }

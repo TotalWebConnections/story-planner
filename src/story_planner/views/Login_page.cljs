@@ -27,7 +27,7 @@
     (fn []
       [:div.Login
        [:div.Login__header.standard-padding
-         [:h2 {:on-click #((navigate ""))} "App Name"]]
+         [:h2 {:on-click #((navigate ""))} "Narrative Planner"]]
        [:div.Login__inner
         [:div.Login__form
          [:h1 "Login"]
