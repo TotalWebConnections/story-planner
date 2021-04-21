@@ -570,7 +570,8 @@ input, textarea {
   .Profile__inner {
     max-width: 1024px;
     margin: 0 auto;
-    margin-top: 25px; }
+    margin-top: 25px;
+    padding: 0 15px; }
     .Profile__inner form {
       max-width: 480px; }
   .Profile__row {
