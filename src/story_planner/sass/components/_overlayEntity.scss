@@ -92,5 +92,15 @@
     margin-top: 15px;
     margin-bottom: 15px;
     padding-left: 15px;
+    padding-right: 15px;
+
+    &__buttons {
+      display: flex;
+      margin-top: 25px;
+
+      button {
+        flex-grow: 1;
+      }
+    }
   }
 }

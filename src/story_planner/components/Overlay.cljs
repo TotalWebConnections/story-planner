@@ -12,4 +12,4 @@
       [:p.Overlay__inner__close {:on-click #(reset! active false)} "x"]
       [:h3.Overlay__inner-header headerText]
       [:input {:type "text" :placeholder "Folder Name" :id (str "Overlay__input-" id)}]
-      [:button {:on-click #(onSubmit (get-input-value id))} "Save"]]])
+      [:button.--sideInput {:on-click #(onSubmit (get-input-value id))} "Save"]]])
