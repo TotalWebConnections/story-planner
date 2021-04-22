@@ -5,6 +5,7 @@
             [story-planner.services.scripts.api.localstorage :refer [update-local-storage]]
             [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.config :refer [api]]
+            [story-planner.components.Terms :refer [Terms]]
             [cljs-http.client :as http]))
 
 ; TODO this whole logic is shared on the backend as well, we should probably make this into a shareable file to write onc
@@ -53,9 +54,11 @@
 
 (defn Signup-page []
   (let [user (atom {:email "" :password "" :confirm ""})
-        errors (atom nil)]
+        errors (atom nil)
+        show-terms (atom false)]
     (fn []
       [:div.Signup
+       (Terms @show-terms #(reset! show-terms false))
        [:div.Signup__header.standard-padding
          [:h2 {:on-click #((navigate ""))} "Narrative Planner"]]
        [:div.Signup__inner
@@ -69,4 +72,5 @@
          (if (:password-confirm @errors) [:p.ErrorText (:password-confirm @errors)])
          [:input {:type "password" :placeholder "confirm password" :on-change #(swap! user conj {:confirm (-> % .-target .-value)})}]
          [:button  {:on-click #(handle-signup user errors)}"Sign Up"]]
+        [:p.Signup__inner__switcher {:on-click #(reset! show-terms true)} "By Signing Up You Agree To Our Terms of Service"]
         [:p.Signup__inner__switcher {:on-click #((navigate "login"))} "Already Have an Account?"]]])))
