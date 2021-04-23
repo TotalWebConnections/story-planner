@@ -26,6 +26,15 @@ button {
     font-size: .95rem;
     padding: 5px 19px 5px 20px;
   }
+
+  &.--sideInput {
+    border-radius: 0 6px 6px 0;
+    padding: 6px 24px;
+    position: relative;
+    min-height: 31px;
+    right: 5px;
+    top: 1px;
+  }
 }
 
 button.reverse {

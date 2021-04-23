@@ -57,6 +57,7 @@
                                               :placeholder "Value"
                                               :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])
-           [:button {:on-click #(add-field inputFields)} "Add Field"] [:br]
-           [:button {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit)} "Save"]
-           (if  @editModeChecked? [:button.danger {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit true)} "Delete"])]]])))
+           [:button {:on-click #(add-field inputFields)} "Add Field"] 
+           [:div.OverlayEntity__fieldWrapper__buttons
+            [:button {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit)} "Save"]
+            (if  @editModeChecked? [:button.danger {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit true)} "Delete"])]]]])))

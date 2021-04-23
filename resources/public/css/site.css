@@ -71,6 +71,13 @@ button {
   button.small {
     font-size: .95rem;
     padding: 5px 19px 5px 20px; }
+  button.--sideInput {
+    border-radius: 0 6px 6px 0;
+    padding: 6px 24px;
+    position: relative;
+    min-height: 31px;
+    right: 5px;
+    top: 1px; }
 
 button.reverse {
   background: white;
@@ -563,7 +570,8 @@ input, textarea {
   .Profile__inner {
     max-width: 1024px;
     margin: 0 auto;
-    margin-top: 25px; }
+    margin-top: 25px;
+    padding: 0 15px; }
     .Profile__inner form {
       max-width: 480px; }
   .Profile__row {
@@ -774,7 +782,13 @@ input, textarea {
   .OverlayEntity__fieldWrapper {
     margin-top: 15px;
     margin-bottom: 15px;
-    padding-left: 15px; }
+    padding-left: 15px;
+    padding-right: 15px; }
+    .OverlayEntity__fieldWrapper__buttons {
+      display: flex;
+      margin-top: 25px; }
+      .OverlayEntity__fieldWrapper__buttons button {
+        flex-grow: 1; }
 
 .Loader {
   padding: 25px 15px;
@@ -840,6 +854,43 @@ input, textarea {
     background: #1664ff; }
     .Folder__board--active:hover {
       background: #1664ff; }
+
+.Terms {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 5;
+  transition: visibility 0.25s, opacity 0.25s linear;
+  visibility: hidden;
+  opacity: 0;
+  overflow: scroll; }
+  .Terms.active {
+    transition: visibility 0s, opacity 0.25s linear;
+    visibility: visible;
+    opacity: 1; }
+  .Terms__inner {
+    background-color: #25323d;
+    color: white;
+    width: 75%;
+    margin: 0 auto;
+    padding: 10px; }
+    .Terms__inner h2 {
+      margin-bottom: 15px;
+      margin-top: 25px; }
+    .Terms__inner ul {
+      display: block; }
+      .Terms__inner ul li {
+        padding: 4px 10px; }
+        .Terms__inner ul li:hover {
+          color: white;
+          cursor: auto; }
+  .Terms p {
+    font-weight: 100;
+    line-height: 24px;
+    margin: 15px 5px; }
 
 #Canvas svg {
   position: absolute; }

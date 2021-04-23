@@ -8,7 +8,6 @@
   (let [currentProject (get-from-state "currentProject")]
     (+ (count (:storypoints currentProject))
        (count (:entities currentProject)))))
-  ; (print (get-from-state "currentProject")))
 
 (defn is-at-limit? [usage]
   (>= usage MAX_ITEMS))
@@ -16,6 +15,6 @@
 
 (defn user-able-to-add? []
   "not as this gives us a return on whether to continue"
-  (if (:subToken (get-from-state "user")) ; a subscribed user has no restrictions
+  (if (or (:subToken (get-from-state "user")) (= (:type (get-from-state "user")) "sub")) ; a subscribed user or sub has no restrictions
     true
     (not (is-at-limit? (check-total-usage)))))

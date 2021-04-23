@@ -10,7 +10,7 @@
     [:div.Header__left
       [:div.Header__block
         [:h3 projectName]]
-      (if (not (:subToken (get-from-state "user")))
+      (if (and (not (:subToken (get-from-state "user") )) (not (= (:type (get-from-state "user")) "sub")))
         [:div.Header__block
          [:div.Header__block__trialIndicator
           [:div.trialIndicator--inner {:style {:background "gold" :width (str (* 2 (trial-checks/check-total-usage)) "px")}}]]
