@@ -51,14 +51,14 @@
       (wrap-response "success" (dissoc (conj user {:token (DB-users/update-user-token (:email user-creds))}) :password :parentId)) ;do update token send to ui
       (wrap-response "error" "Password Error"))))
 
-(defn validate-token [token]
-  (DB-users/check-user-token token))
+(defn validate-token [id token]
+  (DB-users/check-user-token id token))
 
 (defn validate-token-return-user [id token]
   (DB-users/get-user-by-token id token))
 
-(defn check-user-token [token]
-  (wrap-response "success" (validate-token token)))
+(defn check-user-token [id token]
+  (wrap-response "success" (validate-token id token)))
 
 (defn handle-subscribe-success [user-token sub-token])
 

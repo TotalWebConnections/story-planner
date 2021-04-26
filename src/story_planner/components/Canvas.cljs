@@ -116,13 +116,20 @@
         (.setAttribute target "data-x" newX)
         (.setAttribute target "data-y" newY)
         (set! (.-transform (.-style target)) (str "translate("newX"px, "newY"px)"))
-        (set! (.-webkitTransform (.-style target)) (str "translate("newX"px, "newY"px)"))
+        (set! (.-webkitTransform (.-style target)) (str "translate("newX"px, "newY"px)"))))
 
-        (update-storypoint-position newX newY (/ (.-height (.-rect event)) scale) (/ (.-width (.-rect event)) scale) (.getAttribute target "id"))))
+     (defn on-resize-end [event]
+       (let [target (.-target event)
+             scale (.getScale panHandler)]
+         (api/update-storypoint-position {:x (getXVal target event)
+                                          :y (getYVal target event)
+                                          :height (/ (.-height (.-rect event)) scale)
+                                          :width (/ (.-width (.-rect event)) scale)
+                                          :id (.getAttribute target "id")})))
 
      (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler :onstart onMoveStart}))
      (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true} :allowFrom ".Storypoint__resizer"
-                                                   :listeners {:move onResize}})))))
+                                                   :listeners {:move onResize} :onend on-resize-end})))))
 
 
 (defn allow-drop [e]
