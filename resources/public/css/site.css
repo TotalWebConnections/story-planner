@@ -88,6 +88,15 @@ button.reverse {
     background: #1664ff;
     color: white; }
 
+.closeButton {
+  transition: all .25s;
+  z-index: 2;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer; }
+  .closeButton:hover {
+    color: #1664ff; }
+
 input, textarea {
   background: #20242e;
   border: 1px solid #9f9f9f;
@@ -697,17 +706,10 @@ input, textarea {
     left: calc(50% - 150px);
     top: calc(50% - 75px);
     border: 1px solid #fcfeff; }
-    .Overlay__inner-header {
-      margin-bottom: 15px;
-      padding-bottom: 15px; }
     .Overlay__inner__close {
       position: absolute;
-      top: 5px;
-      right: 5px;
-      transition: all .25s; }
-      .Overlay__inner__close:hover {
-        cursor: pointer;
-        color: #1664ff; }
+      top: 0px;
+      right: 5px; }
 
 @keyframes fadeIn {
   0% {
@@ -770,13 +772,8 @@ input, textarea {
         background-color: rgba(0, 0, 0, 0.15); }
     .OverlayEntity__inner__close {
       position: absolute;
-      top: 5px;
-      right: 5px;
-      transition: all .25s;
-      z-index: 2; }
-      .OverlayEntity__inner__close:hover {
-        cursor: pointer;
-        color: #1664ff; }
+      top: 0px;
+      right: 5px; }
   .OverlayEntity__input--label {
     margin-right: 5px; }
   .OverlayEntity__fieldWrapper {
@@ -1337,6 +1334,9 @@ a {
   color: #09f; }
   a:hover {
     text-decoration: underline; }
+
+.noBottomMargin {
+  margin-bottom: 10px; }
 
 /* some style */
 /* TODO Need to make this SASS */

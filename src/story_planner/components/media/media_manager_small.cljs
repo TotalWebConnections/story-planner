@@ -20,7 +20,7 @@
          [Loader])
        [:div.MediaManagerSmall__header.standard-padding
         [:h2 "Your Images"]
-        [:p.close {:on-click #(reset! active false)} "x"]]
+        [:p.close.closeButton {:on-click #(reset! active false)} "x"]]
        [:div.MediaManagerSmall__upload
         [:input#mediaManagerSmall {:type "file"}]
         [:button {:on-click #(handle-upload-image @active-folder isUploading?)}"upload image"]]

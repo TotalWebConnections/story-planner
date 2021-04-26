@@ -30,7 +30,7 @@
          [:h2 {:on-click #((navigate ""))} "Narrative Planner"]]
        [:div.Login__inner
         [:div.Login__form
-         [:h1 "Login"]
+         [:h2.noBottomMargin "Login"]
          (if @errors [:p.ErrorText "Email or Password Invalid"])
          (if (:loginError @app-state) [:p.ErrorText (:loginError @app-state)])
          [:input {:type "text" :placeholder "email" :on-change #(swap! user conj {:email (-> % .-target .-value)})}]

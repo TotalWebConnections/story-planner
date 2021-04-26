@@ -32,21 +32,11 @@
     top: calc(50% - 75px);
     border: 1px solid $offWhite;
 
-    &-header {
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-    }
 
     &__close {
       position: absolute;
-      top: 5px;
+      top: 0px;
       right: 5px;
-      transition: all .25s;
-
-      &:hover {
-        cursor: pointer;
-        color: $mainBlue;
-      }
     }
   }
 }

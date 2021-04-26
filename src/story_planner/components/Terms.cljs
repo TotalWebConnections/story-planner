@@ -5,7 +5,7 @@
   [:div.Terms {:class (if active "active")}
    [:div.Terms__inner
     [:div.Terms__inner--close
-     [:p {:on-click #(on-close)} "Close X"]]
+     [:p.closeButton {:on-click #(on-close)} "Close X"]]
     [:h1 "Terms Of Service"]
     [:p "Last update: April 21, 2021"]
     [:p "Narrative Planner is a web software operated by Total Web Connections LLC (Also referred to as we). Hereafter, any mention of Narrative Planner is assumed to reference Total Web Connections LLC, the legal owners of the Narrative Planner software. By using the Narrative Planner website or web software (the \"service\") you are agreeing to be bound by the following terms and conditions. By agreeing to these terms you are entering into a legal contract between yourself and Total Web Connections LLC. If you disagree with any of the terms below please do not use Narrative Planner. These terms govern the relationship between you and Total Web Connections LLC, and grant rights and responsibilities to both parties."]

@@ -63,7 +63,7 @@
          [:h2 {:on-click #((navigate ""))} "Narrative Planner"]]
        [:div.Signup__inner
         [:div.Signup__form
-         [:h1 "Signup"]
+         [:h2.noBottomMargin "Signup"]
          (if (and @errors (string? @errors)) [:p.ErrorText @errors])
          (if (:email @errors) [:p.ErrorText (:email @errors)])
          [:input {:type "text" :placeholder "email" :on-change #(swap! user conj {:email (-> % .-target .-value)})}]
