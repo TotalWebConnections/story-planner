@@ -76,14 +76,17 @@
       (wrap-response "success" (handle-subscribe-user (:stripeToken values) (:email user) (:_id user))) ; TODO make the real email
       (wrap-response "error" "Token invalid"))))
 
-(defn handle-unsubscribe-user [user-token sub-token]
+(defn handle-unsubscribe-user [id sub-token]
   (stripe-unsubscribe-user sub-token)
-  (wrap-response "success" (DB-users/add-user-stripe-token nil user-token)))
+  (wrap-response "success" (DB-users/add-user-stripe-token nil id)))
 
 (defn unsubscribe-user [values]
-  (if (validate-token (:token values))
-    (wrap-response "success" (handle-unsubscribe-user (:token values) (:sub-token values)))
-    (wrap-response "error" "Token invalid")))
+  (if (validate-token (:_id values) (:token values))
+    (try
+      (wrap-response "success" (handle-unsubscribe-user (:_id values) (:sub-token values)))
+      (catch Exception e
+        (wrap-response "error" "There was an issue with the request. Please contact support.")))
+    (wrap-response "error" "There was an issue with the request. Please contact support.")))
 
 (defn signup-auth-user [values]
   (if (DB-auth-users/user-with-token-exists? (:id values))
