@@ -7,7 +7,6 @@
   :main story-planner.server.core
   :jvm-opts ["-Dconfig=dev-config.edn"]
 
-
   :min-lein-version "2.9.1"
 
   :dependencies [[org.clojure/clojure "1.10.0"]
@@ -96,7 +95,7 @@
              ;; :server-ip "127.0.0.1"
 
              :css-dirs ["resources/public/css"]} ;; watch and update CSS
-
+             ; :ring-handler story-planner.dev-server/handler}
 
              ;; Start an nREPL server into the running figwheel process
              ;; :nrepl-port 7888
