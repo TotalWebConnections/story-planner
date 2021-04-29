@@ -16,13 +16,14 @@
 (def on-unsubscribe-error (atom false))
 (def is-handling-billing? (atom false))
 
-(defn handle-on-sub-change [tokenVal]
+(defn handle-on-sub-change [tokenVal isCancel?]
+  (if isCancel?
+    (js/alert "Your Subscription Was Succesfully Cancelled."))
   (update-localstorage-by-key "subToken" tokenVal)
   (reset! is-handling-billing? false))
 
 (defn handle-subscribe [stripe-token]
   "Takes are new stripe token and sends it to server to finish the subscription process"
-  (println (get-from-state "user"))
   (reset! is-handling-billing? true)
   (go (let [response (<! (http/post (str api "/subscribe")
                                  {:with-credentials? false
@@ -32,19 +33,19 @@
             (do
               (reset! is-handling-billing? false)
               (reset! on-subscribe-error "There Was an Error Processing Your Payment"))
-            (handle-on-sub-change (:data response-body))))))
+            (handle-on-sub-change (:data response-body) false)))))
 
 (defn handle-unsubscribe [token sub-token]
   (reset! is-handling-billing? true)
   (go (let [response (<! (http/post (str api "/unsubscribe")
                                  {:with-credentials? false
-                                  :form-params {:token token :sub-token sub-token}}))
+                                  :form-params {:_id (:_id (get-from-state "user")) :token token :sub-token sub-token}}))
             response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
           (if (= (:type response-body) "error")
             (do
               (reset! is-handling-billing? false)
               (reset! on-unsubscribe-error "Error - Please contact support"))
-            (handle-on-sub-change nil)))))
+            (handle-on-sub-change nil true)))))
 
 (def card-style {
                  :base {
@@ -86,7 +87,7 @@
 
 
 (defn Profile-page [app-state]
-  (let [stripe (.Stripe js/window stripe-public-key) ;TODO we need to build this into a compile time var
+  (let [stripe (.Stripe js/window stripe-public-key)
         elements (.elements stripe)
         card (.create elements "card" (clj->js {:style card-style}))
         token (:token (:user @app-state))]

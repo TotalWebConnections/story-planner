@@ -40,7 +40,7 @@
       [:div.OverlayEntity {:class (str "OverlayEntity--" (:show @active))}
         [:div.OverlayEntity__inner
           [Media-Manager-Small showMedia images folders (partial handle-set-image imageField)]
-          [:p.OverlayEntity__inner__close {:on-click #(do (reset! editModeChecked? false) (swap! active conj {:show false :edit false}))} "x"]
+          [:p.OverlayEntity__inner__close.closeButton {:on-click #(do (reset! editModeChecked? false) (swap! active conj {:show false :edit false}))} "x"]
           (if  @editModeChecked? [:h3.OverlayEntity__inner-header "Edit Entity"] [:h3.OverlayEntity__inner-header "Add Entity"])
           [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
            (if @imageField
@@ -57,7 +57,7 @@
                                               :placeholder "Value"
                                               :value (:value entityField)
                                               :on-change #(update-value inputFields (:id entityField) (-> % .-target .-value))}]])
-           [:button {:on-click #(add-field inputFields)} "Add Field"] 
+           [:button {:on-click #(add-field inputFields)} "Add Field"]
            [:div.OverlayEntity__fieldWrapper__buttons
             [:button {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit)} "Save"]
             (if  @editModeChecked? [:button.danger {:on-click #(handle-submit inputFields titleField imageField editModeChecked? onSubmit true)} "Delete"])]]]])))

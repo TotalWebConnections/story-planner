@@ -48,3 +48,15 @@ button.reverse {
     color: white;
   }
 }
+
+.closeButton {
+  transition: all .25s;
+  z-index: 2;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    color: $mainBlue;
+  }
+}

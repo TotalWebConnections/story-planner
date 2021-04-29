@@ -9,7 +9,7 @@
 (defn Overlay [active headerText onSubmit id] ; Takes an ID to make it unique to reuse
   [:div.Overlay {:class (str "Overlay--" @active)}
     [:div.Overlay__inner
-      [:p.Overlay__inner__close {:on-click #(reset! active false)} "x"]
+      [:p.Overlay__inner__close.closeButton {:on-click #(reset! active false)} "x"]
       [:h3.Overlay__inner-header headerText]
       [:input {:type "text" :placeholder "Folder Name" :id (str "Overlay__input-" id)}]
       [:button.--sideInput {:on-click #(onSubmit (get-input-value id))} "Save"]]])

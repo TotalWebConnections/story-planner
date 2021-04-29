@@ -12,4 +12,4 @@
 (defn check-token [token]
   (http/post (str api "/check-token")
              {:with-credentials? false
-              :form-params {:_id (:_id (get-from-state "user")):token token}}))
+              :form-params {:_id (:_id (get-from-state "user")) :token token}}))
