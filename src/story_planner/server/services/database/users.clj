@@ -4,26 +4,27 @@
            [monger.conversion :as mgcon]
            [monger.operators :refer :all]
            [buddy.hashers :as hashers]
+           [story-planner.server.services.database.hashers :refer [sha256]]
            [story-planner.server.services.database :refer [db]]
            [story-planner.server.services.database.media :as media]
            [story-planner.server.services.response-handler :as response-handler])
   (:import org.bson.types.ObjectId)
-  (:import [java.security SecureRandom] java.util.Base64))
+  (:import [java.security SecureRandom] java.util.Base64 java.security.MessageDigest))
 
 (defn generate-access-token []
   "Generates a secure random string to use as an access token"
   (let [random (SecureRandom/getInstance "SHA1PRNG")
-        buffer (make-array Byte/TYPE 32)]
+        buffer (make-array Byte/TYPE 128)]
     (.nextBytes random buffer)
     (.encodeToString (Base64/getEncoder) buffer)))
 
 (defn is-token-valid? [token hashed-token]
-  (:valid (hashers/verify token hashed-token)))
+  (= (sha256 token) hashed-token))
 
 (defn add-user [user]
   "checks should be done prior to this point for anything we need to do"
   (let [user-token (str (generate-access-token))
-        new-user (mc/insert-and-return db "users" (conj user {:token (hashers/derive user-token {:alg :bcrypt+sha512})}))]
+        new-user (mc/insert-and-return db "users" (conj user {:token (sha256 user-token)}))]
     (media/create-base-media (:_id new-user))
     (conj (dissoc (update new-user :_id str) :password) {:token user-token})))
 
