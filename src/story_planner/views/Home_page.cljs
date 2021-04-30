@@ -13,7 +13,7 @@
         [:div.Home__header__inner
          [:div.Home__header__block
           [:h1 {:on-click #(navigate "/")} "Narrative Planner"]
-          [:ul.navList
+          [:ul.navList.noMobile
            [:li {:on-click #(home-scroll "pricing")} "Pricing"]
            [:li {:on-click #(home-scroll "features")} "Features"]
            [:li {:on-click #(home-scroll "contact")}  "Contact"]]]

@@ -113,6 +113,15 @@ input, textarea {
 .ErrorText + input {
   border-color: red; }
 
+.mobileOnly {
+  display: none; }
+
+@media (max-width: 768px) {
+  .mobileOnly {
+    display: block; }
+  .noMobile {
+    display: none !important; } }
+
 .Home {
   background: #fff;
   color: black; }
