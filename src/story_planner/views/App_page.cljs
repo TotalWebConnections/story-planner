@@ -5,6 +5,7 @@
             [story-planner.components.app.header :refer [Header]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.Loader :refer [Loader]]
+            [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.components.media.media-manager :refer [Media-Manager]]
             [story-planner.services.scripts.api.api :as api]))
 
@@ -17,7 +18,14 @@
   (handle-state-change {:type "app-show-media-manager" :value false})
   (api/update-storypoint-image {:value url}))
 
+(defn handle-failed-load [project]
+  (if (not project)
+    (do
+      (js/alert "There was an error loading the project.")
+      (navigate "projects"))))
+
 (defn App-page [app-state]
+  (js/setTimeout #(handle-failed-load (:currentProject @app-state)) 5000)
   (fn [app-state]
     (let [showMedia (atom (:app-show-media-manager @app-state))]
       (set-initial-board app-state)
