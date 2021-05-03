@@ -24,16 +24,20 @@
 (defn add-user [user]
   "checks should be done prior to this point for anything we need to do"
   (let [user-token (str (generate-access-token))
-        new-user (mc/insert-and-return db "users" (conj user {:token (sha256 user-token)}))]
+        new-user (mc/insert-and-return db "users" (conj user {:token (sha256 user-token) :email (clojure.string/lower-case (:email user))}))]
     (media/create-base-media (:_id new-user))
     (conj (dissoc (update new-user :_id str) :password) {:token user-token})))
 
 (defn get-user [email]
-  (update (mc/find-one-as-map db "users" {:email email}) :_id str))
+  "returns a user by email and false if no user - NOTE THIS IS PRE AUTH SO ANYONE CAN MAKE THIS REQUEST"
+  (let [user (mc/find-one-as-map db "users" {:email (clojure.string/lower-case email)})]
+    (if user
+      (update user :_id str)
+      false)))
 
 (defn update-user-token [email]
   (let [token (str (generate-access-token))]
-    (mc/update db "users" {:email email} {$set {:token (sha256 token) }} {:upsert true})
+    (mc/update db "users" {:email (clojure.string/lower-case email)} {$set {:token (sha256 token) }} {:upsert true})
     token))
 
 (defn get-user-by-token [id token]
