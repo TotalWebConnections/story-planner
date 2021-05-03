@@ -495,4 +495,21 @@
 
   .Home__pricing__options {flex-wrap: wrap;}
   .Home__pricing__card:first-child {margin-bottom: 25px;}
+
+
+  .Home__footer {
+
+    &__inner {
+      flex-wrap: wrap;
+    }
+
+    &__section, &__subSection {
+      width: 100%;
+      margin-bottom: 25px;
+
+      &.largeFooterSection {
+        flex-wrap: wrap;
+      }
+    }
+  }
 }

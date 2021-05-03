@@ -450,7 +450,14 @@ input, textarea {
   .Home__pricing__options {
     flex-wrap: wrap; }
   .Home__pricing__card:first-child {
-    margin-bottom: 25px; } }
+    margin-bottom: 25px; }
+  .Home__footer__inner {
+    flex-wrap: wrap; }
+  .Home__footer__section, .Home__footer__subSection {
+    width: 100%;
+    margin-bottom: 25px; }
+    .Home__footer__section.largeFooterSection, .Home__footer__subSection.largeFooterSection {
+      flex-wrap: wrap; } }
 
 .App {
   display: flex;
