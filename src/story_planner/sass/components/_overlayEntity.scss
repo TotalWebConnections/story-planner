@@ -87,6 +87,14 @@
     padding-left: 15px;
     padding-right: 15px;
 
+    &--fields {
+      display: flex;
+
+      input {
+        width: 50%;
+      }
+    }
+
     &__buttons {
       display: flex;
       margin-top: 25px;

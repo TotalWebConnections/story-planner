@@ -48,7 +48,7 @@
           [:input.OverlayEntity__inner-title {:value @titleField :on-change #(reset! titleField (-> % .-target .-value))}]
           [:div.OverlayEntity__fieldWrapper
             (for [entityField @inputFields]
-              [:div {:key (:id entityField)}
+              [:div.OverlayEntity__fieldWrapper--fields {:key (:id entityField)}
                 [:input.OverlayEntity__input--label {:type "text"
                                                      :placeholder "Label"
                                                      :value (:label entityField)

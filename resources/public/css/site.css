@@ -708,9 +708,8 @@ input, textarea {
     background: #20242e;
     color: white;
     width: 300px;
-    height: 150px;
     position: absolute;
-    padding: 25px;
+    padding: 15px;
     box-sizing: border-box;
     left: calc(50% - 150px);
     top: calc(50% - 75px);
@@ -790,6 +789,10 @@ input, textarea {
     margin-bottom: 15px;
     padding-left: 15px;
     padding-right: 15px; }
+    .OverlayEntity__fieldWrapper--fields {
+      display: flex; }
+      .OverlayEntity__fieldWrapper--fields input {
+        width: 50%; }
     .OverlayEntity__fieldWrapper__buttons {
       display: flex;
       margin-top: 25px; }
