@@ -33,7 +33,7 @@
 
 (defn update-user-token [email]
   (let [token (str (generate-access-token))]
-    (mc/update db "users" {:email email} {$set {:token (hashers/derive token {:alg :bcrypt+sha512}) }} {:upsert true})
+    (mc/update db "users" {:email email} {$set {:token (sha256 token) }} {:upsert true})
     token))
 
 (defn get-user-by-token [id token]

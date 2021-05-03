@@ -105,9 +105,12 @@
 
 (defn move-localstorage-to-state [app-state]
   "sets our state to have localstorage vals to persist login"
-  (let [localstorage (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)]
-    (if (and (not (:user @app-state)) localstorage)
-      (handle-state-change {:type "set-user" :value localstorage}))))
+  (try
+    (let [localstorage (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)]
+      (if (and (not (:user @app-state)) localstorage)
+        (handle-state-change {:type "set-user" :value localstorage})))
+    (catch js/Object e
+      (handle-state-change {:type "set-user" :value nil}))))
 
 (defn init! []
   (move-localstorage-to-state app-state)

@@ -1,5 +1,6 @@
 (ns story-planner.services.scripts.api.permissions
-  (:require [story-planner.services.scripts.navigation :refer [navigate]]
+  (:require [clojure.core.async :refer [chan]]
+            [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [cljs-http.client :as http]
             [story-planner.config :refer [api]]
@@ -10,6 +11,9 @@
   (navigate "login"))
 
 (defn check-token [token]
-  (http/post (str api "/check-token")
-             {:with-credentials? false
-              :form-params {:_id (:_id (get-from-state "user")) :token token}}))
+  (let [id (:_id (get-from-state "user"))]
+    (if id
+      (http/post (str api "/check-token")
+                 {:with-credentials? false
+                  :form-params {:_id (:_id id) :token token}})
+      (login-failed))))
