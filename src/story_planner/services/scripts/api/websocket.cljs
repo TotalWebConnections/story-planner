@@ -2,6 +2,8 @@
   (:require [wscljs.client :as ws]
             [wscljs.format :as fmt]
             [story-planner.config :refer [ws-api]]
+            [story-planner.services.scripts.api.localstorage :as localstorage]
+            [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.services.state.global :refer [get-current-user-token get-from-state]]))
 
@@ -30,6 +32,12 @@
 (defmethod handle-websocket-message "project"
   [data]
   (handle-state-change {:type "get-project" :value (:data data)}))
+(defmethod handle-websocket-message "BAD-TOKEN-REQUEST"
+  [data]
+  (js/alert "Your session has expired, please login again to continue.")
+  (localstorage/delete-localstorage-val)
+  (navigate "login"))
+
 (defmethod handle-websocket-message :default [data]
   (print "Default Called"))
 
