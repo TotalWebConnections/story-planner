@@ -8,6 +8,11 @@
    or if the user updates something on their acct like subs or email"
   (.setItem js/localStorage "story-planner-token" (js/JSON.stringify (clj->js value))))
 
+(defn delete-localstorage-val []
+  "We use this for logout stuff"
+  (.removeItem js/localStorage "story-planner-token")
+  (handle-state-change {:type "set-user" :value nil}))
+
 (defn update-localstorage-by-key [key value]
   (let [current-user (js->clj (js/JSON.parse (.getItem js/localStorage "story-planner-token")) :keywordize-keys true)
         updated-user (conj current-user {(keyword key) value})]
