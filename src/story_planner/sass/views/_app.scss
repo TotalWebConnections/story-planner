@@ -8,4 +8,19 @@
     overflow: hidden;
     background: $darkBlack;
   }
+
+  @media(max-width: 768px) {
+    overflow: hidden;
+    
+    &__canvasWrapper {
+      width: 100%;
+      position: relative;
+      transition: left 0.25s;
+      left: 0;
+    }
+
+    &.sidebarActive .App__canvasWrapper {
+      left: 150px;
+    }
+  }
 }

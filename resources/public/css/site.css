@@ -467,6 +467,16 @@ input, textarea {
     height: calc(100vh - 40px);
     overflow: hidden;
     background: #25323d; }
+  @media (max-width: 768px) {
+    .App {
+      overflow: hidden; }
+      .App__canvasWrapper {
+        width: 100%;
+        position: relative;
+        transition: left 0.25s;
+        left: 0; }
+      .App.sidebarActive .App__canvasWrapper {
+        left: 150px; } }
 
 .Projects {
   background: #25323d;
@@ -651,6 +661,16 @@ input, textarea {
     .Sidebar .entityWrapper.active-board {
       background: #1664ff; }
 
+@media (max-width: 768px) {
+  .Sidebar {
+    position: absolute;
+    z-index: 50;
+    top: 40px;
+    left: -100%;
+    transition: all .25s; }
+  .App.sidebarActive .Sidebar {
+    left: 0; } }
+
 .Header {
   width: 100%;
   height: 40px;
@@ -702,7 +722,7 @@ input, textarea {
   left: 0;
   top: 0;
   z-index: 10;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
   opacity: 0;
@@ -738,7 +758,7 @@ input, textarea {
   left: 0;
   top: 0;
   z-index: 10;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
   opacity: 0;
@@ -926,6 +946,31 @@ input, textarea {
     .Controls p:hover {
       background: #1664ff;
       cursor: pointer; }
+  .Controls__sidebar {
+    display: none;
+    width: 33px;
+    height: 39px;
+    position: relative;
+    transition: all .25s;
+    border-right: 1px solid #303738; }
+    .Controls__sidebar:hover {
+      background: #1664ff;
+      cursor: pointer; }
+    .Controls__sidebar__bar {
+      width: 24px;
+      height: 3px;
+      background: white;
+      position: relative;
+      left: 4px; }
+      .Controls__sidebar__bar.bar1 {
+        top: 10px; }
+      .Controls__sidebar__bar.bar2 {
+        top: 15px; }
+      .Controls__sidebar__bar.bar3 {
+        top: 20px; }
+  @media (max-width: 768px) {
+    .Controls__sidebar {
+      display: block; } }
 
 .Storypoint {
   width: 250px;

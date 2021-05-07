@@ -17,4 +17,44 @@
       cursor: pointer;
     }
   }
+
+  &__sidebar {
+    display: none;
+    width: 33px;
+    height: 39px;
+    position: relative;
+    transition: all .25s;
+    border-right: 1px solid $gray;
+
+    &:hover {
+      background: $mainBlue;
+      cursor: pointer;
+    }
+
+    &__bar {
+      width: 24px;
+      height: 3px;
+      background: white;
+      position: relative;
+      left: 4px;
+
+      &.bar1 {
+        top: 10px;
+      }
+
+      &.bar2 {
+        top: 15px;
+      }
+
+      &.bar3 {
+        top: 20px;
+      }
+    }
+  }
+
+  @media(max-width: 768px) {
+    &__sidebar {
+      display: block;
+    }
+  }
 }

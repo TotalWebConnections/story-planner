@@ -1,6 +1,7 @@
 (ns story-planner.components.canvas.Controls
   (:require [reagent.core :as reagent :refer [atom]]
-            [story-planner.services.scripts.api.api :as api]))
+            [story-planner.services.scripts.api.api :as api]
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]))
 
 (defn get-zoom-modifier [zoomLevel]
   (cond
@@ -19,7 +20,9 @@
 
 (defn Controls [projectId currentBoard panHandler]
   [:div.Controls
+    [:div.Controls__sidebar {:on-click #(handle-state-change {:type "toggle-sidebar-active" :value nil})}
+      [:div.Controls__sidebar__bar.bar1]
+      [:div.Controls__sidebar__bar.bar2]
+      [:div.Controls__sidebar__bar.bar3]]
     [:div.Controls__NewStoryPoint
       [:p {:on-click #(handle-add-storypoint projectId currentBoard panHandler)}"+"]]]) ; TODO pull this down remove hardcode
-    ; [:div.Controls__ProjectInfo
-    ;   [:p "?"]]])
