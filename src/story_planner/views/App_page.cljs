@@ -29,7 +29,7 @@
   (fn [app-state]
     (let [showMedia (atom (:app-show-media-manager @app-state))]
       (set-initial-board app-state)
-      [:div.App
+      [:div.App {:class (if (:sidebarActive @app-state) "sidebarActive")}
         [Media-Manager showMedia (:images @app-state) (:media-folders @app-state) handle-add-image-in-storypoint true]
         [Header (:name (:currentProject @app-state))]
         [Sidebar (:currentProject @app-state) (:currentBoard @app-state) (:openedFolders @app-state) (:images @app-state) (:media-folders @app-state)]
