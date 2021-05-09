@@ -8,7 +8,7 @@
             [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.components.Loader :refer [Loader]]
             [story-planner.services.scripts.navigation :refer [navigate]]
-            [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key]]
+            [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key delete-localstorage-val]]
             [story-planner.components.profile.registered-users :refer [Registered-users]]))
 
 ; We put this here as the stripe flow is a little different and it's just easier
@@ -102,6 +102,7 @@
           [:p {:on-click #(navigate "projects")} "Projects"]]]
         [:div.Profile__inner
           [:h1 "My Details"]
+          [:p.logout {:on-click #(delete-localstorage-val)} "Logout"]
           [:div.Profile__row
            [:h2 "Billing"]
            (if (not (:subToken (:user @app-state)))

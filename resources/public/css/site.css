@@ -607,6 +607,11 @@ input, textarea {
     margin: 0 auto;
     margin-top: 25px;
     padding: 0 15px; }
+    .Profile__inner .logout {
+      cursor: pointer;
+      transition: all .25s; }
+      .Profile__inner .logout:hover {
+        color: #1664ff; }
     .Profile__inner form {
       max-width: 480px; }
   .Profile__row {
