@@ -31,6 +31,15 @@
     margin-top: 25px;
     padding: 0 15px;
 
+    .logout {
+      cursor: pointer;
+      transition: all .25s;
+
+      &:hover {
+        color: $mainBlue;
+      }
+    }
+
     form {
       max-width: 480px;
     }
