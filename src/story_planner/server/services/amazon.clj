@@ -7,7 +7,7 @@
 
 
 (defn handle-image-upload [file]
-  (let [user (DB-users/get-user-by-token (get file "token"))
+  (let [user (DB-users/get-user-by-token (get file "_id") (get file "token"))
         folder (get file "folder")]
     (if user
       (do

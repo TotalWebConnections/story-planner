@@ -7,27 +7,30 @@
 
 
 (defn upload-image [image-field folder]
-  (let  [my-file (first (array-seq (.-files (.getElementById js/document image-field))))]
+  (let [id (:_id (get-from-state "user"))]
+    (let  [my-file (first (array-seq (.-files (.getElementById js/document image-field))))]
 
-    (go (let [response (<! (http/post (str api "/upload-img")
-                                   {:with-credentials? false
-                                    :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))] ["folder" folder]]}))]
+      (go (let [response (<! (http/post (str api "/upload-img")
+                                     {:with-credentials? false
+                                      :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))] ["_id" id] ["folder" folder]]}))]
 
-          (handle-state-change  {:type "add-image" :value (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)})))))
+            (handle-state-change  {:type "add-image" :value (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)}))))))
 
 
 (defn create-media-folder [folder-name]
-  (go (let [response (<! (http/post (str api "/create-media-folder")
-                                 {:with-credentials? false
-                                  :form-params {:folder @folder-name :token (:token (get-from-state "user"))}}))
-            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
-        (if (= (:type response-body) "error")
-          (print "error")
-          (print response-body)))))
+  (let [id (:_id (get-from-state "user"))]
+    (go (let [response (<! (http/post (str api "/create-media-folder")
+                                   {:with-credentials? false
+                                    :form-params {:folder @folder-name :_id id :token (:token (get-from-state "user"))}}))
+              response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+          (if (= (:type response-body) "error")
+            (print "error")
+            (handle-state-change {:type "add-media-folder" :value response-body}))))))
 
 (defn delete-image [url]
-  (go (let [response (<! (http/post (str api "/delete-image")
-                                 {:with-credentials? false
-                                  :form-params {:url url :token (:token (get-from-state "user"))}}))
-            response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
-        (handle-state-change  {:type "remove-image" :value response-body}))))
+  (let [id (:_id (get-from-state "user"))]
+    (go (let [response (<! (http/post (str api "/delete-image")
+                                   {:with-credentials? false
+                                    :form-params {:url url :_id id :token (:token (get-from-state "user"))}}))
+              response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+          (handle-state-change  {:type "remove-image" :value response-body})))))

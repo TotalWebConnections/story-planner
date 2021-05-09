@@ -59,11 +59,11 @@
   (mc/update db "users" {:_id id} {$set {:subToken sub-token }} {:upsert true})
   sub-token)
 
-(defn add-user-media-folder [token folder-name]
-  (let [user (get-user-by-token token)]
+(defn add-user-media-folder [id token folder-name]
+  (let [user (get-user-by-token id token)]
     (media/add-media-folder (:_id user) folder-name)))
 
-(defn remove-image [token url]
-  (let [user (get-user-by-token token)]
+(defn remove-image [id token url]
+  (let [user (get-user-by-token id token)]
     (media/remove-image (:_id user) url)))
 

@@ -58,6 +58,10 @@
     [action]
     (handle-linking app-state (:value action)))
 
+  ; Image related stuff
+  (defmethod handle-state-change "add-media-folder"
+    [action]
+    (swap! app-state update-in [:media-folders] conj (:value action)))
 
   ; IMAGE stuff for the stroypoints
   (defmethod handle-state-change "set-edited-storypoint"
