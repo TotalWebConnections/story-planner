@@ -39,9 +39,8 @@
 (defn handle-permissions-flow []
   (let [chan (check-token (:token (:user @app-state)))]
     ; TODO we should cache a valid token in the state here so we can limit api requests and it shouldn't change that often
-    (go (let [response (<! chan)
-              response-body (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
-          (if (:data response-body)
+    (go (let [response (<! chan)]
+          (if (= 200 (:status response))
             (generate-base-html)
             (login-failed))))))
 
