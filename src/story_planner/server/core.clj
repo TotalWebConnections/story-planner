@@ -93,7 +93,7 @@
     (try
       (let [user (walk/keywordize-keys (:form-params request))]
         (response (generate-string (check-user-token (:_id user) (:token user)))))
-      (catch Exception e (str "caught exception: " (.getMessage e)))))
+      (catch Exception e {:status 403 :body (str "caught exception: " (.getMessage e))})))
   (POST "/subscribe" request
     (response (generate-string (subscribe-user (walk/keywordize-keys (:form-params request))))))
   (POST "/unsubscribe" request

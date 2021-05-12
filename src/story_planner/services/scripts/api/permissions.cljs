@@ -15,5 +15,5 @@
     (if id
       (http/post (str api "/check-token")
                  {:with-credentials? false
-                  :form-params {:_id (:_id id) :token token}})
+                  :form-params {:_id  id :token token}})
       (login-failed))))

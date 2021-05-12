@@ -37,7 +37,7 @@ $font-stack-header: 'Poppins', sans-serif;
 $sub-header-font: 'Work Sans', sans-serif;
 $base-font-size: 1em;
 
-p, li, ul, table {
+p, li, ul, table, input, textarea {
   font-family: $font-stack;
 }
 
