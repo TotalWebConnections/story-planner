@@ -1013,7 +1013,8 @@ input, textarea {
     border-radius: 0px;
     box-sizing: border-box;
     border: none;
-    margin: 0; }
+    margin: 0;
+    font-size: 16px; }
     .Storypoint input:focus, .Storypoint textarea:focus {
       outline: none; }
   .Storypoint__inner {
@@ -1341,7 +1342,7 @@ input, textarea {
     .Confirmation__inner__buttons {
       margin-top: 15px; }
 
-p, li, ul, table {
+p, li, ul, table, input, textarea {
   font-family: "Inter", sans-serif; }
 
 .text-bold {
