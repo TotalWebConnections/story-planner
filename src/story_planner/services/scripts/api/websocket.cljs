@@ -8,6 +8,9 @@
             [story-planner.services.state.global :refer [get-current-user-token get-from-state]]))
 
 (declare send-message)
+(declare socket)
+
+(def intervalRef (atom nil))
 
 (defmulti handle-websocket-message (fn [data] (:type data)))
 
@@ -55,11 +58,19 @@
                :on-open    #(handle-onOpen)
                :on-close   #(handle-onClose)})
 
+(defn do-ping []
+  (ws/send socket {:type "ping"} fmt/json))
 
+(defn setup-ping []
+  "required or heroku server will timeout after 55 seconds of inactvity"
+  (reset! intervalRef (js/setInterval #(do-ping) 10000)))
 
 (defn init-websocket-connection []
   (if (not (exists? socket)) ; TODO test should prevent multiple socket connections
-    (def socket (ws/create ws-api handlers))))
+    (do
+      (println "once")
+      (setup-ping)
+      (def socket (ws/create ws-api handlers)))))
 
 
 (defn send-message [value]
@@ -67,6 +78,7 @@
   (ws/send socket (conj value {:token (get-current-user-token) :_id (:_id (get-from-state "user"))}) fmt/json))
 
 (defn close-connection []
-  (ws/close socket)
+  (ws/close socket
+    (js/clearInterval @intervalRef))
   (js/alert "Connection Closed"))
 
