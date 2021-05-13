@@ -51,12 +51,14 @@
                 (swap! channel-store (partial filter (fn [chan] (if (= (:channel chan) channel) false true)))) ; removes channels on disconnect
                 (println "close code:" code "reason:" reason))
    :on-message (fn [ch m]
-                (let [user (DB-users/get-user-by-token  (:_id (parse-string m true)) (:token (parse-string m true)))]
-                  (if user
-                    (if (= (:type (parse-string m true)) "start-connection")
-                      (swap! channel-store conj {:channel ch :id (:_id user)})
-                      (send-message-to-all user (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user}))))
-                    (async/send! ch (generate-string {:type "BAD-TOKEN-REQUEST" :data "Bad Token"})))))})
+                (if-not (= "ping" (:type (parse-string m true))) ; ping command stops inactive timeouts
+                  (let [user (DB-users/get-user-by-token  (:_id (parse-string m true)) (:token (parse-string m true)))]
+                    (if user
+                      (if (= (:type (parse-string m true)) "start-connection")
+                        (swap! channel-store conj {:channel ch :id (:_id user)})
+                        (send-message-to-all user (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user}))))
+                      (async/send! ch (generate-string {:type "BAD-TOKEN-REQUEST" :data "Bad Token"}))))
+                  (async/send! ch (generate-string {:type "ping" :data "ping"}))))})
 (def cors-headers
   { "Access-Control-Allow-Origin" "*"
     "Access-Control-Allow-Headers" "Content-Type"
