@@ -68,7 +68,6 @@
 (defn init-websocket-connection []
   (if (not (exists? socket)) ; TODO test should prevent multiple socket connections
     (do
-      (println "once")
       (setup-ping)
       (def socket (ws/create ws-api handlers)))))
 
@@ -78,7 +77,7 @@
   (ws/send socket (conj value {:token (get-current-user-token) :_id (:_id (get-from-state "user"))}) fmt/json))
 
 (defn close-connection []
-  (ws/close socket
-    (js/clearInterval @intervalRef))
+  (ws/close socket)
+  (js/clearInterval @intervalRef)
   (js/alert "Connection Closed"))
 

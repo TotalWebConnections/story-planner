@@ -174,8 +174,8 @@
              [:li "Company"]]]]
           [:div.Home__footer__section.smallFooterSection
            [:p.text-bold "Get In touch"]
-           [:p [:a {:href "mailto:support@narrativeplanner.com?subject = Narrative Planner Application"} "support@narrativeplanner.com"]]]]]])))
-
+           [:p [:a {:href "mailto:support@narrativeplanner.com?subject = Narrative Planner Application"} "support@narrativeplanner.com"]]
+           [:p [:a {:href "https://discord.gg/6NmHTSFb" :target "_blank"} "Discord"]]]]]])))
 
 
 

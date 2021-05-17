@@ -73,17 +73,17 @@
            end-y (storypointHelpers/calculate-curve-y-end (:size currentPoint) (:position currentPoint) position starting-direction)
            p2x (storypointHelpers/caculate-first-control-point-x starting-direction (- end-x x-initial) x-initial)
            p2y (storypointHelpers/caculate-first-control-point-y starting-direction (- end-y y-initial) y-initial)
-           p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial)
+           p3x (storypointHelpers/caculate-second-control-point-x starting-direction (- end-x x-initial) x-initial end-x)
            p3y (storypointHelpers/caculate-second-control-point-y starting-direction (- end-y y-initial) end-y)]
       [:div.Storypoint__curve {:key (str linkId (rand-int 100))}
-       [:svg {:on-click #(on-curve-click is-active linkId)
+       [:svg {:on-click #(on-curve-click is-active linkId) :pointer-events "all"
               :height "1px" :width "1px" :overflow "visible" :key  (str linkEndId "-" (rand-int 100))} ;1px prevents clicks and overflow dispalys whole thing
          [:defs
            [:marker {:id "head"
                      :orient "auto"
-                     :markerWidth "4"
-                     :markerHeight "6"
-                     :fill "red"
+                     :viewBox "0 0 10 10"
+                     :markerWidth "15"
+                     :markerHeight "15"
                      :stroke "white"
                      :refX "1"
                      :refY "2"}
@@ -94,8 +94,14 @@
                  :d (str "M"x-initial","y-initial"
                       C"p2x","p2y"
                      "p3x","p3y"
-                      "(- end-x 4)","(- end-y 4)"")
-                  :marker-end "url(#head)"}]]
+                      "end-x","end-y"")
+                  :marker-end "url(#head)"}]
+         ; this second path is hidden, but still has click events so we can make it wider to make clicking easier
+         [:path {:fill "transparent" :stroke "transparent" :stroke-width "10"
+                 :d (str "M"x-initial","y-initial"
+                      C"p2x","p2y"
+                     "p3x","p3y"
+                      "end-x","end-y"")}]]
        (if (show-curve-label @is-active linkLabel linkId)
          [:div.Storypoint__curve__label {:style (get-label-position starting-direction x-initial y-initial p2x p2y p3x p3y end-x end-y)} ; TODO we may want to make this closer
           [:input {:type "text" :style {:width (str (* 9 (count linkLabel)) "px") :min-width (if (= linkId @is-active) "155px" "50px")} :default-value linkLabel :placeholder "label" :id (str "linkLabelId-" linkId) :on-click #(reset! is-active linkId)}]
