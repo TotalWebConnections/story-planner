@@ -1119,6 +1119,18 @@ input, textarea {
         right: 2px;
         min-width: 66px; }
 
+.Linker {
+  background: #25323d;
+  border: 1px solid #1664ff;
+  height: 150px;
+  width: 100%;
+  position: absolute;
+  overflow: scroll;
+  padding: 5px 10px;
+  display: none; }
+  .Linker.active {
+    display: block; }
+
 .MediaManager {
   position: absolute;
   left: 0;

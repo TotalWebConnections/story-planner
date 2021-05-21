@@ -4,6 +4,7 @@
             [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.services.scripts.components.storypoints :as storypointHelpers]
             [story-planner.services.scripts.components.entities :as entityHelpers]
+            [story-planner.components.canvas.Linker :refer [Linker]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]))
 
 (defn update-storypoint-title [id value]
@@ -163,4 +164,5 @@
                [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
            [:textarea {:default-value (:description storypoint)
                        :on-click #(reset! dropdown-active false)
-                       :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]]]))))
+                       :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]
+           [Linker false (:h (:size storypoint))]]]))))

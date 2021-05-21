@@ -1,0 +1,14 @@
+.Linker {
+  background: $darkBlack;
+  border: 1px solid $mainBlue;
+  height: 150px;
+  width: 100%;
+  position: absolute;
+  overflow: scroll;
+  padding: 5px 10px;
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
