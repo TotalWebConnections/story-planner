@@ -116,11 +116,16 @@
   (handle-state-change {:type "set-edited-storypoint" :value id}))
 
 
+(defn handler-linker-logic [linker content]
+  (if (= (last content) "@")
+    (reset! linker true)))
+
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
         is-active (atom false)
-        dropdown-active (atom false)]
+        dropdown-active (atom false)
+        linker-active (atom false)]
     (fn [storypoint]
       (let [entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
             image (or (:image entity) (:image storypoint))]
@@ -164,5 +169,8 @@
                [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
            [:textarea {:default-value (:description storypoint)
                        :on-click #(reset! dropdown-active false)
-                       :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]
-           [Linker false (:h (:size storypoint))]]]))))
+                       :on-change #(do
+                                     (handler-linker-logic linker-active (-> % .-target .-value))
+                                     (swap! input-values conj {:description (-> % .-target .-value)})
+                                     (update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]
+           [Linker @linker-active (:h (:size storypoint))]]]))))

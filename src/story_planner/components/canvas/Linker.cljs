@@ -7,5 +7,5 @@
     [:div.Linker {:style {:top top-pos} :class (if active "active")}
       [:ul.Linker__list
        (for [entity entities]
-         [:li {:on-click #(print (:title entity))} (:title entity)])]]))
+         [:li {:key (:title entity) :on-click #(print (:title entity))} (:title entity)])]]))
 
