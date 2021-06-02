@@ -11,4 +11,3 @@
          (for [entity entities]
            [:li {:key (:title entity) :on-click #(print (:title entity))} (:title entity)])]
         [:p "Start Typing To Filter Entities"])]))
-

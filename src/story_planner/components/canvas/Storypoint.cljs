@@ -116,7 +116,11 @@
   (handle-state-change {:type "set-edited-storypoint" :value id}))
 
 (defn get-count-after [linker content]
-  (swap! linker conj {:current-distance (- (count content) (:position @linker))}))
+  (let [first-pos (:position @linker)
+        current-count (count content)]
+    (if (< current-count first-pos)
+      (reset! linker {:active false :position nil :current-distance 0})
+      (swap! linker conj {:current-distance (- current-count first-pos)}))))
 
 (defn handler-linker-logic [linker content]
   (if (:active @linker)
