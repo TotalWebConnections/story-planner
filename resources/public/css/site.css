@@ -1008,15 +1008,18 @@ input, textarea {
     .Storypoint__resizer.resize-bottomleft {
       bottom: -6px;
       left: -6px; }
-  .Storypoint input, .Storypoint textarea {
+  .Storypoint input, .Storypoint textarea, .Storypoint .textArea {
     width: 100%;
     border-radius: 0px;
     box-sizing: border-box;
     border: none;
     margin: 0;
     font-size: 16px; }
-    .Storypoint input:focus, .Storypoint textarea:focus {
+    .Storypoint input:focus, .Storypoint textarea:focus, .Storypoint .textArea:focus {
       outline: none; }
+  .Storypoint .textArea div {
+    height: 90%;
+    width: 100%; }
   .Storypoint__inner {
     height: 100%;
     overflow: hidden;
@@ -1098,9 +1101,11 @@ input, textarea {
   .Storypoint input {
     flex-grow: 1;
     max-height: 40px; }
-  .Storypoint textarea {
+  .Storypoint textarea, .Storypoint .textArea {
     flex-grow: 5;
-    resize: none; }
+    resize: none;
+    color: white;
+    padding: 0 5px; }
   .Storypoint__curve {
     position: relative;
     cursor: pointer; }

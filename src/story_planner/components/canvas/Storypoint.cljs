@@ -1,11 +1,13 @@
 (ns story-planner.components.canvas.Storypoint
   (:require [reagent.core :as reagent :refer [atom]]
+            [clojure.string]
             [story-planner.services.scripts.api.api :as api]
             [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.services.scripts.components.storypoints :as storypointHelpers]
             [story-planner.services.scripts.components.entities :as entityHelpers]
             [story-planner.components.canvas.Linker :refer [Linker]]
-            [story-planner.services.state.dispatcher :refer [handle-state-change]]))
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
+            [story-planner.components.canvas.Editable :refer [content-editable]]))
 
 (defn update-storypoint-title [id value]
   "Updates the value of storypoints title"
@@ -117,7 +119,7 @@
 
 (defn get-count-after [linker content]
   (let [first-pos (:position @linker)
-        current-count (count content)]
+        current-count (count (clojure.string/replace content #"&nbsp;" ""))]
     (if (< current-count first-pos)
       (reset! linker {:active false :position nil :current-distance 0})
       (swap! linker conj {:current-distance (- current-count first-pos)}))))
@@ -128,7 +130,6 @@
     (if (= (last content) "@")
       (swap! linker conj {:active true :position (count content)})
       nil)))
-
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
@@ -176,10 +177,11 @@
            (if image
              [:div.Storypoint__image
                [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
-           [:textarea {:default-value (:description storypoint)
-                       :on-click #(reset! dropdown-active false)
-                       :on-change #(do
-                                     (handler-linker-logic linker (-> % .-target .-value))
-                                     (swap! input-values conj {:description (-> % .-target .-value)})
-                                     (update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]
+           [:div.textArea
+            [content-editable
+             {:html (:description storypoint)
+              :on-change #(do
+                            (handler-linker-logic linker %)
+                            (swap! input-values conj {:description %})
+                            (update-storypoint-description (:id storypoint) %))}]]
            [Linker @linker (:h (:size storypoint))]]]))))
