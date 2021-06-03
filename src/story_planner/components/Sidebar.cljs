@@ -6,7 +6,8 @@
             [story-planner.components.EntityOverlay :refer [EntityOverlay]]
             [story-planner.components.canvas.Folder :refer [Folder]]
             [story-planner.services.scripts.folders :as folderHelpers]
-            [story-planner.services.scripts.sidebar :refer [get-boards-by-folders]]))
+            [story-planner.services.scripts.sidebar :refer [get-boards-by-folders]]
+            [story-planner.services.state.global :refer [get-from-state]]))
 
 (defn add-folder [state projectId folderType value]
   "Adds a new folder"
@@ -24,7 +25,7 @@
     (if id ; It's eitehr an edit or add if not delete
       (api/edit-entity {:id id :folder @folder :projectId projectId :value value :title title :image image})
       (api/create-entity {:folder @folder :projectId projectId :value value :title title :image image})))
-  (reset! state {:show false :edit false :type "entity"})
+  (handle-state-change {:type "set-entity-overlay-hidden" :value nil})
   (reset! folder "n/a"))
 
 ; nearly the same as add-entity but give us some separation if need it l8er
@@ -35,8 +36,8 @@
   (reset! folder "n/a"))
 
 (defn handleShowOverlay [state]
-  (if (= (:type @state) "entity")
-    (swap! state conj {:show "active"})
+  (if (= (:type state) "entity")
+    (handle-state-change {:type "set-entity-overlay-active" :value nil})
     (reset! state "active")))
 
 (defn setCurrentFolderType [currentFolderType type]
@@ -46,18 +47,18 @@
   (handle-state-change {:type "set-drag-id" :value (.-id (.-target e))}))
 
 (defn edit-entity [showEntityOverlay entity]
-  (swap! showEntityOverlay conj {:show "active" :edit entity}))
+  (handle-state-change {:type "set-entity-overlay-active" :value entity}))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
 (defn Sidebar [currentProject currentBoard openedFolders images media-folders]
   (let [showFolderOverlay (atom false)
         showBoardOverlay (atom false)
-        showEntityOverlay (atom {:show false :edit false :type "entity"})
         currentFolderPath (atom "n/a")
         projectId (:_id currentProject)
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
     (fn [currentProject currentBoard openedFolders images media-folders]
-      (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))]
+      (let [sortedFolders (folderHelpers/get-folders-by-type (:folders currentProject))
+            showEntityOverlay (get-from-state "show-entitiy-overlay")]
         [:div.Sidebar
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
@@ -66,7 +67,7 @@
           [:div.Sidebar__header
             [:h3 "Entities"]
             [:div.Sidebar__header__controls
-              [:div.addEntity  [:p {:on-click #(handleShowOverlay showEntityOverlay)} "+"]]
+              [:div.addEntity  [:p {:on-click #(handle-state-change {:type "set-entity-overlay-active" :value nil})} "+"]]
               [:div.addFolder [:i.fas.fa-folder {:on-click #(comp (handleShowOverlay showFolderOverlay) (setCurrentFolderType currentFolderType "entity"))}]]]]
           [:div.Sidebar__contentWrapper
             (for [entity (:entities currentProject)]

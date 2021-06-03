@@ -138,15 +138,15 @@
     (reset! linker {:active false :position nil :current-distance 0})))
 
 (defn click-on-linked-text [e]
-  (js/console.log (-> e .-target .-dataset .-entityId)))
+  (let [id (-> e .-target .-dataset .-entityId)
+        entity (entityHelpers/get-entity-by-id id)]
+    (handle-state-change {:type "set-entity-overlay-active" :value entity})))
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
         is-active (atom false)
         dropdown-active (atom false)
-        linker (atom {:active false :position nil :current-distance 0})
-        ; thing [:a {:on-click #(click-on-linked-text 2)} "test"]]
-        thing "<a data-entity-id=2>Test</a> asdasd"]
+        linker (atom {:active false :position nil :current-distance 0})]
     (fn [storypoint]
       (let [entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
             image (or (:image entity) (:image storypoint))]

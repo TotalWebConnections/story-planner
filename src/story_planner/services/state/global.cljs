@@ -19,7 +19,8 @@
                           :currentBoard nil ; currently selected board
                           :openedFolders {} ; currently opened folders to check - probably n^2 may need better implementation
                           :storypoints nil ; holds a reference to the details of the current project
-                          :linkStartId nil}))
+                          :linkStartId nil
+                          :show-entitiy-overlay {:show false :edit false :type "entity"}}))
                             ; i.e all the actual entties that are placed in a particular board - this is separate from the projects I think??
 
 

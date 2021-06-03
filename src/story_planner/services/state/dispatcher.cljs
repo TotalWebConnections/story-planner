@@ -58,6 +58,14 @@
     [action]
     (handle-linking app-state (:value action)))
 
+  ; Entity overlay pullout
+  (defmethod handle-state-change "set-entity-overlay-active"
+    [action]
+    (swap! app-state update-in [:show-entitiy-overlay] conj {:show "active" :edit (:value action)}))
+  (defmethod handle-state-change "set-entity-overlay-hidden"
+    [action]
+    (swap! app-state update-in [:show-entitiy-overlay] conj {:show false :edit false}))
+
   ; Image related stuff
   (defmethod handle-state-change "add-media-folder"
     [action]
