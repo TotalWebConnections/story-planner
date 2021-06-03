@@ -60,7 +60,7 @@
 
       :reagent-render
       (fn [{:keys [html]}]
-        [:div.box
+        [:div.box.editableContentWrapper
          {:ref (fn [com] (reset! !el com))
           :contentEditable true
           :on-input emit-change
