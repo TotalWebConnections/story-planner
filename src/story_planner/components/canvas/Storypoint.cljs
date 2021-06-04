@@ -134,13 +134,15 @@
 (defn add-linked-entity [linker storypoint entity]
   ;TODO this will only work if the @ is as the end
   (let [stripped-desc (subs (:description storypoint) 0 (- (:position @linker) 1))]
-    (update-storypoint-description (:id storypoint) (str stripped-desc "<a data-entity-id="(:id entity)">"(:title entity)"</a>"))
+    (update-storypoint-description (:id storypoint) (str stripped-desc "<a data-entity-id="(:id entity)">"(:title entity)"</a>&nbsp;"))
     (reset! linker {:active false :position nil :current-distance 0})))
 
 (defn click-on-linked-text [e]
   (let [id (-> e .-target .-dataset .-entityId)
         entity (entityHelpers/get-entity-by-id id)]
-    (handle-state-change {:type "set-entity-overlay-active" :value entity})))
+    (if id
+      (handle-state-change {:type "set-entity-overlay-active" :value entity})
+      nil)))
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})

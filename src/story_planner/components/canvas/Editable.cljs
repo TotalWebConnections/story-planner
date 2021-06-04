@@ -20,20 +20,34 @@
           (recur children (dec index)))))))
 
 (defn replace-caret [el]
-  (let [target (last-text-node el)
-        target-focused? (= (.-activeElement js/document) el)]
-    (if (and
-         (not= target nil)
-         (not= (.-nodeValue target) nil)
-         target-focused?)
-      (let [range (.createRange js/document)
-            sel (.getSelection js/window)]
-        (.setStart range target (.. target -nodeValue -length))
-        (.collapse range true)
-        (.removeAllRanges sel)
-        (.addRange sel range)
-        (if (= (type el) js/HTMLElement)
-          (.focus el))))))
+  (let [range (.createRange js/document)
+        sel (.getSelection js/window)]
+    (.selectNodeContents range el)
+    (.collapse range false)
+    (.removeAllRanges sel)
+    (.addRange sel range)))
+    ; (.modify sel "move" "right" "character")))
+  ;
+  ; range = document.createRange();//Create a range (a range is a like the selection but invisible)
+  ;       range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+  ;       range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+  ;       selection = window.getSelection();//get the selection object (allows you to change selection)
+  ;       selection.removeAllRanges();//remove any selections already made
+  ;       selection.addRange(range));//make the range you have just created the visible selection
+  ; (let [target (last-text-node el)
+  ;       target-focused? (= (.-activeElement js/document) el)]
+  ;   (if (and
+  ;        (not= target nil)
+  ;        (not= (.-nodeValue target) nil)
+  ;        target-focused?)
+  ;     (let [range (.createRange js/document)
+  ;           sel (.getSelection js/window)]
+  ;       (.setStart range target (.. target -nodeValue -length))
+  ;       (.collapse range false)
+  ;       (.removeAllRanges sel)
+  ;       (.addRange sel range)
+  ;       (if (= (type el) js/HTMLElement)
+  ;         (.focus el))))))
 
 (defn content-editable [{:keys [on-change]}]
   (let [!el (atom nil)
