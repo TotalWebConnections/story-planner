@@ -830,6 +830,9 @@ input, textarea {
       margin-top: 25px; }
       .OverlayEntity__fieldWrapper__buttons button {
         flex-grow: 1; }
+  @media (max-width: 768px) {
+    .OverlayEntity--active {
+      position: fixed; } }
 
 .Loader {
   padding: 25px 15px;
@@ -1021,6 +1024,8 @@ input, textarea {
     display: none; }
   .Storypoint #quill-wrapper-quill-editor {
     height: 90%; }
+  .Storypoint .ql-container.ql-snow {
+    border: 1px solid #3d5366; }
   .Storypoint__inner {
     height: 100%;
     overflow: hidden;
@@ -1137,6 +1142,13 @@ input, textarea {
   color: white; }
   .Linker.active {
     display: block; }
+  .Linker ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid white;
+    transition: all .25s; }
+    .Linker ul li:hover {
+      filter: brightness(75%);
+      cursor: pointer; }
 
 .MediaManager {
   position: absolute;

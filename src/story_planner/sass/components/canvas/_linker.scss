@@ -12,4 +12,17 @@
   &.active {
     display: block;
   }
+
+  ul {
+    li {
+      padding: 5px 0;
+      border-bottom: 1px solid white;
+      transition: all .25s;
+
+      &:hover {
+        filter: brightness(75%);
+        cursor: pointer;
+      }
+    }
+  }
 }

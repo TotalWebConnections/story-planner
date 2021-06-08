@@ -66,7 +66,7 @@
                  #js {
                       :modules #js {:toolbar false}
                       :theme "snow"
-                      :placeholder "Compose an epic..."}))
+                      :placeholder ""}))
 
         (.on @this "text-change"
              (fn [delta old-delta source]

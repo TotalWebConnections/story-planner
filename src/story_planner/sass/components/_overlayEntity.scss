@@ -104,4 +104,10 @@
       }
     }
   }
+
+  @media(max-width: 768px) {
+    &--active {
+      position: fixed;
+    }
+  }
 }
