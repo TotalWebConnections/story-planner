@@ -1017,9 +1017,10 @@ input, textarea {
     font-size: 16px; }
     .Storypoint input:focus, .Storypoint textarea:focus, .Storypoint .textArea:focus {
       outline: none; }
-  .Storypoint .textArea div {
-    height: 90%;
-    width: 100%; }
+  .Storypoint #quill-toolbar-quill-editor {
+    display: none; }
+  .Storypoint #quill-wrapper-quill-editor {
+    height: 90%; }
   .Storypoint__inner {
     height: 100%;
     overflow: hidden;

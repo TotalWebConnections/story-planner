@@ -56,10 +56,18 @@
     }
   }
 
-  .textArea div {
-    height: 90%;
-    width: 100%;
+  #quill-toolbar-quill-editor {
+    display: none;
   }
+
+  #quill-wrapper-quill-editor{
+    height: 90%;
+  }
+
+  // .textArea div {
+  //   height: 90%;
+  //   width: 100%;
+  // }
 
   &__inner {
     height: 100%;
