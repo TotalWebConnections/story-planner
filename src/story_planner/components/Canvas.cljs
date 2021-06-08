@@ -10,7 +10,6 @@
             ["interactjs" :as interact]
             ["displacejs" :as displace]))
 
-
 (set! js/global js/window); Work around as panzoom will error on global sometimes
 (def panzoom (.-Panzoom js/window))
 (def panHandler-ref (atom nil)) ; we use this so child-components can have access to the current state of the canvas

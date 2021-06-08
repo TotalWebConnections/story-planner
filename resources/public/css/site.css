@@ -830,6 +830,9 @@ input, textarea {
       margin-top: 25px; }
       .OverlayEntity__fieldWrapper__buttons button {
         flex-grow: 1; }
+  @media (max-width: 768px) {
+    .OverlayEntity--active {
+      position: fixed; } }
 
 .Loader {
   padding: 25px 15px;
@@ -1008,15 +1011,21 @@ input, textarea {
     .Storypoint__resizer.resize-bottomleft {
       bottom: -6px;
       left: -6px; }
-  .Storypoint input, .Storypoint textarea {
+  .Storypoint input, .Storypoint textarea, .Storypoint .textArea {
     width: 100%;
     border-radius: 0px;
     box-sizing: border-box;
     border: none;
     margin: 0;
     font-size: 16px; }
-    .Storypoint input:focus, .Storypoint textarea:focus {
+    .Storypoint input:focus, .Storypoint textarea:focus, .Storypoint .textArea:focus {
       outline: none; }
+  .Storypoint #quill-toolbar-quill-editor {
+    display: none; }
+  .Storypoint #quill-wrapper-quill-editor {
+    height: 90%; }
+  .Storypoint .ql-container.ql-snow {
+    border: 1px solid #3d5366; }
   .Storypoint__inner {
     height: 100%;
     overflow: hidden;
@@ -1098,9 +1107,11 @@ input, textarea {
   .Storypoint input {
     flex-grow: 1;
     max-height: 40px; }
-  .Storypoint textarea {
+  .Storypoint textarea, .Storypoint .textArea {
     flex-grow: 5;
-    resize: none; }
+    resize: none;
+    color: white;
+    padding: 0 5px; }
   .Storypoint__curve {
     position: relative;
     cursor: pointer; }
@@ -1118,6 +1129,26 @@ input, textarea {
         position: relative;
         right: 2px;
         min-width: 66px; }
+
+.Linker {
+  background: #25323d;
+  border: 1px solid #1664ff;
+  height: 150px;
+  width: 100%;
+  position: absolute;
+  overflow: scroll;
+  padding: 5px 10px;
+  display: none;
+  color: white; }
+  .Linker.active {
+    display: block; }
+  .Linker ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid white;
+    transition: all .25s; }
+    .Linker ul li:hover {
+      filter: brightness(75%);
+      cursor: pointer; }
 
 .MediaManager {
   position: absolute;

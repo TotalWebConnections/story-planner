@@ -1,5 +1,6 @@
 (ns story-planner.components.EntityOverlay
   (:require [reagent.core :as reagent :refer [atom]]
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.media.media-manager-small :refer [Media-Manager-Small]]))
 
 (defn add-field [state]
@@ -35,12 +36,12 @@
         showMedia (atom false)
         editModeChecked? (atom false)]
     (fn [active onSubmit images folders]
-      (if (and (:show @active) (not @editModeChecked?) (:edit @active))
-        (set-edit-mode editModeChecked? (:edit @active) titleField inputFields imageField showMedia))
-      [:div.OverlayEntity {:class (str "OverlayEntity--" (:show @active))}
+      (if (and (:show active) (not @editModeChecked?) (:edit active))
+        (set-edit-mode editModeChecked? (:edit active) titleField inputFields imageField showMedia))
+      [:div.OverlayEntity {:class (str "OverlayEntity--" (:show active))}
         [:div.OverlayEntity__inner
           [Media-Manager-Small showMedia images folders (partial handle-set-image imageField)]
-          [:p.OverlayEntity__inner__close.closeButton {:on-click #(do (reset! editModeChecked? false) (swap! active conj {:show false :edit false}))} "x"]
+          [:p.OverlayEntity__inner__close.closeButton {:on-click #(do (reset! editModeChecked? false) (handle-state-change {:type "set-entity-overlay-hidden" :value nil}))} "x"]
           (if  @editModeChecked? [:h3.OverlayEntity__inner-header "Edit Entity"] [:h3.OverlayEntity__inner-header "Add Entity"])
           [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
            (if @imageField

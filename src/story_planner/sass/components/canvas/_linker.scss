@@ -1,0 +1,28 @@
+.Linker {
+  background: $darkBlack;
+  border: 1px solid $mainBlue;
+  height: 150px;
+  width: 100%;
+  position: absolute;
+  overflow: scroll;
+  padding: 5px 10px;
+  display: none;
+  color: white;
+
+  &.active {
+    display: block;
+  }
+
+  ul {
+    li {
+      padding: 5px 0;
+      border-bottom: 1px solid white;
+      transition: all .25s;
+
+      &:hover {
+        filter: brightness(75%);
+        cursor: pointer;
+      }
+    }
+  }
+}

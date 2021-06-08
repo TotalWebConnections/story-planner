@@ -1,18 +1,28 @@
 (ns story-planner.components.canvas.Storypoint
   (:require [reagent.core :as reagent :refer [atom]]
+            [clojure.string]
             [story-planner.services.scripts.api.api :as api]
             [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.services.scripts.components.storypoints :as storypointHelpers]
             [story-planner.services.scripts.components.entities :as entityHelpers]
-            [story-planner.services.state.dispatcher :refer [handle-state-change]]))
+            [story-planner.components.canvas.Linker :refer [Linker]]
+            [story-planner.services.state.dispatcher :refer [handle-state-change]]
+            [story-planner.components.canvas.Editable :refer [content-editable]]
+            [story-planner.components.canvas.Editor :refer [Editor]]
+            [story-planner.services.scripts.debounce :refer [debounce]]))
+
 
 (defn update-storypoint-title [id value]
   "Updates the value of storypoints title"
   (api/update-storypoint-title {:id id :value value}))
 
+
 (defn update-storypoint-description [id value]
   "updates the value of a storypoints description"
   (api/update-storypoint-description {:id id :value value}))
+
+(def update-storypoint-description-debounced!
+  (debounce update-storypoint-description 1000))
 
 (defn delete-storypoint [id]
   (api/delete-storypoint {:storypointId id}))
@@ -114,12 +124,47 @@
   (handle-state-change {:type "app-show-media-manager" :value "active"})
   (handle-state-change {:type "set-edited-storypoint" :value id}))
 
+(defn get-count-after [linker content]
+  (let [first-pos (:position @linker)
+        current-count (count (clojure.string/replace content #"&nbsp;" ""))]
+    (if (< current-count first-pos)
+      (reset! linker {:active false :position nil :current-distance 0})
+      (swap! linker conj {:current-distance (- current-count first-pos) :text (subs content first-pos (+ current-count first-pos))}))))
 
+(defn strip-tags
+  "pulls out p tags for checking lengths"
+  [content]
+  (clojure.string/replace (clojure.string/replace content #"<p>" "") #"</p>" ""))
+
+(defn handler-linker-logic [linker content]
+  (let [stripped-content (strip-tags content)]
+    (if (:active @linker)
+      (get-count-after linker stripped-content)
+      (if (= (last stripped-content) "@")
+        (swap! linker conj {:active true :position (count stripped-content)})
+        nil))))
+
+(defn add-linked-entity [linker storypoint entity]
+  ;TODO this will only work if the @ is as the end
+  (let [stripped-desc (subs (strip-tags (:description storypoint)) 0 (- (:position @linker) 1))]
+    (update-storypoint-description (:id storypoint) (str stripped-desc "<a href=\"#"(:id entity)"\">"(:title entity)"</a> "))
+    (reset! linker {:active false :position nil :current-distance 0})))
+
+(defn click-on-linked-text [e]
+  (let [id (second (clojure.string/split (-> e .-target .-href) #"#"))]
+    (if id
+      (handle-state-change {:type "set-entity-overlay-active" :value (entityHelpers/get-entity-by-id id)})
+      nil)))
+
+(defn on-editor-change [linker input-values storypoint value]
+  (update-storypoint-description-debounced! (:id storypoint) value)
+  (handler-linker-logic linker value))
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
         is-active (atom false)
-        dropdown-active (atom false)]
+        dropdown-active (atom false)
+        linker (atom {:active false :position nil :current-distance 0})]
     (fn [storypoint]
       (let [entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
             image (or (:image entity) (:image storypoint))]
@@ -161,6 +206,6 @@
            (if image
              [:div.Storypoint__image
                [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
-           [:textarea {:default-value (:description storypoint)
-                       :on-click #(reset! dropdown-active false)
-                       :on-change #(do (swap! input-values conj {:description (-> % .-target .-value)})(update-storypoint-description (:id storypoint) (-> % .-target .-value)))}]]]))))
+           [:div.textArea {:on-click #(click-on-linked-text %)}
+            [Editor (:description storypoint) (partial on-editor-change linker input-values storypoint)]]
+           [Linker @linker (:h (:size storypoint)) (partial add-linked-entity linker storypoint)]]]))))

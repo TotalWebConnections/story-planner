@@ -42,7 +42,7 @@
     }
   }
 
-  input, textarea {
+  input, textarea, .textArea {
     width: 100%;
     border-radius: 0px;
     box-sizing: border-box;
@@ -55,6 +55,19 @@
       outline: none;
     }
   }
+
+  #quill-toolbar-quill-editor {
+    display: none;
+  }
+
+  #quill-wrapper-quill-editor{
+    height: 90%;
+  }
+
+  .ql-container.ql-snow {
+    border: 1px solid #3d5366;
+  }
+
 
   &__inner {
     height: 100%;
@@ -176,10 +189,12 @@
     max-height: 40px;
   }
 
-  textarea {
+  textarea, .textArea {
     // height: 264px;
     flex-grow: 5;
     resize: none;
+    color: white;
+    padding: 0 5px;
   }
 
   &__curve {
