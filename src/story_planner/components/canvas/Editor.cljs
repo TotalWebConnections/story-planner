@@ -1,21 +1,16 @@
 (ns story-planner.components.canvas.Editor
   (:require [reagent.core :as reagent :refer [atom]]
             [cljsjs.quill]
-            [story-planner.components.canvas.Quill :as Quill])
-  (:import [goog.async Debouncer]))
-
-
-(defn debounce [f interval]
-  (let [dbnc (Debouncer. f interval)]
-    ;; We use apply here to support functions of various arities
-    (fn [& args] (.apply (.-fire dbnc) dbnc (to-array args)))))
+            [story-planner.components.canvas.Quill :as Quill]
+            [story-planner.services.scripts.debounce :refer [debounce]]))
 
 (defn reset-edit-mode [in-edit?]
+  (print "Edit Mode reset")
   (reset! in-edit? false))
 
 ;; note how we use def instead of defn
 (def reset-edit-mode-debounced!
-  (debounce reset-edit-mode 1000))
+  (debounce reset-edit-mode 500))
 
 
 (defn handle-change [in-edit? on-change value]

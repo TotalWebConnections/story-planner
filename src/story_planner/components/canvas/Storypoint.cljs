@@ -8,14 +8,9 @@
             [story-planner.components.canvas.Linker :refer [Linker]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.canvas.Editable :refer [content-editable]]
-            [story-planner.components.canvas.Editor :refer [Editor]])
-  (:import [goog.async Debouncer]))
+            [story-planner.components.canvas.Editor :refer [Editor]]
+            [story-planner.services.scripts.debounce :refer [debounce]]))
 
-; (def quill js/Quill.)
-; (js/console.log js/Quill.)
-; (def Editor (.-Editor quill))
-; (print Editor)
-; (js/console.log (quill))
 
 (defn update-storypoint-title [id value]
   "Updates the value of storypoints title"
@@ -24,14 +19,9 @@
 
 (defn update-storypoint-description [id value]
   "updates the value of a storypoints description"
+  (print value)
   (api/update-storypoint-description {:id id :value value}))
 
-(defn debounce [f interval]
-  (let [dbnc (Debouncer. f interval)]
-    ;; We use apply here to support functions of various arities
-    (fn [& args] (.apply (.-fire dbnc) dbnc (to-array args)))))
-
-;; note how we use def instead of defn
 (def update-storypoint-description-debounced!
   (debounce update-storypoint-description 1000))
 
@@ -158,7 +148,7 @@
 (defn add-linked-entity [linker storypoint entity]
   ;TODO this will only work if the @ is as the end
   (let [stripped-desc (subs (strip-tags (:description storypoint)) 0 (- (:position @linker) 1))]
-    (update-storypoint-description (:id storypoint) (str stripped-desc "<a href=#"(:id entity)">"(:title entity)"</a>&nbsp;"))
+    (update-storypoint-description (:id storypoint) (str stripped-desc "<a href=\"#"(:id entity)"\">"(:title entity)"</a> "))
     (reset! linker {:active false :position nil :current-distance 0})))
 
 (defn click-on-linked-text [e]
@@ -177,7 +167,6 @@
         dropdown-active (atom false)
         linker (atom {:active false :position nil :current-distance 0})]
     (fn [storypoint]
-      ; (print (:description storypoint))
       (let [entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
             image (or (:image entity) (:image storypoint))]
         [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
@@ -220,10 +209,4 @@
                [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
            [:div.textArea {:on-click #(click-on-linked-text %)}
             [Editor (:description storypoint) (partial on-editor-change linker input-values storypoint)]]
-            ; [content-editable
-            ;  {:html (:description storypoint)
-            ;   :on-change #(do
-            ;                 (handler-linker-logic linker %)
-            ;                 (swap! input-values conj {:description %})
-            ;                 (update-storypoint-description (:id storypoint) %))}]]
            [Linker @linker (:h (:size storypoint)) (partial add-linked-entity linker storypoint)]]]))))

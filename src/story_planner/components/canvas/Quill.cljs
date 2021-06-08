@@ -78,16 +78,11 @@
 
       :component-will-receive-props
       (fn [component next-props]
-        (print (:in-edit? (second next-props)))
         (if
           (and
             (not= (:content (second next-props)) (value))
             (not (:in-edit? (second next-props))))
-        ;      (not= (:id (r/props component)) (:id (second next-props))))
-          ; (do
-          ;   (if (= selection nil)
-          ;     (.setSelection @this nil)
-          ;     (.setSelection @this (first selection) (second selection) "api"))
+            ; (not= (:id (r/props component)) (:id (second next-props))))
           (.pasteHTML @this (:content (second next-props)))))
 
       :display-name  (str "quill-editor-" id)
