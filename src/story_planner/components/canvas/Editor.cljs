@@ -10,7 +10,7 @@
 
 ;; note how we use def instead of defn
 (def reset-edit-mode-debounced!
-  (debounce reset-edit-mode 500))
+  (debounce reset-edit-mode 1000))
 
 
 (defn handle-change [in-edit? on-change value]

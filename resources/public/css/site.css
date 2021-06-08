@@ -1133,7 +1133,8 @@ input, textarea {
   position: absolute;
   overflow: scroll;
   padding: 5px 10px;
-  display: none; }
+  display: none;
+  color: white; }
   .Linker.active {
     display: block; }
 

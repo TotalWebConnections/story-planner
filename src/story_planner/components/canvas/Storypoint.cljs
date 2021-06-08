@@ -19,7 +19,6 @@
 
 (defn update-storypoint-description [id value]
   "updates the value of a storypoints description"
-  (print value)
   (api/update-storypoint-description {:id id :value value}))
 
 (def update-storypoint-description-debounced!
@@ -130,7 +129,7 @@
         current-count (count (clojure.string/replace content #"&nbsp;" ""))]
     (if (< current-count first-pos)
       (reset! linker {:active false :position nil :current-distance 0})
-      (swap! linker conj {:current-distance (- current-count first-pos)}))))
+      (swap! linker conj {:current-distance (- current-count first-pos) :text (subs content first-pos (+ current-count first-pos))}))))
 
 (defn strip-tags
   "pulls out p tags for checking lengths"
