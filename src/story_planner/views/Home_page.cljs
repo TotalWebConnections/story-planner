@@ -1,6 +1,7 @@
 (ns story-planner.views.Home_page
   (:require [reagent.core :as reagent :refer [atom]]
-            [story-planner.services.scripts.navigation :refer [navigate home-scroll]]
+            [reitit.frontend.easy :as rfe]
+            [story-planner.services.scripts.navigation :refer [home-scroll]]
             [story-planner.components.Terms :refer [Terms]]))
 
 
@@ -12,7 +13,7 @@
        [:div.Home__header
         [:div.Home__header__inner
          [:div.Home__header__block
-          [:h1 {:on-click #(navigate "/")} "Narrative Planner"]
+          [:h1 {:on-click #(rfe/push-state :home)} "Narrative Planner"]
           [:ul.navList.noMobile
            [:li {:on-click #(home-scroll "pricing")} "Pricing"]
            [:li {:on-click #(home-scroll "features")} "Features"]
@@ -20,10 +21,10 @@
          [:div.Home__header__block.Home__header__block--nav
           [:ul
            (if (.getItem js/localStorage "story-planner-token")
-             [:li [:button.small {:on-click #(navigate "projects")} "My Projects"]]
-             [:li [:button.small {:on-click #(navigate "signup")} "Sign up"]])
+             [:li [:a {:href "/projects"} [:button.small "My Projects"]]]
+             [:li [:button.small {:on-click #(rfe/push-state :signup)} "Sign up"]])
            (if-not (.getItem js/localStorage "story-planner-token")
-             [:li {:on-click #(navigate "login")} "Login"])]]]]
+             [:li {:on-click #(rfe/push-state :login)} "Login"])]]]]
 
        [:div.Home__mainVisual
         [:div.Home__mainVisual__inner
@@ -31,7 +32,7 @@
           [:h1 "Collaborative Design Made Easy"]
           [:p "Visualize and design complex paths collaboratively!"]
           [:div
-           [:button {:on-click #(navigate "signup")} "Get Started For Free"]]]
+           [:button {:on-click #(rfe/push-state :signup)} "Get Started For Free"]]]
          [:div.Home__mainVisual-right
           [:div.Home__mainVisual-right__imageContainer
            [:img.border {:src "/images/demo.jpg" :width "100%"}]
@@ -129,7 +130,7 @@
            [:p "50 details"]
            [:p "1 User"]
            [:p "Limited Media Storage"]
-           [:button.reverse {:on-click #(navigate "signup")} "Sign Up"]]]
+           [:button.reverse {:on-click #(rfe/push-state :signup)} "Sign Up"]]]
          [:div.Home__pricing__card
           [:div.Home__pricing__card__header
            [:p.paraBold "Advanced Plan"]
@@ -140,12 +141,12 @@
            [:p "Unlimited Projects"]
            [:p "Exta Media Storage"]
            [:p "All Future Updates"]
-           [:button.reverse {:on-click #(navigate "signup")} "Start Trial"]]]]
+           [:button.reverse {:on-click #(rfe/push-state :signup)} "Start Trial"]]]]
 
         [:div.Home__pricing__callout
          [:h2 "Start Your Free Account"]
          [:p "Get started free and upgrade at any time!"]
-         [:button {:on-click #(navigate "signup")} "Start Free - No Credit Card"]]]
+         [:button {:on-click #(rfe/push-state :signup)} "Start Free - No Credit Card"]]]
 
        [:div.Home__contact.Home__sectionPadding {:id "contact"}
         [:h2 "Question, Comment. Suggestion?"]

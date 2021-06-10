@@ -4,10 +4,10 @@
             [goog.dom :as gdom]
             [story-planner.config :refer [stripe-public-key]]
             [cljs-http.client :as http]
+            [reitit.frontend.easy :as rfe]
             [story-planner.config :refer [api]]
             [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.components.Loader :refer [Loader]]
-            [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.localstorage :refer [update-localstorage-by-key delete-localstorage-val]]
             [story-planner.components.profile.registered-users :refer [Registered-users]]))
 
@@ -99,7 +99,7 @@
         [:div.Profile__header
          [:h2 "Account"]
          [:div.Profile__header__nav
-          [:p {:on-click #(navigate "projects")} "Projects"]]]
+          [:p {:on-click #(rfe/push-state :projects)} "Projects"]]]
         [:div.Profile__inner
           [:h1 "My Details"]
           [:p.logout {:on-click #(delete-localstorage-val)} "Logout"]

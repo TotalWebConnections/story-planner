@@ -34,7 +34,8 @@
       (let [view (:view (:data @match))]
         (if (:id (:path (:parameters @match)))
           [view app-state (:id (:path (:parameters @match)))]
-          [view app-state])))])
+          [view app-state]))
+      (set! (.. js/window -location -href) "/"))])
 
 (defn handle-permissions-flow []
   (let [chan (check-token (:token (:user @app-state)))]
@@ -67,37 +68,37 @@
 
 (def routes
   [["/"
-    {:name ::home
+    {:name :home
      :view Home-page
      :public? true}]
 
    ["/login"
-     {:name ::login
+     {:name :login
       :view Login-page
       :public? true}]
 
    ["/signup"
-     {:name ::signup
+     {:name :signup
       :view Signup-page
       :public? true}]
 
    ["/app"
-    {:name ::frontpage
+    {:name :app
      :view App-page
      :public? false}]
 
    ["/projects"
-     {:name ::projects
+     {:name :projects
       :view Project-page
       :public? false}]
 
    ["/profile"
-     {:name ::profile
+     {:name :profile
       :view Profile-page
       :public? false}]
 
    ["/signup-auth-user/:id"
-     {:name ::signup-auth-user
+     {:name :signup-auth-user
       :view Auth-user-page
       :parameters {:path {:id string?}}
       :public? true}]])
@@ -122,7 +123,7 @@
             (assoc new-match :controllers (rfc/apply-controllers (:controllers old-match) new-match))))))
 
     ;; set to false to enable HistoryAPI
-    {:use-fragment true})
+    {:use-fragment false})
   (r/render [Auth-base app-state] (.getElementById js/document "app")))
 
 (init!)
