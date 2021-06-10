@@ -3,7 +3,6 @@
             [reagent.core :as r]
             [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
-            [story-planner.services.scripts.navigation :refer [navigate]]
             [story-planner.services.scripts.api.api :as api]
             [story-planner.components.Overlay :refer [Overlay]]
             [story-planner.components.app.header :refer [Header]]
@@ -41,8 +40,8 @@
   ; First we set teh current project as the ID that is being queries
   ; dispatch api call but not care about it
   (api/get-project id)
-  ; (rfe/push-state ::frontpage) ; THid doesnt work but I wish it would...
-  (navigate "app"))
+  (rfe/push-state :app)) ; THid doesnt work but I wish it would...
+  ; (navigate "app"))
 
 
 (defn Project-page [app-state]
@@ -61,7 +60,7 @@
           [:h2 "My Projects"]
           [:div.Projects__header__nav
            [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]
-           [:p {:on-click #(navigate "profile")} "Account"]]]
+           [:p {:on-click #(rfe/push-state :profile)} "Account"]]]
         (if (and (not @loaded?) (not (:projects @app-state)))
           [Loader])
         [:div.Projects__body.standard-padding

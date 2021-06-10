@@ -5,7 +5,7 @@
             [story-planner.components.app.header :refer [Header]]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [story-planner.components.Loader :refer [Loader]]
-            [story-planner.services.scripts.navigation :refer [navigate]]
+            [reitit.frontend.easy :as rfe]
             [story-planner.components.media.media-manager :refer [Media-Manager]]
             [story-planner.services.scripts.api.api :as api]))
 
@@ -22,7 +22,7 @@
   (if (not project)
     (do
       (js/alert "There was an error loading the project.")
-      (navigate "projects"))))
+      (rfe/push-state :projects))))
 
 (defn App-page [app-state]
   (js/setTimeout #(handle-failed-load (:currentProject @app-state)) 5000)

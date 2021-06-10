@@ -2,7 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.config :refer [api]]
-            [story-planner.services.scripts.navigation :refer [navigate]]
+            [reitit.frontend.easy :as rfe]
             [story-planner.services.scripts.api.localstorage :refer [update-local-storage]]
             [cljs-http.client :as http]))
 
@@ -23,7 +23,7 @@
     (fn []
       [:div.Login
        [:div.Login__header.standard-padding
-         [:h2 {:on-click #((navigate ""))} "App Name"]]
+         [:h2 {:on-click #(rfe/push-state :home)} "App Name"]]
        [:div.Login__inner
         [:div.Login__form
          [:h1 "Setup a Password For Your Account"]
