@@ -40,8 +40,7 @@
   ; First we set teh current project as the ID that is being queries
   ; dispatch api call but not care about it
   (api/get-project id)
-  (rfe/push-state :app)) ; THid doesnt work but I wish it would...
-  ; (navigate "app"))
+  (rfe/push-state :app))
 
 
 (defn Project-page [app-state]

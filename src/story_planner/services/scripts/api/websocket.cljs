@@ -5,12 +5,23 @@
             [story-planner.services.scripts.api.localstorage :as localstorage]
             [reitit.frontend.easy :as rfe]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
-            [story-planner.services.state.global :refer [get-current-user-token get-from-state]]))
+            [story-planner.services.state.global :refer [get-current-user-token get-from-state]]
+            [story-planner.services.scripts.debounce :refer [debounce]]))
 
 (declare send-message)
 (declare socket)
 
 (def intervalRef (atom nil))
+
+(defn handle-expired-token
+  "callback for if the server token doesn't match the UI one - if a user logs in twice this might happen"
+  []
+  (js/alert "Your session has expired, please login again to continue.")
+  (localstorage/delete-localstorage-val)
+  (rfe/push-state :login))
+
+(def handle-expired-token-debounced!
+  (debounce handle-expired-token 500))
 
 (defmulti handle-websocket-message (fn [data] (:type data)))
 
@@ -37,9 +48,7 @@
   (handle-state-change {:type "get-project" :value (:data data)}))
 (defmethod handle-websocket-message "BAD-TOKEN-REQUEST"
   [data]
-  (js/alert "Your session has expired, please login again to continue.")
-  (localstorage/delete-localstorage-val)
-  (rfe/push-state :login))
+  (handle-expired-token-debounced!))
 
 (defmethod handle-websocket-message :default [data]
   (print "Default Called"))
