@@ -1,6 +1,6 @@
 (ns story-planner.services.scripts.api.permissions
   (:require [clojure.core.async :refer [chan]]
-            [story-planner.services.scripts.navigation :refer [navigate]]
+            [reitit.frontend.easy :as rfe]
             [story-planner.services.state.dispatcher :refer [handle-state-change]]
             [cljs-http.client :as http]
             [story-planner.config :refer [api]]
@@ -8,7 +8,7 @@
 
 (defn login-failed []
   (handle-state-change {:type "set-login-error" :value "You need to be logged in to view that page"})
-  (navigate "login"))
+  (rfe/push-state :login))
 
 (defn check-token [token]
   (let [id (:_id (get-from-state "user"))]
