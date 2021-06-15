@@ -767,26 +767,27 @@ input, textarea {
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
   opacity: 0;
-  display: none; }
+  display: none;
+  justify-content: center;
+  align-items: center; }
   .OverlayEntity--active {
-    display: block;
+    display: flex;
     opacity: 1;
     animation: fadeIn .25s linear; }
   .OverlayEntity__inner {
     background: #20242e;
     color: white;
     width: 400px;
+    max-width: 100%;
     min-height: 200px;
     max-height: 450px;
-    position: absolute;
-    left: calc(50% - 200px);
-    top: 10%;
+    position: relative;
     overflow: auto;
     box-sizing: border-box; }
     .OverlayEntity__inner-header {
       margin-bottom: 15px;
-      padding-bottom: 15px;
-      padding-top: 15px;
+      padding-bottom: 0px;
+      padding-top: 10px;
       padding-left: 15px; }
     .OverlayEntity__inner-title {
       width: 100%;
@@ -813,7 +814,7 @@ input, textarea {
     .OverlayEntity__inner__close {
       position: absolute;
       top: 0px;
-      right: 5px; }
+      right: 12px; }
   .OverlayEntity__input--label {
     margin-right: 5px; }
   .OverlayEntity__fieldWrapper {

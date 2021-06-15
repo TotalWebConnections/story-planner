@@ -13,9 +13,11 @@
   background: rgba(0,0,0,0.75);
   opacity: 0;
   display: none;
+  justify-content: center;
+  align-items: center;
 
   &--active {
-    display: block;
+    display: flex;
     opacity: 1;
     animation: fadeIn .25s linear;
   }
@@ -24,20 +26,17 @@
     background: $lightBlack;
     color: white;
     width: 400px;
+    max-width: 100%;
     min-height: 200px;
     max-height: 450px;
-    position: absolute;
-    left: calc(50% - 200px); // TODO we probaby want to make this more dynmaic
-    top: 10%;
+    position: relative;
     overflow: auto;
-    // padding: 25px;
     box-sizing: border-box;
-    // border: 1px solid $offWhite;
 
     &-header {
       margin-bottom: 15px;
-      padding-bottom: 15px;
-      padding-top: 15px;
+      padding-bottom: 0px;
+      padding-top: 10px;
       padding-left: 15px;
     }
 
@@ -73,7 +72,7 @@
     &__close {
       position: absolute;
       top: 0px;
-      right: 5px;
+      right: 12px;
     }
   }
 
