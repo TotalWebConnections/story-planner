@@ -9,7 +9,7 @@
             [story-planner.services.scripts.debounce :refer [debounce]]))
 
 (declare send-message)
-(declare socket)
+(def socket (atom nil))
 
 (def intervalRef (atom nil))
 
@@ -68,25 +68,28 @@
                :on-close   #(handle-onClose)})
 
 (defn do-ping []
-  (ws/send socket {:type "ping"} fmt/json))
+  (ws/send @socket {:type "ping"} fmt/json))
 
 (defn setup-ping []
   "required or heroku server will timeout after 55 seconds of inactvity"
   (reset! intervalRef (js/setInterval #(do-ping) 10000)))
 
 (defn init-websocket-connection []
-  (if (not (exists? socket)) ; TODO test should prevent multiple socket connections
+  (if (not @socket); TODO test should prevent multiple socket connections
     (do
       (setup-ping)
-      (def socket (ws/create ws-api handlers)))))
+      (reset! socket (ws/create ws-api handlers)))))
 
 
 (defn send-message [value]
   "here we wrap all of our requests in our token - all ws should be auth - we also use ID to check user faster"
-  (ws/send socket (conj value {:token (get-current-user-token) :_id (:_id (get-from-state "user"))}) fmt/json))
+  (ws/send @socket (conj value {:token (get-current-user-token) :_id (:_id (get-from-state "user"))}) fmt/json))
 
 (defn close-connection []
-  (ws/close socket)
-  (js/clearInterval @intervalRef)
-  (js/alert "Connection Closed"))
+  (if @socket ; if a socket exists we close it and cleaup
+    (do
+      (ws/close @socket)
+      (js/clearInterval @intervalRef)
+      (reset! socket nil))))
+  ; (js/alert "Connection Closed"))
 
