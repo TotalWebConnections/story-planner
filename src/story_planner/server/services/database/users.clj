@@ -56,7 +56,7 @@
       false)))
 
 (defn add-user-stripe-token [sub-token id]
-  (mc/update db "users" {:_id id} {$set {:subToken sub-token }} {:upsert true})
+  (mc/update db "users" {:_id (ObjectId. id)} {$set {:subToken sub-token }} {:upsert true})
   sub-token)
 
 (defn add-user-media-folder [id token folder-name]
