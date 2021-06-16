@@ -7,6 +7,7 @@
            [story-planner.server.services.database :refer [db]]
            [story-planner.server.services.database.users :as DB-users]
            [story-planner.server.services.database.projects :as DB-projects]
+           [story-planner.server.services.database.hashers :refer [sha256]]
            [story-planner.server.services.mail :refer [send-mail]]
            [story-planner.server.services.response-handler :as response-handler])
   (:import org.bson.types.ObjectId)
@@ -60,6 +61,7 @@
 (defn update-auth-user [token password]
   (let [loginToken (str (generate-access-token))
         currentUser (mc/find-one-as-map db "users" {:setupToken token})]
+    (println currentUser)
     (mc/update db "users" {:setupToken token}
-                         {$set {"setupToken" nil "password" password "token" (hashers/derive loginToken {:alg :bcrypt+sha512})}} {:upsert true})
+                         {$set {"setupToken" nil "password" password "token" (sha256 loginToken)}} {:upsert true})
     (conj (dissoc (DB-users/get-user-by-token (str (:_id currentUser)) loginToken) :password :parentId) {:token loginToken})))
