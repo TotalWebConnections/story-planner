@@ -25,6 +25,12 @@
 
 (defmulti handle-websocket-message (fn [data] (:type data)))
 
+
+; FOLDER FUNCTIONS
+(defmethod handle-websocket-message "new-folder"
+  [data]
+  (handle-state-change {:type "new-folder" :value (:data data)}))
+
 (defmethod handle-websocket-message "new-project"
   [data]
   (handle-state-change {:type "new-project" :value (:data data)}))

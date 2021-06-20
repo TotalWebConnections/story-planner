@@ -74,18 +74,6 @@
       (response-handler/send-auth-error))))
 
 
-(defn create-folder [folderData userId]
-  "Inserts a new folder"
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id folderData))}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$push {:folders (dissoc folderData :id)}} {:upsert true}))]
-    (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:id folderData) userId))
-      (response-handler/send-auth-error))))
-
-
-
 ; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
 (defn create-board [boardData userId]
   "Inserts an enttiy into the given folder or a root entities object"
