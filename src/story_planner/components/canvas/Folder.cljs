@@ -16,12 +16,12 @@
   (for [storypoint (:storypoints board)]
     [:p (:name storypoint)]))
 
-(defn generate-entity-display [entity]
+(defn generate-entity-display [entity edit-entity]
   "generates a folder display, nested values so it's a bit different"
   ;TODO this needs to open the entity display
   [:div {:key (str (:value (first entity)) "-" (rand-int 10000))
          :draggable true :id (:id entity) :on-drag-start start-drag}
-    [:p.entityWrapper {:on-click #(js/alert "go")}
+    [:p.entityWrapper {:on-click #(edit-entity entity)}
       (:title entity)]])
 
 (defn generate-board-display [folder currentBoard]
@@ -42,7 +42,7 @@
     "fa-caret-down"))
 
 
-(defn Folder [folderInfo currentBoard openedFolders onClick isBoardFolder]
+(defn Folder [folderInfo currentBoard openedFolders onClick isBoardFolder edit-entity]
   (let [folderType (if isBoardFolder :boards :entities)]
     [:div.Folder {:key (str (:name folderInfo) "-" (rand-int 10000))
                   :class (if (not ((keyword (:name folderInfo)) openedFolders)) "Folder__closed" "Folder__open")}
@@ -56,4 +56,4 @@
         (for [entity (folderType folderInfo)]
           (if (= :boards folderType)
             (generate-board-display entity currentBoard)
-            (generate-entity-display entity)))]]))
+            (generate-entity-display entity edit-entity)))]]))

@@ -46,7 +46,7 @@
 (defn start-drag [e]
   (handle-state-change {:type "set-drag-id" :value (.-id (.-target e))}))
 
-(defn edit-entity [showEntityOverlay entity]
+(defn edit-entity [entity]
   (handle-state-change {:type "set-entity-overlay-active" :value entity}))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
@@ -73,11 +73,11 @@
             (for [entity (:entities currentProject)]
               (if (= (:folder entity) "n/a")
                 [:p.entityWrapper {:draggable true :id (:id entity) :on-drag-start start-drag :key (:id entity)
-                                   :on-click #(edit-entity showEntityOverlay entity)} (:title entity)]))
+                                   :on-click #(edit-entity entity)} (:title entity)]))
             (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp
                                                                           (generate-folder-path currentFolderPath (:name folder))
-                                                                          (handleShowOverlay showEntityOverlay)) false))]
+                                                                          (handleShowOverlay showEntityOverlay)) false edit-entity))]
           [:div.Sidebar__header
             [:h3 "Boards"]
             [:div.Sidebar__header__controls
@@ -91,4 +91,4 @@
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp
                                                                           (generate-folder-path currentFolderPath (:name folder))
-                                                                          (handleShowOverlay showBoardOverlay)) true))]]))))
+                                                                          (handleShowOverlay showBoardOverlay)) true nil))]]))))
