@@ -45,6 +45,7 @@
 (defn edit-entity [constructor]
   (send-message {:type "edit-entity"
                  :entityId (:id constructor)
+                 :id (:id constructor)
                  :folder (:folder constructor)
                  :projectId (:projectId constructor)
                  :value (:value constructor)

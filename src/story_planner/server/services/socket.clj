@@ -5,6 +5,7 @@
     [story-planner.server.services.database.authorized :as DB-auth-users]
     [story-planner.server.services.database.projects :as DB-projects]
     [story-planner.server.services.database.folders :as DB-folders]
+    [story-planner.server.services.database.entities :as DB-entities]
     [story-planner.server.services.amazon :as AWS]
     [story-planner.server.services.database.media :as media]))
 
@@ -30,10 +31,10 @@
   (DB-folders/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)} (:_id (:user data))))
 (defmethod handle-websocket-message "create-entity"
   [data]
-  (DB-projects/create-entity (dissoc data :channel) (:_id (:user data))))
+  (DB-entities/create-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "edit-entity"
   [data]
-  (DB-projects/edit-entity (dissoc data :channel) (:_id (:user data))))
+  (DB-entities/edit-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "delete-entity"
   [data]
   (DB-projects/delete-entity (dissoc data :channel) (:_id (:user data))))

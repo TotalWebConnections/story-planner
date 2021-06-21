@@ -4,11 +4,10 @@
            [monger.conversion :as mgcon]
            [monger.operators :refer :all]
            [story-planner.server.services.database :refer [db]]
-           [story-planner.server.services.response-handler :as response-handler]
-           [story-planner.server.services.database.projects :refer [get-project]])
+           [story-planner.server.services.response-handler :as response-handler])
   (:import org.bson.types.ObjectId))
 
-
+; TODO we need to make sure that we only update the current projet if it has the right project id
 (defn create-folder [folderData userId]
   "Inserts a new folder"
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id folderData))}
