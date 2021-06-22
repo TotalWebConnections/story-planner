@@ -37,3 +37,13 @@
     (if (> projectUpdate 0)
       (response-handler/wrap-ws-response "edit-entity" "all" (dissoc entityData :user :_id))
       (response-handler/send-auth-error))))
+
+(defn delete-entity [entityData userId]
+  "Removes an entity from a project"
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId entityData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                      {$pull {"entities" {:id (:entityId entityData)}}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-ws-response "delete-entity" "all" {:id (:entityId entityData) :projectId (:projectId entityData)})
+      (response-handler/send-auth-error))))

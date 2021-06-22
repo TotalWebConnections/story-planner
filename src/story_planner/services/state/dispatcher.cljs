@@ -72,6 +72,9 @@
   (defmethod handle-state-change "edit-entity"
     [action]
     (entities/edit-entity app-state (:value action)))
+  (defmethod handle-state-change "delete-entity"
+    [action]
+    (entities/delete-entity app-state (:value action)))
 
   ; Entity overlay pullout
   (defmethod handle-state-change "set-entity-overlay-active"

@@ -39,6 +39,9 @@
 (defmethod handle-websocket-message "edit-entity"
   [data]
   (handle-state-change {:type "edit-entity" :value (:data data)}))
+(defmethod handle-websocket-message "delete-entity"
+  [data]
+  (handle-state-change {:type "delete-entity" :value (:data data)}))
 
 
 

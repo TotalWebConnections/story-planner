@@ -37,7 +37,7 @@
   (DB-entities/edit-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "delete-entity"
   [data]
-  (DB-projects/delete-entity (dissoc data :channel) (:_id (:user data))))
+  (DB-entities/delete-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "create-board"
   [data]
   (DB-projects/create-board (dissoc data :channel) (:_id (:user data))))
