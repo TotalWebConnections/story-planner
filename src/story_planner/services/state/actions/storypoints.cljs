@@ -12,11 +12,18 @@
 (defn handle-description-change [storypoints value]
   (map #(if (= (:id %) (:storypointId value)) (conj % {:description (:value value)}) %) storypoints))
 
+(defn handle-image-change [storypoints value]
+  (map #(if (= (:id %) (:storypointId value)) (conj % {:image (:value value)}) %) storypoints))
+
+(defn remove-storypoint [storypoints value]
+  (remove #(= (:id %) value) storypoints))
+
 (defn add-storypoint [state value]
   (print value)
   (if (= (:projectId value) (-> @state :currentProject :_id))
     (swap! state update-in [:currentProject :storypoints] conj value)
     nil))
+
 
 (defn update-storypoint-position [state value]
   (swap! state update-in [:currentProject :storypoints] handle-position-change value))
@@ -26,3 +33,9 @@
 
 (defn update-storypoint-description [state value]
   (swap! state update-in [:currentProject :storypoints] handle-description-change value))
+
+(defn delete-storypoint [state value]
+  (swap! state update-in [:currentProject :storypoints] remove-storypoint value))
+
+(defn update-storypoint-image [state value]
+  (swap! state update-in [:currentProject :storypoints] handle-image-change value))

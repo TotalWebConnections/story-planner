@@ -90,6 +90,12 @@
   (defmethod handle-state-change "update-storypoint-description"
     [action]
     (storypoints/update-storypoint-description app-state (:value action)))
+  (defmethod handle-state-change "delete-storypoint"
+    [action]
+    (storypoints/delete-storypoint app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-image"
+    [action]
+    (storypoints/update-storypoint-image app-state (:value action)))
 
   ; Entity overlay pullout
   (defmethod handle-state-change "set-entity-overlay-active"

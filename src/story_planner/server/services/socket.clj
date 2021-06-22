@@ -71,7 +71,12 @@
   (DB-storypoints/update-storypoint-description {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
 (defmethod handle-websocket-message "update-storypoint-image"
   [data]
-  (DB-projects/update-storypoint-image {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
+  (DB-storypoints/update-storypoint-image {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
+(defmethod handle-websocket-message "delete-storypoint"
+  [data]
+  (DB-storypoints/delete-storypoint {:id (:projectId data) :storypointId (:storypointId data)} (:_id (:user data))))
+
+
 (defmethod handle-websocket-message "add-link-to-storypoint"
   [data]
   (DB-projects/add-link-to-storypoint {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
@@ -81,9 +86,6 @@
 (defmethod handle-websocket-message "delete-link"
   [data]
   (DB-projects/delete-link {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data)} (:_id (:user data))))
-(defmethod handle-websocket-message "delete-storypoint"
-  [data]
-  (DB-projects/delete-storypoint {:id (:projectId data) :storypointId (:storypointId data)} (:_id (:user data))))
 (defmethod handle-websocket-message :default [data]
   (async/send! (:channel data) (generate-string "No method signiture found"))) ; String for consistency sake
 

@@ -50,16 +50,6 @@
       (response-handler/send-auth-error))))
 
 
-(defn update-storypoint-image [storyData userId]
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                               {$set {"storypoints.$.image" (:value storyData)}}))]
-    (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))
-
 (defn add-link-to-storypoint [storyData userId]
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
@@ -91,15 +81,5 @@
                                                                          {:authorizedUsers {$in [(str userId)]}}]}]}
                                                          :u {$pull {"storypoints.$.links" {:linkId (:linkId storyData)}}}}]))]
     (if projectUpdate
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))
-
-(defn delete-storypoint [storyData userId]
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$pull {"storypoints" {:id (:storypointId storyData)}}} true))]
-    (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
       (response-handler/send-auth-error))))

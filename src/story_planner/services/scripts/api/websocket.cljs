@@ -56,7 +56,12 @@
 (defmethod handle-websocket-message "update-storypoint-description"
   [data]
   (handle-state-change {:type "update-storypoint-description" :value (:data data)}))
-
+(defmethod handle-websocket-message "delete-storypoint"
+  [data]
+  (handle-state-change {:type "delete-storypoint" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-image"
+  [data]
+  (handle-state-change {:type "update-storypoint-image" :value (:data data)}))
 
 
 (defmethod handle-websocket-message "new-project"

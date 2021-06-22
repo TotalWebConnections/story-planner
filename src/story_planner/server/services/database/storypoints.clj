@@ -57,3 +57,23 @@
     (if (> projectUpdate 0)
       (response-handler/wrap-ws-response "update-storypoint-description" "all" (select-keys storyData [:storypointId :value]))
       (response-handler/send-auth-error))))
+
+(defn delete-storypoint [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                      {$pull {"storypoints" {:id (:storypointId storyData)}}} true))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-ws-response "delete-storypoint" "all" (:storypointId storyData))
+      (response-handler/send-auth-error))))
+
+(defn update-storypoint-image [storyData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
+                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                               {$set {"storypoints.$.image" (:value storyData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-ws-response "update-storypoint-image" "all" (select-keys storyData [:storypointId :value]))
+      (response-handler/send-auth-error))))
