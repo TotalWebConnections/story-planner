@@ -75,6 +75,7 @@
   (handle-state-change {:type "delete-link" :value (:data data)}))
 
 
+; Project Handlers + user
 (defmethod handle-websocket-message "new-project"
   [data]
   (handle-state-change {:type "new-project" :value (:data data)}))
@@ -90,12 +91,17 @@
 (defmethod handle-websocket-message "project-first"
   [data]
   (handle-state-change {:type "get-project" :value (:data data)}))
+
+
+; Image Handlers
 (defmethod handle-websocket-message "get-images"
   [data]
   (handle-state-change {:type "get-images" :value (:data data)}))
 (defmethod handle-websocket-message "project"
   [data]
   (handle-state-change {:type "get-project" :value (:data data)}))
+
+; Error Handlers 
 (defmethod handle-websocket-message "BAD-TOKEN-REQUEST"
   [data]
   (handle-expired-token-debounced!))

@@ -12,6 +12,8 @@
 ; As we need more mutations for state we can add them here - Handle state change
 ; calls the correct method based on the type passed in
 (defmulti handle-state-change (fn [action] (:type action)))
+
+  ; This batch of handlers should be UI related concerns that don't have a dependance on the server
   (defmethod handle-state-change "set-login-error"
     [action]
     (swap! app-state conj {:loginError (:value action)}))

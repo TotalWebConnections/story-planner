@@ -21,6 +21,7 @@
 
 
 ; Handlers for our websocket functions
+; Functions that only send to user non-auth user related
 (defmulti handle-websocket-message (fn [data] (:type data)))
 (defmethod handle-websocket-message "create-project"
   [data]
@@ -28,18 +29,6 @@
 (defmethod handle-websocket-message "delete-project"
   [data]
   {:type "delete-project" :msg-type "single" :data (DB-projects/delete-project {:id (:value data) :userId (:_id (:user data))})})
-(defmethod handle-websocket-message "create-folder"
-  [data]
-  (DB-folders/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)} (:_id (:user data))))
-(defmethod handle-websocket-message "create-entity"
-  [data]
-  (DB-entities/create-entity (dissoc data :channel) (:_id (:user data))))
-(defmethod handle-websocket-message "edit-entity"
-  [data]
-  (DB-entities/edit-entity (dissoc data :channel) (:_id (:user data))))
-(defmethod handle-websocket-message "delete-entity"
-  [data]
-  (DB-entities/delete-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "create-board"
   [data]
   (DB-projects/create-board (dissoc data :channel) (:_id (:user data))))
@@ -51,11 +40,26 @@
   {:type "project-first"
    :data (DB-projects/get-project (:value data) (:_id (:user data)))})
 
-
 (defmethod handle-websocket-message "get-images"
   [data]
   {:type "get-images"
    :data (media/load-media (:_id (:user data)))})
+
+; Entity Handlers
+(defmethod handle-websocket-message "create-entity"
+  [data]
+  (DB-entities/create-entity (dissoc data :channel) (:_id (:user data))))
+(defmethod handle-websocket-message "edit-entity"
+  [data]
+  (DB-entities/edit-entity (dissoc data :channel) (:_id (:user data))))
+(defmethod handle-websocket-message "delete-entity"
+  [data]
+  (DB-entities/delete-entity (dissoc data :channel) (:_id (:user data))))
+
+; Folder Handlers
+(defmethod handle-websocket-message "create-folder"
+  [data]
+  (DB-folders/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)} (:_id (:user data))))
 
 ; Storypoint Handlers
 (defmethod handle-websocket-message "create-storypoint"
@@ -98,13 +102,11 @@
   (DB-auth-users/add-authorized-user (:newUser data) (:projectIds data) (:_id (:user data)))
   {:type "get-authorized-users"
    :data (DB-auth-users/get-authorized-users (:_id (:user data)))})
-
 (defmethod handle-websocket-message "delete-authorized-user"
   [data]
   (DB-auth-users/delete-authorized-user (:userId data) (:_id (:user data)))
   {:type "get-authorized-users"
    :data (DB-auth-users/get-authorized-users (:_id (:user data)))})
-
 (defmethod handle-websocket-message "update-project-permissions"
   [data]
   (DB-auth-users/update-project-permissions (:_id (:user data)) (:authorizedUsers data) (:projectId data))

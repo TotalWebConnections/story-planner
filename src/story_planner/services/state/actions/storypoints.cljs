@@ -4,7 +4,7 @@
   (conj old {:position (:position new) :size (:size new)}))
 
 (defn handle-position-change [storypoints value]
-  (map #(if (= (:id %) (:storypointId value)) (set-new-position % value) %)) storypoints)
+  (map #(if (= (:id %) (:storypointId value)) (set-new-position % value) %) storypoints))
 
 (defn handle-title-change [storypoints value]
   (map #(if (= (:id %) (:storypointId value)) (conj % {:name (:value value)}) %) storypoints))
