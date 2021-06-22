@@ -6,6 +6,7 @@
     [story-planner.server.services.database.projects :as DB-projects]
     [story-planner.server.services.database.folders :as DB-folders]
     [story-planner.server.services.database.entities :as DB-entities]
+    [story-planner.server.services.database.storypoints :as DB-storypoints]
     [story-planner.server.services.amazon :as AWS]
     [story-planner.server.services.database.media :as media]))
 
@@ -41,9 +42,6 @@
 (defmethod handle-websocket-message "create-board"
   [data]
   (DB-projects/create-board (dissoc data :channel) (:_id (:user data))))
-(defmethod handle-websocket-message "create-storypoint"
-  [data]
-  (DB-projects/create-storypoint (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "get-projects"
   [data] ; Returns the name and ID of all projects
   {:type "projects" :data (construct-all-project-return (DB-projects/get-projects (:_id (:user data))))})
@@ -57,15 +55,20 @@
   [data]
   {:type "get-images"
    :data (media/load-media (:_id (:user data)))})
+
+; Storypoint Handlers
+(defmethod handle-websocket-message "create-storypoint"
+  [data]
+  (DB-storypoints/create-storypoint (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "update-storypoint-position"
   [data] ; Returns the name and ID of all projects
-  (DB-projects/update-storypoint-position {:storypointId (:storypointId data) :position (:position data) :size (:size data) :id (:projectId data)} (:_id (:user data))))
+  (DB-storypoints/update-storypoint-position {:storypointId (:storypointId data) :position (:position data) :size (:size data) :id (:projectId data)} (:_id (:user data))))
 (defmethod handle-websocket-message "update-storypoint-title"
   [data] ; Returns the name and ID of all projects
-  (DB-projects/update-storypoint-title {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
+  (DB-storypoints/update-storypoint-title {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
 (defmethod handle-websocket-message "update-storypoint-description"
   [data] ; Returns the name and ID of all projects
-  (DB-projects/update-storypoint-description {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
+  (DB-storypoints/update-storypoint-description {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
 (defmethod handle-websocket-message "update-storypoint-image"
   [data]
   (DB-projects/update-storypoint-image {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))

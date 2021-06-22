@@ -4,6 +4,7 @@
             [story-planner.services.state.actions.folders :as folders]
             [story-planner.services.state.actions.entities :as entities]
             [story-planner.services.state.actions.projects :as projects]
+            [story-planner.services.state.actions.storypoints :as storypoints]
             [story-planner.services.state.actions.canvas :refer [set-canvas-render set-show-media]]
             [story-planner.services.state.actions.linking :refer [handle-linking]]))
 
@@ -75,6 +76,20 @@
   (defmethod handle-state-change "delete-entity"
     [action]
     (entities/delete-entity app-state (:value action)))
+
+  ;Storypoint Functions
+  (defmethod handle-state-change "new-storypoint"
+    [action]
+    (storypoints/add-storypoint app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-position"
+    [action]
+    (storypoints/update-storypoint-position app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-title"
+    [action]
+    (storypoints/update-storypoint-title app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-description"
+    [action]
+    (storypoints/update-storypoint-description app-state (:value action)))
 
   ; Entity overlay pullout
   (defmethod handle-state-change "set-entity-overlay-active"

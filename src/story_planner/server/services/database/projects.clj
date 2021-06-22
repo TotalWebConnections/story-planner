@@ -50,62 +50,12 @@
       (response-handler/send-auth-error))))
 
 
-; TODO probably need to roll this out into it's own attr - modifying story points is going to run into issues here
-(defn create-storypoint [storyData userId]
-  "Creates a blank story point for the :board :projectId combo"
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId storyData))}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$push {"storypoints" {
-                                                                             :name "Title"
-                                                                             :id (str (ObjectId.))
-                                                                             :board (:board storyData)
-                                                                             :description "Description"
-                                                                             :entityId (:entityId storyData)
-                                                                             :position (:position storyData)
-                                                                             :size (:size storyData)}}}))]
-    (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:projectId storyData) userId))
-      (response-handler/send-auth-error))))
-
-; Choice to break up edits to prevent race conditions if multiple users edit same storypoint
-(defn update-storypoint-position [storyData userId]
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$set {"storypoints.$.position" (:position storyData) "storypoints.$.size" (:size storyData)}}))]
-    (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))
-
-;TODO DRY
-(defn update-storypoint-title [storyData userId]
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$set {"storypoints.$.name" (:value storyData)}}))]
-    (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))
-
 (defn update-storypoint-image [storyData userId]
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
                                                              {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
                                                              {$or [{:userId userId}
                                                                    {:authorizedUsers {$in [(str userId)]}}]}]}
                                {$set {"storypoints.$.image" (:value storyData)}}))]
-    (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))
-
-(defn update-storypoint-description [storyData userId]
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                               {$set {"storypoints.$.description" (:value storyData)}}))]
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:id storyData) userId))
       (response-handler/send-auth-error))))

@@ -43,6 +43,20 @@
   [data]
   (handle-state-change {:type "delete-entity" :value (:data data)}))
 
+;Storypoint functions
+(defmethod handle-websocket-message "new-storypoint"
+  [data]
+  (handle-state-change {:type "new-storypoint" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-position"
+  [data]
+  (handle-state-change {:type "update-storypoint-position" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-title"
+  [data]
+  (handle-state-change {:type "update-storypoint-title" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-description"
+  [data]
+  (handle-state-change {:type "update-storypoint-description" :value (:data data)}))
+
 
 
 (defmethod handle-websocket-message "new-project"
