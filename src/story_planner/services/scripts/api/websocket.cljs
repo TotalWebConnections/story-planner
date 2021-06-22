@@ -43,8 +43,39 @@
   [data]
   (handle-state-change {:type "delete-entity" :value (:data data)}))
 
+;Storypoint functions
+(defmethod handle-websocket-message "new-storypoint"
+  [data]
+  (handle-state-change {:type "new-storypoint" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-position"
+  [data]
+  (handle-state-change {:type "update-storypoint-position" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-title"
+  [data]
+  (handle-state-change {:type "update-storypoint-title" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-description"
+  [data]
+  (handle-state-change {:type "update-storypoint-description" :value (:data data)}))
+(defmethod handle-websocket-message "delete-storypoint"
+  [data]
+  (handle-state-change {:type "delete-storypoint" :value (:data data)}))
+(defmethod handle-websocket-message "update-storypoint-image"
+  [data]
+  (handle-state-change {:type "update-storypoint-image" :value (:data data)}))
+
+;Linking Functions
+(defmethod handle-websocket-message "add-link-to-storypoint"
+  [data]
+  (handle-state-change {:type "add-link-to-storypoint" :value (:data data)}))
+(defmethod handle-websocket-message "update-link-label"
+  [data]
+  (handle-state-change {:type "update-link-label" :value (:data data)}))
+(defmethod handle-websocket-message "delete-link"
+  [data]
+  (handle-state-change {:type "delete-link" :value (:data data)}))
 
 
+; Project Handlers + user
 (defmethod handle-websocket-message "new-project"
   [data]
   (handle-state-change {:type "new-project" :value (:data data)}))
@@ -60,12 +91,17 @@
 (defmethod handle-websocket-message "project-first"
   [data]
   (handle-state-change {:type "get-project" :value (:data data)}))
+
+
+; Image Handlers
 (defmethod handle-websocket-message "get-images"
   [data]
   (handle-state-change {:type "get-images" :value (:data data)}))
 (defmethod handle-websocket-message "project"
   [data]
   (handle-state-change {:type "get-project" :value (:data data)}))
+
+; Error Handlers 
 (defmethod handle-websocket-message "BAD-TOKEN-REQUEST"
   [data]
   (handle-expired-token-debounced!))

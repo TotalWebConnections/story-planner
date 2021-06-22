@@ -1082,7 +1082,8 @@ input, textarea {
       box-sizing: border-box;
       font-size: 14px;
       font-weight: 300;
-      display: none; }
+      display: none;
+      z-index: 2; }
       .Storypoint__header__optionsDropDown.active {
         display: block; }
       .Storypoint__header__optionsDropDown p {

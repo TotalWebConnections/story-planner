@@ -4,12 +4,16 @@
             [story-planner.services.state.actions.folders :as folders]
             [story-planner.services.state.actions.entities :as entities]
             [story-planner.services.state.actions.projects :as projects]
+            [story-planner.services.state.actions.storypoints :as storypoints]
+            [story-planner.services.state.actions.linking :as linking]
             [story-planner.services.state.actions.canvas :refer [set-canvas-render set-show-media]]
             [story-planner.services.state.actions.linking :refer [handle-linking]]))
 
 ; As we need more mutations for state we can add them here - Handle state change
 ; calls the correct method based on the type passed in
 (defmulti handle-state-change (fn [action] (:type action)))
+
+  ; This batch of handlers should be UI related concerns that don't have a dependance on the server
   (defmethod handle-state-change "set-login-error"
     [action]
     (swap! app-state conj {:loginError (:value action)}))
@@ -75,6 +79,37 @@
   (defmethod handle-state-change "delete-entity"
     [action]
     (entities/delete-entity app-state (:value action)))
+
+  ;Storypoint Functions
+  (defmethod handle-state-change "new-storypoint"
+    [action]
+    (storypoints/add-storypoint app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-position"
+    [action]
+    (storypoints/update-storypoint-position app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-title"
+    [action]
+    (storypoints/update-storypoint-title app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-description"
+    [action]
+    (storypoints/update-storypoint-description app-state (:value action)))
+  (defmethod handle-state-change "delete-storypoint"
+    [action]
+    (storypoints/delete-storypoint app-state (:value action)))
+  (defmethod handle-state-change "update-storypoint-image"
+    [action]
+    (storypoints/update-storypoint-image app-state (:value action)))
+
+  ;Linking Functions
+  (defmethod handle-state-change "add-link-to-storypoint"
+    [action]
+    (linking/add-link-to-storypoint app-state (:value action)))
+  (defmethod handle-state-change "update-link-label"
+    [action]
+    (linking/update-link-label app-state (:value action)))
+    (defmethod handle-state-change "delete-link"
+      [action]
+      (linking/delete-link app-state (:value action)))
 
   ; Entity overlay pullout
   (defmethod handle-state-change "set-entity-overlay-active"
