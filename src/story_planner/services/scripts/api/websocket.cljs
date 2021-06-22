@@ -63,6 +63,17 @@
   [data]
   (handle-state-change {:type "update-storypoint-image" :value (:data data)}))
 
+;Linking Functions
+(defmethod handle-websocket-message "add-link-to-storypoint"
+  [data]
+  (handle-state-change {:type "add-link-to-storypoint" :value (:data data)}))
+(defmethod handle-websocket-message "update-link-label"
+  [data]
+  (handle-state-change {:type "update-link-label" :value (:data data)}))
+(defmethod handle-websocket-message "delete-link"
+  [data]
+  (handle-state-change {:type "delete-link" :value (:data data)}))
+
 
 (defmethod handle-websocket-message "new-project"
   [data]

@@ -7,6 +7,7 @@
     [story-planner.server.services.database.folders :as DB-folders]
     [story-planner.server.services.database.entities :as DB-entities]
     [story-planner.server.services.database.storypoints :as DB-storypoints]
+    [story-planner.server.services.database.linking :as DB-linking]
     [story-planner.server.services.amazon :as AWS]
     [story-planner.server.services.database.media :as media]))
 
@@ -76,18 +77,16 @@
   [data]
   (DB-storypoints/delete-storypoint {:id (:projectId data) :storypointId (:storypointId data)} (:_id (:user data))))
 
-
+; Linking stuff
 (defmethod handle-websocket-message "add-link-to-storypoint"
   [data]
-  (DB-projects/add-link-to-storypoint {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
+  (DB-linking/add-link-to-storypoint {:id (:projectId data) :storypointId (:storypointId data) :value (:value data)} (:_id (:user data))))
 (defmethod handle-websocket-message "update-link-label"
   [data]
-  (DB-projects/update-link-label {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data) :label (:label data)} (:_id (:user data))))
+  (DB-linking/update-link-label {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data) :label (:label data)} (:_id (:user data))))
 (defmethod handle-websocket-message "delete-link"
   [data]
-  (DB-projects/delete-link {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data)} (:_id (:user data))))
-(defmethod handle-websocket-message :default [data]
-  (async/send! (:channel data) (generate-string "No method signiture found"))) ; String for consistency sake
+  (DB-linking/delete-link {:id (:projectId data) :storypointId (:storypointId data) :linkId (:linkId data)} (:_id (:user data))))
 
 ; Authorized user flow methods
 (defmethod handle-websocket-message "get-authorized-users"
@@ -111,6 +110,10 @@
   (DB-auth-users/update-project-permissions (:_id (:user data)) (:authorizedUsers data) (:projectId data))
   {:type "generic"
    :data "success"})
+
+
+(defmethod handle-websocket-message :default [data]
+  (async/send! (:channel data) (generate-string "No method signiture found"))) ; String for consistency sake
 
 
 

@@ -48,38 +48,3 @@
     (if (> projectUpdate 0)
       (response-handler/wrap-response "project" (get-project (:projectId boardData) userId))
       (response-handler/send-auth-error))))
-
-
-(defn add-link-to-storypoint [storyData userId]
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:id storyData))}
-                                                             {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                             {$or [{:userId userId}
-                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$push {"storypoints.$.links" {:id (:value storyData) :linkId (str (ObjectId.))}}}))]
-    (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))
-
-(defn update-link-label [storyData userId]
-  "This one is a bit different since the command results is different - we have to use that as the update filters we used
-    aren't supported by the core monger - have to access it with a manual mongo command"
-  (let [projectUpdate (.ok (mg/command db (sorted-map :update "projects"
-                                              :updates [{:q {$and [{:_id (ObjectId. (:id storyData))}
-                                                                   {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                                   {$or [{:userId userId}
-                                                                         {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                         :u {"$set" {"storypoints.$.links.$[link].label" (:label storyData)}} :arrayFilters [ {"link.linkId" (:linkId storyData)}]}])))]
-    (if projectUpdate
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))
-
-(defn delete-link [storyData userId]
-  (let [projectUpdate (mg/command db (sorted-map :update "projects"
-                                              :updates [{:q {$and [{:_id (ObjectId. (:id storyData))}
-                                                                   {:storypoints {$elemMatch {:id (:storypointId storyData)}}}
-                                                                   {$or [{:userId userId}
-                                                                         {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                         :u {$pull {"storypoints.$.links" {:linkId (:linkId storyData)}}}}]))]
-    (if projectUpdate
-      (response-handler/wrap-response "project" (get-project (:id storyData) userId))
-      (response-handler/send-auth-error))))

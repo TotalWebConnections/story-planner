@@ -19,7 +19,6 @@
   (remove #(= (:id %) value) storypoints))
 
 (defn add-storypoint [state value]
-  (print value)
   (if (= (:projectId value) (-> @state :currentProject :_id))
     (swap! state update-in [:currentProject :storypoints] conj value)
     nil))
