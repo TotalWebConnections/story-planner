@@ -1,7 +1,8 @@
 (ns story-planner.services.state.dispatcher
   (:require [story-planner.services.state.global :refer [app-state]]
             [story-planner.services.state.textstate :refer [update-state-text]]
-            [story-planner.services.state.actions.folders :refer [toggle-folder-as-open set-active-board]]
+            [story-planner.services.state.actions.folders :as folders]
+            [story-planner.services.state.actions.entities :as entities]
             [story-planner.services.state.actions.projects :as projects]
             [story-planner.services.state.actions.canvas :refer [set-canvas-render set-show-media]]
             [story-planner.services.state.actions.linking :refer [handle-linking]]))
@@ -50,13 +51,30 @@
     (update-state-text app-state (:value action)))
   (defmethod handle-state-change "toggle-folder-open"
     [action]
-    (toggle-folder-as-open app-state (:value action)))
+    (folders/toggle-folder-as-open app-state (:value action)))
   (defmethod handle-state-change "set-active-board"
     [action]
-    (set-active-board app-state (:value action)))
+    (folders/set-active-board app-state (:value action)))
   (defmethod handle-state-change "handle-linking-id"
     [action]
     (handle-linking app-state (:value action)))
+
+
+  ;Folder Functions
+  (defmethod handle-state-change "new-folder"
+    [action]
+    (folders/update-folders app-state (:value action) (-> action :value :type)))
+
+  ;Entity Fnunctions
+  (defmethod handle-state-change "new-entity"
+    [action]
+    (entities/add-entity app-state (:value action)))
+  (defmethod handle-state-change "edit-entity"
+    [action]
+    (entities/edit-entity app-state (:value action)))
+  (defmethod handle-state-change "delete-entity"
+    [action]
+    (entities/delete-entity app-state (:value action)))
 
   ; Entity overlay pullout
   (defmethod handle-state-change "set-entity-overlay-active"

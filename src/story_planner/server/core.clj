@@ -31,7 +31,7 @@
 ; (some #(= (:_id user) %) (:authorizedUsers project))
 (defn send-message-to-all [user msg]
   "Sends a message to all connected ws connections"
-    (if (= "project" (:type msg))
+    (if (or (= "project" (:type msg)) (= "all" (:msg-type msg))) ; TODO this needs to be removed after we'ere done - just for testing
       (doseq [ch @channel-store]
           (if (or
                 (= (:id ch) (:_id user))

@@ -25,6 +25,26 @@
 
 (defmulti handle-websocket-message (fn [data] (:type data)))
 
+
+; FOLDER FUNCTIONS
+(defmethod handle-websocket-message "new-folder"
+  [data]
+  (handle-state-change {:type "new-folder" :value (:data data)}))
+
+
+;Entity Functions
+(defmethod handle-websocket-message "new-entity"
+  [data]
+  (handle-state-change {:type "new-entity" :value (:data data)}))
+(defmethod handle-websocket-message "edit-entity"
+  [data]
+  (handle-state-change {:type "edit-entity" :value (:data data)}))
+(defmethod handle-websocket-message "delete-entity"
+  [data]
+  (handle-state-change {:type "delete-entity" :value (:data data)}))
+
+
+
 (defmethod handle-websocket-message "new-project"
   [data]
   (handle-state-change {:type "new-project" :value (:data data)}))

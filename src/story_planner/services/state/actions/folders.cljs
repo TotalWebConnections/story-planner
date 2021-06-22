@@ -4,9 +4,10 @@
 
 (defn update-folders [state value type]
   "adds a folder to state based on type"
+  (print @state)
   (if (= "board" type)
-    (swap! state conj {:boardFolders value})
-    (swap! state conj {:entityFolders value})))
+    (swap! state update-in [:currentProject :folders] conj value)
+    (swap! state update-in [:currentProject :folders] conj value)))
 
 ;
 ; (defn toggle-folder-as-open [state folderName]

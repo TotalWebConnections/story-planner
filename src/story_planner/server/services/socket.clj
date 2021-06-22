@@ -4,6 +4,8 @@
     [cheshire.core            :refer :all]
     [story-planner.server.services.database.authorized :as DB-auth-users]
     [story-planner.server.services.database.projects :as DB-projects]
+    [story-planner.server.services.database.folders :as DB-folders]
+    [story-planner.server.services.database.entities :as DB-entities]
     [story-planner.server.services.amazon :as AWS]
     [story-planner.server.services.database.media :as media]))
 
@@ -20,22 +22,22 @@
 (defmulti handle-websocket-message (fn [data] (:type data)))
 (defmethod handle-websocket-message "create-project"
   [data]
-  {:type "new-project" :data (DB-projects/create-project {:name (:value data) :userId (:_id (:user data))})})
+  {:type "new-project" :msg-type "single" :data (DB-projects/create-project {:name (:value data) :userId (:_id (:user data))})})
 (defmethod handle-websocket-message "delete-project"
   [data]
-  {:type "delete-project" :data (DB-projects/delete-project {:id (:value data) :userId (:_id (:user data))})})
+  {:type "delete-project" :msg-type "single" :data (DB-projects/delete-project {:id (:value data) :userId (:_id (:user data))})})
 (defmethod handle-websocket-message "create-folder"
   [data]
-  (DB-projects/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)} (:_id (:user data))))
+  (DB-folders/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)} (:_id (:user data))))
 (defmethod handle-websocket-message "create-entity"
   [data]
-  (DB-projects/create-entity (dissoc data :channel) (:_id (:user data))))
+  (DB-entities/create-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "edit-entity"
   [data]
-  (DB-projects/edit-entity (dissoc data :channel) (:_id (:user data))))
+  (DB-entities/edit-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "delete-entity"
   [data]
-  (DB-projects/delete-entity (dissoc data :channel) (:_id (:user data))))
+  (DB-entities/delete-entity (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "create-board"
   [data]
   (DB-projects/create-board (dissoc data :channel) (:_id (:user data))))
