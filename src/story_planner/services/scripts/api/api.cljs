@@ -29,7 +29,10 @@
 ;These can be used for both board and entity folders
 (defn create-folder [constructor]
   (send-message {:type "create-folder" :folder (:type constructor) :projectId (:projectId constructor) :value (:value constructor)}))
-(defn delete-folder [])
+(defn delete-folder [constructor]
+  (send-message {:type "delete-folder"
+                 :folderId (:folderId constructor)
+                 :projectId (:_id (get-from-state "currentProject"))}))
 (defn edit-folder [])
 
 (defn create-entity [constructor]

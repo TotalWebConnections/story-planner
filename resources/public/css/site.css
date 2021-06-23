@@ -850,6 +850,11 @@ input, textarea {
   100% {
     transform: rotate(359deg); } }
 
+.Folder__folderIcon {
+  transition: all .25s; }
+  .Folder__folderIcon:hover {
+    color: #1664ff; }
+
 .Folder__open {
   background: #444; }
   .Folder__open i.fa-caret-down {
@@ -872,11 +877,12 @@ input, textarea {
     width: 75%; }
   .Folder__folder__right {
     width: 25%;
-    text-align: center; }
+    text-align: center;
+    display: flex; }
     .Folder__folder__right i {
       transition: all .25s; }
     .Folder__folder__right:hover i {
-      font-size: 1.5rem; }
+      color: #1664ff; }
   .Folder__folder:hover {
     background: #303738; }
 

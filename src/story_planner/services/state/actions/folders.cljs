@@ -4,10 +4,17 @@
 
 (defn update-folders [state value type]
   "adds a folder to state based on type"
-  (print @state)
   (if (= "board" type)
     (swap! state update-in [:currentProject :folders] conj value)
     (swap! state update-in [:currentProject :folders] conj value)))
+
+(defn delete-folder-handler [folders value]
+  (remove #(= (:folderId %) value) folders))
+
+(defn delete-folder [state value]
+  (if (= (:projectId value) (-> @state :currentProject :_id))
+    (swap! state update-in [:currentProject :folders] delete-folder-handler (:folderId value))
+    nil))
 
 ;
 ; (defn toggle-folder-as-open [state folderName]

@@ -30,6 +30,9 @@
 (defmethod handle-websocket-message "new-folder"
   [data]
   (handle-state-change {:type "new-folder" :value (:data data)}))
+(defmethod handle-websocket-message "delete-folder"
+  [data]
+  (handle-state-change {:type "delete-folder" :value (:data data)}))
 
 
 ;Entity Functions
@@ -101,7 +104,7 @@
   [data]
   (handle-state-change {:type "get-project" :value (:data data)}))
 
-; Error Handlers 
+; Error Handlers
 (defmethod handle-websocket-message "BAD-TOKEN-REQUEST"
   [data]
   (handle-expired-token-debounced!))
