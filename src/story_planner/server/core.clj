@@ -16,6 +16,7 @@
     [story-planner.server.services.socket :as socketHandlers]
     [story-planner.server.services.amazon :refer [handle-image-upload handle-delete-image]]
     [story-planner.server.services.database.media :refer [add-media-folder]]
+    [story-planner.server.services.database.authorized :as auth]
     [story-planner.server.services.user :refer [handle-save-user handle-login-user check-user-token subscribe-user unsubscribe-user signup-auth-user]])
   (:gen-class))
 
@@ -29,15 +30,16 @@
     (if (= (:id ch) id)
       (async/send! (:channel ch) (generate-string msg)))))
 ; (some #(= (:_id user) %) (:authorizedUsers project))
-(defn send-message-to-all [user msg]
+(defn send-message-to-all [user projectId msg]
   "Sends a message to all connected ws connections"
     (if (or (= "project" (:type msg)) (= "all" (:msg-type msg))) ; TODO this needs to be removed after we'ere done - just for testing
-      (doseq [ch @channel-store]
+      (let [authorizedUsers (auth/get-authorized-users-from-project projectId)]
+        (doseq [ch @channel-store]
           (if (or
                 (= (:id ch) (:_id user))
-                (some #(= (str (:id ch))  %) (:authorizedUsers (first (:data msg))))
+                (some #(= (str (:id ch))  %) authorizedUsers)
                 (= (str (:id ch)) (:userId (first (:data msg)))))
-            (async/send! (:channel ch) (generate-string msg))))
+            (async/send! (:channel ch) (generate-string msg)))))
       (send-message-to-user msg (:_id user))))
 
 ; (:id (ws/session h) get user ID of message
@@ -56,7 +58,8 @@
                     (if user
                       (if (= (:type (parse-string m true)) "start-connection")
                         (swap! channel-store conj {:channel ch :id (:_id user)})
-                        (send-message-to-all user (socketHandlers/handle-websocket-message (conj (parse-string m true) {:channel ch :user user}))))
+                        (let [msg (parse-string m true)]
+                          (send-message-to-all user (:projectId msg) (socketHandlers/handle-websocket-message (conj msg {:channel ch :user user})))))
                       (async/send! ch (generate-string {:type "BAD-TOKEN-REQUEST" :data "Bad Token"}))))
                   (async/send! ch (generate-string {:type "ping" :data "ping"}))))})
 (def cors-headers

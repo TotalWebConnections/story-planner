@@ -24,9 +24,14 @@
 (defn get-authorized-users [userId]
   (let [users (mc/find-maps db "users" {:parentId userId})]
     (map ; Turn characters into a modified list
-      ; #(comp (update % :_id str) (update % :userId str)) ; By updating each map :id by casting to a string
       #(conj % {:_id (str (:_id %))  :parentId (str (:parentId %))})
       users)))
+
+(defn get-authorized-users-from-project [projectId]
+  "note that this also merges the userId into our vector as they are also by definition authorized"
+  (let [project (mc/find-one-as-map db "projects"  { :_id (ObjectId. projectId)})]
+    (println (conj (:authorizedUsers project) (:userId project)))
+    (conj (:authorizedUsers project) (:userId project))))
 
 (defn add-new-user-project [authorizedUserId parentId projectIds]
   (let [projectList (DB-projects/get-projects parentId)]
