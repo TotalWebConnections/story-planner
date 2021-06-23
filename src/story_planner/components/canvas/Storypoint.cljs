@@ -166,6 +166,8 @@
         dropdown-active (atom false)
         linker (atom {:active false :position nil :current-distance 0})]
     (fn [storypoint]
+      ; fires when an external event has updated a storypoint title
+      (if-not (= (:name storypoint) (:name @input-values)) (swap! input-values conj {:name (:name storypoint)}) nil)
       (let [entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
             image (or (:image entity) (:image storypoint))]
         [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
