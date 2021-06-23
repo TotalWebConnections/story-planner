@@ -1,5 +1,13 @@
 .Folder {
 
+  &__folderIcon {
+    transition: all .25s;
+
+    &:hover{
+      color: $mainBlue;
+    }
+  }
+
   &__open {
     background: #444;
     i.fa-caret-down {
@@ -30,6 +38,7 @@
     &__right {
       width: 25%;
       text-align: center;
+      display: flex;
 
       i {
         transition: all .25s;
@@ -37,7 +46,7 @@
 
       &:hover {
         i {
-          font-size: 1.5rem;
+          color: $mainBlue;
 
         }
       }

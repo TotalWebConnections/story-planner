@@ -68,6 +68,9 @@
   (defmethod handle-state-change "new-folder"
     [action]
     (folders/update-folders app-state (:value action) (-> action :value :type)))
+  (defmethod handle-state-change "delete-folder"
+    [action]
+    (folders/delete-folder app-state (:value action)))
 
   ;Entity Fnunctions
   (defmethod handle-state-change "new-entity"

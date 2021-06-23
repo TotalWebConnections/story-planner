@@ -60,6 +60,9 @@
 (defmethod handle-websocket-message "create-folder"
   [data]
   (DB-folders/create-folder {:name (:value data) :type (:folder data) :id (:projectId data)} (:_id (:user data))))
+(defmethod handle-websocket-message "delete-folder"
+  [data]
+  (DB-folders/delete-folder (dissoc data :channel) (:_id (:user data))))
 
 ; Storypoint Handlers
 (defmethod handle-websocket-message "create-storypoint"
