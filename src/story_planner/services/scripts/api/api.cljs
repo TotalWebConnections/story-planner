@@ -92,7 +92,7 @@
 (defn update-storypoint-image [constructor]
   (send-message {:type "update-storypoint-image"
                  :projectId (:_id (get-from-state "currentProject"))
-                 :storypointId (get-from-state "edited-storypoint")
+                 :storypointId (if (:id constructor) (:id constructor) (get-from-state "edited-storypoint"))
                  :value (:value constructor)}))
 (defn update-storypoint-description [constructor]
   "updates the description property"

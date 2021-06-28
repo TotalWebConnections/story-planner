@@ -16,7 +16,6 @@
   "Updates the value of storypoints title"
   (api/update-storypoint-title {:id id :value value}))
 
-
 (defn update-storypoint-description [id value]
   "updates the value of a storypoints description"
   (api/update-storypoint-description {:id id :value value}))
@@ -204,7 +203,10 @@
              [:div.Storypoint__header__optionsDropDown {:class @dropdown-active}
                [:p {:on-click #(delete-storypoint (:id storypoint))} "Delete"]
                (if (not entity)
-                [:p {:on-click #(on-add-image (:id storypoint))} "Add Image"])]]]
+                (if image
+                  [:p {:on-click #(api/update-storypoint-image {:id (:id storypoint) :value nil})} "Delete Image"]
+                  [:p {:on-click #(on-add-image (:id storypoint))} "Add Image"])
+                nil)]]]
            (if image
              [:div.Storypoint__image
                [:img {:src (str "https://story-planner.s3.amazonaws.com/" image) :width "100%"}]])
