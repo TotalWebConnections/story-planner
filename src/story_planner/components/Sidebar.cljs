@@ -63,7 +63,7 @@
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
-            (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath) images media-folders]
+            (partial add-entity showEntityOverlay (:_id currentProject) currentFolderPath) images media-folders currentFolderPath]
           [:div.Sidebar__header
             [:h3 "Entities"]
             [:div.Sidebar__header__controls
