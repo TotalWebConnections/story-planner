@@ -34,6 +34,11 @@
   [data]
   (handle-state-change {:type "delete-folder" :value (:data data)}))
 
+; BOARD FUNCTIONS
+(defmethod handle-websocket-message "new-board"
+  [data]
+  (handle-state-change {:type "new-board" :value (:data data)}))
+
 
 ;Entity Functions
 (defmethod handle-websocket-message "new-entity"

@@ -41,10 +41,11 @@
 ; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
 (defn create-board [boardData userId]
   "Inserts an enttiy into the given folder or a root entities object"
-  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
+  (let [id (str (ObjectId.))
+        projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
                                                              {$or [{:userId userId}
                                                                    {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$push {:boards (:value boardData)}}))]
+                                                      {$push {:boards (conj (:value boardData) {:id id})}}))]
     (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:projectId boardData) userId))
+      (response-handler/wrap-ws-response "new-board" "all" (dissoc (update-in boardData [:value] conj {:id id}) :user :token))
       (response-handler/send-auth-error))))

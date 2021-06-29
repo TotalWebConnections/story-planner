@@ -86,7 +86,7 @@
           [:div.Sidebar__contentWrapper
             (for [board (:boards currentProject)]
               (if (= (:folder board) "n/a")
-                [:p.entityWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)}) :key (:name board)
+                [:p.entityWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)}) :key (:id board)
                                    :class (if (= currentBoard (:name board)) "active-board")} (:name board)]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp

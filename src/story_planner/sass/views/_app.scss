@@ -1,6 +1,7 @@
 .App {
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden; // prevent overscroll on mobile
 
   &__canvasWrapper {
     width: calc(100% - 150px); // current the width of the sidebar - might just abs it so 100% then
@@ -11,7 +12,7 @@
 
   @media(max-width: 768px) {
     overflow: hidden;
-    
+
     &__canvasWrapper {
       width: 100%;
       position: relative;

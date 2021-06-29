@@ -461,7 +461,8 @@ input, textarea {
 
 .App {
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  overflow: hidden; }
   .App__canvasWrapper {
     width: calc(100% - 150px);
     height: calc(100vh - 40px);
