@@ -38,6 +38,9 @@
 (defmethod handle-websocket-message "new-board"
   [data]
   (handle-state-change {:type "new-board" :value (:data data)}))
+(defmethod handle-websocket-message "delete-board"
+  [data]
+  (handle-state-change {:type "delete-board" :value (:data data)}))
 
 
 ;Entity Functions

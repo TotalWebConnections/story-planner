@@ -49,3 +49,14 @@
     (if (> projectUpdate 0)
       (response-handler/wrap-ws-response "new-board" "all" (dissoc (update-in boardData [:value] conj {:id id}) :user :token))
       (response-handler/send-auth-error))))
+
+(defn delete-board [boardData userId]
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                      {$pull {"boards" {:id (:id boardData)}}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-ws-response "delete-board" "all" {:id (:id boardData) :projectId (:projectId boardData)})
+      (response-handler/send-auth-error))))
+
+

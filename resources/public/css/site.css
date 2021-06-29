@@ -666,6 +666,12 @@ input, textarea {
       background: #303738; }
     .Sidebar .entityWrapper.active-board {
       background: #1664ff; }
+    .Sidebar .entityWrapper.boardWrapper {
+      position: relative; }
+      .Sidebar .entityWrapper.boardWrapper i {
+        position: absolute;
+        top: 8px;
+        right: 10px; }
 
 @media (max-width: 768px) {
   .Sidebar {
@@ -835,6 +841,49 @@ input, textarea {
   @media (max-width: 768px) {
     .OverlayEntity--active {
       position: fixed; } }
+
+@keyframes fadeIn {
+  0% {
+    display: block;
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.BoardSettings {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  display: none;
+  justify-content: center;
+  align-items: center; }
+  .BoardSettings--active {
+    display: flex;
+    opacity: 1;
+    animation: fadeIn .25s linear; }
+  .BoardSettings__inner {
+    background: #20242e;
+    border: 1px solid #1664ff;
+    border-radius: 8px;
+    color: white;
+    width: 400px;
+    max-width: 100%;
+    min-height: 200px;
+    max-height: 450px;
+    position: relative;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 10px; }
+    .BoardSettings__inner__close {
+      position: absolute;
+      top: 0px;
+      right: 12px; }
+    .BoardSettings__inner h2 {
+      margin-bottom: 15px; }
 
 .Loader {
   padding: 25px 15px;
