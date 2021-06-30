@@ -4,6 +4,6 @@
 (defn get-current-board-storypoints [storypoints board]
   "returns the storypoints for a given board"
   (filter (fn [point]
-    (if (= (:board point) board)
-      true
-      false)) storypoints))
+           (if (= (:board point) board)
+             true
+             false)) storypoints))

@@ -29,7 +29,7 @@
 
 (defn create-project [projectData]
   "insers a new project for current user"
-  (let [new-project (mc/insert-and-return db "projects" (conj projectData {:boards [{:name "Base" :folder "n/a"}]}))]
+  (let [new-project (mc/insert-and-return db "projects" (conj projectData {:boards [{:name "Base" :folder "n/a" :id (ObjectId.)}]}))]
     (get-project (str (:_id new-project)) (:userId projectData))))
 
 (defn delete-project [projectData]
@@ -51,6 +51,7 @@
       (response-handler/send-auth-error))))
 
 (defn delete-board [boardData userId]
+  ; TODO delete all storypoints assocaited with board
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
                                                              {$or [{:userId userId}
                                                                    {:authorizedUsers {$in [(str userId)]}}]}]}

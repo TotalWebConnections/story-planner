@@ -93,8 +93,8 @@
           [:div.Sidebar__contentWrapper
             (for [board (:boards currentProject)]
               (if (= (:folder board) "n/a")
-                [:p.entityWrapper.boardWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:name board)}) :key (:id board)
-                                                :class (if (= currentBoard (:name board)) "active-board")}
+                [:p.entityWrapper.boardWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:id board)}) :key (:id board)
+                                                :class (if (= currentBoard (:id board)) "active-board")}
                  (:name board)
                  [:i.fas.fa-pen {:on-click #(show-board-settings % (:id board) showBoardSettings)}]]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
