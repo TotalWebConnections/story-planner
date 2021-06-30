@@ -46,11 +46,11 @@
         [:div.OverlayEntity__inner
           [Media-Manager-Small showMedia images folders (partial handle-set-image imageField)]
           [:p.OverlayEntity__inner__close.closeButton {:on-click #(do (reset! currentFolderPath "n/a") (reset! editModeChecked? false) (reset! inputFields [{:id 1 :value ""}]) (reset-edit-mode titleField imageField) (handle-state-change {:type "set-entity-overlay-hidden" :value nil}))} "x"]
-          (if  @editModeChecked?
-            [:h3.OverlayEntity__inner-header "Edit Entity"]
-            (if (not= @currentFolderPath "n/a")
-              [:h3.OverlayEntity__inner-header (str "Add Entity - Folder: " @currentFolderPath)]
-              [:h3.OverlayEntity__inner-header "Add Entity"]))
+          ; (if  @editModeChecked?
+          ;   [:h3.OverlayEntity__inner-header "Edit Entity"]
+          ;   (if (not= @currentFolderPath "n/a")
+          ;     [:h3.OverlayEntity__inner-header (str "Add Entity - Folder: " @currentFolderPath)]
+          ;     [:h3.OverlayEntity__inner-header "Add Entity"]))
           [:div.OverlayEntity__inner-media {:on-click #(reset! showMedia "active")}
            (if @imageField
              [:img {:src (str "https://story-planner.s3.amazonaws.com/" @imageField) :height "100%"}])]

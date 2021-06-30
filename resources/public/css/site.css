@@ -776,11 +776,19 @@ input, textarea {
   opacity: 0;
   display: none;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  /* Optional: show position indicator in red */ }
   .OverlayEntity--active {
     display: flex;
     opacity: 1;
     animation: fadeIn .25s linear; }
+  .OverlayEntity ::-webkit-scrollbar {
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */ }
+  .OverlayEntity ::-webkit-scrollbar-thumb {
+    background: #FF0000; }
   .OverlayEntity__inner {
     background: #20242e;
     color: white;
@@ -790,7 +798,9 @@ input, textarea {
     max-height: 450px;
     position: relative;
     overflow: auto;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow-y: scroll; }
     .OverlayEntity__inner-header {
       margin-bottom: 15px;
       padding-bottom: 0px;
@@ -802,7 +812,10 @@ input, textarea {
       box-sizing: border-box;
       text-align: center;
       border-left: 0px;
-      border-right: 0px; }
+      border-right: 0px;
+      border-top: none;
+      margin-top: 0px;
+      font-size: 1rem; }
     .OverlayEntity__inner-media {
       width: 100%;
       height: 200px;
@@ -814,7 +827,8 @@ input, textarea {
       cursor: pointer;
       filter: brightness(100%);
       transition: .5s;
-      text-align: center; }
+      text-align: center;
+      border-radius: 10px 10px 0 0; }
       .OverlayEntity__inner-media:hover {
         filter: brightness(75%);
         background-color: rgba(0, 0, 0, 0.15); }
@@ -822,22 +836,27 @@ input, textarea {
       position: absolute;
       top: 0px;
       right: 12px; }
-  .OverlayEntity__input--label {
-    margin-right: 5px; }
   .OverlayEntity__fieldWrapper {
-    margin-top: 15px;
     margin-bottom: 15px;
     padding-left: 15px;
     padding-right: 15px; }
     .OverlayEntity__fieldWrapper--fields {
       display: flex; }
       .OverlayEntity__fieldWrapper--fields input {
-        width: 50%; }
+        width: 50%;
+        margin: 5px 0;
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+        margin-right: 5px;
+        border-radius: 0px; }
     .OverlayEntity__fieldWrapper__buttons {
       display: flex;
       margin-top: 25px; }
       .OverlayEntity__fieldWrapper__buttons button {
         flex-grow: 1; }
+  .OverlayEntity__input--label {
+    margin-right: 5px; }
   @media (max-width: 768px) {
     .OverlayEntity--active {
       position: fixed; } }
