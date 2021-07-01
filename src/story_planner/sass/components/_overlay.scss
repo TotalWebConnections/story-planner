@@ -4,7 +4,7 @@
 }
 
 .Overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 10;
@@ -30,12 +30,17 @@
     left: calc(50% - 150px); // TODO we probaby want to make this more dynmaic
     top: calc(50% - 75px);
     border: 1px solid $offWhite;
+    border-radius: 10px;
+
+    input {
+      max-width: 150px;
+    }
 
 
     &__close {
       position: absolute;
       top: 0px;
-      right: 5px;
+      right: 8px;
     }
   }
 }

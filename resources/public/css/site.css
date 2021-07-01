@@ -516,6 +516,9 @@ input, textarea {
     @media (min-width: 769px) {
       .Projects__projectBlock {
         max-width: 33%; } }
+    @media (max-width: 769px) {
+      .Projects__projectBlock {
+        flex-basis: 50%; } }
     .Projects__projectBlock h2 {
       margin-bottom: 10px;
       padding-bottom: 10px;
@@ -730,7 +733,7 @@ input, textarea {
     opacity: 1; } }
 
 .Overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 10;
@@ -752,11 +755,14 @@ input, textarea {
     box-sizing: border-box;
     left: calc(50% - 150px);
     top: calc(50% - 75px);
-    border: 1px solid #fcfeff; }
+    border: 1px solid #fcfeff;
+    border-radius: 10px; }
+    .Overlay__inner input {
+      max-width: 150px; }
     .Overlay__inner__close {
       position: absolute;
       top: 0px;
-      right: 5px; }
+      right: 8px; }
 
 @keyframes fadeIn {
   0% {

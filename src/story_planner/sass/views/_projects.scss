@@ -49,6 +49,10 @@
       max-width: 33%;
     }
 
+    @media(max-width: 769px) {
+      flex-basis: 50%;
+    }
+
     h2 {
       margin-bottom: 10px;
       padding-bottom: 10px;
