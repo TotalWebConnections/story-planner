@@ -2,6 +2,7 @@
   (:require [story-planner.services.state.global :refer [app-state]]
             [story-planner.services.state.textstate :refer [update-state-text]]
             [story-planner.services.state.actions.folders :as folders]
+            [story-planner.services.state.actions.boards :as boards]
             [story-planner.services.state.actions.entities :as entities]
             [story-planner.services.state.actions.projects :as projects]
             [story-planner.services.state.actions.storypoints :as storypoints]
@@ -71,6 +72,14 @@
   (defmethod handle-state-change "delete-folder"
     [action]
     (folders/delete-folder app-state (:value action)))
+
+; BOARD FUNCTIONS
+ (defmethod handle-state-change "new-board"
+   [action]
+   (boards/new-board app-state (:value action)))
+ (defmethod handle-state-change "delete-board"
+   [action]
+   (boards/delete-board app-state (:value action)))
 
   ;Entity Fnunctions
   (defmethod handle-state-change "new-entity"

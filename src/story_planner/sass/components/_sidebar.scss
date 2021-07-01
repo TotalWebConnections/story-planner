@@ -48,7 +48,14 @@
     &.active-board {
       background: $mainBlue;
     }
-
+    &.boardWrapper {
+      position: relative;
+      i {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+      }
+    }
   }
 }
 

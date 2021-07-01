@@ -44,7 +44,7 @@
   "returns a user associated with a token, otherwise returns false"
   (let [user (mc/find-one-as-map db "users" {:_id (ObjectId. id)})]
     (if (and user (is-token-valid? token (:token user)))
-      (update user :_id str)
+      (dissoc (update user :_id str) :password)
       false)))
 
 

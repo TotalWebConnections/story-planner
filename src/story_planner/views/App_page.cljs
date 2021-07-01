@@ -12,7 +12,7 @@
 (defn set-initial-board [app-state]
   "sets the first board to active on load - should only ever fire once"
   (if (not (:currentBoard @app-state))
-    (handle-state-change {:type "set-active-board" :value (:name (first (:boards (:currentProject @app-state))))})))
+    (handle-state-change {:type "set-active-board" :value (:id (first (:boards (:currentProject @app-state))))})))
 
 (defn handle-add-image-in-storypoint [url]
   (handle-state-change {:type "app-show-media-manager" :value false})

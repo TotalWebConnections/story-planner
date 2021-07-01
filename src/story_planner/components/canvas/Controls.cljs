@@ -10,6 +10,7 @@
     :else (- zoomLevel 0.025)))
 
 (defn handle-add-storypoint [projectId board panHandler]
+  (print board)
   (let [currentPan (js->clj (.getPan panHandler) :keywordize-keys true)
         zoomLevel (get-zoom-modifier (.getScale panHandler))]
     (api/create-storypoint {:projectId projectId

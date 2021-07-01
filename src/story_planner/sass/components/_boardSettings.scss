@@ -3,8 +3,8 @@
   100% { opacity: 1; }
 }
 
-.Overlay {
-  position: fixed;
+.BoardSettings {
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 10;
@@ -13,34 +13,37 @@
   background: rgba(0,0,0,0.75);
   opacity: 0;
   display: none;
+  justify-content: center;
+  align-items: center;
 
   &--active {
-    display: block;
+    display: flex;
     opacity: 1;
     animation: fadeIn .25s linear;
   }
 
   &__inner {
     background: $lightBlack;
+    border: 1px solid $mainBlue;
+    border-radius: 8px;
     color: white;
-    width: 300px;
-    position: absolute;
-    padding: 15px;
+    width: 400px;
+    max-width: 100%;
+    min-height: 200px;
+    max-height: 450px;
+    position: relative;
+    overflow: auto;
     box-sizing: border-box;
-    left: calc(50% - 150px); // TODO we probaby want to make this more dynmaic
-    top: calc(50% - 75px);
-    border: 1px solid $offWhite;
-    border-radius: 10px;
-
-    input {
-      max-width: 150px;
-    }
-
+    padding: 10px;
 
     &__close {
       position: absolute;
       top: 0px;
-      right: 8px;
+      right: 12px;
+    }
+
+    h2 {
+      margin-bottom: 15px;
     }
   }
 }

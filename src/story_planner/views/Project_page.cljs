@@ -58,7 +58,7 @@
         [:div.Projects__header
           [:h2 "My Projects"]
           [:div.Projects__header__nav
-           [:p {:on-click #(reset! showMediaManager "active")} "Media Manager"]
+           [:p {:on-click #(reset! showMediaManager "active")} "Media"]
            [:p {:on-click #(rfe/push-state :profile)} "Account"]]]
         (if (and (not @loaded?) (not (:projects @app-state)))
           [Loader])

@@ -30,7 +30,6 @@
 (defn get-authorized-users-from-project [projectId]
   "note that this also merges the userId into our vector as they are also by definition authorized"
   (let [project (mc/find-one-as-map db "projects"  { :_id (ObjectId. projectId)})]
-    (println (conj (:authorizedUsers project) (:userId project)))
     (conj (:authorizedUsers project) (:userId project))))
 
 (defn add-new-user-project [authorizedUserId parentId projectIds]
@@ -66,7 +65,6 @@
 (defn update-auth-user [token password]
   (let [loginToken (str (generate-access-token))
         currentUser (mc/find-one-as-map db "users" {:setupToken token})]
-    (println currentUser)
     (mc/update db "users" {:setupToken token}
                          {$set {"setupToken" nil "password" password "token" (sha256 loginToken)}} {:upsert true})
     (conj (dissoc (DB-users/get-user-by-token (str (:_id currentUser)) loginToken) :password :parentId) {:token loginToken})))

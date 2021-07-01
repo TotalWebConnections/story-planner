@@ -29,7 +29,7 @@
 
 (defn create-project [projectData]
   "insers a new project for current user"
-  (let [new-project (mc/insert-and-return db "projects" (conj projectData {:boards [{:name "Base" :folder "n/a"}]}))]
+  (let [new-project (mc/insert-and-return db "projects" (conj projectData {:boards [{:name "Base" :folder "n/a" :id (str (ObjectId.))}]}))]
     (get-project (str (:_id new-project)) (:userId projectData))))
 
 (defn delete-project [projectData]
@@ -41,10 +41,23 @@
 ; TODO might want to look at rolling `create-board` and `create-entity` together - lot of redundency
 (defn create-board [boardData userId]
   "Inserts an enttiy into the given folder or a root entities object"
+  (let [id (str (ObjectId.))
+        projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                      {$push {:boards (conj (:value boardData) {:id id})}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-ws-response "new-board" "all" (dissoc (update-in boardData [:value] conj {:id id}) :user :token))
+      (response-handler/send-auth-error))))
+
+(defn delete-board [boardData userId]
+  ; TODO delete all storypoints assocaited with board
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
                                                              {$or [{:userId userId}
                                                                    {:authorizedUsers {$in [(str userId)]}}]}]}
-                                                      {$push {:boards (:value boardData)}}))]
+                                                      {$pull {"boards" {:id (:id boardData)}}}))]
     (if (> projectUpdate 0)
-      (response-handler/wrap-response "project" (get-project (:projectId boardData) userId))
+      (response-handler/wrap-ws-response "delete-board" "all" {:id (:id boardData) :projectId (:projectId boardData)})
       (response-handler/send-auth-error))))
+
+

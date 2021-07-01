@@ -461,7 +461,8 @@ input, textarea {
 
 .App {
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  overflow: hidden; }
   .App__canvasWrapper {
     width: calc(100% - 150px);
     height: calc(100vh - 40px);
@@ -515,6 +516,9 @@ input, textarea {
     @media (min-width: 769px) {
       .Projects__projectBlock {
         max-width: 33%; } }
+    @media (max-width: 769px) {
+      .Projects__projectBlock {
+        flex-basis: 50%; } }
     .Projects__projectBlock h2 {
       margin-bottom: 10px;
       padding-bottom: 10px;
@@ -665,6 +669,12 @@ input, textarea {
       background: #303738; }
     .Sidebar .entityWrapper.active-board {
       background: #1664ff; }
+    .Sidebar .entityWrapper.boardWrapper {
+      position: relative; }
+      .Sidebar .entityWrapper.boardWrapper i {
+        position: absolute;
+        top: 8px;
+        right: 10px; }
 
 @media (max-width: 768px) {
   .Sidebar {
@@ -723,7 +733,7 @@ input, textarea {
     opacity: 1; } }
 
 .Overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 10;
@@ -745,11 +755,14 @@ input, textarea {
     box-sizing: border-box;
     left: calc(50% - 150px);
     top: calc(50% - 75px);
-    border: 1px solid #fcfeff; }
+    border: 1px solid #fcfeff;
+    border-radius: 10px; }
+    .Overlay__inner input {
+      max-width: 150px; }
     .Overlay__inner__close {
       position: absolute;
       top: 0px;
-      right: 5px; }
+      right: 8px; }
 
 @keyframes fadeIn {
   0% {
@@ -769,11 +782,19 @@ input, textarea {
   opacity: 0;
   display: none;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  /* Optional: show position indicator in red */ }
   .OverlayEntity--active {
     display: flex;
     opacity: 1;
     animation: fadeIn .25s linear; }
+  .OverlayEntity ::-webkit-scrollbar {
+    width: 0;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */ }
+  .OverlayEntity ::-webkit-scrollbar-thumb {
+    background: #FF0000; }
   .OverlayEntity__inner {
     background: #20242e;
     color: white;
@@ -783,7 +804,9 @@ input, textarea {
     max-height: 450px;
     position: relative;
     overflow: auto;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow-y: scroll; }
     .OverlayEntity__inner-header {
       margin-bottom: 15px;
       padding-bottom: 0px;
@@ -795,7 +818,10 @@ input, textarea {
       box-sizing: border-box;
       text-align: center;
       border-left: 0px;
-      border-right: 0px; }
+      border-right: 0px;
+      border-top: none;
+      margin-top: 0px;
+      font-size: 1rem; }
     .OverlayEntity__inner-media {
       width: 100%;
       height: 200px;
@@ -807,7 +833,8 @@ input, textarea {
       cursor: pointer;
       filter: brightness(100%);
       transition: .5s;
-      text-align: center; }
+      text-align: center;
+      border-radius: 10px 10px 0 0; }
       .OverlayEntity__inner-media:hover {
         filter: brightness(75%);
         background-color: rgba(0, 0, 0, 0.15); }
@@ -815,25 +842,73 @@ input, textarea {
       position: absolute;
       top: 0px;
       right: 12px; }
-  .OverlayEntity__input--label {
-    margin-right: 5px; }
   .OverlayEntity__fieldWrapper {
-    margin-top: 15px;
     margin-bottom: 15px;
     padding-left: 15px;
     padding-right: 15px; }
     .OverlayEntity__fieldWrapper--fields {
       display: flex; }
       .OverlayEntity__fieldWrapper--fields input {
-        width: 50%; }
+        width: 50%;
+        margin: 5px 0;
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+        margin-right: 5px;
+        border-radius: 0px; }
     .OverlayEntity__fieldWrapper__buttons {
       display: flex;
       margin-top: 25px; }
       .OverlayEntity__fieldWrapper__buttons button {
         flex-grow: 1; }
+  .OverlayEntity__input--label {
+    margin-right: 5px; }
   @media (max-width: 768px) {
     .OverlayEntity--active {
       position: fixed; } }
+
+@keyframes fadeIn {
+  0% {
+    display: block;
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.BoardSettings {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  display: none;
+  justify-content: center;
+  align-items: center; }
+  .BoardSettings--active {
+    display: flex;
+    opacity: 1;
+    animation: fadeIn .25s linear; }
+  .BoardSettings__inner {
+    background: #20242e;
+    border: 1px solid #1664ff;
+    border-radius: 8px;
+    color: white;
+    width: 400px;
+    max-width: 100%;
+    min-height: 200px;
+    max-height: 450px;
+    position: relative;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 10px; }
+    .BoardSettings__inner__close {
+      position: absolute;
+      top: 0px;
+      right: 12px; }
+    .BoardSettings__inner h2 {
+      margin-bottom: 15px; }
 
 .Loader {
   padding: 25px 15px;

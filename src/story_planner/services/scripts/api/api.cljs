@@ -23,7 +23,10 @@
 
 (defn create-board [constructor]
   (send-message {:type "create-board" :projectId (:projectId constructor) :value {:name (:value constructor) :folder (:folder constructor)}}))
-(defn delete-board [])
+(defn delete-board [constructor]
+  (send-message {:type "delete-board"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :id (:id constructor)}))
 (defn edit-board [])
 
 ;These can be used for both board and entity folders
@@ -92,7 +95,7 @@
 (defn update-storypoint-image [constructor]
   (send-message {:type "update-storypoint-image"
                  :projectId (:_id (get-from-state "currentProject"))
-                 :storypointId (get-from-state "edited-storypoint")
+                 :storypointId (if (:id constructor) (:id constructor) (get-from-state "edited-storypoint"))
                  :value (:value constructor)}))
 (defn update-storypoint-description [constructor]
   "updates the description property"

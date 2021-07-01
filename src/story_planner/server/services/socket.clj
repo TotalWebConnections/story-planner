@@ -29,9 +29,6 @@
 (defmethod handle-websocket-message "delete-project"
   [data]
   {:type "delete-project" :msg-type "single" :data (DB-projects/delete-project {:id (:value data) :userId (:_id (:user data))})})
-(defmethod handle-websocket-message "create-board"
-  [data]
-  (DB-projects/create-board (dissoc data :channel) (:_id (:user data))))
 (defmethod handle-websocket-message "get-projects"
   [data] ; Returns the name and ID of all projects
   {:type "projects" :data (construct-all-project-return (DB-projects/get-projects (:_id (:user data))))})
@@ -63,6 +60,14 @@
 (defmethod handle-websocket-message "delete-folder"
   [data]
   (DB-folders/delete-folder (dissoc data :channel) (:_id (:user data))))
+
+; Board Handlers
+(defmethod handle-websocket-message "create-board"
+  [data]
+  (DB-projects/create-board (dissoc data :channel) (:_id (:user data))))
+(defmethod handle-websocket-message "delete-board"
+  [data]
+  (DB-projects/delete-board (dissoc data :channel) (:_id (:user data))))
 
 ; Storypoint Handlers
 (defmethod handle-websocket-message "create-storypoint"
