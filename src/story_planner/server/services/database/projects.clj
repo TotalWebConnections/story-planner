@@ -60,4 +60,15 @@
       (response-handler/wrap-ws-response "delete-board" "all" {:id (:id boardData) :projectId (:projectId boardData)})
       (response-handler/send-auth-error))))
 
+(defn edit-board-name [boardData userId]
+  "Edits a board name"
+  (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId boardData))}
+                                                             {:boards {$elemMatch {:id (:id boardData)}}}
+                                                             {$or [{:userId userId}
+                                                                   {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                      {$set {"boards.$.name" (:name boardData)}}))]
+    (if (> projectUpdate 0)
+      (response-handler/wrap-ws-response "edit-board-name" "all" (select-keys boardData [:projectId :id :name]))
+      (response-handler/send-auth-error))))
+
 

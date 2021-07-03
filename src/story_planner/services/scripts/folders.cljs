@@ -9,4 +9,4 @@
 (defn assign-entities-to-parent-folder [folders entities]
   (map (fn [folder]
          (conj folder {:entities (filter (fn [entity]
-                                           (if (= (:folder entity) (:name folder)) true false)) entities)})) folders))
+                                           (if (= (:folder entity) (:folderId folder)) true false)) entities)})) folders))

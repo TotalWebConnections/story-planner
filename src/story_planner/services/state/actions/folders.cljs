@@ -16,6 +16,13 @@
     (swap! state update-in [:currentProject :folders] delete-folder-handler (:folderId value))
     nil))
 
+(defn edit-folder-handler [folders value]
+  (map #(if (= (:folderId %) (:folderId value)) (conj % {:name (:name value)}) %) folders))
+
+(defn edit-folder [state value]
+  (if (= (:projectId value) (-> @state :currentProject :_id))
+    (swap! state update-in [:currentProject :folders] edit-folder-handler value)
+    nil))
 ;
 ; (defn toggle-folder-as-open [state folderName]
 ;   (swap! state update-in [:currentProject :folders] (fn [item]

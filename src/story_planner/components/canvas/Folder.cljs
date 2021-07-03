@@ -41,20 +41,18 @@
     "fa-caret-up"
     "fa-caret-down"))
 
-(defn confirm-folder-delete [folder-id]
-  (let [confirmed? (js/confirm "Delete Folder?")]
-    (if confirmed?
-      (api/delete-folder {:folderId folder-id})
-      nil)))
+(defn show-folder-settings [e folder showFolderSettings]
+  (reset! showFolderSettings folder)
+  (.stopPropagation e))
 
 
-(defn Folder [folderInfo currentBoard openedFolders onClick isBoardFolder edit-entity]
+(defn Folder [folderInfo currentBoard openedFolders onClick isBoardFolder edit-entity showFolderSettings]
   (let [folderType (if isBoardFolder :boards :entities)]
     [:div.Folder {:key (str (:name folderInfo) "-" (rand-int 10000))
                   :class (if (not ((keyword (:name folderInfo)) openedFolders)) "Folder__closed" "Folder__open")}
       [:div.Folder__folder
         [:div.Folder__folder__left
-          [:i.fas.fa-folder.Folder__folderIcon {:on-click #(confirm-folder-delete (:folderId folderInfo))}]
+          [:i.fas.fa-folder.Folder__folderIcon {:on-click #(show-folder-settings % folderInfo showFolderSettings)}]
           [:p {:on-click #(onClick)} (:name folderInfo)]]
         [:div.Folder__folder__right {:on-click #(toggle-folder-display (:name folderInfo) (not ((keyword (:name folderInfo)) openedFolders)))}
           [:i.fas {:class (get-folder-active-display (:active folderInfo))}]]]

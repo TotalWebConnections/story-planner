@@ -27,8 +27,11 @@
   (send-message {:type "delete-board"
                  :projectId (:_id (get-from-state "currentProject"))
                  :id (:id constructor)}))
-(defn edit-board [])
-
+(defn edit-board-name [constructor]
+  (send-message {:type "edit-board-name"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :id (:id constructor)
+                 :name (:name constructor)}))
 ;These can be used for both board and entity folders
 (defn create-folder [constructor]
   (send-message {:type "create-folder" :folder (:type constructor) :projectId (:projectId constructor) :value (:value constructor)}))
@@ -36,7 +39,12 @@
   (send-message {:type "delete-folder"
                  :folderId (:folderId constructor)
                  :projectId (:_id (get-from-state "currentProject"))}))
-(defn edit-folder [])
+(defn edit-folder [constructor]
+  "Updates a folders name"
+  (send-message {:type "edit-folder"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :folderId (:folderId constructor)
+                 :name (:name constructor)}))
 
 (defn create-entity [constructor]
   (if (trial-checks/user-able-to-add?)

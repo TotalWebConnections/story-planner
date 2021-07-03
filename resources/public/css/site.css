@@ -909,6 +909,10 @@ input, textarea {
       right: 12px; }
     .BoardSettings__inner h2 {
       margin-bottom: 15px; }
+  .BoardSettings__flavorText {
+    border-bottom: 1px solid #1664ff;
+    padding-bottom: 5px;
+    margin-bottom: 10px; }
 
 .Loader {
   padding: 25px 15px;

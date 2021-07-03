@@ -72,6 +72,9 @@
   (defmethod handle-state-change "delete-folder"
     [action]
     (folders/delete-folder app-state (:value action)))
+  (defmethod handle-state-change "edit-folder"
+    [action]
+    (folders/edit-folder app-state (:value action)))
 
 ; BOARD FUNCTIONS
  (defmethod handle-state-change "new-board"
@@ -80,6 +83,9 @@
  (defmethod handle-state-change "delete-board"
    [action]
    (boards/delete-board app-state (:value action)))
+ (defmethod handle-state-change "edit-board-name"
+   [action]
+   (boards/edit-board-name app-state (:value action)))
 
   ;Entity Fnunctions
   (defmethod handle-state-change "new-entity"

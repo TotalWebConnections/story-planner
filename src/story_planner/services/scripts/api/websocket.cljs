@@ -33,6 +33,9 @@
 (defmethod handle-websocket-message "delete-folder"
   [data]
   (handle-state-change {:type "delete-folder" :value (:data data)}))
+(defmethod handle-websocket-message "edit-folder"
+  [data]
+  (handle-state-change {:type "edit-folder" :value (:data data)}))
 
 ; BOARD FUNCTIONS
 (defmethod handle-websocket-message "new-board"
@@ -41,6 +44,9 @@
 (defmethod handle-websocket-message "delete-board"
   [data]
   (handle-state-change {:type "delete-board" :value (:data data)}))
+(defmethod handle-websocket-message "edit-board-name"
+  [data]
+  (handle-state-change {:type "edit-board-name" :value (:data data)}))
 
 
 ;Entity Functions

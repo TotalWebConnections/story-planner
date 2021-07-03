@@ -8,7 +8,8 @@
             [story-planner.services.scripts.folders :as folderHelpers]
             [story-planner.services.scripts.sidebar :refer [get-boards-by-folders]]
             [story-planner.services.state.global :refer [get-from-state]]
-            [story-planner.components.Board-settings :refer [Board-Settings]]))
+            [story-planner.components.Board-settings :refer [Board-Settings]]
+            [story-planner.components.folder-settings :refer [Folder-Settings]]))
 
 (defn add-folder [state projectId folderType value]
   "Adds a new folder"
@@ -50,8 +51,8 @@
 (defn edit-entity [entity]
   (handle-state-change {:type "set-entity-overlay-active" :value entity}))
 
-(defn show-board-settings [e id showBoardSettings]
-  (reset! showBoardSettings id)
+(defn show-board-settings [e board showBoardSettings]
+  (reset! showBoardSettings board)
   (.stopPropagation e))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
@@ -59,6 +60,7 @@
   (let [showFolderOverlay (atom false)
         showBoardOverlay (atom false)
         showBoardSettings (atom false)
+        showFolderSettings (atom false)
         currentFolderPath (atom "n/a")
         projectId (:_id currentProject)
         currentFolderType (atom nil)] ; we use this to update the folder path we want to save an entity to
@@ -67,6 +69,7 @@
             showEntityOverlay (get-from-state "show-entitiy-overlay")]
         [:div.Sidebar
           [Board-Settings showBoardSettings]
+          [Folder-Settings showFolderSettings]
           [Overlay showFolderOverlay "Add New Folder" (partial add-folder showFolderOverlay (:_id currentProject) @currentFolderType) 1]
           [Overlay showBoardOverlay "Add Board To This Project" (partial add-board showBoardOverlay (:_id currentProject) currentFolderPath) 2]
           [EntityOverlay showEntityOverlay
@@ -83,8 +86,8 @@
                                    :on-click #(edit-entity entity)} (:title entity)]))
             (for [folder (folderHelpers/assign-entities-to-parent-folder (get sortedFolders "entity") (:entities currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp
-                                                                          (generate-folder-path currentFolderPath (:name folder))
-                                                                          (handleShowOverlay showEntityOverlay)) false edit-entity))]
+                                                                          (generate-folder-path currentFolderPath (:folderId folder))
+                                                                          (handleShowOverlay showEntityOverlay)) false edit-entity showFolderSettings))]
           [:div.Sidebar__header
             [:h3 "Boards"]
             [:div.Sidebar__header__controls
@@ -96,8 +99,8 @@
                 [:p.entityWrapper.boardWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:id board)}) :key (:id board)
                                                 :class (if (= currentBoard (:id board)) "active-board")}
                  (:name board)
-                 [:i.fas.fa-pen {:on-click #(show-board-settings % (:id board) showBoardSettings)}]]))
+                 [:i.fas.fa-pen {:on-click #(show-board-settings % board showBoardSettings)}]]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp
                                                                           (generate-folder-path currentFolderPath (:name folder))
-                                                                          (handleShowOverlay showBoardOverlay)) true nil))]]))))
+                                                                          (handleShowOverlay showBoardOverlay)) true nil showFolderSettings))]]))))

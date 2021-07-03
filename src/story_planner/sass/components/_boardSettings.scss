@@ -46,4 +46,10 @@
       margin-bottom: 15px;
     }
   }
+
+  &__flavorText {
+    border-bottom: 1px solid $mainBlue;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
 }

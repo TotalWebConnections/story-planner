@@ -19,6 +19,17 @@
       (response-handler/wrap-ws-response "new-folder" "all" (conj folderData {:folderId folderId}))
       (response-handler/send-auth-error))))
 
+(defn edit-folder [folderData userId]
+    "Edits a folder"
+    (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId folderData))}
+                                                               {:folders {$elemMatch {:folderId (:folderId folderData)}}}
+                                                               {$or [{:userId userId}
+                                                                     {:authorizedUsers {$in [(str userId)]}}]}]}
+                                                        {$set {"folders.$.name" (:name folderData)}}))]
+      (if (> projectUpdate 0)
+        (response-handler/wrap-ws-response "edit-folder" "all" (select-keys folderData [:projectId :folderId :name]))
+        (response-handler/send-auth-error))))
+
 (defn delete-folder [folderData userId]
   (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId folderData))}
                                                              {$or [{:userId userId}
