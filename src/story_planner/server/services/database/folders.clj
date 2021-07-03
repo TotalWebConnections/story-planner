@@ -21,7 +21,6 @@
 
 (defn edit-folder [folderData userId]
     "Edits a folder"
-    (println folderData)
     (let [projectUpdate (.getN (mc/update db "projects" {$and [{:_id (ObjectId. (:projectId folderData))}
                                                                {:folders {$elemMatch {:folderId (:folderId folderData)}}}
                                                                {$or [{:userId userId}

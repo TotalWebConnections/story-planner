@@ -6,11 +6,17 @@
     (swap! state update-in [:currentProject :boards] conj (:value value))))
 
 (defn delete-board-handler [boards value]
-  (print boards)
-  (print value)
   (remove #(= (:id %) value) boards))
 
 (defn delete-board [state value]
   (if (= (:projectId value) (-> @state :currentProject :_id))
     (swap! state update-in [:currentProject :boards] delete-board-handler (:id value))
+    nil))
+
+(defn edit-board-name-handler [boards value]
+  (map #(if (= (:id %) (:id value)) (conj % {:name (:name value)}) %) boards))
+
+(defn edit-board-name [state value]
+  (if (= (:projectId value) (-> @state :currentProject :_id))
+    (swap! state update-in [:currentProject :boards] edit-board-name-handler value)
     nil))

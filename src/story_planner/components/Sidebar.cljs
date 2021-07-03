@@ -51,8 +51,8 @@
 (defn edit-entity [entity]
   (handle-state-change {:type "set-entity-overlay-active" :value entity}))
 
-(defn show-board-settings [e id showBoardSettings]
-  (reset! showBoardSettings id)
+(defn show-board-settings [e board showBoardSettings]
+  (reset! showBoardSettings board)
   (.stopPropagation e))
 
 ; TODO this is gettin a bit large - probably break this out by boards and entity into new components
@@ -99,7 +99,7 @@
                 [:p.entityWrapper.boardWrapper {:on-click #(handle-state-change {:type "set-active-board" :value (:id board)}) :key (:id board)
                                                 :class (if (= currentBoard (:id board)) "active-board")}
                  (:name board)
-                 [:i.fas.fa-pen {:on-click #(show-board-settings % (:id board) showBoardSettings)}]]))
+                 [:i.fas.fa-pen {:on-click #(show-board-settings % board showBoardSettings)}]]))
             (for [folder (get-boards-by-folders (get sortedFolders "board") (:boards currentProject))]
               ^{:key folder} (Folder folder currentBoard openedFolders #(comp
                                                                           (generate-folder-path currentFolderPath (:name folder))
