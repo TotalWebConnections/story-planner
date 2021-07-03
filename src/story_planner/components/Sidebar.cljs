@@ -9,7 +9,7 @@
             [story-planner.services.scripts.sidebar :refer [get-boards-by-folders]]
             [story-planner.services.state.global :refer [get-from-state]]
             [story-planner.components.Board-settings :refer [Board-Settings]]
-            [story-planner.components.folder-settings :refer [Folder-Settings]]))
+            [story-planner.components.Folder-settings :refer [Folder-Settings]]))
 
 (defn add-folder [state projectId folderType value]
   "Adds a new folder"
