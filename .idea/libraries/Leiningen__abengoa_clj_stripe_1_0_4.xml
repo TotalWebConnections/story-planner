@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: abengoa/clj-stripe:1.0.4">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/abengoa/clj-stripe/1.0.4/clj-stripe-1.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

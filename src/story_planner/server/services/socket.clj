@@ -60,6 +60,9 @@
 (defmethod handle-websocket-message "delete-folder"
   [data]
   (DB-folders/delete-folder (dissoc data :channel) (:_id (:user data))))
+(defmethod handle-websocket-message "edit-folder"
+  [data]
+  (DB-folders/edit-folder (dissoc data :channel) (:_id (:user data))))
 
 ; Board Handlers
 (defmethod handle-websocket-message "create-board"

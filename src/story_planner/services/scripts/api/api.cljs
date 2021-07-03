@@ -36,7 +36,12 @@
   (send-message {:type "delete-folder"
                  :folderId (:folderId constructor)
                  :projectId (:_id (get-from-state "currentProject"))}))
-(defn edit-folder [])
+(defn edit-folder [constructor]
+  "Updates a folders name"
+  (send-message {:type "edit-folder"
+                 :projectId (:_id (get-from-state "currentProject"))
+                 :folderId (:folderId constructor)
+                 :name (:name constructor)}))
 
 (defn create-entity [constructor]
   (if (trial-checks/user-able-to-add?)
