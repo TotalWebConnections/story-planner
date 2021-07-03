@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: cljsjs/quill:1.1.0-3">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/cljsjs/quill/1.1.0-3/quill-1.1.0-3.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
