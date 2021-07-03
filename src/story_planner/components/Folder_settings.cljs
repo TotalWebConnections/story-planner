@@ -1,4 +1,4 @@
-(ns story-planner.components.folder-settings
+(ns story-planner.components.Folder-settings
   (:require [reagent.core :as reagent :refer [atom]]
             [story-planner.services.scripts.api.api :as api]))
 
