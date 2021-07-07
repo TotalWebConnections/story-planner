@@ -12,9 +12,13 @@
 
       (go (let [response (<! (http/post (str api "/upload-img")
                                      {:with-credentials? false
-                                      :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))] ["_id" id] ["folder" folder]]}))]
-
-            (handle-state-change  {:type "add-image" :value (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)}))))))
+                                      :multipart-params [["myFile" my-file] ["token" (:token (get-from-state "user"))] ["_id" id] ["folder" folder]]}))
+                parsed-response (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
+            (if (= parsed-response  "Must Be An Image")
+              (js/alert "File Must Be an Image")
+              (if (= parsed-response  "Image Too Large")
+                (js/alert "Image Must Be Under 10MB")
+                (handle-state-change  {:type "add-image" :value parsed-response}))))))))
 
 
 (defn create-media-folder [folder-name]
