@@ -31,7 +31,7 @@
         [:h2 "Your Images"]
         [:p.MediaManager__header__close.closeButton {:on-click #(if need-dispatch (handle-state-change {:type "app-show-media-manager" :value false}) (reset! active false))} "x"]]
        [:div.MediaManager__upload
-        [:input#my-file {:type "file"}]
+        [:input#my-file {:type "file" :accept "image/*"}]
         [:button {:on-click #(handle-upload-image @active-folder isUploading?)}"Upload Image"]]
        [Folder-creation]
        (if @active-folder

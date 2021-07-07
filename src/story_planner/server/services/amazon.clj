@@ -1,22 +1,28 @@
 (ns story-planner.server.services.amazon
   (:require [config.core :refer [env]]
+            [clojure.string :as str]
             [story-planner.server.services.database.users :as DB-users]
             [story-planner.server.services.database.media :as media])
   (:use [amazonica.aws.s3]))
 
+(defn is-image? [file]
+  "makes sure the metadata has image in it or rejects"
+  (str/includes? (:content-type file) "image"))
 
 
 (defn handle-image-upload [file]
   (let [user (DB-users/get-user-by-token (get file "_id") (get file "token"))
         folder (get file "folder")]
-    (if user
-      (do
-        (put-object (:s3creds env)
-              :bucket-name "story-planner"
-              :key (str (str (:_id user)) "/" (:filename (get file "myFile")))
-              :file (:tempfile (get file "myFile")))
-        (media/add-media (:_id user) (str (str (:_id user)) "/" (:filename (get file "myFile"))) folder))
-      "User Auth Failed")))
+    (if (is-image? (get file "myFile"))
+      (if user
+        (do
+          (put-object (:s3creds env)
+                :bucket-name "story-planner"
+                :key (str (str (:_id user)) "/" (:filename (get file "myFile")))
+                :file (:tempfile (get file "myFile")))
+          (media/add-media (:_id user) (str (str (:_id user)) "/" (:filename (get file "myFile"))) folder))
+        "User Auth Failed")
+      "Must Be An Image")))
 
 
 (defn handle-load-images [id]
