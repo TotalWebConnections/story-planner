@@ -16,7 +16,9 @@
                 parsed-response (js->clj (js/JSON.parse (:body response)) :keywordize-keys true)]
             (if (= parsed-response  "Must Be An Image")
               (js/alert "File Must Be an Image")
-              (handle-state-change  {:type "add-image" :value parsed-response})))))))
+              (if (= parsed-response  "Image Too Large")
+                (js/alert "Image Must Be Under 10MB")
+                (handle-state-change  {:type "add-image" :value parsed-response}))))))))
 
 
 (defn create-media-folder [folder-name]
