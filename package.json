@@ -2,11 +2,13 @@
   "dependencies": {
     "@cljs-oss/module-deps": "^1.1.1",
     "displacejs": "^1.4.1",
-    "interactjs": "^1.10.11",
-    "node-sass": "^4.7.2",
+    "interactjs": "^1.10.14",
     "panzoom": "^9.2.5"
   },
+  "devDependencies": {
+    "sass": "^1.35.2"
+  },
   "scripts": {
-    "scss": "node-sass --include-path src/store_planner/sass/ --watch src/story_planner/sass/ -o resources/public/css"
+    "scss": "sass --watch src/story_planner/sass/site.scss  resources/public/css/site.css"
   }
 }
