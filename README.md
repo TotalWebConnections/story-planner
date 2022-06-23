@@ -1,6 +1,6 @@
 # story-planner
 
-FIXME: Write a one-line description of your library/project.
+Live Link: https://www.narrativeplanner.com
 
 ## Overview
 
@@ -30,7 +30,7 @@ To create a production build run:
     lein do clean, cljsbuild once min
 
 And open your browser in `resources/public/index.html`. You will not
-get live reloading, nor a REPL. 
+get live reloading, nor a REPL.
 
 ## License
 
