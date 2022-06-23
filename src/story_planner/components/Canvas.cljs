@@ -57,6 +57,8 @@
 ; We need to setup all our handlers after the componeent has rendered
 ; TODO test with state - think a rerender will break everything - maybe set a global `handlersSet` ?
 ; TODO this does break on a reload - probably need a flag to only do this once or some sort of cleanup?
+; TODO this is also a huge mess and re-defines stuff on reloads which is a huge dev pain
+; we need to break all these functions out of there, and store the refs in a more maintainable manner
 (defn render-canvas []
   (def zoomElem (.querySelector js/document "#Canvas"))
   (if zoomElem
@@ -74,15 +76,24 @@
   ; TODO we should chanage drag speed based on zoom level
   ; The further out the faster the zoom needs to be to seem fluid
 
+     (defn adjust-speed-on-scale
+      "adjusts our movement pos based on scale - otherwise its slow when zoomed out"
+       [val delta scale key]
+       (let [delta-val (key delta)] ; this gives us teh direction of change for a movement event
+         (if (< scale 1)
+          (+ val delta-val)
+          val)))
 
      (defn onMoveHandler [event]
-       (let [target (.-target event)]
-         (let [x (getXVal target event)
-               y (getYVal target event)]
-           (set! (.-transform (.-style target)) (str "translate("x"px, "y"px)"))
-           (set! (.-webkitTransform (.-style target)) (str "translate("x"px, "y"px)"))
-           (.setAttribute target "data-x" x)
-           (.setAttribute target "data-y" y))))
+       (let [target (.-target event)
+             scale (.getScale panHandler)
+             delta (js->clj (.-delta event) :keywordize-keys true)
+             x (adjust-speed-on-scale (getXVal target event) delta scale :x)
+             y (adjust-speed-on-scale (getYVal target event) delta scale :y)]
+         (set! (.-transform (.-style target)) (str "translate("x"px, "y"px)"))
+         (set! (.-webkitTransform (.-style target)) (str "translate("x"px, "y"px)"))
+         (.setAttribute target "data-x" x)
+         (.setAttribute target "data-y" y)))
 
 
      (defn onMoveEndHandler [event]
@@ -126,10 +137,9 @@
                                           :width (/ (.-width (.-rect event)) scale)
                                           :id (.getAttribute target "id")})))
 
-     (.draggable (interact ".draggable") (clj->js {:inertia false :onmove onMoveHandler :onend onMoveEndHandler :onstart onMoveStart}))
+     (.draggable (interact ".draggable") (clj->js {:inertia true :onmove onMoveHandler :onend onMoveEndHandler :onstart onMoveStart}))
      (.resizable (interact ".draggable") (clj->js {:edges {:left true :right true :bottom true :top true} :allowFrom ".Storypoint__resizer"
                                                    :listeners {:move onResize} :onend on-resize-end})))))
-
 
 (defn allow-drop [e]
   (.preventDefault e))
@@ -166,4 +176,3 @@
 ; TODO we can probably just work with the abpve canvas - remove this and import the component
 (defn render [currentProject currentBoard linkStartId]
    [Canvas currentProject currentBoard linkStartId])
-
