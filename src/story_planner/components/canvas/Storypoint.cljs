@@ -12,9 +12,13 @@
             [story-planner.services.scripts.debounce :refer [debounce]]))
 
 
-(defn update-storypoint-title [id value]
+(defn update-storypoint-title [id value name-changed?]
   "Updates the value of storypoints title"
-  (api/update-storypoint-title {:id id :value value}))
+  (api/update-storypoint-title {:id id :value value})
+  (js/setTimeout #(reset! name-changed? false) 500))
+
+(def update-storypoint-title-debounced!
+  (debounce update-storypoint-title 1000))
 
 (defn update-storypoint-description [id value]
   "updates the value of a storypoints description"
@@ -161,12 +165,14 @@
 
 (defn Storypoint [storypoint]
   (let [input-values (atom {:name (:name storypoint) :description (:description storypoint)})
+        name-changed? (atom false)
         is-active (atom false)
         dropdown-active (atom false)
         linker (atom {:active false :position nil :current-distance 0})]
     (fn [storypoint]
       ; fires when an external event has updated a storypoint title
-      (if-not (= (:name storypoint) (:name @input-values)) (swap! input-values conj {:name (:name storypoint)}) nil)
+      (when-not @name-changed?
+        (if-not (= (:name storypoint) (:name @input-values)) (swap! input-values conj {:name (:name storypoint)}) nil))
       (let [entity (if (:entityId storypoint) (entityHelpers/get-entity-by-id (:entityId storypoint)) nil)
             image (or (:image entity) (:image storypoint))]
         [:div.Storypoint.draggable {:key (:id storypoint) :id (:id storypoint) :class (if (= (get-from-state "linkStartId") (:id storypoint)) "Storypoint-currentlyLinked")
@@ -194,7 +200,7 @@
                :disabled (if entity true false)
                :value (if entity (:title entity) (:name @input-values))
                :on-click #(reset! dropdown-active false)
-               :on-change #(do (swap! input-values conj {:name (-> % .-target .-value)})(update-storypoint-title (:id storypoint) (-> % .-target .-value)))}]
+               :on-change #(do (reset! name-changed? true) (swap! input-values conj {:name (-> % .-target .-value)}) (update-storypoint-title-debounced! (:id storypoint) (-> % .-target .-value) name-changed?))}]
             [:div.Storypoint__header-right
              (if (= (get-from-state "linkStartId") (:id storypoint))
                [:i.fas.fa-unlink {:on-click #(initilize-link (:id storypoint))}]
